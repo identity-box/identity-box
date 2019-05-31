@@ -1,12 +1,14 @@
 module.exports = {
   projects: [
     'workspaces/home-page',
+    'workspaces/queuing-service',
     {
       testMatch: ['<rootDir>/dummy']
     }
   ],
   collectCoverage: true,
   collectCoverageFrom: [
+    'source/*.js',
     'pages/*.js',
     'components/**',
     '!pages/_app.js',

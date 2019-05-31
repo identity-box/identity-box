@@ -1,9 +1,6 @@
 module.exports = function (api) {
   const babelEnv = api.env()
-  // api.cache.using(() => process.env.NODE_ENV)
   api.cache(true)
-
-  console.log('babelEnv=', babelEnv)
 
   const presets = setupPresets(babelEnv)
   const plugins = setupPlugins(babelEnv)

@@ -1,0 +1,26 @@
+{
+  "name": "idbox-queuing-service",
+  "version": "0.3.0",
+  "description": "IdBox Queuing Service",
+  "homepage": "https://idbox.now.sh",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "ncc run index.js",
+    "deploy": "now --public --scope identity-box && now alias --scope identity-box"
+  },
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "devDependencies": {
+    "mockdate": "^2.0.2",
+    "now": "^15.0.0",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "@zeit/ncc": "^0.18.5",
+    "express": "^4.16.2",
+    "lru-cache": "^5.1.1",
+    "socket.io": "^2.1.1"
+  }
+}
