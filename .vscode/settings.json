@@ -1,0 +1,10 @@
+{
+  "jest.pathToJest": "npm test --",
+  "jest.restartJestOnSnapshotUpdate": true,
+  "spellright.language": ["en"],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ]
+}

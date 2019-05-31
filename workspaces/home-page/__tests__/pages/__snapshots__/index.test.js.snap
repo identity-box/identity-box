@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index has proper styling 1`] = `
+.emotion-2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+<div>
+  <div
+    class="emotion-2 emotion-3"
+  >
+    <div
+      class="ui raised segment"
+      css="[object Object]"
+    >
+      <div
+        class="emotion-0 emotion-1"
+      >
+        <h1
+          class="ui header"
+        >
+          Welcome
+        </h1>
+        <i
+          aria-hidden="true"
+          class="thumbs up massive icon"
+        />
+        <div
+          style="margin: 30px 0px 0px 0px; padding: 0px; box-sizing: border-box;"
+        >
+          <button
+            class="ui black basic button"
+          >
+            Click Me!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

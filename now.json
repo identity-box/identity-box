@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "Identity Box",
+  "builds": [{ "src": "workspaces/home-page/package.json", "use": "@now/next" }],
+  "routes": [
+    { "src": "/(.*)", "dest": "/workspaces/home-page/$1" }
+  ],
+  "alias": "idbox"
+}

@@ -1,0 +1,15 @@
+{
+  "lerna": "3.14.1",
+  "packages": [
+    "workspaces/*"
+  ],
+  "version": "1.0.0",
+  "npmClient": "yarn",
+  "command": {
+    "publish": {
+      "npmClient": "npm",
+      "registry": "https://registry.npmjs.org/"
+    }
+  },
+  "useWorkspaces": true
+}

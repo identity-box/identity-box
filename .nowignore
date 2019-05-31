@@ -1,0 +1,11 @@
+__tests__
+coverage
+node_modules
+tools
+.next
+/*.*
+workspaces/assets
+workspaces/home-page/*.*
+!workspaces/home-page/babel.config.js
+!workspaces/home-page/package.json
+!workspaces/home-page/next.config.js
