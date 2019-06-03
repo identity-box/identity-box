@@ -1,0 +1,22 @@
+@startuml telepath-connect
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam dpi 300
+hide footbox
+
+participant WebApp as "web\napp"
+participant Telepath as "telepath\nservice"
+participant Cogito as "mobile\napp"
+actor User as " "
+
+activate WebApp
+WebApp -> WebApp: create new telepath channel
+WebApp -> User: show QR code\n(contains channel details)
+WebApp -> Telepath -- : wait for notification\non channel
+User -> Cogito ++ : scan QR code
+Cogito -> Cogito : extract channel details
+Cogito -> Telepath -- : send notification\nto channel
+Telepath -> WebApp ++ : receive notification
+
+@enduml

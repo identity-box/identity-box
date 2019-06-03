@@ -1,0 +1,30 @@
+{
+  "name": "@identity-box/telepath",
+  "version": "0.1.0",
+  "description": "Secure communication channel between mobile app and web app",
+  "homepage": "https://idbox.now.sh",
+  "license": "MIT",
+  "main": "source/index.js",
+  "module": "source/main.js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "source"
+  ],
+  "devDependencies": {
+    "@react-frontend-developer/buffers": "^1.0.20",
+    "nock": "^10.0.6"
+  },
+  "dependencies": {
+    "base64url": "^3.0.1",
+    "cross-fetch": "^3.0.3",
+    "esm": "^3.2.22",
+    "socket.io-client": "^2.1.1",
+    "timeout-callback": "^2.0.2",
+    "tweetnacl": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

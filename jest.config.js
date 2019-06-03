@@ -2,6 +2,7 @@ module.exports = {
   projects: [
     'workspaces/home-page',
     'workspaces/queuing-service',
+    'workspaces/telepath',
     {
       testMatch: ['<rootDir>/dummy']
     }
