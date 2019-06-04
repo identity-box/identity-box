@@ -6,9 +6,9 @@ describe('JSON RPC Channel', () => {
 
   beforeEach(() => {
     channel = {
-      notify: jest.fn(),
+      emit: jest.fn(),
       createConnectUrl: jest.fn(),
-      startNotifications: jest.fn()
+      subscribe: jest.fn()
     }
     jsonrpc = new JsonRpcChannel({ channel })
   })
@@ -48,69 +48,73 @@ describe('JSON RPC Channel', () => {
     expect(jsonrpc.appName).toEqual(appName)
   })
 
-  describe('notifications', () => {
-    const notification = { jsonrpc: '2.0', method: 'test' }
-    const invalidVersionNotification = { jsonrpc: '0.42', method: 'test' }
-    const notificationWithId = { jsonrpc: '2.0', id: 1, method: 'test' }
-    const notificationWithoutMethod = { jsonrpc: '2.0' }
+  describe('message subscriptions', () => {
+    const message = { jsonrpc: '2.0', method: 'test' }
+    const invalidVersionMessage = { jsonrpc: '0.42', method: 'test' }
+    const messageWithId = { jsonrpc: '2.0', id: 1, method: 'test' }
+    const messageWithoutMethod = { jsonrpc: '2.0' }
 
     describe('outgoing', () => {
-      it('hands valid notification over to secure channel', async () => {
-        await jsonrpc.notify(notification)
-        expect(channel.notify.mock.calls[0][0]).toEqual(
-          JSON.stringify(notification)
+      it('hands valid message over to secure channel', async () => {
+        jsonrpc.emit(message)
+        expect(channel.emit.mock.calls[0][0]).toEqual(
+          JSON.stringify(message)
         )
       })
 
-      it('throws when notification is not a json rpc 2.0 structure', async () => {
-        await expect(
-          jsonrpc.notify(invalidVersionNotification)
-        ).rejects.toThrow()
+      it('throws when message is not in a json rpc 2.0 format', () => {
+        const expectedError = new Error('request is not a JSON-RPC 2.0 object')
+        expect(() =>
+          jsonrpc.emit(invalidVersionMessage)
+        ).toThrow(expectedError)
       })
 
-      it('throws when notification has an id', async () => {
-        await expect(jsonrpc.notify(notificationWithId)).rejects.toThrow()
+      it('throws when message has an id', () => {
+        const expectedError = new Error('JSON-RPC message may not have an "id" property')
+        expect(() =>
+          jsonrpc.emit(messageWithId)
+        ).toThrow(expectedError)
       })
 
-      it('throws when notification does not specify a method', async () => {
-        await expect(
-          jsonrpc.notify(notificationWithoutMethod)
-        ).rejects.toThrow()
+      it('throws when message does not specify a method', () => {
+        const expectedError = new Error('JSON-RPC request is missing a "method" property')
+        expect(() =>
+          jsonrpc.emit(messageWithoutMethod)
+        ).toThrow(expectedError)
       })
     })
 
     describe('incoming', () => {
-      let notificationHandler
-      let channelNotificationHandler
+      let onMessage
+      let channelOnMessageHandler
 
       beforeEach(async () => {
-        notificationHandler = jest.fn()
-        await jsonrpc.startNotifications()
-        jsonrpc.subscribeForNotifications(notificationHandler)
-        channelNotificationHandler = channel.startNotifications.mock.calls[0][0]
+        onMessage = jest.fn()
+        await jsonrpc.subscribe(onMessage)
+        channelOnMessageHandler = channel.subscribe.mock.calls[0][0]
       })
 
-      it('passes incoming notifications on', () => {
-        channelNotificationHandler(JSON.stringify(notification))
-        expect(notificationHandler).toBeCalledWith(notification)
+      it('passes incoming messages on', () => {
+        channelOnMessageHandler(JSON.stringify(message))
+        expect(onMessage).toBeCalledWith(message)
       })
 
-      it('ignores notification that is not a json rpc 2.0 structure', () => {
-        const wrongMessage = JSON.stringify(invalidVersionNotification)
-        channelNotificationHandler(wrongMessage)
-        expect(notificationHandler).not.toBeCalled()
+      it('ignores messages that are not in json rpc 2.0 format', () => {
+        const wrongMessage = JSON.stringify(invalidVersionMessage)
+        channelOnMessageHandler(wrongMessage)
+        expect(onMessage).not.toBeCalled()
       })
 
-      it('ignores notification that has an id', () => {
-        const wrongMessage = JSON.stringify(notificationWithId)
-        channelNotificationHandler(wrongMessage)
-        expect(notificationHandler).not.toBeCalled()
+      it('ignores messages with an id', () => {
+        const wrongMessage = JSON.stringify(messageWithId)
+        channelOnMessageHandler(wrongMessage)
+        expect(onMessage).not.toBeCalled()
       })
 
-      it('ignores notification without method', () => {
-        const wrongMessage = JSON.stringify(notificationWithoutMethod)
-        channelNotificationHandler(wrongMessage)
-        expect(notificationHandler).not.toBeCalled()
+      it('ignores messages without method', () => {
+        const wrongMessage = JSON.stringify(messageWithoutMethod)
+        channelOnMessageHandler(wrongMessage)
+        expect(onMessage).not.toBeCalled()
       })
     })
   })

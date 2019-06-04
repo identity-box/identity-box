@@ -1,8 +1,12 @@
-import { NotificationsDispatcher } from './notifications-dispatcher'
+import { MessageDispatcher } from './message-dispatcher'
 
 class JsonRpcChannel {
+  channel
+  dispatcher
+
   constructor ({ channel }) {
     this.channel = channel
+    this.dispatcher = new MessageDispatcher()
   }
 
   get id () {
@@ -17,79 +21,50 @@ class JsonRpcChannel {
     return this.channel.appName
   }
 
-  async startNotifications () {
-    this.notificationsDispatcher = new NotificationsDispatcher()
-    await this.startNotificationsWithCallbacks(notification =>
-      this.notificationsDispatcher.onNotification(notification),
-    error => this.notificationsDispatcher.onError(error))
+  processMessage = message => {
+    const messageJSON = JSON.parse(message)
+    this.checkJsonRpcMessage(messageJSON)
+    return messageJSON
   }
 
-  async startNotificationsWithCallbacks (notificationHandler, errorHandler) {
-    await this.channel.startNotifications(message => {
-      this.onNotification(message, notificationHandler)
-    }, errorHandler)
+  checkJsonRpcMessage = message => {
+    if (message.jsonrpc !== '2.0') {
+      throw new Error('request is not a JSON-RPC 2.0 object')
+    }
+    if (message.id !== undefined) {
+      throw new Error('JSON-RPC message may not have an "id" property')
+    }
+    if (message.method === undefined) {
+      throw new Error('JSON-RPC request is missing a "method" property')
+    }
   }
 
-  subscribeForNotifications (onNotification, onError) {
-    if (!this.notificationsDispatcher) {
-      if (onError) {
-        onError(new Error('Call `startNotifications` before subscribing'))
+  start = () => {
+    this.channel.subscribe(message => {
+      try {
+        this.dispatcher.onMessage(this.processMessage(message))
+      } catch {
+        // ditching invalid JSON-RPC message
       }
-      return
-    }
-    return this.notificationsDispatcher.addSubscription(onNotification, onError)
+    }, error => this.dispatcher.onError(error))
   }
 
-  unsubscribeForNotifications (subscription) {
-    if (!this.notificationsDispatcher) {
-      return
-    }
-    this.notificationsDispatcher.removeSubscription(subscription)
+  subscribe = async (onMessage, onError) => {
+    await this.start()
+    return this.dispatcher.addSubscription(onMessage, onError)
   }
 
-  async notify (notification) {
-    checkJsonRpcStructure(notification, true)
-    this.channel.notify(JSON.stringify(notification))
+  unsubscribe = subscription => {
+    this.dispatcher.removeSubscription(subscription)
   }
 
-  onNotification (message, notificationHandler) {
-    const notification = parseResponse(message)
-    try {
-      checkJsonRpcStructure(notification, true)
-      notificationHandler(notification)
-    } catch {
-      // ditching invalid JSON-RPC notification
-    }
+  emit = message => {
+    this.checkJsonRpcMessage(message)
+    this.channel.emit(JSON.stringify(message))
   }
 
-  createConnectUrl (baseUrl) {
+  createConnectUrl = baseUrl => {
     return this.channel.createConnectUrl(baseUrl)
-  }
-}
-
-function checkJsonRpcStructure (structure, isNotification) {
-  if (structure.jsonrpc !== '2.0') {
-    throw new Error('request is not a JSON-RPC 2.0 object')
-  }
-  if (isNotification) {
-    if (structure.id !== undefined) {
-      throw new Error('JSON-RPC notification may not have an "id" property')
-    }
-  } else {
-    if (structure.id === undefined) {
-      throw new Error('JSON-RPC request is missing an "id" property')
-    }
-  }
-  if (structure.method === undefined) {
-    throw new Error('JSON-RPC request is missing a "method" property')
-  }
-}
-
-function parseResponse (response) {
-  try {
-    return JSON.parse(response)
-  } catch (error) {
-    return response
   }
 }
 

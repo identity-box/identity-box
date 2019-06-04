@@ -1862,10 +1862,10 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@react-frontend-developer/buffers@^1.0.20":
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/@react-frontend-developer/buffers/-/buffers-1.0.20.tgz#e775a99a578a33f73eac1cfc583817e00390e1f8"
-  integrity sha512-N+sJfyUZ7L6SO4udnrh8PCRaPeUQmMJqKLaG6nCTHaLxrr23LCyILsiFkz3BPskXp60rbJZkOk1PFSauS9BgLQ==
+"@react-frontend-developer/buffers@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/@react-frontend-developer/buffers/-/buffers-1.0.21.tgz#aeff93a4a76c529a941e31d45e7f119872a9c796"
+  integrity sha512-0/48wHGU0DMJxzHp3exEJLm4HBWRYHTsTCmSe7fposqae317eWbG4rU2TmlluZAjJRHigaGpULir0rvqzDtA/A==
 
 "@react-frontend-developer/react-layout-helpers@^1.0.20":
   version "1.0.20"

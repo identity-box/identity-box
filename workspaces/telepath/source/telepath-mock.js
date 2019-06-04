@@ -33,21 +33,19 @@ class JsonRpcChannel {
     return this.channel.appName
   }
 
-  startNotifications () {}
-
-  subscribeForNotifications (onNotification, onError) {
-    this.subscriptions.push({ onNotification, onError })
+  subscribe (onMessage, onError) {
+    this.subscriptions.push({ onMessage, onError })
     return this.subscriptions.length - 1
   }
 
-  unsubscribeForNotifications (subscription) {
+  unsubscribe (subscription) {
     this.subscriptions[subscription] = null
   }
 
-  fakeIncomingNotification (notification) {
+  fakeIncomingMessage (message) {
     this.subscriptions.forEach(subscription => {
       if (subscription) {
-        subscription.onNotification(notification)
+        subscription.onMessage(message)
       }
     })
   }

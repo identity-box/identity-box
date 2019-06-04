@@ -32,19 +32,19 @@ describe('SocketIOChannel', () => {
   })
 
   it('ignores notify because it is not started', () => {
-    service.notify(Buffer.from([1, 2, 3]))
+    service.emit(Buffer.from([1, 2, 3]))
     expect(socketStub.emit.mock.calls.length).toBe(0)
   })
 
-  describe('when sending notifications before setup is done', () => {
+  describe('when sending messages before setup is done', () => {
     beforeEach(() => {
       socketStub.on = jest.fn()
       let data = Buffer.from([1, 2, 3, 4])
-      service.notify(data)
+      service.emit(data)
     })
 
-    it('records notification as pending and does not send yet', () => {
-      expect(service.pendingNotifications.length).toBe(1)
+    it('records message as pending and does not send yet', () => {
+      expect(service.pendingMessages.length).toBe(1)
     })
   })
 
@@ -53,31 +53,31 @@ describe('SocketIOChannel', () => {
     await expect(
       service.start({
         channelId: '',
-        onNotification: () => {},
+        onMessage: () => {},
         onError: () => {},
         timeout: 100
       })
     ).rejects.toThrow()
   })
 
-  it('sends pending notifications after connection is complete', async () => {
-    service.pendingNotifications = [Buffer.from([1, 2, 3, 4])]
+  it('sends pending messages after connection is complete', async () => {
+    service.pendingMessages = [Buffer.from([1, 2, 3, 4])]
     await service.start({})
-    expect(service.pendingNotifications.length).toBe(0)
-    expect(socketStub.emit.mock.calls[1][0]).toBe('notification')
+    expect(service.pendingMessages.length).toBe(0)
+    expect(socketStub.emit.mock.calls[1][0]).toBe('message')
   })
 
   describe('when started with an unconnected socket', () => {
     const channelId = 'channelId'
-    let notificationSpy
+    let onMessageSpy
     let errorSpy
 
     beforeEach(async () => {
-      notificationSpy = jest.fn()
+      onMessageSpy = jest.fn()
       errorSpy = jest.fn()
       await service.start({
         channelId,
-        onNotification: notificationSpy,
+        onMessage: onMessageSpy,
         onError: errorSpy
       })
     })
@@ -85,7 +85,7 @@ describe('SocketIOChannel', () => {
     it('is correctly configured', () => {
       expect(service.socket).toBe(socketStub)
       expect(socketStub.connect.mock.calls.length).toBe(1)
-      expect(socketStub.on.mock.calls[1][0]).toBe('notification')
+      expect(socketStub.on.mock.calls[1][0]).toBe('message')
     })
 
     it('it identifies itself when socket connects', () => {
@@ -104,20 +104,20 @@ describe('SocketIOChannel', () => {
         socketStub.emit.mockReset()
       })
 
-      it('can send notifications', () => {
+      it('can send messages', () => {
         let data = Buffer.from([1, 2, 3, 4])
-        service.notify(data)
-        expect(socketStub.emit.mock.calls[0][0]).toBe('notification')
+        service.emit(data)
+        expect(socketStub.emit.mock.calls[0][0]).toBe('message')
         const encodedData = base64url.encode(data)
         expect(socketStub.emit.mock.calls[0][1]).toBe(encodedData)
       })
 
-      it('base64url decodes incoming notifications', () => {
-        const registeredNotificationHandler = socketStub.on.mock.calls[1][1]
+      it('base64url decodes incoming messages', () => {
+        const registeredMessasgeHandler = socketStub.on.mock.calls[1][1]
         const message = Buffer.from('a message')
         const encodedMessage = base64url.encode(message)
-        registeredNotificationHandler(encodedMessage)
-        expect(notificationSpy.mock.calls[0][0]).toEqual(message)
+        registeredMessasgeHandler(encodedMessage)
+        expect(onMessageSpy.mock.calls[0][0]).toEqual(message)
       })
 
       it('passes errors on', () => {
@@ -136,16 +136,16 @@ describe('SocketIOChannel', () => {
 
   describe('when started with a connected socket', () => {
     const channelId = 'channelId'
-    let notificationSpy
+    let onMessageSpy
     let errorSpy
 
     beforeEach(async () => {
-      notificationSpy = jest.fn()
+      onMessageSpy = jest.fn()
       errorSpy = jest.fn()
       socketStub.connected = true
       await service.start({
         channelId,
-        onNotification: notificationSpy,
+        onMesssage: onMessageSpy,
         onError: errorSpy
       })
     })

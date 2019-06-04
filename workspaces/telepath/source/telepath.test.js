@@ -1,5 +1,6 @@
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
+import { TypedArrays } from '@react-frontend-developer/buffers'
 import { JsonRpcChannel } from './json-rpc-channel'
 import { Telepath } from './telepath'
 import { SocketIOChannel } from './socket-io-channel'
@@ -9,18 +10,20 @@ jest.mock('./socket-io-channel')
 describe('Telepath', () => {
   const appName = 'some app name'
   let telepath
-  let socketManager
   let socketIOChannel
 
   beforeEach(() => {
     SocketIOChannel.mockClear()
     telepath = new Telepath('https://queuing.example.com')
-    socketIOChannel = { start: jest.fn() }
+    socketIOChannel = {
+      start: jest.fn(function ({ onMessage, onError }) {
+        this.onMessage = onMessage
+        this.onError = onError
+      })
+    }
     SocketIOChannel.mockImplementation(socket => {
       return socketIOChannel
     })
-    socketManager = { socket: () => {} }
-    telepath.socketManager = socketManager
   })
 
   describe('when creating a new channel', () => {
@@ -67,38 +70,44 @@ describe('Telepath', () => {
       expect(() => telepath.createChannel({ id, key })).toThrow(expectedError)
     })
 
-    describe('notifications', () => {
-      const notification = { jsonrpc: '2.0', method: 'test' }
+    describe('message subscriptions', () => {
+      const message = { jsonrpc: '2.0', method: 'test' }
       const error = new Error('some error')
-      let onNotification
+      let onMessage
       let onError
       let subscription
 
-      beforeEach(() => {
-        onNotification = jest.fn()
-        onError = jest.fn()
-        channel.startNotifications()
-        subscription = channel.subscribeForNotifications(
-          onNotification,
-          onError
+      const enc = message => {
+        const nonce = nacl.randomBytes(nacl.secretbox.nonceLength)
+        const cypherText = nacl.secretbox(
+          TypedArrays.string2Uint8Array(message, 'utf8'),
+          nonce,
+          channel.key
         )
+        return Buffer.concat([nonce, cypherText])
+      }
+
+      beforeEach(async () => {
+        onMessage = jest.fn()
+        onError = jest.fn()
+        subscription = await channel.subscribe(onMessage, onError)
       })
 
-      it('can subscribe for notifications', () => {
-        channel.channel.notificationHandler(JSON.stringify(notification))
-        expect(onNotification).toHaveBeenCalledWith(notification)
+      it('can subscribe for messages', () => {
+        socketIOChannel.onMessage(enc(JSON.stringify(message)))
+        expect(onMessage).toHaveBeenCalledWith(message)
       })
 
       it('can also receives errors', () => {
-        channel.channel.notificationErrorHandler(error)
+        socketIOChannel.onError(error)
         expect(onError).toHaveBeenCalledWith(error)
       })
 
       it('can unsubscribe', () => {
-        channel.unsubscribeForNotifications(subscription)
-        channel.channel.notificationHandler(JSON.stringify(notification))
-        expect(onNotification).not.toHaveBeenCalled()
-        channel.channel.notificationErrorHandler(error)
+        channel.unsubscribe(subscription)
+        socketIOChannel.onMessage(enc(JSON.stringify(message)))
+        expect(onMessage).not.toHaveBeenCalled()
+        socketIOChannel.onError(error)
         expect(onError).not.toHaveBeenCalled()
       })
     })

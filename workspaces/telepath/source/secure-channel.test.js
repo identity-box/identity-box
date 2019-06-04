@@ -13,15 +13,21 @@ describe('Secure Channel', () => {
 
   const enc = message => {
     const nonce = nacl.randomBytes(nacl.secretbox.nonceLength)
-    const cypherText = nacl.secretbox(message, nonce, key)
+    const cypherText = nacl.secretbox(
+      TypedArrays.string2Uint8Array(message, 'utf8'),
+      nonce,
+      channel.key
+    )
     return Buffer.concat([nonce, cypherText])
   }
 
   beforeEach(() => {
     key = nacl.randomBytes(nacl.secretbox.keyLength)
     socketIOChannel = {
-      start: jest.fn(),
-      notify: jest.fn()
+      start: jest.fn(function ({ onMessage }) {
+        this.onMessage = onMessage
+      }),
+      emit: jest.fn()
     }
     channel = new SecureChannel({
       id: channelId,
@@ -39,32 +45,32 @@ describe('Secure Channel', () => {
     expect(channel.createConnectUrl(baseUrl)).toEqual(url)
   })
 
-  describe('notifications', () => {
-    const message = TypedArrays.string2Uint8Array('plain text message', 'utf8')
+  describe('message subscriptions', () => {
+    const message = 'plain text message'
 
     it('encrypts the payload', () => {
-      channel.notify(message)
+      channel.emit(message)
       const nonceAndCypherText = new Uint8Array(
-        socketIOChannel.notify.mock.calls[0][0]
+        socketIOChannel.emit.mock.calls[0][0]
       )
       const nonce = nonceAndCypherText.slice(0, nacl.secretbox.nonceLength)
       const cypherText = nonceAndCypherText.slice(nacl.secretbox.nonceLength)
 
       const decrypted = nacl.secretbox.open(cypherText, nonce, key)
 
-      expect(decrypted).toEqual(message)
+      expect(TypedArrays.uint8Array2string(decrypted, 'utf8')).toEqual(message)
     })
 
-    it('decrypts and forwards incoming notifications', async () => {
-      const notificationSpy = jest.fn()
-      await channel.startNotifications(notificationSpy)
-      const data = enc(message)
-      channel.onEncryptedNotification(data)
-      expect(notificationSpy.mock.calls[0][0]).toEqual(message)
+    it('decrypts and forwards incoming encrypted messages', async () => {
+      const onMessage = jest.fn()
+      await channel.subscribe(onMessage)
+      const encryptedMessage = enc(message)
+      socketIOChannel.onMessage(encryptedMessage)
+      expect(onMessage.mock.calls[0][0]).toEqual(message)
     })
 
-    it('throws when notification handler is not set', () => {
-      expect(() => channel.onEncryptedNotification()).toThrow()
+    it('throws when message handler is not set', () => {
+      expect(() => socketIOChannel.onMessage()).toThrow()
     })
   })
 })

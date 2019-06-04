@@ -13,10 +13,10 @@
     "source"
   ],
   "devDependencies": {
-    "@react-frontend-developer/buffers": "^1.0.20",
     "nock": "^10.0.6"
   },
   "dependencies": {
+    "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "cross-fetch": "^3.0.3",
     "esm": "^3.2.22",

@@ -1,4 +1,4 @@
-# @cogitojs/telepath-js
+# telepath
 
 Provides a secure channel for communication between a web app running in a
  browser and an app running on a mobile device.
@@ -30,20 +30,6 @@ Setting up a secure channel is done using these steps:
 6. Both phone and web app can now communicate on channel `I`. They encrypt/decrypt
    their messages using key `E`.
 
-![Telepath Connection Sequence](images/telepath-connect.png)
-
-Telepath channels supports bi-directional communication; both from the web app
-to the mobile app, and vice-versa. A channel therefore consists of two queues,
-which we’ve named ‘blue’ and ‘red’. The red queue is used to send messages from
-the web app to the mobile app, and the blue queue is used for the reverse route.
-
-    -------------                             ------------
-    |    web    |  ---------- red ----------> |  mobile  |
-    |    app    |  <--------- blue ---------- |    app   |
-    -------------                             ------------
-
-[NAT]: https://en.wikipedia.org/wiki/Network_address_translation
-
 ## QR Code
 
 The channel id `I` and key `E` are first encoded in a URL, and then the URL is
@@ -74,16 +60,16 @@ where:
 
 ## Usage
 
-Add `@cogitojs/telepath-js` as a dependency:
+Add `@identity-box/telepath` as a dependency:
 
 ```bash
-yarn add @cogitojs/telepath-js
+yarn add @identity-box/telepath
 ```
 
 Then import `Telepath` in your own module:
 
 ```javascript
-import { Telepath } from '@cogitojs/telepath-js'
+import { Telepath } from '@identity-box/telepath'
 ```
 
 ### Creating an instance of Telepath
@@ -131,54 +117,38 @@ const connectUrl = channel.createConnectUrl('https://example.com')
 // returns: https://example.com/telepath/connect#I=<channelId>&E=<symmetricKey>
 ```
 
-### Sending messages through the channel
+### Sending and receiving messages
 
-Messages are exchanged using [JSON-RPC][json-rpc]:
-
-```javascript
-const request = { jsonrpc: '2.0', method:'test', id: 1 }
-const response = await channel.send(request)
-```
-
-The `send` method returns a promise. The queuing service will be polled for a
-response for at least 10 minutes. If no response is available after this time it
-will return `null`.
-
-[qrcode]: https://www.npmjs.com/package/qrcode.react
-[json-rpc]: http://www.jsonrpc.org/specification
-
-### Notifications
-
-Telepath also supports "fire and forget"-style *notifications*. So
+Telepath uses *fire and forget*-style messages. So
 instead of a request-response loop, you can send a message and forget
-about it, or you can register a notification handler to receive
-incoming notifications.
+about it, or you can register a message handler to receive
+incoming messages.
 
-If you want to be able to receive notifications, after creating the
-Telepath channel you need to call `startNotifications` and subscribe
-for notifications:
+Messages are exchanged using [JSON-RPC][json-rpc].
+In order to receive messages, after creating the
+Telepath channel you just need to call `subscribe` and provide
+the `onMessage` and `onError` handlers:
 
 ```javascript
-await channel.startNotifications()
-const subscription = channel.subscribeForNotifications(message => {
-  console.log('received notification: ' + message)
+const subscription = await channel.subscribe(message => {
+  console.log('received message: ' + message)
 }, error => {
-  console.log('notification error: ' + error)
+  console.log('error: ' + error)
 })
 // later...
-channel.unsubscribeForNotifications(subscription)
+channel.unsubscribe(subscription)
 ```
 
-Sending notifications work like this (please remember that
-notifications must be valid JSON-RPC 2.0 message):
+Sending messages work like this (please remember that
+messages must be in the JSON-RPC 2.0 format):
 
 ```javascript
-const notification = { jsonrpc: '2.0', method:'test' }
-await channel.notify(notification)
+const message = { jsonrpc: '2.0', method:'test' }
+channel.emit(message)
 ```
 
-Please note that the `channel.notify` promise being resolve only means
-that the notification was sent, not that it was received by the other
+Please note that the when the `channel.emit` call returns, it means
+that the message has been sent, not that it was received by the other
 party.
 
 ### Unit Testing
@@ -189,11 +159,11 @@ limited in functionality but it will suffice for many purposes. Have a look at
 `telepath-mock.js` to review the exact capabilities.
 
 You can use the test double by creating a manual mock in your workspace. Put
-a file named `telepath-js.js` in the folder `your-project/src/__mocks__/@cogitojs`.
+a file named `telepath.js` in the folder `your-project/src/__mocks__/@identity-box`.
 Inside that file, put the following statement:
 
 ```javascript
-export { Telepath } from '@cogitojs/telepath-js/source/telepath-mock'
+export { Telepath } from '@identity-box/telepath/source/telepath-mock'
 ```
 
 ## Known Limitations

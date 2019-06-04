@@ -2,17 +2,19 @@ import base64url from 'base64url'
 import timeoutCallback from 'timeout-callback'
 
 export class SocketIOChannel {
+  pendingMessages = []
+  setupDone = false
+  socketFactoryMethod
+
   constructor (socketFactoryMethod) {
     this.socketFactoryMethod = socketFactoryMethod
-    this.pendingNotifications = []
-    this.setupDone = false
   }
 
-  async start ({ channelId, onNotification, onError, timeout = 30000 }) {
+  async start ({ channelId, onMessage, onError, timeout = 30000 }) {
     this.socket = this.socketFactoryMethod()
     await this.waitUntilConnected()
     await this.identify({ channelId, timeout })
-    this.installEventHandlers({ onNotification, onError })
+    this.installEventHandlers({ onMessage, onError })
   }
 
   waitUntilConnected () {
@@ -39,7 +41,7 @@ export class SocketIOChannel {
           if (e instanceof Error) {
             reject(e)
           } else {
-            this.sendPendingNotifications()
+            this.sendPendingMessages()
             resolve()
           }
         })
@@ -47,9 +49,9 @@ export class SocketIOChannel {
     })
   }
 
-  installEventHandlers ({ onNotification, onError }) {
-    this.socket.on('notification', message => {
-      onNotification(base64url.toBuffer(message))
+  installEventHandlers ({ onMessage, onError }) {
+    this.socket.on('message', message => {
+      onMessage(base64url.toBuffer(message))
     })
     if (onError) {
       this.socket.on('error', onError)
@@ -57,20 +59,20 @@ export class SocketIOChannel {
     }
   }
 
-  notify (data) {
+  emit (data) {
     const message = base64url.encode(data)
     if (this.setupDone) {
-      this.socket.emit('notification', message)
+      this.socket.emit('message', message)
     } else {
-      this.pendingNotifications.push(message)
+      this.pendingMessages.push(message)
     }
   }
 
-  sendPendingNotifications () {
-    this.pendingNotifications.forEach(message => {
-      this.socket.emit('notification', message)
+  sendPendingMessages () {
+    this.pendingMessages.forEach(message => {
+      this.socket.emit('message', message)
     })
-    this.pendingNotifications = []
+    this.pendingMessages = []
     this.setupDone = true
   }
 }
