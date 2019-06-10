@@ -3,7 +3,7 @@ const webpack = require('webpack')
 
 module.exports = withCSS({
   target: 'serverless',
-  assetPrefix: '/webapp/',
+  assetPrefix: '/webapp',
   webpack (config) {
     config.module.rules.push({
       test: /\.(png|svg|eot|otf|ttf|woff|woff2)$/,

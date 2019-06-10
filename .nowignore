@@ -5,9 +5,10 @@ tools
 .next
 /*.*
 !/*.md
-workspaces/telepath/**
+workspaces/telepath/*.*
+workspaces/telepath/source
 !workspaces/telepath/*.md
-!workspaces/telepath/images/**
+!workspaces/telepath/images/*.*
 workspaces/queuing-service/**
 !workspaces/queuing-service/*.md
 workspaces/assets
