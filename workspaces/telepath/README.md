@@ -1,4 +1,4 @@
-# telepath
+# Telepath
 
 Provides a secure channel for communication between a web app running in a
  browser and an app running on a mobile device.

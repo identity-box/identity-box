@@ -1,9 +1,13 @@
 {
   "version": 2,
   "name": "Identity Box",
-  "builds": [{ "src": "workspaces/home-page/package.json", "use": "@now/next" }],
+  "builds": [
+    { "src": "workspaces/webapp/package.json", "use": "@now/next" },
+    { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
+  ],
   "routes": [
-    { "src": "/(.*)", "dest": "/workspaces/home-page/$1" }
+    { "src": "/webapp/(.*)", "dest": "/workspaces/webapp/$1" },
+    { "src": "/(?<path>.*)", "dest": "/workspaces/homepage/$path"}
   ],
   "scope": "identity-box",
   "alias": "idbox"

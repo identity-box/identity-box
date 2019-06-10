@@ -30,6 +30,10 @@
     "parser": "babel-eslint",
     "ignore": [
       "**/node_modules/**",
+      "**/public/**",
+      "**/.cache/**",
+      "**/.next/**",
+
       "**/lib/**",
       "**/es/**"
     ],
