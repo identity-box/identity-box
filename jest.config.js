@@ -1,6 +1,6 @@
 module.exports = {
   projects: [
-    'workspaces/home-page',
+    'workspaces/webapp',
     'workspaces/queuing-service',
     'workspaces/telepath',
     {
