@@ -1,6 +1,7 @@
 __tests__
 coverage
 node_modules
+proposal
 tools
 .next
 /*.*
@@ -26,3 +27,4 @@ workspaces/homepage/.gitignore
 !workspaces/homepage/gatsby-node.js
 !workspaces/homepage/package.json
 !workspaces/homepage/src/**
+workspaces/homepage/src/pages/proposal/**
