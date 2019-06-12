@@ -12,7 +12,7 @@
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.12",
     "@react-frontend-developer/css-grid-helper": "^1.0.20",
-    "gatsby": "^2.8.6",
+    "gatsby": "^2.9.0",
     "gatsby-plugin-catch-links": "^2.0.15",
     "gatsby-plugin-emotion": "^4.0.7",
     "gatsby-plugin-layout": "^1.0.14",
@@ -42,7 +42,7 @@
   "main": "n/a",
   "scripts": {
     "build": "gatsby build",
-    "now-build": "yarn build",
+    "now-build": "cp ../../yarn.lock . && yarn build",
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -50,6 +50,7 @@
   "devDependencies": {
     "eslint-config-react-app": "^4.0.1",
     "gatsby-cli": "^2.6.5",
-    "gatsby-plugin-root-import": "^2.0.5"
+    "gatsby-plugin-root-import": "^2.0.5",
+    "sharp": "^0.22.1"
   }
 }

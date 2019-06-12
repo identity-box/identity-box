@@ -18,7 +18,7 @@
   "dependencies": {
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "cross-fetch": "^3.0.3",
+    "cross-fetch": "^3.0.4",
     "esm": "^3.2.22",
     "socket.io-client": "^2.1.1",
     "timeout-callback": "^2.0.2",
