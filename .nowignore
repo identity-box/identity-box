@@ -6,6 +6,9 @@ tools
 .next
 /*.*
 !/*.md
+!/package.json
+!/yarn.lock
+
 workspaces/telepath/*.*
 workspaces/telepath/source
 !workspaces/telepath/*.md
@@ -13,6 +16,9 @@ workspaces/telepath/source
 workspaces/queuing-service/**
 !workspaces/queuing-service/*.md
 workspaces/assets
+workspaces/webapp/node_modules
+workspaces/webapp/__tests__
+workspaces/webapp/.next
 workspaces/webapp/*.*
 !workspaces/webapp/babel.config.js
 !workspaces/webapp/package.json
