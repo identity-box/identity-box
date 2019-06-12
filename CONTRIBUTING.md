@@ -52,7 +52,7 @@ To start development server or to build version that is ready for distribution y
 » yarn build
 ```
 
-## Using `now dev`
+## Using now dev
 
 Take advantage of `now dev` to run a development server and have a mirror of your production hot-reloading. Read more at [Introducing `now dev` – Serverless, on localhost](https://zeit.co/blog/now-dev).
 
