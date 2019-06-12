@@ -67,7 +67,7 @@ export class Navigation extends React.PureComponent {
   }
 
   setDelta = (group, index, d) => {
-    const deltas = this.state[`${group}Deltas`]
+    const deltas = [...this.state[`${group}Deltas`]]
     deltas[index] = d
     this.setState({ [`${group}Deltas`]: deltas })
   }
