@@ -162,7 +162,7 @@ If native IPNS is not stable enough, we need to use a DNS record to bound IPNS n
 
 Here, we still use telepath to add the initial version of the DID document, but then instead of running `ipfs name publish`, the box uses the API of our DNS provider to automatically create a new subdomain of our main domain `idbox.online`, for instance: `QmQUcC5iRXee1QCgavsT1oWwGRzbSZPm8PhudWmUGWDmp8.idbox.online`. Using our DNS provider API we create the following DNS record for this subdomain:
 
-```
+```bash
 dnslink=/ipfs/zdpuB3Pn7miXhJ7pGM38EcSJ7mugkAMX3kHAPyVggXHJrRERo
 ```
 where `zdpuB3Pn7miXhJ7pGM38EcSJ7mugkAMX3kHAPyVggXHJrRERo` is CID of our initial DID document.
