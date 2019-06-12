@@ -8,7 +8,9 @@ const Template = ({ data: { site: { siteMetadata }, doc }, location }) => {
   const { editBaseUrl } = siteMetadata
   return (
     <div>
-      <Helmet title={title} />
+      <Helmet title={title}>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' rel='stylesheet' />
+      </Helmet>
       <EditFile fileAbsolutePath={fileAbsolutePath}
         externalContent={content}
         editBaseUrl={editBaseUrl} />

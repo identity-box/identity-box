@@ -9,6 +9,7 @@ module.exports = {
       options: {
         path: `${__dirname}/../../`,
         ignore: [
+          '**/assets/**',
           '**/node_modules/**',
           '**/.cache/**',
           '**/public/**',
