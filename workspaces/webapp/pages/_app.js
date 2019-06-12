@@ -21,7 +21,7 @@ export default class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>monorepo-nextjs-example</title>
+          <title>Identity Box WebApp</title>
           <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
         </Head>
         <Global styles={{ 'html,body': {
