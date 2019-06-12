@@ -15,6 +15,11 @@ class Collapsable extends React.Component {
     }
   }
 
+  constructor (props) {
+    super(props)
+    this.divRef = React.createRef()
+  }
+
   componentDidUpdate (prevProps) {
     if (this.props.delta !== prevProps.delta) {
       if (!this.state.folded) {
@@ -22,7 +27,7 @@ class Collapsable extends React.Component {
           delta: this.props.delta,
           style: {
             ...this.state.style,
-            maxHeight: `${this.div.scrollHeight + this.props.delta}px`
+            maxHeight: `${this.divRef.current.scrollHeight + this.props.delta}px`
           }
         })
       }
@@ -31,12 +36,12 @@ class Collapsable extends React.Component {
 
   unfold = () => {
     if (this.state.folded) {
-      this.props.onChange && this.props.onChange(this.div.scrollHeight)
+      this.props.onChange && this.props.onChange(this.divRef.current.scrollHeight)
       this.setState({
         folded: false,
         style: {
           ...this.state.style,
-          maxHeight: `${this.div.scrollHeight}px`
+          maxHeight: `${this.divRef.current.scrollHeight}px`
         }
       })
     } else {
@@ -51,15 +56,11 @@ class Collapsable extends React.Component {
     }
   }
 
-  setDivRef = element => {
-    this.div = element
-  }
-
   render () {
     return (
       <div>
         { this.props.trigger(this.unfold, this.state.folded) }
-        <div style={this.state.style} ref={this.setDivRef}>
+        <div style={this.state.style} ref={this.divRef}>
           { this.props.children }
         </div>
       </div>
