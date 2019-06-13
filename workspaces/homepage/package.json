@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.12",
+    "@react-frontend-developer/buffers": "^1.0.21",
     "@react-frontend-developer/css-grid-helper": "^1.0.20",
     "gatsby": "^2.9.0",
     "gatsby-plugin-catch-links": "^2.0.15",
@@ -31,6 +32,9 @@
     "react-helmet": "^5.2.1",
     "react-media": "^1.9.2",
     "react-typography": "^0.16.19",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.87.1",
+    "tweetnacl": "^1.0.1",
     "typography": "^0.16.19",
     "typography-theme-moraga": "^0.16.19"
   },

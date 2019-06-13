@@ -2,6 +2,7 @@ import { React } from 'react'
 import styled from '@emotion/styled'
 import { Global } from '@emotion/core'
 import { DocumentationLayout } from './documentation'
+import 'semantic-ui-css/semantic.min.css'
 
 const Wrapper = styled.div({
   display: 'flex',
