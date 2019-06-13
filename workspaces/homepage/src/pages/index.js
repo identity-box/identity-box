@@ -239,6 +239,8 @@ const Login = ({ onLoggedIn }) => {
   const login = event => {
     if (hash(secret) === loginSecret) {
       onLoggedIn()
+    } else {
+      setSecret('')
     }
     event.preventDefault()
   }
@@ -282,11 +284,20 @@ const Login = ({ onLoggedIn }) => {
 const getImage = (data, name) => data.allFile.edges.filter(f => f.node.name === name)[0].node.publicURL
 
 const Home = ({ data }) => {
-  const userLoggedIn = () => window.localStorage.getItem('loggedIn') === 'true' || false
-  const [ loggedIn, setLoggedIn ] = useState(userLoggedIn)
-  useEffect(() => {
-    window.localStorage.setItem('loggedIn', loggedIn)
-  }, [loggedIn])
+  // const userLoggedIn = () => {
+  //   if (typeof window !== 'undefined') {
+  //     return window.localStorage.getItem('loggedIn') === 'true' || false
+  //   } else {
+  //     return false
+  //   }
+  // }
+
+  const [ loggedIn, setLoggedIn ] = useState(false)
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     window.localStorage.setItem('loggedIn', loggedIn)
+  //   }
+  // }, [loggedIn])
   if (loggedIn) {
     return (
       <>
