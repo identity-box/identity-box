@@ -181,9 +181,11 @@ const Img = styled.img({
   margin: '0 0 0 0',
   width: '25%',
   height: '25%',
-  '@media (max-width: 900px)': {
-    width: '70%',
-    height: '70%'
+  minWidth: '170px',
+  '@media (max-width: 400px)': {
+    width: '50%',
+    height: '50%',
+    minWidth: '150px'
   }
 })
 
@@ -191,9 +193,11 @@ const Img2 = styled.img({
   margin: '0 0 0 0',
   width: '40%',
   height: '40%',
-  '@media (max-width: 900px)': {
-    width: '90%',
-    height: '90%'
+  minWidth: '250px',
+  '@media (max-width: 400px)': {
+    width: '70%',
+    height: '70%',
+    minWidth: '220px'
   }
 })
 
