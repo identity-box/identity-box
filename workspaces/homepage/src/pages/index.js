@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import headerLogo from '../images/IdBoxHeader.png'
 import { graphql } from 'gatsby'
@@ -201,67 +201,94 @@ const Img2 = styled.img({
   }
 })
 
+const LoginWrapper = styled.div({
+  width: '100vw',
+  height: '100vh',
+  backgroundImage: 'url(/galaxy-1.jpg)',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center center',
+  backgroundSize: '100% 100%',
+  color: 'white'
+})
+
+const Login = () => (
+  <LoginWrapper>Login</LoginWrapper>
+)
+
 const getImage = (data, name) => data.allFile.edges.filter(f => f.node.name === name)[0].node.publicURL
 
-const Home = ({ data }) => (
-  <>
-    <Header />
-    <BodyFrame>
-      <IntroPanel data={data} />
-      <Box1>
-        <Row>
-          <TextBox>
-          Most of the data today belong to just a handful of companies.
-          Personal documents, photographs, videos, things that we put online in general,
-          contain lots of sensitive information.
-          Information that we would rather prefer to stay private.
-          Very often the same companies that provide more or less
-          "complimentary" storage space for our disposal, also help
-          us managing our whole digital existence. The combination of
-          the data and the identity information is a powerful combination
-          which empowers well-established business models where
-          the user's data or the user itself become a product.
-          Allowing sensitive data to be kept by well-known service providers
-          makes it easier than ever for illegal institutions, but also the state,
-          to gain insights into the data that they have no rights to access.
-          </TextBox>
-          <Img src={getImage(data, 'CloudStorage')} />
-        </Row>
-        <Row>
-          <Media query='(max-width: 1100px)'>
-            {matches =>
-              matches ? (
-                <>
-                  <TextBox>
-                  Our sensitive personal data are kept by the state, healthcare organizations,
-                  financial institutions, and corporations. We do not have control over these
-                  data and our access to them is limited. Every institution storing the data
-                  has not only its own policies, but also uses proprietary technologies to
-                  access the data. These data silos make interoperbility hard and give
-                  institutions almost complete freedom to use the data without consenting the user.
-                  </TextBox>
-                  <Img2 src={getImage(data, 'CurrentSituation')} />
-                </>
-              ) : (
-                <>
-                  <Img2 src={getImage(data, 'CurrentSituation')} />
-                  <TextBox css={{ width: '50%' }}>
-                  Our sensitive personal data are kept by the state, healthcare organizations,
-                  financial institutions, and corporations. We do not have control over these
-                  data and our access to them is limited. Every institution storing the data
-                  has not only its own policies, but also uses proprietary technologies to
-                  access the data. These data silos make interoperbility hard and give
-                  institutions almost complete freedom to use the data without consenting the user.
-                  </TextBox>
-                </>
-              )
-            }
-          </Media>
-        </Row>
-      </Box1>
-    </BodyFrame>
-  </>
-)
+const Home = ({ data }) => {
+  const userLoggedIn = () => window.localStorage.getItem('loggedIn') === 'true' || false
+  const [ loggedIn, setLoggedIn ] = useState(userLoggedIn)
+  useEffect(() => {
+    window.localStorage.setItem('loggedIn', loggedIn)
+  }, [loggedIn])
+  if (loggedIn) {
+    return (
+      <>
+        <Header />
+        <BodyFrame>
+          <IntroPanel data={data} />
+          <Box1>
+            <Row>
+              <TextBox>
+              Most of the data today belong to just a handful of companies.
+              Personal documents, photographs, videos, things that we put online in general,
+              contain lots of sensitive information.
+              Information that we would rather prefer to stay private.
+              Very often the same companies that provide more or less
+              "complimentary" storage space for our disposal, also help
+              us managing our whole digital existence. The combination of
+              the data and the identity information is a powerful combination
+              which empowers well-established business models where
+              the user's data or the user itself become a product.
+              Allowing sensitive data to be kept by well-known service providers
+              makes it easier than ever for illegal institutions, but also the state,
+              to gain insights into the data that they have no rights to access.
+              </TextBox>
+              <Img src={getImage(data, 'CloudStorage')} />
+            </Row>
+            <Row>
+              <Media query='(max-width: 1100px)'>
+                {matches =>
+                  matches ? (
+                    <>
+                      <TextBox>
+                      Our sensitive personal data are kept by the state, healthcare organizations,
+                      financial institutions, and corporations. We do not have control over these
+                      data and our access to them is limited. Every institution storing the data
+                      has not only its own policies, but also uses proprietary technologies to
+                      access the data. These data silos make interoperbility hard and give
+                      institutions almost complete freedom to use the data without consenting the user.
+                      </TextBox>
+                      <Img2 src={getImage(data, 'CurrentSituation')} />
+                    </>
+                  ) : (
+                    <>
+                      <Img2 src={getImage(data, 'CurrentSituation')} />
+                      <TextBox css={{ width: '50%' }}>
+                      Our sensitive personal data are kept by the state, healthcare organizations,
+                      financial institutions, and corporations. We do not have control over these
+                      data and our access to them is limited. Every institution storing the data
+                      has not only its own policies, but also uses proprietary technologies to
+                      access the data. These data silos make interoperbility hard and give
+                      institutions almost complete freedom to use the data without consenting the user.
+                      </TextBox>
+                    </>
+                  )
+                }
+              </Media>
+            </Row>
+          </Box1>
+        </BodyFrame>
+      </>
+    )
+  } else {
+    return (
+      <Login />
+    )
+  }
+}
 
 // export const query = graphql`
 //   query {

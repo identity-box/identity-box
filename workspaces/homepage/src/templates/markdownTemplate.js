@@ -1,6 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import { EditFile } from 'src/components/Editing'
+import { EditFile } from 'src/confluenza/Editing'
 import { graphql } from 'gatsby'
 
 const Template = ({ data: { site: { siteMetadata }, doc }, location }) => {
