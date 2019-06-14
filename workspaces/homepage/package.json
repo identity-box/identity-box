@@ -32,8 +32,6 @@
     "react-helmet": "^5.2.1",
     "react-media": "^1.9.2",
     "react-typography": "^0.16.19",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.1",
     "tweetnacl": "^1.0.1",
     "typography": "^0.16.19",
     "typography-theme-moraga": "^0.16.19"
@@ -55,7 +53,6 @@
   "devDependencies": {
     "eslint-config-react-app": "^4.0.1",
     "gatsby-cli": "^2.6.5",
-    "gatsby-plugin-root-import": "^2.0.5",
-    "sharp": "^0.22.1"
+    "gatsby-plugin-root-import": "^2.0.5"
   }
 }

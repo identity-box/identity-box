@@ -7,7 +7,6 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 
 import { FadingValueBox } from 'src/components/animations'
 import { Form, Input, Label, Button } from 'src/components/forms'
-// import { Button } from 'semantic-ui-react'
 
 const LoginWrapper = styled.div({
   width: '100vw',
