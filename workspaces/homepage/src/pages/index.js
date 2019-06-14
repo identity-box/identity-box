@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import headerLogo from '../images/IdBoxHeader.png'
 import { graphql, navigate } from 'gatsby'
 import Media from 'react-media'
+import Helmet from 'react-helmet'
 
 const Wrapper = styled.div({
   position: 'fixed',
@@ -221,6 +222,10 @@ const Home = ({ data, location }) => {
 
   return (
     <>
+      <Helmet title='Identity Box'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' rel='stylesheet' />
+      </Helmet>
       <Header />
       <BodyFrame>
         <IntroPanel data={data} />

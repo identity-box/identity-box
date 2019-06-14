@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { navigate } from 'gatsby'
+import Helmet from 'react-helmet'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
@@ -50,6 +51,10 @@ const Login = () => {
 
   return (
     <LoginWrapper>
+      <Helmet title='Identity Box - Login'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' rel='stylesheet' />
+      </Helmet>
       <div css={{
         display: 'flex',
         flexFlow: 'column',
