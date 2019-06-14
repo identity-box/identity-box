@@ -10,7 +10,8 @@ let grid = new Grid([
 
 const DocumentationLayoutGrid = styled.div(grid.container, {
   boxSizing: 'border-box',
-  margin: rhythm(1)
+  margin: rhythm(1),
+  fontSize: '18px'
 })
 
 const SidebarGridItem = styled.div(grid.sidebar)

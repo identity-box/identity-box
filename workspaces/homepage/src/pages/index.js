@@ -1,14 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from '@emotion/styled'
 import headerLogo from '../images/IdBoxHeader.png'
-import { graphql } from 'gatsby'
+import { graphql, navigate } from 'gatsby'
 import Media from 'react-media'
-import nacl from 'tweetnacl'
-import { TypedArrays } from '@react-frontend-developer/buffers'
-
-import { FadingValueBox } from 'src/components/animations'
-import { Form, Input, Label } from 'src/components/forms'
-import { Button } from 'semantic-ui-react'
 
 const Wrapper = styled.div({
   position: 'fixed',
@@ -209,169 +203,76 @@ const Img2 = styled.img({
   }
 })
 
-const LoginWrapper = styled.div({
-  width: '100vw',
-  height: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundImage: 'url(/galaxy-1.jpg)',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center center',
-  backgroundSize: '100% 100%',
-  color: 'white'
-})
+const getImage = (data, name) => data.allFile.edges.filter(f => f.node.name === name)[0].node.publicURL
 
-const loginSecret = 'f674c5d906306e7fde4f05d59b0cd043011c5399a1b0691f315610d99ff8a92c9e52ab843c25d9c4155d62b8d148a4735bcda27315242173475ca273e6a37f2b'
-
-const Login = ({ onLoggedIn }) => {
-  const [secret, setSecret] = useState('')
-
-  const onChange = event => {
-    setSecret(event.target.value)
-  }
-
-  const hash = secret => {
-    const h = nacl.hash(TypedArrays.string2Uint8Array(secret, 'utf8'))
-    return TypedArrays.uint8Array2string(h, 'hex')
-  }
-
-  const login = event => {
-    if (hash(secret) === loginSecret) {
-      onLoggedIn()
-    } else {
-      setSecret('')
+const Home = ({ data, location }) => {
+  useEffect(() => {
+    if (!(location.state && location.state.authenticated)) {
+      navigate('/login')
     }
-    event.preventDefault()
-  }
+  })
 
   return (
-    <LoginWrapper>
-      <div css={{
-        display: 'flex',
-        flexFlow: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '300px'
-      }}>
-        <FadingValueBox>
-          <Form onSubmit={login} css={{
-            display: 'flex',
-            flexFlow: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <Label htmlFor='frmSecretA'>Look into the future:</Label>
-            <Input autoFocus id='frmSecretA' type='password'
-              name='secret'
-              value={secret}
-              placeholder='something only you know...'
-              required
-              onChange={onChange}
-              autocomplete='current-password'
-              css={{
-                marginBottom: '10px'
-              }}
-            />
-            <Button basic inverted onClick={login}>Enter the future</Button>
-          </Form>
-        </FadingValueBox>
-      </div>
-    </LoginWrapper>
+    <>
+      <Header />
+      <BodyFrame>
+        <IntroPanel data={data} />
+        <Box1>
+          <Row>
+            <TextBox>
+            Most of the data today belong to just a handful of companies.
+            Personal documents, photographs, videos, things that we put online in general,
+            contain lots of sensitive information.
+            Information that we would rather prefer to stay private.
+            Very often the same companies that provide more or less
+            "complimentary" storage space for our disposal, also help
+            us managing our whole digital existence. The combination of
+            the data and the identity information is a powerful combination
+            which empowers well-established business models where
+            the user's data or the user itself become a product.
+            Allowing sensitive data to be kept by well-known service providers
+            makes it easier than ever for illegal institutions, but also the state,
+            to gain insights into the data that they have no rights to access.
+            </TextBox>
+            <Img src={getImage(data, 'CloudStorage')} />
+          </Row>
+          <Row>
+            <Media query='(max-width: 1100px)'>
+              {matches =>
+                matches ? (
+                  <>
+                    <TextBox>
+                    Our sensitive personal data are kept by the state, healthcare organizations,
+                    financial institutions, and corporations. We do not have control over these
+                    data and our access to them is limited. Every institution storing the data
+                    has not only its own policies, but also uses proprietary technologies to
+                    access the data. These data silos make interoperbility hard and give
+                    institutions almost complete freedom to use the data without consenting the user.
+                    </TextBox>
+                    <Img2 src={getImage(data, 'CurrentSituation')} />
+                  </>
+                ) : (
+                  <>
+                    <Img2 src={getImage(data, 'CurrentSituation')} />
+                    <TextBox css={{ width: '50%' }}>
+                    Our sensitive personal data are kept by the state, healthcare organizations,
+                    financial institutions, and corporations. We do not have control over these
+                    data and our access to them is limited. Every institution storing the data
+                    has not only its own policies, but also uses proprietary technologies to
+                    access the data. These data silos make interoperbility hard and give
+                    institutions almost complete freedom to use the data without consenting the user.
+                    </TextBox>
+                  </>
+                )
+              }
+            </Media>
+          </Row>
+        </Box1>
+      </BodyFrame>
+    </>
   )
 }
 
-const getImage = (data, name) => data.allFile.edges.filter(f => f.node.name === name)[0].node.publicURL
-
-const Home = ({ data }) => {
-  // const userLoggedIn = () => {
-  //   if (typeof window !== 'undefined') {
-  //     return window.localStorage.getItem('loggedIn') === 'true' || false
-  //   } else {
-  //     return false
-  //   }
-  // }
-
-  const [ loggedIn, setLoggedIn ] = useState(false)
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     window.localStorage.setItem('loggedIn', loggedIn)
-  //   }
-  // }, [loggedIn])
-  if (loggedIn) {
-    return (
-      <>
-        <Header />
-        <BodyFrame>
-          <IntroPanel data={data} />
-          <Box1>
-            <Row>
-              <TextBox>
-              Most of the data today belong to just a handful of companies.
-              Personal documents, photographs, videos, things that we put online in general,
-              contain lots of sensitive information.
-              Information that we would rather prefer to stay private.
-              Very often the same companies that provide more or less
-              "complimentary" storage space for our disposal, also help
-              us managing our whole digital existence. The combination of
-              the data and the identity information is a powerful combination
-              which empowers well-established business models where
-              the user's data or the user itself become a product.
-              Allowing sensitive data to be kept by well-known service providers
-              makes it easier than ever for illegal institutions, but also the state,
-              to gain insights into the data that they have no rights to access.
-              </TextBox>
-              <Img src={getImage(data, 'CloudStorage')} />
-            </Row>
-            <Row>
-              <Media query='(max-width: 1100px)'>
-                {matches =>
-                  matches ? (
-                    <>
-                      <TextBox>
-                      Our sensitive personal data are kept by the state, healthcare organizations,
-                      financial institutions, and corporations. We do not have control over these
-                      data and our access to them is limited. Every institution storing the data
-                      has not only its own policies, but also uses proprietary technologies to
-                      access the data. These data silos make interoperbility hard and give
-                      institutions almost complete freedom to use the data without consenting the user.
-                      </TextBox>
-                      <Img2 src={getImage(data, 'CurrentSituation')} />
-                    </>
-                  ) : (
-                    <>
-                      <Img2 src={getImage(data, 'CurrentSituation')} />
-                      <TextBox css={{ width: '50%' }}>
-                      Our sensitive personal data are kept by the state, healthcare organizations,
-                      financial institutions, and corporations. We do not have control over these
-                      data and our access to them is limited. Every institution storing the data
-                      has not only its own policies, but also uses proprietary technologies to
-                      access the data. These data silos make interoperbility hard and give
-                      institutions almost complete freedom to use the data without consenting the user.
-                      </TextBox>
-                    </>
-                  )
-                }
-              </Media>
-            </Row>
-          </Box1>
-        </BodyFrame>
-      </>
-    )
-  } else {
-    return (
-      <Login onLoggedIn={() => setLoggedIn(true)} />
-    )
-  }
-}
-
-// export const query = graphql`
-//   query {
-//     file(base: { eq: "IdBoxMain.png" }) {
-//       publicURL
-//     }
-//   }
-// `
 export const query = graphql`
   query {
     allFile(filter: {relativeDirectory: {glob: "**/homepage/src/images"}}) {
