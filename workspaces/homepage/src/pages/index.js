@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import headerLogo from '../images/IdBoxHeader.png'
 import { graphql, navigate } from 'gatsby'
@@ -206,11 +206,18 @@ const Img2 = styled.img({
 const getImage = (data, name) => data.allFile.edges.filter(f => f.node.name === name)[0].node.publicURL
 
 const Home = ({ data, location }) => {
+  const [ loggedIn, setLoggedIn ] = useState(false)
   useEffect(() => {
     if (!(location.state && location.state.authenticated)) {
       navigate('/login')
+    } else {
+      setLoggedIn(true)
     }
   })
+
+  if (!loggedIn) {
+    return null
+  }
 
   return (
     <>
