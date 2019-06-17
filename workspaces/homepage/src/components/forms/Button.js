@@ -10,7 +10,6 @@ const Button = styled.input(props => ({
   borderRadius: '10px',
   borderColor: 'white',
   outline: 0,
-  height: '50px',
   opacity: '1.0',
   boxShadow: 'none',
   padding: '15px',
