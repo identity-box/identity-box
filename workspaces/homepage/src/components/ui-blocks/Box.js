@@ -11,6 +11,8 @@ const Box = styled.div({
     padding: '10px',
     fontSize: '10pt'
   }
-})
+}, ({ backgroundStyles }) => (
+  { ...backgroundStyles }
+))
 
 export { Box }

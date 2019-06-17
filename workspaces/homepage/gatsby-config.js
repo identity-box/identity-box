@@ -9,6 +9,8 @@ module.exports = {
       options: {
         path: `${__dirname}/../../`,
         ignore: [
+          '**/.git/**',
+          '**/coverage/**',
           '**/assets/**',
           '**/node_modules/**',
           '**/.cache/**',
