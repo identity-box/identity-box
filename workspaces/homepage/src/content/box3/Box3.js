@@ -1,5 +1,4 @@
 import React from 'react'
-// import styled from '@emotion/styled'
 import { Box, Row } from 'src/components/ui-blocks'
 
 import { Box3Content1 } from './Box3Content1'
@@ -15,7 +14,10 @@ const Box3 = ({ data }) => (
       <Box3Content1 data={data} />
     </Row>
     <Row css={{
-      width: '100%'
+      width: '100%',
+      '@media (min-width: 1100px)': {
+        marginLeft: '150px'
+      }
     }}>
       <Box3Content2 data={data} />
     </Row>

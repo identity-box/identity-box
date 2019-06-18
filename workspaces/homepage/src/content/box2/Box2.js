@@ -7,11 +7,7 @@ import { Box, Row } from 'src/components/ui-blocks'
 import { Box2Content1 } from './Box2Content1'
 import { Box2Content2 } from './Box2Content2'
 
-const NetworkGraphWrapper = styled.div({
-  position: 'absolute',
-  top: '0px'
-},
-({ position }) => ({
+const NetworkGraphWrapper = styled.div(({ position }) => ({
   ...position
 }))
 
@@ -58,10 +54,9 @@ const Box2 = ({ data }) => (
   <Box backgroundStyles={{
     position: 'relative',
     backgroundImage: 'linear-gradient(#5182BD, #0C3C52)',
-    paddingTop: '150px',
-    paddingBottom: '300px',
-    '@media (max-width: 568px)': {
-      paddingBottom: '250px'
+    paddingTop: '0px',
+    '@media (min-width: 1100px)': {
+      paddingTop: '150px'
     }
   }}>
     <Media query='(max-width: 1400px)'>
@@ -74,35 +69,40 @@ const Box2 = ({ data }) => (
       }
     </Media>
     <Media query='(min-width: 569px) and (max-width: 1100px)' render={() => (
-      <NetworkGraph height='100px' />
+      <NetworkGraph height='100px' position={{
+        marginBottom: '20px'
+      }} />
     )} />
     <Row css={{
       justifyContent: 'flex-end',
-      marginLeft: '50px',
       marginBottom: '150px',
+      marginLeft: '50px',
       width: '60%',
       '@media (max-width: 1100px)': {
-        marginLeft: '0px'
+        marginLeft: '0px',
+        marginBottom: '-10px'
       },
       '@media (max-width: 568px)': {
         width: '90%',
-        marginLeft: '0px'
+        marginLeft: '0px',
+        marginBottom: '-10px'
       }
     }}>
       <Box2Content1 data={data} />
     </Row>
     <Media query='(min-width: 569px) and (max-width: 1100px)' render={() => (
-      <NetworkGraph height='115px' position={{
-        top: '250px'
+      <NetworkGraph height='100px' position={{
+        marginBottom: '20px'
       }} />
     )} />
     <Media query='(max-width: 568px)' render={() => (
-      <NetworkGraph height='115px' position={{
-        top: '150px'
+      <NetworkGraph height='100px' position={{
+        marginBottom: '20px'
       }} />
     )} />
     <Row css={{
       marginLeft: '50px',
+      marginBottom: '-10px',
       width: '60%',
       '@media (max-width: 568px)': {
         width: '90%',
@@ -110,27 +110,24 @@ const Box2 = ({ data }) => (
       },
       '@media (max-width: 1100px)': {
         marginLeft: '0px'
+      },
+      '@media (min-width: 1100px)': {
+        marginBottom: '300px'
       }
     }}>
       <Box2Content2 data={data} />
     </Row>
     <Media query='(max-width: 1100px)' render={() => (
       <>
-        <NetworkGraph height='145px' hideBottomPad position={{
-          top: '500px',
-          '@media (max-width: 568px)': {
-            top: '450px'
-          },
+        <NetworkGraph height='100px' hideBottomPad position={{
           zIndex: 35
         }} />
         <div css={{
-          position: 'absolute',
           zIndex: 30,
-          top: '620px',
           width: '250px',
           height: '250px',
+          marginTop: '-25px',
           '@media (max-width: 568px)': {
-            top: '580px',
             width: '150px',
             height: '150px'
           },
