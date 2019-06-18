@@ -18,7 +18,7 @@
     "@emotion/native": "^10.0.11",
     "expo": "^33.0.0",
     "find-yarn-workspace-root": "^1.2.1",
-    "react": "16.8.3",
+    "react": "16.8.6",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-web": "^0.11.4"
