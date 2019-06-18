@@ -46,6 +46,7 @@ const MenuItem = styled.a({
 const Wrapper = styled.div({
   position: 'fixed',
   top: 0,
+  zIndex: 0,
   width: '100vw',
   display: 'flex',
   flexWrap: 'wrap',

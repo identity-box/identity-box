@@ -3,7 +3,7 @@ import Media from 'react-media'
 import { getImage } from 'src/assets'
 import { TextBox, Img2 } from 'src/components/ui-blocks'
 
-const BoxContent2 = ({ data }) => (
+const Box1Content2 = ({ data }) => (
   <>
     <Media query='(max-width: 1100px)'>
       {matches =>
@@ -37,4 +37,4 @@ const BoxContent2 = ({ data }) => (
   </>
 )
 
-export { BoxContent2 }
+export { Box1Content2 }

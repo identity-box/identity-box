@@ -2,7 +2,7 @@ import React from 'react'
 import { getImage } from 'src/assets'
 import { TextBox, Img } from 'src/components/ui-blocks'
 
-const BoxContent1 = ({ data }) => (
+const Box1Content1 = ({ data }) => (
   <>
     <TextBox>
       Most of the data today belong to just a handful of companies.
@@ -23,4 +23,4 @@ const BoxContent1 = ({ data }) => (
   </>
 )
 
-export { BoxContent1 }
+export { Box1Content1 }
