@@ -67,7 +67,8 @@ const FooterMenu = ({ title, children, ...rest }) => (
       margin: 0,
       color: 'white',
       fontFamily: 'Roboto Mono, monospace',
-      fontSize: '10pt'
+      fontSize: '10pt',
+      fontWeight: 400
     }}>{title}</h3>
     <Items>
       { React.Children.map(children, child => (
@@ -95,7 +96,6 @@ const Footer = ({ data }) => (
     position: 'relative',
     paddingBottom: 0,
     backgroundImage: 'linear-gradient(#092C3E, #000000)',
-    borderTop: '1px solid #CBA51A',
     '@media (max-width: 568px)': {
       paddingTop: '20px'
     }
@@ -139,7 +139,6 @@ const Footer = ({ data }) => (
         color: 'white',
         fontFamily: 'Roboto Mono, monospace',
         fontSize: '10pt',
-        fontWeight: 200,
         margin: 0
       }}><span css={{
           fontSize: '14pt'

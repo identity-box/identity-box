@@ -34,6 +34,7 @@ const Subtitle = styled.h2({
   lineHeight: '1.4',
   '@media (max-width: 568px)': {
     fontSize: '12pt',
+    fontWeight: 300,
     margin: '30px'
   },
   color: 'white',

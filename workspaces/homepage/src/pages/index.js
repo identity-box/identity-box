@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 
 import { Header } from 'src/components/header'
 import { IntroPanel } from 'src/components/intro-panel'
-import { Box1, Box2, Box3, Footer } from 'src/content'
+import { Box1, Box2, Box3 } from 'src/content'
 
 import { BodyFrame } from 'src/components/ui-blocks'
 
@@ -29,7 +29,6 @@ const Home = ({ data, location }) => {
         <Box1 data={data} />
         <Box2 data={data} />
         <Box3 data={data} />
-        <Footer data={data} />
       </BodyFrame>
     </>
   )
