@@ -2,6 +2,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 import headerLogo from 'src/images/IdBoxHeader.png'
 
+import { MenuLinkExternal } from 'src/components/ui-blocks'
+
 const Logo = styled.div({
   display: 'flex',
   flexFlow: 'row',
@@ -31,18 +33,6 @@ const Menu = styled.div({
   alignItems: 'center'
 })
 
-const MenuItem = styled.a({
-  display: 'inline-block',
-  color: '#D20DE7',
-  fontFamily: 'Roboto Mono, monospace',
-  margin: '5px 20px',
-  fontSize: '10pt',
-  '&:hover': {
-    color: 'white',
-    textDecoration: 'none'
-  }
-})
-
 const Wrapper = styled.div({
   position: 'fixed',
   top: 0,
@@ -62,9 +52,9 @@ const Header = () => (
       <LogoText>Identity Box</LogoText>
     </Logo>
     <Menu>
-      <MenuItem href='https://github.com/marcinczenko/identity-box' target='_blank'>Github</MenuItem>
-      <MenuItem href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuItem>
-      <MenuItem href='http://marcinczenko.github.io' target='_blank'>Blog</MenuItem>
+      <MenuLinkExternal href='https://github.com/marcinczenko/identity-box' target='_blank'>Github</MenuLinkExternal>
+      <MenuLinkExternal href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuLinkExternal>
+      <MenuLinkExternal href='http://marcinczenko.github.io' target='_blank'>Blog</MenuLinkExternal>
     </Menu>
   </Wrapper>
 )

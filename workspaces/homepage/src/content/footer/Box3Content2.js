@@ -6,6 +6,7 @@ import { TextBox } from 'src/components/ui-blocks'
 const Wrapper = styled.div({
   display: 'flex',
   flexWrap: 'wrap',
+  width: '100%',
   maxWidth: '800px'
 })
 
