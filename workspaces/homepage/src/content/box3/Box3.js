@@ -8,7 +8,8 @@ import { Footer } from '../footer'
 
 const Box3 = ({ data }) => (
   <div css={{
-    position: 'relative'
+    position: 'relative',
+    width: '100%'
   }}>
     <Box backgroundStyles={{
       position: 'relative',

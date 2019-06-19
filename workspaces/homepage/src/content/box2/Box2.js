@@ -8,17 +8,22 @@ import { Box2Content1 } from './Box2Content1'
 import { Box2Content2 } from './Box2Content2'
 
 const NetworkGraphWrapper = styled.div(({ position }) => ({
+  position: 'relative',
   ...position
 }))
 
 const NetworkGraph = ({ height, position, hideBottomPad }) => (
   <NetworkGraphWrapper position={position}>
     <div css={{
+      position: 'relative',
       width: '20px',
       height: '20px',
+      zIndex: 1,
       backgroundColor: 'rgba(203, 165, 26, 0.8)'
     }} />
     <div css={{
+      position: 'relative',
+      zIndex: 0,
       marginLeft: '8px',
       marginTop: '-10px',
       width: '4px',
@@ -26,6 +31,7 @@ const NetworkGraph = ({ height, position, hideBottomPad }) => (
       backgroundColor: 'rgba(203, 165, 26, 0.8)'
     }} />
     {!hideBottomPad && <div css={{
+      position: 'relative',
       marginTop: '-10px',
       width: '20px',
       height: '20px',
