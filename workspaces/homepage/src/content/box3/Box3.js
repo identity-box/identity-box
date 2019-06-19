@@ -17,9 +17,10 @@ const Box3 = ({ data }) => (
     </Row>
     <Row css={{
       justifyContent: 'flex-start',
-      width: '100%',
+      alignSelf: 'flex-start',
+      width: 'auto',
       '@media (min-width: 1100px)': {
-        marginLeft: '150px'
+        marginLeft: '80px'
       }
     }}>
       <Box3Content2 data={data} />
