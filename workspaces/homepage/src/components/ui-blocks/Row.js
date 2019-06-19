@@ -4,7 +4,7 @@ const Row = styled.div({
   width: '90%',
   display: 'flex',
   flexFlow: 'row nowrap',
-  justifyContent: 'space-between',
+  justifyContent: 'space-around',
   '@media (max-width: 1100px)': {
     flexFlow: 'column',
     justifyContent: 'center',

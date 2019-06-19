@@ -10,10 +10,13 @@ const Box3 = ({ data }) => (
     backgroundImage: 'none',
     backgroundColor: '#092C3E'
   }}>
-    <Row>
+    <Row css={{
+      justifyContent: 'flex-start'
+    }}>
       <Box3Content1 data={data} />
     </Row>
     <Row css={{
+      justifyContent: 'flex-start',
       width: '100%',
       '@media (min-width: 1100px)': {
         marginLeft: '150px'
