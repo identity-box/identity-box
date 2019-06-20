@@ -19,7 +19,7 @@ const NetworkGraph = ({ height, position, hideBottomPad }) => (
       width: '20px',
       height: '20px',
       zIndex: 1,
-      backgroundColor: 'rgba(203, 165, 26, 0.8)'
+      backgroundColor: 'rgba(203, 165, 26, 0.7)'
     }} />
     <div css={{
       position: 'relative',
