@@ -30,9 +30,9 @@ const SocialIcons = ({ data }) => (
       marginLeft: '55px'
     }
   }}>
-    <SocialIcon imageUrl={getImage(data, 'Twitter')} />
-    <SocialIcon imageUrl={getImage(data, 'Youtube')} css={{ width: '46px' }} />
-    <SocialIcon imageUrl={getImage(data, 'GitHub')} />
+    <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Twitter')} /></a>
+    <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Youtube')} css={{ width: '46px' }} /></a>
+    <a href='https://github.com/marcinczenko/identity-box'><SocialIcon imageUrl={getImage(data, 'GitHub')} /></a>
   </SocialIconsRow>
 )
 
