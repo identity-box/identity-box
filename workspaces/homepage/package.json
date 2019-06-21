@@ -13,6 +13,7 @@
     "@emotion/styled": "^10.0.12",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-frontend-developer/css-grid-helper": "^1.0.20",
+    "body-scroll-lock": "^2.6.1",
     "gatsby": "^2.9.0",
     "gatsby-plugin-catch-links": "^2.0.15",
     "gatsby-plugin-emotion": "^4.0.7",
