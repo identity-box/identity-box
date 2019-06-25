@@ -24,7 +24,7 @@ class MidLevelNavigationItem extends React.Component {
     const { title, path, location } = this.props
 
     return (
-      <Collapsable onChange={this.props.onChange} trigger={(unfold, folded) => (
+      <Collapsable id={`collapsable${this.props.path}${this.props.title}`} onChange={this.props.onChange} trigger={(unfold, folded) => (
         <Wrapper onClick={() => unfold()}>
           <NavigationLink
             to={path}

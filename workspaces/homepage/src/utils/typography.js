@@ -26,6 +26,10 @@ moragaTheme.googleFonts = [
   {
     name: 'Roboto Mono',
     styles: ['100', '100i', '300', '300i', '400', '400i', '500', '500i']
+  },
+  {
+    name: 'Roboto Condensed',
+    styles: ['100', '100i', '300', '300i', '400', '400i', '500', '500i']
   }
 ]
 

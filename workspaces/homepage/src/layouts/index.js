@@ -27,7 +27,17 @@ const Layout = ({ location, children }) => {
     )
   } else {
     return (
-      <DocumentationLayout location={location}>{children}</DocumentationLayout>
+      <div>
+        <Global styles={{
+          'html,body': {
+            margin: 0,
+            padding: 0,
+            boxSizing: 'border-box',
+            scrollBehavior: 'smooth'
+          }
+        }} />
+        <DocumentationLayout location={location}>{children}</DocumentationLayout>
+      </div>
     )
   }
 }
