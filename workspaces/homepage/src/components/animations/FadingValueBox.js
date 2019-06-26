@@ -19,18 +19,18 @@ const FadingValueWrapper = styled.div(props => {
     return {
       ...style,
       opacity: props.opacity,
-      transition: 'opacity 1s ease-in-out 0s'
+      transition: `opacity ${props.duration}s ease-in-out 0s`
     }
   }
 })
 
-const FadingValueBox = ({ trigger, children }) => (
+const FadingValueBox = ({ trigger, children, duration = 1 }) => (
   <AnimationBox startValue={0}
     stopValue={1}
     key={trigger}>
     {
       opacity =>
-        <FadingValueWrapper opacity={opacity}>
+        <FadingValueWrapper duration={duration} opacity={opacity}>
           {children}
         </FadingValueWrapper>
     }

@@ -6,6 +6,7 @@ import { graphql } from 'gatsby'
 const Template = ({ data: { site: { siteMetadata }, doc }, location }) => {
   const { html, fileAbsolutePath, frontmatter: { title, content } } = doc
   const { editBaseUrl } = siteMetadata
+
   return (
     <div>
       <Helmet title={title}>

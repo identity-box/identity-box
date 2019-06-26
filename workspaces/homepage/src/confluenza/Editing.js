@@ -2,11 +2,15 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 const A = styled.a({
-  fontFamily: 'Roboto Mono, monospace',
+  // fontFamily: 'Roboto Mono, monospace',
+  fontFamily: 'Roboto Condensed, sans-serif',
   fontWeight: '100',
-  fontSize: '0.8rem',
+  fontSize: '0.9rem',
   color: '#FF55BE',
   marginRight: '2rem',
+  '@media (max-width: 420px)': {
+    marginRight: '10px'
+  },
   '&:hover': {
     textDecoration: 'underline',
     color: '#FF55BE'
