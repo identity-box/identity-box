@@ -18,23 +18,13 @@ class NavigationHeading extends React.Component {
         return { className: this.linkClassName }
       }
     }
-    // console.log('getActiveProps', this.linkClassName)
-    // const normalizedPathName = currentLocation.pathname.replace(/\/$/, '')
-    // if (`${normalizedPathName}${currentLocation.hash}` === href) {
-    //   // return { className: `${this.linkClassName} active` }
-    //   return { className: `active` }
-    // }
     return null
   }
 
   recordLinkNode = node => {
-    console.log('node', this.href, this.location)
     this.linkClassName = node && node.className
-    console.log('this.linkClassName', this.linkClassName)
     if (`${this.location}${this.hash}` === this.href) {
       this.setState({ cln: `${this.linkClassName} active` })
-      // return { className: `${this.linkClassName} active` }
-      // return { className: `active` }
     } else {
       this.setState({ cln: this.linkClassName })
     }

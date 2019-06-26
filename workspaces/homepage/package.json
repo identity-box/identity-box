@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.12",
+    "@reach/router": "^1.2.1",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-frontend-developer/css-grid-helper": "^1.0.20",
     "body-scroll-lock": "^2.6.1",

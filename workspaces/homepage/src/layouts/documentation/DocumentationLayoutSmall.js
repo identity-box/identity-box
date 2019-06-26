@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { navigate } from 'gatsby'
-// import { rhythm } from 'src/utils/typography'
+import React, { useState } from 'react'
 
 import { DocumentationLayoutGrid, SidebarGridItem, ContentGridItem } from './DocumentationLayoutGrid'
 import { Navigation } from 'src/confluenza/navigation'
@@ -9,61 +7,73 @@ import { SiteTitle } from './SiteTitle'
 
 import { FixedNavigation } from './FixedNavigation'
 
+import { useScrollResoration } from './useScrollRestoration'
+import { useMobileDocumentNavigator } from './useMobileDocumentNavigator'
+
 const DocumentationLayoutSmall = ({ children, location, data, onStateChanged, deltas }) => {
   const [ menuActive, setMenuActive ] = useState(false)
   const [ position, setPosition ] = useState('relative')
-  const [ prevLocation, setPrevLocation ] = useState()
   const [ grid, setGrid ] = useState('300px 100vw')
-  const scrollPos = useRef(null)
+  const [ animationDelay, setAnimationDelay ] = useState(0)
+
+  const {
+    recordScrollPosition,
+    restoreScrollPosition,
+    disableScrollRestoration
+  } = useScrollResoration()
 
   const showMenu = () => {
-    if (!menuActive) {
-      scrollPos.current = document.documentElement.scrollTop || document.body.scrollTop
-    }
-    setMenuActive(!menuActive)
-  }
-
-  useEffect(() => {
-    const currentPathName = location.pathname.replace(/\/$/, '')
-    const currentHash = location.hash
-    const currentLocation = `${currentPathName}${currentHash}`
-    if (prevLocation !== currentLocation) {
-      scrollPos.current = -1
-      setPrevLocation(currentLocation)
-      navigate(currentLocation)
+    if (menuActive) {
       setMenuActive(false)
-      return
-    }
-    if (!menuActive) {
-      if (scrollPos.current !== -1) {
-        document.documentElement.scrollTop = document.body.scrollTop = scrollPos.current
-      }
+      // we will be hiding menu - thus, we need to make sure that
+      // document container is again scrollable before we see it
       setPosition('relative')
       setGrid('300px 100vw')
     } else {
-      setTimeout(() => {
-        setPosition('fixed')
-        setGrid('100vw 100vw')
-      }, 200)
+      setMenuActive(true)
+      // record scroll position so that we can restore it if needed
+      recordScrollPosition()
     }
+    setAnimationDelay(0)
+  }
+
+  useMobileDocumentNavigator({
+    disableScrollRestoration,
+    onNewPathSelected: () => {
+      setMenuActive(false)
+      setPosition('relative')
+      setGrid('300px 100vw')
+      setAnimationDelay(0.3)
+    },
+    onNoNewPathSelected: () => {
+      if (menuActive) {
+        setTimeout(() => {
+          setPosition('fixed')
+          setGrid('100vw 100vw')
+        }, 200)
+      } else {
+        restoreScrollPosition()
+      }
+    },
+    location
   }, [location, menuActive])
 
   const { site: { siteMetadata: { title } }, navigation: { docs }, file: { publicURL: menuButtonBackgroundImage } } = data
   return (<>
     <DocumentationLayoutGrid css={{
-      position: menuActive ? position : 'relative',
+      position,
       height: '100vh',
       left: menuActive ? 0 : '-300px',
       margin: 0,
       gridGap: 0,
       gridTemplateColumns: grid,
-      transition: 'left .2s ease-in-out 0s'
+      transition: `all .2s ease-in-out ${animationDelay}s`
     }}>
       <SidebarGridItem>
         <FixedNavigation css={{
           minWidth: menuActive ? '100vw' : '300px',
           maxWidth: menuActive ? '100vw' : '300px',
-          transition: 'all .2s ease-in-out 0s',
+          transition: `all .2s ease-in-out ${animationDelay}s`,
           height: '100vh'
         }}>
           <SiteTitle title={title} />
@@ -81,7 +91,7 @@ const DocumentationLayoutSmall = ({ children, location, data, onStateChanged, de
       right: '30px',
       backgroundColor: menuActive ? '#F486CA' : 'white'
     }} />
-    </>
+  </>
   )
 }
 

@@ -51,7 +51,7 @@ class Collapsable extends React.Component {
 
   unfold = () => {
     if (this.state.folded) {
-      this.props.onChange && this.props.onChange(this.divRef.current.scrollHeight + this.state.delta, this.wrapperRef.current)
+      this.props.onChange && this.props.onChange(this.divRef.current.scrollHeight, this.wrapperRef.current)
       this.setState({
         folded: false,
         style: {

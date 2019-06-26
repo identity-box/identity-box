@@ -55,9 +55,7 @@ const DocumentationLayoutMedium = ({ children, location, data, onStateChanged, d
     const currentPathName = location.pathname.replace(/\/$/, '')
     const currentHash = location.hash
     const currentLocation = `${currentPathName}${currentHash}`
-    console.log('I am rerendered!!!')
     if (prevLocation !== currentLocation) {
-      console.log('locationChanged [c,p]', currentLocation, prevLocation)
       setPrevLocation(currentLocation)
       setMenuActive(false)
     }
