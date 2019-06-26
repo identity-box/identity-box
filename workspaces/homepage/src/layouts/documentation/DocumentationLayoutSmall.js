@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { DocumentationLayoutGrid, SidebarGridItem, ContentGridItem } from './DocumentationLayoutGrid'
 import { Navigation } from 'src/confluenza/navigation'
@@ -22,13 +22,22 @@ const DocumentationLayoutSmall = ({ children, location, data, onStateChanged, de
     disableScrollRestoration
   } = useScrollResoration()
 
-  const showMenu = () => {
+  const closeMenu = () => {
+    setMenuActive(false)
+    // we will be hiding menu - thus, we need to make sure that
+    // document container is again scrollable before we see it
+    setPosition('relative')
+    setGrid('300px 100vw')
+  }
+
+  // toggleMenu is used to trigger opening menu, and one of
+  // the two triggers to close it (the second closing trigger
+  // is user selecting navigation item). Opening and closing
+  // menu is finalized in the effect below that responds to
+  // the menuActive change.
+  const toggleMenu = () => {
     if (menuActive) {
-      setMenuActive(false)
-      // we will be hiding menu - thus, we need to make sure that
-      // document container is again scrollable before we see it
-      setPosition('relative')
-      setGrid('300px 100vw')
+      closeMenu()
     } else {
       setMenuActive(true)
       // record scroll position so that we can restore it if needed
@@ -37,26 +46,40 @@ const DocumentationLayoutSmall = ({ children, location, data, onStateChanged, de
     setAnimationDelay(0)
   }
 
+  // This hook responds to the change of location: the user
+  // selected a link in the navigation menu.
   useMobileDocumentNavigator({
-    disableScrollRestoration,
     onNewPathSelected: () => {
-      setMenuActive(false)
-      setPosition('relative')
-      setGrid('300px 100vw')
+      closeMenu()
+      disableScrollRestoration()
       setAnimationDelay(0.3)
     },
-    onNoNewPathSelected: () => {
-      if (menuActive) {
-        setTimeout(() => {
-          setPosition('fixed')
-          setGrid('100vw 100vw')
-        }, 200)
-      } else {
-        restoreScrollPosition()
-      }
-    },
     location
-  }, [location, menuActive])
+  }, [location])
+
+  useEffect(() => {
+    if (menuActive) {
+      // We do not want to change to 'position: fixed' immediately as
+      // this may be visible and create unpleasant visual effect.
+      // The timeout is about the same as the transition duration in CSS.
+      setTimeout(() => {
+        setPosition('fixed')
+        setGrid('100vw 100vw')
+      }, 200)
+    } else {
+      // Restoring scroll position can only be effective
+      // after position is set back to 'relative'
+      // We have two cases: (1) closing menu is the explicit user
+      // action (by pressing the "toggle menu" button) or (2) as
+      // a result of changing location (user selected a new menu item).
+      // In both cases we use the closeMenu function above to trigger
+      // the closing process. We could not restore the scroll possition
+      // right there as this would be too early - the changing from
+      // 'position: fixed' to 'position: relative' needs to be effective
+      // before we can change the scroll position.
+      restoreScrollPosition()
+    }
+  }, [menuActive])
 
   const { site: { siteMetadata: { title } }, navigation: { docs }, file: { publicURL: menuButtonBackgroundImage } } = data
   return (<>
@@ -84,7 +107,7 @@ const DocumentationLayoutSmall = ({ children, location, data, onStateChanged, de
         { children }
       </ContentGridItem>
     </DocumentationLayoutGrid>
-    <MenuButton onClick={showMenu} backgroundImage={menuButtonBackgroundImage} css={{
+    <MenuButton onClick={toggleMenu} backgroundImage={menuButtonBackgroundImage} css={{
       position: 'fixed',
       zIndex: 20,
       bottom: '30px',

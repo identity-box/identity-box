@@ -10,11 +10,9 @@ const normalizaLocationPath = location => {
 }
 
 const useMobileDocumentNavigator = ({
-  disableScrollRestoration,
   onNewPathSelected,
-  onNoNewPathSelected,
   location
-}, excl) => {
+}, deps) => {
   const [ prevLocation, setPrevLocation ] = useState()
 
   const navigateUnusually = ({ path, pathWithHash }) => {
@@ -30,23 +28,12 @@ const useMobileDocumentNavigator = ({
     const { path, pathWithHash } = normalizaLocationPath(location)
 
     if (!prevLocation) {
-      disableScrollRestoration()
       setPrevLocation(pathWithHash)
-      onNoNewPathSelected && onNoNewPathSelected()
-      return
-    }
-
-    if (prevLocation !== pathWithHash) {
-      disableScrollRestoration()
-
-      onNewPathSelected && onNewPathSelected()
-
+    } else if (prevLocation !== pathWithHash) {
       navigateUnusually({ path, pathWithHash })
-      return
+      onNewPathSelected && onNewPathSelected()
     }
-
-    onNoNewPathSelected && onNoNewPathSelected()
-  }, excl)
+  }, deps)
 }
 
 export { useMobileDocumentNavigator }
