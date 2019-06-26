@@ -14,41 +14,11 @@ const DocumentationLayout = ({ children, location }) => {
     const currentPathName = location.pathname.replace(/\/$/, '')
     const currentHash = location.hash
     const currentLocation = `${currentPathName}${currentHash}`
-    console.log('currentLocation=', currentLocation)
     setTimeout(() => {
-      // setTimeout(() => {
-      //   setForce(1)
-      // }, 300)
       setForce(1)
       navigate(currentLocation)
     }, 300)
     navigate(currentPathName)
-    // if (location.key !== 'initial') {
-    //   const currentPathName = location.pathname.replace(/\/$/, '')
-    //   const currentHash = location.hash
-    //   const currentLocation = `${currentPathName}${currentHash}`
-    //   console.log('currentLocation=', currentLocation)
-    //   setTimeout(() => {
-    //     setForce(1)
-    //     navigate(currentLocation)
-    //   }, 300)
-    //   navigate(currentPathName)
-    // } else {
-    //   if (location.pathname[location.pathname.length - 1] === '/') {
-    //     const currentPathName = location.pathname.replace(/\/$/, '')
-    //     const currentHash = location.hash
-    //     const currentLocation = `${currentPathName}${currentHash}`
-    //     console.log('currentLocation=', currentLocation)
-    //     setForce(1)
-    //     navigate(currentLocation)
-    //     // setTimeout(() => {
-    //     //   setForce(1)
-    //     //   navigate(currentLocation)
-    //     // }, 300)
-    //     // navigate(currentPathName)
-    //   }
-    //   setForce(1)
-    // }
   }, [])
   return (
     <StaticQuery
@@ -91,7 +61,6 @@ const DocumentationLayout = ({ children, location }) => {
       `}
       render={data => {
         if (force === 0) {
-          console.log('location=', location)
           return null
         }
         return (

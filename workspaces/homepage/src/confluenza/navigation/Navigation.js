@@ -124,7 +124,7 @@ export class Navigation extends React.PureComponent {
     this.updateScrollPosition({
       top: element.offsetTop,
       addedContentHeight: delta,
-      navigationElementTotalHeight: navigationLinkHeight(24) + navigationLinkMargin(0.8 * 16)
+      navigationElementTotalHeight: navigationLinkHeight(27) + navigationLinkMargin(0.8 * 16)
     })
   }
 

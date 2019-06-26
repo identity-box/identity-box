@@ -27,6 +27,24 @@ class Collapsable extends React.Component {
     this.wrapperRef = React.createRef()
   }
 
+  componentDidMount () {
+    const actualHeight = this.divRef.current.scrollHeight
+    const restoredHeight = Number(RegExp(/\d+/).exec(this.state.style.maxHeight)[0])
+    if (restoredHeight > 0 && restoredHeight < actualHeight) {
+      this.props.onChange && this.props.onChange(actualHeight, this.wrapperRef.current)
+      this.setState({
+        style: {
+          ...this.state.style,
+          maxHeight: `${actualHeight}px`
+        }
+      }, () => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(this.props.id, JSON.stringify(this.state))
+        }
+      })
+    }
+  }
+
   componentDidUpdate (prevProps) {
     if (this.props.delta !== prevProps.delta) {
       if (!this.state.folded) {
@@ -44,10 +62,6 @@ class Collapsable extends React.Component {
       }
     }
   }
-
-  // componentDidMount () {
-  //   console.log('positionTop=', this.wrapperRef.current.offsetTop)
-  // }
 
   unfold = () => {
     if (this.state.folded) {
