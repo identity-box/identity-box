@@ -13,7 +13,7 @@ import { useLogin } from 'src/hooks'
 const Home = ({ data, location }) => {
   const loggedIn = useLogin(location)
 
-  console.log('                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future  ')
+  console.log('                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future \n ')
 
   if (!loggedIn) {
     return null
