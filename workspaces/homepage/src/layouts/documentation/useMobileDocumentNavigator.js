@@ -1,13 +1,7 @@
 import { useState, useEffect } from 'react'
 import { navigate } from 'gatsby'
 
-const normalizaLocationPath = location => {
-  const normalizedPath = location.pathname.replace(/\/$/, '')
-  return {
-    path: normalizedPath,
-    pathWithHash: `${normalizedPath}${location.hash}`
-  }
-}
+import { normalizeLocationPath } from './normalizeLocationPath'
 
 const useMobileDocumentNavigator = ({
   onNewPathSelected,
@@ -25,7 +19,7 @@ const useMobileDocumentNavigator = ({
   }
 
   useEffect(() => {
-    const { path, pathWithHash } = normalizaLocationPath(location)
+    const { path, pathWithHash } = normalizeLocationPath(location)
 
     if (!prevLocation) {
       setPrevLocation(pathWithHash)

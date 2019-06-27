@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import 'src/prismjs/themes/prism-tomorrow.css'
 import { StaticQuery, graphql } from 'gatsby'
-import { navigate } from '@reach/router'
 import Media from 'react-media'
+
+import { useUnusualReloader } from './useUnusualReloader'
 
 import { DocumentationLayoutSmall } from './DocumentationLayoutSmall'
 import { DocumentationLayoutMedium } from './DocumentationLayoutMedium'
 import { DocumentationLayoutWide } from './DocumentationLayoutWide'
 
 const DocumentationLayout = ({ children, location }) => {
-  const [force, setForce] = useState(0)
-  useEffect(() => {
-    const currentPathName = location.pathname.replace(/\/$/, '')
-    const currentHash = location.hash
-    const currentLocation = `${currentPathName}${currentHash}`
-    setTimeout(() => {
-      setForce(1)
-      navigate(currentLocation)
-    }, 300)
-    navigate(currentPathName)
-  }, [])
+  const pageReady = useUnusualReloader(location)
   return (
     <StaticQuery
       query={graphql`
@@ -60,7 +51,7 @@ const DocumentationLayout = ({ children, location }) => {
         }
       `}
       render={data => {
-        if (force === 0) {
+        if (!pageReady) {
           return null
         }
         return (
