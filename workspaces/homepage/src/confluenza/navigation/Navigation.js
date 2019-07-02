@@ -11,9 +11,6 @@ const List = styled.ul({
   margin: 0
 })
 
-const navigationLinkHeight = v => v
-const navigationLinkMargin = v => v
-
 export class Navigation extends React.PureComponent {
   state = {
     // proposalDeltas: [],
@@ -28,12 +25,7 @@ export class Navigation extends React.PureComponent {
 
     this.scrollerRef = React.createRef()
 
-    if (typeof window !== 'undefined') {
-      const stateJSON = window.localStorage.getItem('navigation')
-      if (stateJSON) {
-        this.state = JSON.parse(stateJSON)
-      }
-    }
+    this.restoreNavigationState()
 
     this.navigationGroups = [
       // this.createNavigationGroupForTag({
@@ -52,6 +44,41 @@ export class Navigation extends React.PureComponent {
         deltaGroupName: 'component'
       })
     ]
+  }
+
+  restoreNavigationState = () => {
+    if (typeof window !== 'undefined') {
+      const restoredState = this.readNavigationState()
+      if (restoredState) {
+        console.log('Restoring navigation state')
+        // eslint-disable-next-line
+        this.state = restoredState
+      } else {
+        console.log('[New Site!]: clearing persisted navigation state')
+        this.clearNavigationState()
+      }
+    }
+  }
+
+  readNavigationState = () => {
+    const stateJSON = window.localStorage.getItem('navigation')
+    return this.validNavigationState(stateJSON)
+  }
+
+  clearNavigationState = () => {
+    window.localStorage.clear()
+  }
+
+  validNavigationState = stateJSON => {
+    if (stateJSON) {
+      const restoredState = JSON.parse(stateJSON)
+      const restoredStateKeys = Object.keys(restoredState)
+      const currentStateKeys = Object.keys(this.state)
+      if (restoredStateKeys.every(e => currentStateKeys.includes(e))) {
+        return restoredState
+      }
+    }
+    return undefined
   }
 
   createNavigationGroupForTag = ({ title, tag, deltaGroupName }) => {
@@ -110,21 +137,31 @@ export class Navigation extends React.PureComponent {
     }
   }
 
-  topLevelNavigationItemChanged = (delta, element) => {
+  getElementHeight = el => {
+    if (typeof window !== 'undefined') {
+      return Number(RegExp(/\d+/).exec(window.getComputedStyle(el).height)[0])
+    }
+    return 0
+  }
+
+  topLevelNavigationItemChanged = (delta, element, triggerElement) => {
+    const navigationElementTotalHeight = this.getElementHeight(triggerElement)
     this.updateScrollPosition({
       top: element.offsetTop,
       addedContentHeight: delta,
-      navigationElementTotalHeight: navigationLinkHeight(41)
+      navigationElementTotalHeight
     })
   }
 
-  midLevelNavigationItemChanged = (group, index, delta, element) => {
+  midLevelNavigationItemChanged = (group, index, delta, element, triggerElement) => {
     this.updateDeltas(group, index, delta)
+
+    const navigationElementTotalHeight = this.getElementHeight(triggerElement)
 
     this.updateScrollPosition({
       top: element.offsetTop,
       addedContentHeight: delta,
-      navigationElementTotalHeight: navigationLinkHeight(27) + navigationLinkMargin(0.8 * 16)
+      navigationElementTotalHeight
     })
   }
 
@@ -133,7 +170,7 @@ export class Navigation extends React.PureComponent {
       key={group.tag}
       tag={group.tag}
       title={group.title}
-      onChange={(delta, el) => this.topLevelNavigationItemChanged(delta, el)}
+      onChange={(delta, el, triggerElement) => this.topLevelNavigationItemChanged(delta, el, triggerElement)}
       active={this.isActive(group.docs)}
       delta={this.aggregateDeltas(this.state[`${group.deltaGroupName}Deltas`])}>
       <div>
@@ -144,8 +181,8 @@ export class Navigation extends React.PureComponent {
                 key={i}
                 location={this.props.location}
                 {...doc}
-                onChange={(delta, el) =>
-                  this.midLevelNavigationItemChanged(group.deltaGroupName, i, delta, el)
+                onChange={(delta, el, triggerElement) =>
+                  this.midLevelNavigationItemChanged(group.deltaGroupName, i, delta, el, triggerElement)
                 } />
             ))
           }

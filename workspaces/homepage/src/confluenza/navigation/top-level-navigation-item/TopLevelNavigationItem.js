@@ -31,10 +31,20 @@ const ArrowPositioner = styled.div({
 })
 
 class TopLevelNavigationItem extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.triggerRef = React.createRef()
+  }
+
+  onChange = (delta, collpasableElement) => {
+    this.props.onChange(delta, collpasableElement, this.triggerRef.current)
+  }
+
   render () {
     return (
-      <Collapsable id={`collapsable${this.props.tag}${this.props.title}`} onChange={this.props.onChange} delta={this.props.delta} trigger={(unfold, folded) => (
-        <Wrapper onClick={() => unfold()}>
+      <Collapsable id={`collapsable${this.props.tag}${this.props.title}`} onChange={this.onChange} delta={this.props.delta} trigger={(unfold, folded) => (
+        <Wrapper onClick={() => unfold()} ref={this.triggerRef}>
           {this.props.active && <ActiveMarker active={this.props.active} />}
           <Text color='white'>{this.props.title}</Text>
           <ArrowPositioner>

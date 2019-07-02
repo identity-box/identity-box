@@ -12,6 +12,12 @@ const Wrapper = styled.div({
 })
 
 class MidLevelNavigationItem extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.triggerRef = React.createRef()
+  }
+
   getActiveProps = (currentLocation, href) => {
     const normalizedPathName = currentLocation.pathname.replace(/\/$/, '')
     if (`${normalizedPathName}` === href) {
@@ -20,13 +26,18 @@ class MidLevelNavigationItem extends React.Component {
     return ''
   }
 
+  onChange = (delta, collpasableElement) => {
+    this.props.onChange(delta, collpasableElement, this.triggerRef.current)
+  }
+
   render () {
     const { title, path, location } = this.props
 
     return (
-      <Collapsable id={`collapsable${this.props.path}${this.props.title}`} onChange={this.props.onChange} trigger={(unfold, folded) => (
+      <Collapsable id={`collapsable${this.props.path}${this.props.title}`} onChange={this.onChange} trigger={(unfold, folded) => (
         <Wrapper onClick={() => unfold()}>
           <NavigationLink
+            ref={this.triggerRef}
             to={path}
             className={this.getActiveProps(location, path)}
           >
