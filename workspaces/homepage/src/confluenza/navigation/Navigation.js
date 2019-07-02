@@ -74,7 +74,7 @@ export class Navigation extends React.PureComponent {
       const restoredState = JSON.parse(stateJSON)
       const restoredStateKeys = Object.keys(restoredState)
       const currentStateKeys = Object.keys(this.state)
-      if (restoredStateKeys.every(e => currentStateKeys.includes(e))) {
+      if (currentStateKeys.every(e => restoredStateKeys.includes(e))) {
         return restoredState
       }
     }
