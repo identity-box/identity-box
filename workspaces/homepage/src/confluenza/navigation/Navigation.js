@@ -15,7 +15,8 @@ export class Navigation extends React.PureComponent {
   state = {
     // proposalDeltas: [],
     componentDeltas: [],
-    developerDeltas: []
+    developerDeltas: [],
+    serviceDeltas: []
   }
 
   navigationGroups
@@ -42,6 +43,11 @@ export class Navigation extends React.PureComponent {
         title: 'Components',
         tag: 'component',
         deltaGroupName: 'component'
+      }),
+      this.createNavigationGroupForTag({
+        title: 'Services',
+        tag: 'service',
+        deltaGroupName: 'service'
       })
     ]
   }

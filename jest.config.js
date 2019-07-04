@@ -4,6 +4,10 @@ module.exports = {
     'workspaces/queuing-service',
     'workspaces/telepath',
     {
+      rootDir: 'workspaces/idservice',
+      testEnvironment: 'node'
+    },
+    {
       testMatch: ['<rootDir>/dummy']
     }
   ],

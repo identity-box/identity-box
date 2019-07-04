@@ -1,0 +1,26 @@
+{
+  "name": "idbox",
+  "private": true,
+  "version": "0.1.0",
+  "description": "IdBox identity service to handle identity requests via Telepath",
+  "main": "index.js",
+  "module": "main.js",
+  "keywords": [
+    "ipfs",
+    "ipns",
+    "ipid",
+    "DID",
+    "Cogito",
+    "Telepath"
+  ],
+  "author": "Marcin Czenko",
+  "license": "ISC",
+  "dependencies": {
+    "@identity-box/telepath": "^0.1.2",
+    "@react-frontend-developer/buffers": "^1.0.21",
+    "base64url": "^3.0.1",
+    "esm": "^3.2.22",
+    "ipfs-http-client": "^30.1.4",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
