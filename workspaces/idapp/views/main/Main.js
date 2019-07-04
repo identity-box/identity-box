@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import styled from '@emotion/native'
 import { Button } from 'react-native'
 
+import { Telepath } from '@identity-box/telepath'
+
 const Container = styled.View({
   flex: 1,
   justifyContent: 'center',
@@ -19,6 +21,8 @@ const Main = () => {
   const onPressCallback = useCallback(
     () => {
       console.log('Creating identity...')
+      const telepath = new Telepath('https://queuing.example.com')
+      console.log('telepath=', telepath)
     },
     []
   )
