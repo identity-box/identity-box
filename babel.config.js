@@ -21,7 +21,7 @@ function setupPresets (babelEnv) {
     }
   ]
 
-  if (babelEnv === 'es' || babelEnv === 'umd') {
+  if (babelEnv === 'es') {
     presetEnv = [
       '@babel/preset-env',
       {

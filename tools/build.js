@@ -1,8 +1,11 @@
+const path = require('path')
 const execSync = require('child_process').execSync
+const packageJson = require(path.join(process.cwd(), 'package.json'))
 
 class Builder {
-  constructor ({ moduleName, copyFiles }) {
-    this.moduleName = moduleName
+  constructor ({ copyFiles } = {}) {
+    this.packageName = packageJson.name
+    this.esModule = packageJson.module
     this.copyFiles = copyFiles ? '--copy-files' : ''
   }
 
@@ -13,21 +16,37 @@ class Builder {
     })
   }
 
+  transpile ({ logMessage, babelEnv, outputDir }) {
+    console.log(logMessage)
+
+    this.exec(`babel source -d ${outputDir} --delete-dir-on-start ${this.copyFiles} --source-maps`, {
+      BABEL_ENV: babelEnv
+    })
+  }
+
+  commonjs () {
+    this.transpile({
+      logMessage: '\nBuilding CommonJS modules...',
+      babelEnv: 'commonjs',
+      outputDir: 'lib'
+    })
+  }
+
+  es () {
+    if (this.esModule) {
+      this.transpile({
+        logMessage: '\nBuilding ES modules...',
+        babelEnv: 'es',
+        outputDir: 'es'
+      })
+    }
+  }
+
   build () {
     console.log('\n---------------------------------------------------')
-    console.log(`Building ${this.moduleName}`)
-    console.log('Building CommonJS modules ...')
-
-    this.exec(`babel source -d lib --delete-dir-on-start --no-babelrc ${this.copyFiles}`, {
-      BABEL_ENV: 'commonjs'
-    })
-
-    console.log('\nBuilding ES modules ...')
-
-    this.exec(`babel source -d es --delete-dir-on-start --no-babelrc ${this.copyFiles}`, {
-      BABEL_ENV: 'es'
-    })
-
+    console.log(`Building ${this.packageName}`)
+    this.commonjs()
+    this.es()
     console.log('---------------------------------------------------\n')
   }
 }
