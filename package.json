@@ -34,7 +34,8 @@
       "**/.cache/**",
       "**/.next/**",
       "**/lib/**",
-      "**/es/**"
+      "**/es/**",
+      "workspaces/idapp/__generated__/**"
     ],
     "envs": [
       "es6",
