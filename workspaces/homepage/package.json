@@ -2,7 +2,7 @@
   "private": true,
   "name": "homepage",
   "description": "Identity Box homepage",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "author": "Marcin Czenko <marcin@everydayproductive.com>",
   "repository": {
     "type": "git",

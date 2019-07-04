@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "home-page",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Home page for Identity Box",
   "author": "Marcin Czenko",
   "license": "MIT",
