@@ -124,7 +124,7 @@ instead of a request-response loop, you can send a message and forget
 about it, or you can register a message handler to receive
 incoming messages.
 
-Messages are exchanged using [JSON-RPC][json-rpc].
+Messages are exchanged using [JSON-RPC].
 In order to receive messages, after creating the
 Telepath channel you just need to call `subscribe` and provide
 the `onMessage` and `onError` handlers:
@@ -150,6 +150,8 @@ channel.emit(message)
 Please note that the when the `channel.emit` call returns, it means
 that the message has been sent, not that it was received by the other
 party.
+
+[JSON-RPC]: http://www.jsonrpc.org/specification
 
 ### Unit Testing
 
