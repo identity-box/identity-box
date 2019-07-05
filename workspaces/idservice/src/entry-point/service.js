@@ -10,6 +10,7 @@ const getTelepath = async () => {
   })
   telepath.toString()
   await telepath.printQRCodeOnTerminal()
+  return telepath
 }
 
 const start = async () => {
