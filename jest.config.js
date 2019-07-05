@@ -13,7 +13,8 @@ module.exports = {
   ],
   collectCoverage: true,
   collectCoverageFrom: [
-    'source/*.js',
+    'source/**/*.js',
+    'src/**/*.js',
     'pages/*.js',
     'components/**',
     '!pages/_app.js',

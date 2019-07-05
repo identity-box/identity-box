@@ -1,3 +1,4 @@
+import base64url from 'base64url'
 import { MessageDispatcher } from './message-dispatcher'
 
 class JsonRpcChannel {
@@ -65,6 +66,15 @@ class JsonRpcChannel {
 
   createConnectUrl = baseUrl => {
     return this.channel.createConnectUrl(baseUrl)
+  }
+
+  toString = ({ baseUrl }) => {
+    console.log('---------------------------------------------------------')
+    console.log(`channelId: ${this.channel.id}`)
+    console.log(`channelKey: ${base64url.encode(this.channel.key)}`)
+    console.log(`appName: ${this.channel.appName}`)
+    console.log(`connectUrl: ${this.channel.createConnectUrl(baseUrl)}`)
+    console.log('---------------------------------------------------------')
   }
 }
 
