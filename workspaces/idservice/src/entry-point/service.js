@@ -5,8 +5,8 @@ import { Telepath } from '../telepath'
 const getTelepath = async () => {
   const telepath = new Telepath({
     path: path.resolve(path.dirname(require.main.filename), 'telepath.config'),
-    queuingServiceUrl: 'https://telepath.cogito.mobi',
-    baseUrl: 'https://cogito.mobi'
+    queuingServiceUrl: 'https://idbox-queue.now.sh',
+    baseUrl: 'https://idbox.now.sh'
   })
   telepath.toString()
   await telepath.printQRCodeOnTerminal()
@@ -14,7 +14,21 @@ const getTelepath = async () => {
 }
 
 const start = async () => {
-  await getTelepath()
+  const telepath = await getTelepath()
+  const subscription = telepath.subscribe(message => {
+    console.log('received message:', message)
+  }, error => {
+    console.log('error: ' + error)
+  })
+
+  process.on('SIGINT', () => {
+    console.log('\nUnsubscribing from telepath and exiting...')
+
+    telepath.unsubscribe(subscription)
+
+    process.exit(0)
+  })
+
   const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
 
   if (!process.argv[2]) {

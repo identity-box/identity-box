@@ -32,13 +32,17 @@ class Telepath {
     this.queuingServiceUrl = queuingServiceUrl
     this.baseUrl = baseUrl
     this.telepath = new TelepathOrig(queuingServiceUrl)
-    if (!fs.existsSync(path)) {
-      console.log(`No telepath configuration found in ${path}.`)
+    this.createTelepathChannel()
+  }
+
+  createTelepathChannel = () => {
+    if (!fs.existsSync(this.path)) {
+      console.log(`No telepath configuration found in ${this.path}.`)
       console.log('Creating new telepath channel...')
       this.channel = this.telepath.createChannel({ appName: 'IdentityBox' })
       this.write()
     } else {
-      console.log(`Found telepath configuration in ${path}`)
+      console.log(`Found telepath configuration in ${this.path}`)
       this.channel = this.read()
     }
   }
@@ -71,6 +75,18 @@ class Telepath {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  subscribe = (onMessage, onError) => {
+    return this.channel.subscribe(onMessage, onError)
+  }
+
+  unsubscribe = subscription => {
+    this.channel.unsubscribe(subscription)
+  }
+
+  emit = message => {
+    this.channel.emit(JSON.stringify(message))
   }
 }
 
