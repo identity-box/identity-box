@@ -13,6 +13,11 @@ describe('socket server', () => {
 
   beforeEach(() => {
     socketServer = new SocketServer()
+    console.log = jest.fn()
+  })
+
+  afterEach(() => {
+    console.log.mockRestore()
   })
 
   describe('when sender is connected', () => {

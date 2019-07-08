@@ -43,7 +43,6 @@ class JsonRpcChannel {
   start = async () => {
     await this.channel.subscribe(message => {
       try {
-        console.log('yupi!', message)
         this.dispatcher.onMessage(this.processMessage(message))
       } catch {
         // ditching invalid JSON-RPC message
