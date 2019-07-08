@@ -1,5 +1,6 @@
 import fs from 'fs'
 import base64url from 'base64url'
+import nacl from 'tweetnacl'
 import qrcodeTerminal from 'qrcode-terminal'
 import { Buffers } from '@react-frontend-developer/buffers'
 import { Telepath as TelepathOrig } from '@identity-box/telepath'
@@ -27,11 +28,21 @@ class Telepath {
     return this.channel.createConnectUrl(this.baseUrl)
   }
 
+  createRandomId = () => {
+    const idSize = 18
+    const idBytes = nacl.randomBytes(idSize)
+    return base64url.encode(idBytes)
+  }
+
+  createRandomKey = () => {
+    return nacl.randomBytes(nacl.secretbox.keyLength)
+  }
+
   constructor ({ path, queuingServiceUrl, baseUrl }) {
     this.path = path
     this.queuingServiceUrl = queuingServiceUrl
     this.baseUrl = baseUrl
-    this.telepath = new TelepathOrig(queuingServiceUrl)
+    this.telepath = new TelepathOrig({ serviceUrl: queuingServiceUrl })
     this.createTelepathChannel()
   }
 
@@ -39,7 +50,11 @@ class Telepath {
     if (!fs.existsSync(this.path)) {
       console.log(`No telepath configuration found in ${this.path}.`)
       console.log('Creating new telepath channel...')
-      this.channel = this.telepath.createChannel({ appName: 'IdentityBox' })
+      this.channel = this.telepath.createChannel({
+        id: this.createRandomId(),
+        key: this.createRandomKey(),
+        appName: 'IdentityBox'
+      })
       this.write()
     } else {
       console.log(`Found telepath configuration in ${this.path}`)
@@ -86,7 +101,7 @@ class Telepath {
   }
 
   emit = message => {
-    this.channel.emit(JSON.stringify(message))
+    this.channel.emit(message)
   }
 }
 

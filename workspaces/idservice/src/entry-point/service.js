@@ -21,6 +21,9 @@ const start = async () => {
     console.log('error: ' + error)
   })
 
+  const message = { jsonrpc: '2.0', method: 'test' }
+  telepath.emit(message)
+
   process.on('SIGINT', () => {
     console.log('\nUnsubscribing from telepath and exiting...')
 

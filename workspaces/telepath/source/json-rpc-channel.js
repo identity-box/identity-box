@@ -40,9 +40,10 @@ class JsonRpcChannel {
     }
   }
 
-  start = () => {
-    this.channel.subscribe(message => {
+  start = async () => {
+    await this.channel.subscribe(message => {
       try {
+        console.log('yupi!', message)
         this.dispatcher.onMessage(this.processMessage(message))
       } catch {
         // ditching invalid JSON-RPC message
@@ -51,8 +52,9 @@ class JsonRpcChannel {
   }
 
   subscribe = async (onMessage, onError) => {
+    const subscription = this.dispatcher.addSubscription(onMessage, onError)
     await this.start()
-    return this.dispatcher.addSubscription(onMessage, onError)
+    return subscription
   }
 
   unsubscribe = subscription => {

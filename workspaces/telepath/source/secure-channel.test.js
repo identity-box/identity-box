@@ -48,8 +48,8 @@ describe('Secure Channel', () => {
   describe('message subscriptions', () => {
     const message = 'plain text message'
 
-    it('encrypts the payload', () => {
-      channel.emit(message)
+    it('encrypts the payload', async () => {
+      await channel.emit(message)
       const nonceAndCypherText = new Uint8Array(
         socketIOChannel.emit.mock.calls[0][0]
       )

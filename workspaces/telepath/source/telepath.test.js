@@ -1,6 +1,6 @@
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
-import { TypedArrays } from '@react-frontend-developer/buffers'
+import { Buffers, TypedArrays } from '@react-frontend-developer/buffers'
 import { JsonRpcChannel } from './json-rpc-channel'
 import { Telepath } from './telepath'
 import { SocketIOChannel } from './socket-io-channel'
@@ -12,9 +12,15 @@ describe('Telepath', () => {
   let telepath
   let socketIOChannel
 
+  const getChannelDescription = () => ({
+    id: 'leD1HIBwjJb9S6BA03vaxJsL',
+    key: Buffers.copyToUint8Array(base64url.toBuffer('gRzs0W-Xsut6F3t6cFmMDQt3O5iKBTDWT3sgM25MmmM')),
+    appName: 'Identity Box'
+  })
+
   beforeEach(() => {
     SocketIOChannel.mockClear()
-    telepath = new Telepath('https://queuing.example.com')
+    telepath = new Telepath({ serviceUrl: 'https://queuing.example.com' })
     socketIOChannel = {
       start: jest.fn(function ({ onMessage, onError }) {
         this.onMessage = onMessage
@@ -30,7 +36,7 @@ describe('Telepath', () => {
     let channel
 
     beforeEach(() => {
-      channel = telepath.createChannel({ appName })
+      channel = telepath.createChannel(getChannelDescription())
     })
 
     it('returns a JSON-RPC channel', () => {
@@ -66,7 +72,7 @@ describe('Telepath', () => {
       const id = base64url.encode([1, 2, 3])
       const key = [4, 5, 6]
       expect.assertions(1)
-      const expectedError = new Error('appName is a required parameter')
+      const expectedError = new Error('id, key, or appName is missing!')
       expect(() => telepath.createChannel({ id, key })).toThrow(expectedError)
     })
 

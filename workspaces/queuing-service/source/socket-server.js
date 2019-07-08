@@ -11,10 +11,12 @@ export class SocketServer {
 
   onConnection (clientSocket) {
     clientSocket.on('identify', (queueId, ack) => {
-      this.onIdentify(clientSocket, queueId)
+      console.log('identifying...')
       if (ack) {
+        console.log('sending acknowledge to the client...')
         ack()
       }
+      this.onIdentify(clientSocket, queueId)
     })
     clientSocket.on('message', message => {
       this.onMessage(clientSocket, message)
@@ -38,10 +40,13 @@ export class SocketServer {
   }
 
   deliverPendingMessages (clientSocket) {
+    console.log('delivering pending messages...')
     const queueId = clientSocket.queueId
+    console.log('for queue', queueId)
     const pending = this.pendingMessages.get(queueId)
     if (pending) {
       pending.map(message => {
+        console.log('delivering message: ', message)
         clientSocket.emit('message', message)
       })
       this.pendingMessages.del(queueId)
@@ -95,6 +100,8 @@ export class SocketServer {
 
   addPendingMessages (source, message) {
     let queueId = source.queueId
+    console.log('adding pending message', message)
+    console.log('for queue', queueId)
     let pendingMessages = this.pendingMessages.get(queueId) || []
     if (pendingMessages.length === maximumQueueSize) {
       source.emit('server error', 'too many pending messagess')
