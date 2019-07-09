@@ -6,17 +6,21 @@ class SecureChannel {
   id
   key
   appName
+  clientId
   socketIOChannel
+  randomBytes
 
-  constructor ({ id, key, appName, socketIOChannel }) {
+  constructor ({ id, key, appName, clientId, socketIOChannel, randomBytes }) {
     this.id = id
     this.key = key
     this.appName = appName
+    this.clientId = clientId
     this.socketIOChannel = socketIOChannel
+    this.randomBytes = randomBytes || nacl.randomBytes
   }
 
-  subscribe = (onMessage, onError) => {
-    this.socketIOChannel.start({
+  subscribe = async (onMessage, onError) => {
+    await this.socketIOChannel.start({
       channelId: this.id,
       onMessage: encryptedMessage => {
         const message = this.decrypt(encryptedMessage)
@@ -26,13 +30,13 @@ class SecureChannel {
     })
   }
 
-  emit = message => {
-    const nonceAndCypherText = this.encrypt(message)
+  emit = async message => {
+    const nonceAndCypherText = await this.encrypt(message)
     this.socketIOChannel.emit(nonceAndCypherText)
   }
 
-  encrypt = message => {
-    const nonce = nacl.randomBytes(nacl.secretbox.nonceLength)
+  encrypt = async message => {
+    const nonce = await this.randomBytes(nacl.secretbox.nonceLength)
     const cypherText = nacl.secretbox(
       TypedArrays.string2Uint8Array(message, 'utf8'),
       nonce,

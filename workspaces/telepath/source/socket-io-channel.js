@@ -6,7 +6,8 @@ export class SocketIOChannel {
   setupDone = false
   socketFactoryMethod
 
-  constructor (socketFactoryMethod) {
+  constructor ({ clientId, socketFactoryMethod }) {
+    this.clientId = clientId
     this.socketFactoryMethod = socketFactoryMethod
   }
 
@@ -36,7 +37,7 @@ export class SocketIOChannel {
     return new Promise((resolve, reject) => {
       this.socket.emit(
         'identify',
-        channelId,
+        { channelId, clientId: this.clientId },
         timeoutCallback(timeout, e => {
           if (e instanceof Error) {
             reject(e)

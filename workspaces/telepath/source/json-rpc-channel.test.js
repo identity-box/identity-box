@@ -48,6 +48,14 @@ describe('JSON RPC Channel', () => {
     expect(jsonrpc.appName).toEqual(appName)
   })
 
+  it('exposes the clientId of the underlying secure channel', () => {
+    const clientId = 'Some Random Client Id'
+    channel.clientId = clientId
+
+    jsonrpc = new JsonRpcChannel({ channel: channel })
+    expect(jsonrpc.clientId).toEqual(clientId)
+  })
+
   describe('message subscriptions', () => {
     const message = { jsonrpc: '2.0', method: 'test' }
     const invalidVersionMessage = { jsonrpc: '0.42', method: 'test' }

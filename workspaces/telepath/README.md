@@ -42,7 +42,7 @@ An example of such a URL and its QR Code:
 https://example.com/telepath/connect#I=2oxSJ6_eyP7JXsn6VK7ooB_u&E=m8JzVbVlEwlzzR0-o8-AU0F6oONYcqvLW5YVLvLLP6s
 ```
 
-![Example QR Code](https://idbox.now.sh/static/5ed463c55367b555e3bbf163851e13c0/9ec3c/ExampleQRCode.png)
+![Example QR Code](images/ExampleQRCode.png)
 
 The URL is made up of the following components:
 

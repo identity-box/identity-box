@@ -1,42 +1,36 @@
-import base64url from 'base64url'
-import nacl from 'tweetnacl'
 import { SecureChannel } from './secure-channel'
 import { JsonRpcChannel } from './json-rpc-channel'
 import { SocketIOChannel } from './socket-io-channel'
 import io from 'socket.io-client'
 
 class Telepath {
-  constructor (serviceUrl) {
+  constructor ({ serviceUrl, randomBytes }) {
     this.serviceUrl = serviceUrl
+    this.randomBytes = randomBytes
   }
 
-  createChannel = ({ id, key, appName }) => {
-    if (!appName) {
-      throw new Error('appName is a required parameter')
+  createChannel = ({ id, key, appName, clientId }) => {
+    if (!id || !key || !appName) {
+      throw new Error('id, key, or appName is missing!')
     }
-    const channelId = id || createRandomId()
-    const channelKey = key || createRandomKey()
-    const socketIOChannel = new SocketIOChannel(() => {
-      return io(this.serviceUrl, { autoConnect: false })
+    const channelId = id
+    const channelKey = key
+    const socketIOChannel = new SocketIOChannel({
+      clientId,
+      socketFactoryMethod: () => {
+        return io(this.serviceUrl, { autoConnect: false })
+      }
     })
     const channel = new SecureChannel({
       id: channelId,
       key: channelKey,
       appName: appName,
-      socketIOChannel
+      clientId,
+      socketIOChannel,
+      randomBytes: this.randomBytes
     })
     return new JsonRpcChannel({ channel })
   }
-}
-
-const createRandomId = () => {
-  const idSize = 18
-  const idBytes = nacl.randomBytes(idSize)
-  return base64url.encode(idBytes)
-}
-
-const createRandomKey = () => {
-  return nacl.randomBytes(nacl.secretbox.keyLength)
 }
 
 export { Telepath }

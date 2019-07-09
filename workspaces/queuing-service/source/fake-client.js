@@ -8,7 +8,8 @@ export default class FakeClientSocket {
 
   receiveIncoming (event, message, ...args) {
     if (event === 'identify') {
-      this.queueId = message
+      this.queueId = message.channelId
+      this.clientId = message.clientId
     }
     this.eventHandlers[event](message, ...args)
   }
