@@ -1,5 +1,13 @@
-// Set options as a parameter, environment variable, or rc file.
-// eslint-disable-next-line no-global-assign
-require = require('esm')(module/* , options */)
-// eslint-disable-next-line
-module.exports = require('${ESM_MAIN_NAME}')
+#!/usr/bin/env node -r esm
+
+import { idservice } from './src/entry-point'
+
+idservice().catch(reason => {
+  console.error(reason.toString())
+  if (reason.toString() === 'Error: No CID argument provided!') {
+    return
+  }
+  process.exit(1)
+})
+
+process.stdin.resume()
