@@ -10,7 +10,8 @@
   "files": [
     "src",
     "ecosystem.config.js",
-    "index.js"
+    "index.js",
+    "index-cjs.js"
   ],
   "keywords": [
     "ipfs",
