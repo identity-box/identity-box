@@ -1,6 +1,8 @@
-import { start } from './src/entry-point'
+#!/usr/bin/env node -r esm
 
-start().catch(reason => {
+import { idservice } from '../src/entry-point'
+
+idservice().catch(reason => {
   console.error(reason.toString())
   if (reason.toString() === 'Error: No CID argument provided!') {
     return

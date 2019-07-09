@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'idservice',
-    script: 'main.js',
+    script: './bin/idservice.js',
     args: 'zdpuAnNHdFqw4FQkBgSTC3kKCHrHyFHyEBbeuCafwV2JkvPc6',
     instances: 1,
     autorestart: false,

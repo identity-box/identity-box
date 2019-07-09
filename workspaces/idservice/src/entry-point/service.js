@@ -13,7 +13,7 @@ const getTelepath = async () => {
   return telepath
 }
 
-const start = async () => {
+const idservice = async () => {
   const telepath = await getTelepath()
   const subscription = telepath.subscribe(message => {
     console.log('received message:', message)
@@ -49,4 +49,4 @@ const start = async () => {
   })
 }
 
-export { start }
+export { idservice }
