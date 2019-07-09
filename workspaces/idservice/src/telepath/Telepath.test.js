@@ -39,10 +39,10 @@ describe('Telepath', () => {
     })
 
     it('writes the newly created telepath channel configuration to a file', () => {
-      const { id, key, appName } = telepath
+      const { id, key, appName, clientId } = telepath
 
       expect(fs.writeFileSync.mock.calls[0][0]).toBe(path)
-      expect(fs.writeFileSync.mock.calls[0][1]).toBe(`${id} ${base64url.encode(key)} ${base64url.encode(appName)}`)
+      expect(fs.writeFileSync.mock.calls[0][1]).toBe(`${id} ${base64url.encode(key)} ${base64url.encode(appName)} ${clientId}`)
     })
   })
 

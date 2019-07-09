@@ -1,11 +1,13 @@
-import { SocketIOChannel } from './socket-io-channel'
 import base64url from 'base64url'
+
+import { SocketIOChannel } from './socket-io-channel'
 
 describe('SocketIOChannel', () => {
   let socketStub
   let service
   let handlers
   let identifyTimesOut
+  const clientId = 'some random string'
 
   beforeEach(() => {
     identifyTimesOut = false
@@ -28,7 +30,10 @@ describe('SocketIOChannel', () => {
       })
     }
     socketStub.connected = false
-    service = new SocketIOChannel(() => socketStub)
+    service = new SocketIOChannel({
+      clientId,
+      socketFactoryMethod: () => socketStub
+    })
   })
 
   it('ignores notify because it is not started', () => {
@@ -92,7 +97,7 @@ describe('SocketIOChannel', () => {
       const onConnectCallback = socketStub.on.mock.calls[0][1]
       onConnectCallback()
       expect(socketStub.emit.mock.calls[0][0]).toBe('identify')
-      expect(socketStub.emit.mock.calls[0][1]).toBe(channelId)
+      expect(socketStub.emit.mock.calls[0][1]).toEqual({ channelId, clientId })
     })
 
     describe('when setup is finished', () => {
@@ -160,7 +165,7 @@ describe('SocketIOChannel', () => {
 
     it('identifies itself', () => {
       expect(socketStub.emit.mock.calls[0][0]).toBe('identify')
-      expect(socketStub.emit.mock.calls[0][1]).toBe(channelId)
+      expect(socketStub.emit.mock.calls[0][1]).toEqual({ channelId, clientId })
     })
   })
 })

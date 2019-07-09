@@ -11,11 +11,13 @@ describe('Telepath', () => {
   const appName = 'some app name'
   let telepath
   let socketIOChannel
+  const clientId = base64url.encode(nacl.randomBytes(8))
 
   const getChannelDescription = () => ({
     id: 'leD1HIBwjJb9S6BA03vaxJsL',
     key: Buffers.copyToUint8Array(base64url.toBuffer('gRzs0W-Xsut6F3t6cFmMDQt3O5iKBTDWT3sgM25MmmM')),
-    appName: 'Identity Box'
+    appName: 'Identity Box',
+    clientId
   })
 
   beforeEach(() => {
@@ -27,7 +29,8 @@ describe('Telepath', () => {
         this.onError = onError
       })
     }
-    SocketIOChannel.mockImplementation(socket => {
+    SocketIOChannel.mockImplementation(({ clientId, socketFactoryMethod }) => {
+      socketIOChannel.clientId = clientId
       return socketIOChannel
     })
   })
@@ -66,6 +69,10 @@ describe('Telepath', () => {
       expect(channel.channel.id).toEqual(id)
       expect(channel.channel.key).toEqual(key)
       expect(channel.channel.appName).toEqual(appName)
+    })
+
+    it('forwards the clientId to the underlying SocketIOChannel', () => {
+      expect(socketIOChannel.clientId).toBe(clientId)
     })
 
     it('throws when no app name is given', () => {

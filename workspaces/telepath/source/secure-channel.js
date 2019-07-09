@@ -6,13 +6,15 @@ class SecureChannel {
   id
   key
   appName
+  clientId
   socketIOChannel
   randomBytes
 
-  constructor ({ id, key, appName, socketIOChannel, randomBytes }) {
+  constructor ({ id, key, appName, clientId, socketIOChannel, randomBytes }) {
     this.id = id
     this.key = key
     this.appName = appName
+    this.clientId = clientId
     this.socketIOChannel = socketIOChannel
     this.randomBytes = randomBytes || nacl.randomBytes
   }

@@ -22,13 +22,17 @@ describe('socket server', () => {
 
   describe('when sender is connected', () => {
     const queue = 'queue'
+    const senderClientId = 'senderClientId'
+    const receiverClientId = 'receiverClientId'
     const message = 'some message'
     let sender
+    let ack
 
     beforeEach(() => {
+      ack = jest.fn()
       sender = new FakeClientSocket()
       sender.connect(socketServer)
-      sender.receiveIncoming('identify', queue)
+      sender.receiveIncoming('identify', { channelId: queue, clientId: senderClientId }, ack)
     })
 
     it('is removed from registry when it disconnects', () => {
@@ -37,13 +41,33 @@ describe('socket server', () => {
       expect(Object.keys(socketServer.clients).length).toBe(0)
     })
 
+    describe('identity acknowledge', () => {
+      let receiver
+
+      it('acknowledges the identify message', () => {
+        expect(ack).toBeCalled()
+      })
+
+      it('acknowledges the identity message **before** sending pending messages', () => {
+        receiver = new FakeClientSocket()
+        const ackRcv = jest.fn(() => {
+          expect(receiver.outgoing.length).toBe(0)
+        })
+        sender.receiveIncoming('message', message)
+        receiver.connect(socketServer)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId }, ackRcv)
+        expect(receiver.outgoing.length).toBe(1)
+        expect(receiver.outgoing[0].payload).toBe(message)
+      })
+    })
+
     describe('when receiver is connected', () => {
       let receiver
 
       beforeEach(() => {
         receiver = new FakeClientSocket()
         receiver.connect(socketServer)
-        receiver.receiveIncoming('identify', queue)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
       })
 
       it('receives message that has been sent', () => {
@@ -51,17 +75,18 @@ describe('socket server', () => {
         expect(receiver.outgoing[0].payload).toBe(message)
       })
 
-      it('acknowledges the identify message', () => {
-        const ack = jest.fn()
-        sender.receiveIncoming('identify', queue, ack)
-        expect(ack).toBeCalled()
-      })
-
       it('allows max 2 parties per queue id', () => {
         let receiver2 = new FakeClientSocket()
         receiver2.connect(socketServer)
-        receiver2.receiveIncoming('identify', queue)
+        receiver2.receiveIncoming('identify', { channelId: queue, clientId: 'some new clientId' })
         expect(receiver2.outgoing[0].event).toBe('server error')
+      })
+
+      it('accept a new connection from the same client', () => {
+        let receiver2 = new FakeClientSocket()
+        receiver2.connect(socketServer)
+        receiver2.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
+        expect(receiver2.outgoing.length).toBe(0)
       })
 
       it('is removed from registry when it disconnects', () => {
@@ -99,7 +124,7 @@ describe('socket server', () => {
       it('receives after connecting', () => {
         receiver = new FakeClientSocket()
         receiver.connect(socketServer)
-        receiver.receiveIncoming('identify', queue)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
         expect(receiver.outgoing[0].payload).toBe(message)
         expect(receiver.outgoing[1].payload).toBe(message2)
       })
@@ -145,7 +170,7 @@ describe('socket server', () => {
         forwardTime(startTime + tenMinutes)
         let receiver = new FakeClientSocket()
         receiver.connect(socketServer)
-        receiver.receiveIncoming('identify', queue)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
         expect(receiver.outgoing[0].payload).toBe(message)
       })
 
@@ -153,19 +178,23 @@ describe('socket server', () => {
         forwardTime(startTime + tenMinutes + 1)
         let receiver = new FakeClientSocket()
         receiver.connect(socketServer)
-        receiver.receiveIncoming('identify', queue)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
         expect(receiver.outgoing.length).toBe(0)
       })
 
-      it('retains queues that have been read recently', () => {
+      it('does not sent messages that has been purged because of timeouting', () => {
         sender.receiveIncoming('message', 'some other message')
         forwardTime(startTime + tenMinutes)
         let receiver = new FakeClientSocket()
         receiver.connect(socketServer)
-        receiver.receiveIncoming('identify', queue)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
         expect(receiver.outgoing[0].payload).toBe(message)
+        expect(receiver.outgoing[1].payload).toBe('some other message')
         forwardTime(startTime + tenMinutes + 1)
-        expect(receiver.outgoing[0].payload).toBe(message)
+        receiver = new FakeClientSocket()
+        receiver.connect(socketServer)
+        receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId })
+        expect(receiver.outgoing.length).toBe(0)
       })
     })
   })

@@ -8,7 +8,7 @@ const getTelepath = async () => {
     queuingServiceUrl: 'https://idbox-queue.now.sh',
     baseUrl: 'https://idbox.now.sh'
   })
-  telepath.toString()
+  telepath.describe()
   await telepath.printQRCodeOnTerminal()
   return telepath
 }

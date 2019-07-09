@@ -11,6 +11,7 @@ class Telepath {
   baseUrl
   telepath
   channel
+  clientId
 
   get id () {
     return this.channel.id
@@ -22,6 +23,10 @@ class Telepath {
 
   get appName () {
     return this.channel.appName
+  }
+
+  get clientId () {
+    return this.channel.clientId
   }
 
   get connectUrl () {
@@ -42,6 +47,7 @@ class Telepath {
     this.path = path
     this.queuingServiceUrl = queuingServiceUrl
     this.baseUrl = baseUrl
+    this.clientId = base64url.encode(nacl.randomBytes(8))
     this.telepath = new TelepathOrig({ serviceUrl: queuingServiceUrl })
     this.createTelepathChannel()
   }
@@ -53,7 +59,8 @@ class Telepath {
       this.channel = this.telepath.createChannel({
         id: this.createRandomId(),
         key: this.createRandomKey(),
-        appName: 'IdentityBox'
+        appName: 'IdentityBox',
+        clientId: this.clientId
       })
       this.write()
     } else {
@@ -64,24 +71,25 @@ class Telepath {
 
   read = () => {
     const telepathConfigurationString = fs.readFileSync(this.path, 'UTF-8')
-    const [channelId, keyBase64, appNameBase64] = telepathConfigurationString.split(' ')
+    const [channelId, keyBase64, appNameBase64, clientId] = telepathConfigurationString.split(' ')
 
     return this.telepath.createChannel({
       id: channelId,
       key: Buffers.copyToUint8Array(base64url.toBuffer(keyBase64)),
-      appName: base64url.decode(appNameBase64)
+      appName: base64url.decode(appNameBase64),
+      clientId
     })
   }
 
   write = () => {
-    const { id, key, appName } = this.channel
-    const configurationString = `${id} ${base64url.encode(key)} ${base64url.encode(appName)}`
+    const { id, key, appName, clientId } = this.channel
+    const configurationString = `${id} ${base64url.encode(key)} ${base64url.encode(appName)} ${clientId}`
 
     fs.writeFileSync(this.path, configurationString)
   }
 
-  toString = () => {
-    this.channel.toString({ baseUrl: this.baseUrl })
+  describe = () => {
+    this.channel.describe({ baseUrl: this.baseUrl })
   }
 
   printQRCodeOnTerminal = async () => {
