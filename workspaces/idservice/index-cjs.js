@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { idservice } from './src/entry-point/index-cjs'
+const { idservice } = require('./src/entry-point/index-cjs')
 
 idservice().catch(reason => {
   console.error(reason.toString())
