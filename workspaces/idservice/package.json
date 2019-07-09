@@ -4,7 +4,8 @@
   "version": "0.1.6",
   "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
-    "idservice": "./index.js"
+    "idservice": "./index.js",
+    "idservice-cjs": "./index-cjs.js"
   },
   "files": [
     "src",
