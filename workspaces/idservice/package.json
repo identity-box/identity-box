@@ -1,7 +1,7 @@
 {
   "name": "@identity-box/idservice",
   "private": false,
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
     "idservice": "./index.js",
