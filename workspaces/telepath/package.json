@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/telepath",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Secure communication channel between mobile app and web app",
   "homepage": "https://idbox.now.sh",
   "license": "MIT",
