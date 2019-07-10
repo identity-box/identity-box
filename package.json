@@ -36,7 +36,8 @@
       "**/.next/**",
       "**/lib/**",
       "**/es/**",
-      "workspaces/idapp/__generated__/**"
+      "workspaces/idapp/__generated__/**",
+      "workspaces/idservice/index.js"
     ],
     "envs": [
       "es6",

@@ -1,4 +1,5 @@
-#!/usr/bin/env node -r esm
+#!/bin/sh 
+":" //# http://sambal.org/?p=1014 ; exec /usr/bin/env node -r esm "$0" "$@"
 
 import { idservice } from './src/entry-point'
 
