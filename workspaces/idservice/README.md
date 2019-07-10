@@ -2,46 +2,69 @@
 
 A service to handle identity requests on IdBox.
 
+## Installation
+
+On your identity-box, first create a folder where you want your service to be installed (we recommend that you use the name of the service as the name of the folder). Then install the service as follows:
+
+```bash
+$ mkdir idservice
+$ cd idservice
+$ yarn add @identity-box/idservice
+```
+
 ## Usage
 
+To directly run the service, use:
+
 ```
-node -r esm main.js <dag-ref>
+./node_modules/.bin/idservice
 ```
 
 ## With PM2
 
-We're using pm2 to start the processes.
+You can take of advantage of pm2 to start an identity-box service. Make sure you have pm2 installed globally:
 
-> NOTE: we still need to pass a proper dag to the process in ecosystem.config.js
-
-### Start process
-```
-../../node_modules/pm2/bin/pm2 start ecosystem.config.js
+```bash
+$ yarn global add pm2
 ```
 
-### All processes
-```
-../../node_modules/pm2/bin/pm2 list
+### Start service
+
+```bash
+$ pm2 start ecosystem.config.js
 ```
 
-### Settings on idservice
-```
-../../node_modules/pm2/bin/pm2 show idservice
+### List all services
+
+```bash
+$ pm2 list
 ```
 
-### Logs idservice
+### Settings on a service
+
+```bash
+$ pm2 show idservice
+```
+
+### Logs
+
 All:
-```
-../../node_modules/pm2/bin/pm2 log idservice
+
+```bash
+$ pm2 logs idservice
 ```
 
-Qrcode:
-```
-../../node_modules/pm2/bin/pm2 log idservice --out --lines 150
+This shows all the logs of idservice and outputs the last 15 lines (the default).
+
+To see only standard output logs, and print more lines from the output use: 
+
+```bash
+$ pm2 log idservice --out --lines 150
 ```
 
 ### Restart process after editing ecosystem
+
 ```
-../../node_modules/pm2/bin/pm2 delete ecosystem.config.js
-../../node_modules/pm2/bin/pm2 start ecosystem.config.js
+$ pm2 delete ecosystem.config.js
+$ pm2 start ecosystem.config.js
 ```

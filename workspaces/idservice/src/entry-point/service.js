@@ -4,7 +4,7 @@ import { Telepath } from '../telepath'
 
 const getTelepath = async () => {
   const telepath = new Telepath({
-    path: path.resolve(path.dirname(require.main.filename), 'telepath.config'),
+    path: path.resolve(process.cwd(), 'telepath.config'),
     queuingServiceUrl: 'https://idbox-queue.now.sh',
     baseUrl: 'https://idbox.now.sh'
   })

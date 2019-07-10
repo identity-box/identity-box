@@ -23,6 +23,9 @@
   ],
   "author": "Marcin Czenko",
   "license": "ISC",
+  "scripts": {
+    "postinstall": "cp ./node_modules/@identity-box/idservice/ecosystem.config.js ."
+  },
   "dependencies": {
     "@identity-box/telepath": "^0.1.4",
     "@react-frontend-developer/buffers": "^1.0.21",
