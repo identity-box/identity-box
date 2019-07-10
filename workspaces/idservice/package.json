@@ -11,7 +11,8 @@
     "src",
     "ecosystem.config.js",
     "index.js",
-    "index-cjs.js"
+    "index-cjs.js",
+    "postinstall.sh"
   ],
   "keywords": [
     "ipfs",
@@ -24,7 +25,7 @@
   "author": "Marcin Czenko",
   "license": "ISC",
   "scripts": {
-    "postinstall": "cp ./node_modules/@identity-box/idservice/ecosystem.config.js ."
+    "postinstall": "./postinstall.sh"
   },
   "dependencies": {
     "@identity-box/telepath": "^0.1.4",
