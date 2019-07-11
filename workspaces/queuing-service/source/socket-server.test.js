@@ -1,4 +1,5 @@
-import IOSocketServer, {
+import {
+  IOSocketServer,
   SocketServer,
   maximumQueueSize,
   maximumMessagesLength
@@ -6,24 +7,9 @@ import IOSocketServer, {
 import FakeClientSocket from './fake-client'
 import MockDate from 'mockdate'
 
+import { ServerError } from './server-error'
+
 jest.useFakeTimers()
-
-class ServerError extends Error {
-  constructor (message) {
-    super(message)
-    this.name = 'ServerError'
-    this.message = message
-  }
-
-  toJSON () {
-    return {
-      error: {
-        name: this.name,
-        message: this.message
-      }
-    }
-  }
-}
 
 describe('socket server', () => {
   const queue = 'queue'
@@ -40,17 +26,12 @@ describe('socket server', () => {
 
   beforeEach(() => {
     socketServer = new SocketServer()
-    console.log = jest.fn()
     senderIdentityAck = jest.fn()
     senderMessageAck = jest.fn()
     receiverIdentityAck = jest.fn()
     receiverMessageAck = jest.fn()
     sender = new FakeClientSocket()
     receiver = new FakeClientSocket()
-  })
-
-  afterEach(() => {
-    console.log.mockRestore()
   })
 
   describe('when sender is connected', () => {

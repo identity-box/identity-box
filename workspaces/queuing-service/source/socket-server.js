@@ -1,48 +1,41 @@
 import { createCache } from './auto-pruning-cache'
+import { Logger } from './logger'
+import { ServerError } from './server-error'
 
-export const maximumQueueSize = 10
-export const maximumMessagesLength = 100000
+const maximumQueueSize = 10
+const maximumMessagesLength = 100000
 
-class ServerError extends Error {
-  constructor (message) {
-    super(message)
-    this.name = 'ServerError'
-    this.message = message
-  }
-
-  toJSON () {
-    return {
-      error: {
-        name: this.name,
-        message: this.message
-        // stacktrace: this.stack
-      }
-    }
-  }
-}
-
-export class SocketServer {
+class SocketServer {
   constructor () {
     this.clients = []
     this.pendingMessages = createCache()
   }
 
+  setVerbose (status) {
+    Logger.setVerbose(status)
+  }
+
   onConnection (clientSocket) {
     clientSocket.on('identify', ({ channelId, clientId }, ack) => {
-      console.log('identifying:')
-      console.log('channelId:', channelId)
-      console.log('clientId:', clientId)
+      Logger.separator()
+      Logger.logChannelAndClientIds('Identifying client', { channelId, clientId })
       const status = this.onIdentify(clientSocket, { channelId, clientId })
       ack(status)
       if (!status.error) {
+        Logger.logInfo('identified OK')
         this.deliverPendingMessages(clientSocket)
+      } else {
+        Logger.logError(status.error.message)
       }
+      Logger.separator()
     })
     clientSocket.on('message', (message, ack) => {
       this.onMessage(clientSocket, message, ack)
     })
     clientSocket.on('disconnect', reason => {
+      Logger.separator()
       this.onDisconnect(clientSocket)
+      Logger.separator()
     })
   }
 
@@ -56,51 +49,55 @@ export class SocketServer {
       this.clients[channelId] || []
     )
     if (clientsForQueue.length > 1) {
-      console.log('ERROR! too many clients for queue')
       return new ServerError('too many clients for queue')
     }
 
     clientsForQueue.push(clientSocket)
     this.clients[channelId] = clientsForQueue
-    clientSocket.queueId = channelId
+    clientSocket.channelId = channelId
     clientSocket.clientId = clientId
     return true
   }
 
   deliverPendingMessages (recipientSocket) {
-    console.log('delivering pending messages...')
-    const queueId = recipientSocket.queueId
-    console.log('for channelId', queueId)
-    console.log('and clientId', recipientSocket.clientId)
-    const pending = this.pendingMessages.get(queueId)
+    const channelId = recipientSocket.channelId
+    const pending = this.pendingMessages.get(channelId)
     if (pending) {
       const toBeKept = pending.filter(m => m.clientId === recipientSocket.clientId)
       const toBeDelivered = pending.filter(m => m.clientId !== recipientSocket.clientId)
+      if (toBeDelivered.length > 0) {
+        Logger.logInfo('delivering pending messages...')
+      }
       toBeDelivered.map(message => {
-        console.log('delivering message: ', message.message)
+        Logger.logMessage(`{ sender: ${message.clientId}, recipient: ${recipientSocket.clientId}, message: ${message.message} }`)
         recipientSocket.emit('message', message.message)
       })
       if (toBeKept.length === 0) {
-        this.pendingMessages.del(queueId)
+        this.pendingMessages.del(channelId)
       } else {
-        this.pendingMessages.set(queueId, toBeKept)
+        this.pendingMessages.set(channelId, toBeKept)
       }
     }
   }
 
   onMessage (senderSocket, message, ack) {
+    Logger.separator()
     if (!this.verifyMessage(message)) {
+      Logger.logError('message too long')
       ack(new ServerError('message too long'))
+      Logger.separator()
       return
     }
 
     const receiver = this.findReceiver(senderSocket)
     if (receiver) {
+      Logger.logMessage(`{ sender: ${senderSocket.clientId}, recipient: ${receiver.clientId}, message: ${message} }`)
       receiver.emit('message', message)
       ack(true)
     } else {
-      ack(this.addPendingMessages(senderSocket, message))
+      ack(this.addPendingMessage(senderSocket, message))
     }
+    Logger.separator()
   }
 
   verifyMessage (message) {
@@ -108,61 +105,62 @@ export class SocketServer {
   }
 
   onDisconnect (clientSocket) {
-    console.log('disconnecting:')
-    console.log('channelId:', clientSocket.queueId)
-    console.log('clientId:', clientSocket.clientId)
-    if (!clientSocket.queueId) {
-      console.log('!clientSocket.queueId')
+    Logger.logChannelAndClientIds('disconnecting...', clientSocket)
+    if (!clientSocket.channelId) {
+      Logger.logInfo('!clientSocket.channelId')
       return
     }
-    const clientsForQueue = this.clients[clientSocket.queueId]
+    const clientsForQueue = this.clients[clientSocket.channelId]
     if (!clientsForQueue) {
-      console.log('!clientsForQueue')
+      Logger.logInfo('!clientsForQueue')
       return
     }
     const remainingClients = clientsForQueue.filter(c => {
       return clientSocket !== c
     })
     if (remainingClients.length === 0) {
-      console.log('remainingClients.length === 0')
-      delete this.clients[clientSocket.queueId]
+      Logger.logInfo('remainingClients.length === 0')
+      delete this.clients[clientSocket.channelId]
     } else {
-      this.clients[clientSocket.queueId] = remainingClients
+      this.clients[clientSocket.channelId] = remainingClients
     }
   }
 
   findReceiver (senderSocket) {
-    const clientsForQueue = this.clients[senderSocket.queueId] || []
+    const clientsForQueue = this.clients[senderSocket.channelId] || []
     const receivers = clientsForQueue.filter(c => {
-      return senderSocket !== c && senderSocket.queueId === c.queueId
+      return senderSocket !== c && senderSocket.channelId === c.channelId
     })
     return receivers.length === 1 ? receivers[0] : undefined
   }
 
-  addPendingMessages (senderSocket, message) {
-    const queueId = senderSocket.queueId
+  addPendingMessage (senderSocket, message) {
+    const channelId = senderSocket.channelId
     const clientId = senderSocket.clientId
-    console.log('adding pending message', message)
-    console.log('for channelId:', queueId)
-    console.log('and clientId:', clientId)
-    let pendingMessages = this.pendingMessages.get(queueId) || []
+    Logger.logInfo(`adding pending message on channel ${senderSocket.channelId}`)
+    let pendingMessages = this.pendingMessages.get(channelId) || []
     if (pendingMessages.length === maximumQueueSize) {
-      console.log('too many pending messagess')
+      Logger.logError('too many pending messagess')
       return new ServerError('too many pending messagess')
     }
+    Logger.logMessage(`{ sender: ${clientId},  message: ${message} }`)
     pendingMessages.push({
       message,
       clientId
     })
-    this.pendingMessages.set(queueId, pendingMessages)
+    this.pendingMessages.set(channelId, pendingMessages)
     return true
   }
 }
 
-export default class IOSocketServer {
+class IOSocketServer {
   constructor (io) {
     this.socketServer = new SocketServer()
     this.io = io
+  }
+
+  setVerbose (status) {
+    this.socketServer.setVerbose(status)
   }
 
   start () {
@@ -170,4 +168,11 @@ export default class IOSocketServer {
       this.socketServer.onConnection(socket)
     })
   }
+}
+
+export {
+  SocketServer,
+  IOSocketServer,
+  maximumQueueSize,
+  maximumMessagesLength
 }
