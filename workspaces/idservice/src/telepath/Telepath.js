@@ -108,8 +108,12 @@ class Telepath {
     this.channel.unsubscribe(subscription)
   }
 
-  emit = message => {
-    this.channel.emit(message)
+  emit = async message => {
+    try {
+      await this.channel.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 }
 

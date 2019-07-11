@@ -20,19 +20,23 @@ class SecureChannel {
   }
 
   subscribe = async (onMessage, onError) => {
-    await this.socketIOChannel.start({
-      channelId: this.id,
-      onMessage: encryptedMessage => {
-        const message = this.decrypt(encryptedMessage)
-        onMessage(message)
-      },
-      onError
-    })
+    try {
+      await this.socketIOChannel.start({
+        channelId: this.id,
+        onMessage: encryptedMessage => {
+          const message = this.decrypt(encryptedMessage)
+          onMessage(message)
+        },
+        onError
+      })
+    } catch (e) {
+      onError && onError(e)
+    }
   }
 
   emit = async message => {
     const nonceAndCypherText = await this.encrypt(message)
-    this.socketIOChannel.emit(nonceAndCypherText)
+    await this.socketIOChannel.emit(nonceAndCypherText)
   }
 
   encrypt = async message => {

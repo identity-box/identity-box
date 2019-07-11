@@ -26,12 +26,26 @@ const randomBytes = byteCount => {
 // ClientId is therefore a bit sensitive as it allows replacing a currently open websocket
 // connection to the queuing service - it should not therefore be keept in code, but
 // generated a stored securely on the device.
+// local testing
 const getChannelDescription = async () => ({
   id: 'ZaA1XcluxtFMvVkeEIl5E2em',
   key: Buffers.copyToUint8Array(base64url.toBuffer('v85SJq-8LM4e1Jw5YIJcN7IWSZNpwTrdSDnxvexf5B0')),
   appName: 'IdentityBox',
   clientId: 'Te9J40DAW_E'
 })
+// idbox (marcin's rasb)
+// const getChannelDescription = async () => ({
+//   id: 'dAyhSOWVXwlX10cg4fqXYbw9',
+//   key: Buffers.copyToUint8Array(base64url.toBuffer('ULNAoENwb-Cw6pHnkTULDbvd5jZ4jfbYUp8yV3Xz1Dw')),
+//   appName: 'IdentityBox',
+//   clientId: 'Te9J40DAW_E'
+// })
+// const getChannelDescription = async () => ({
+//   id: 'ZaA1XcluxtFMvVkeEIl5E2em',
+//   key: Buffers.copyToUint8Array(base64url.toBuffer('v85SJq-8LM4e1Jw5YIJcN7IWSZNpwTrdSDnxvexf5B0')),
+//   appName: 'IdentityBox',
+//   clientId: 'Te9J40DAW_E'
+// })
 
 const Container = styled.View({
   flex: 1,
@@ -48,7 +62,7 @@ const Welcome = styled.Text({
 
 const Main = () => {
   const onPressCallback = useCallback(
-    () => {
+    async () => {
       console.log('Creating identity...')
       const message = {
         jsonrpc: '2.0',
@@ -62,7 +76,11 @@ const Main = () => {
           }
         ]
       }
-      channel.current.emit(message)
+      try {
+        await channel.current.emit(message)
+      } catch (e) {
+        console.log(e.message)
+      }
     },
     []
   )
@@ -86,7 +104,8 @@ const Main = () => {
   }
 
   const establishConnectionWithIdBox = async () => {
-    const telepath = new Telepath({ serviceUrl: 'https://idbox-queue.now.sh', randomBytes })
+    const telepath = new Telepath({ serviceUrl: 'http://localhost:3000', randomBytes })
+    // const telepath = new Telepath({ serviceUrl: 'https://idbox-queue.now.sh', randomBytes })
     channel.current = telepath.createChannel(await getChannelDescription())
     channel.current.describe({
       baseUrl: 'https://idbox.now.sh'

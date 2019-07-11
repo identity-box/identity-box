@@ -14,8 +14,13 @@ export class SocketIOChannel {
   async start ({ channelId, onMessage, onError, timeout = 30000 }) {
     this.socket = this.socketFactoryMethod()
     await this.waitUntilConnected()
-    await this.identify({ channelId, timeout })
     this.installEventHandlers({ onMessage, onError })
+    const status = await this.identify({ channelId, timeout })
+    if (status instanceof Error) {
+      throw status
+    } else {
+      await this.sendPendingMessages()
+    }
   }
 
   waitUntilConnected () {
@@ -38,12 +43,15 @@ export class SocketIOChannel {
       this.socket.emit(
         'identify',
         { channelId, clientId: this.clientId },
-        timeoutCallback(timeout, e => {
-          if (e instanceof Error) {
-            reject(e)
+        timeoutCallback(timeout, (timeoutError, data) => {
+          if (timeoutError) {
+            reject(timeoutError)
           } else {
-            this.sendPendingMessages()
-            resolve()
+            if (data.error) {
+              reject(new Error(data.error.message))
+            } else {
+              resolve(data)
+            }
           }
         })
       )
@@ -56,23 +64,41 @@ export class SocketIOChannel {
     })
     if (onError) {
       this.socket.on('error', onError)
-      this.socket.on('server error', onError)
     }
   }
 
-  emit (data) {
+  emitMessage (message, timeout = 30000) {
+    return new Promise((resolve, reject) => {
+      this.socket.emit(
+        'message',
+        message,
+        timeoutCallback(timeout, (error, data) => {
+          if (error) {
+            reject(error)
+          } else {
+            if (data.error) {
+              reject(new Error(data.error.message))
+            } else {
+              resolve(data)
+            }
+          }
+        })
+      )
+    })
+  }
+
+  async emit (data) {
     const message = base64url.encode(data)
     if (this.setupDone) {
-      this.socket.emit('message', message)
+      await this.emitMessage(message)
     } else {
       this.pendingMessages.push(message)
     }
   }
 
-  sendPendingMessages () {
-    this.pendingMessages.forEach(message => {
-      this.socket.emit('message', message)
-    })
+  async sendPendingMessages () {
+    const promises = this.pendingMessages.map(message => this.emitMessage(message))
+    await Promise.all(promises)
     this.pendingMessages = []
     this.setupDone = true
   }

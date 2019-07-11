@@ -3,6 +3,24 @@ import { createCache } from './auto-pruning-cache'
 export const maximumQueueSize = 10
 export const maximumMessagesLength = 100000
 
+class ServerError extends Error {
+  constructor (message) {
+    super(message)
+    this.name = 'ServerError'
+    this.message = message
+  }
+
+  toJSON () {
+    return {
+      error: {
+        name: this.name,
+        message: this.message
+        // stacktrace: this.stack
+      }
+    }
+  }
+}
+
 export class SocketServer {
   constructor () {
     this.clients = []
@@ -14,14 +32,14 @@ export class SocketServer {
       console.log('identifying:')
       console.log('channelId:', channelId)
       console.log('clientId:', clientId)
-      if (ack) {
-        console.log('sending acknowledge to the client...')
-        ack()
+      const status = this.onIdentify(clientSocket, { channelId, clientId })
+      ack(status)
+      if (!status.error) {
+        this.deliverPendingMessages(clientSocket)
       }
-      this.onIdentify(clientSocket, { channelId, clientId })
     })
-    clientSocket.on('message', message => {
-      this.onMessage(clientSocket, message)
+    clientSocket.on('message', (message, ack) => {
+      this.onMessage(clientSocket, message, ack)
     })
     clientSocket.on('disconnect', reason => {
       this.onDisconnect(clientSocket)
@@ -39,43 +57,49 @@ export class SocketServer {
     )
     if (clientsForQueue.length > 1) {
       console.log('ERROR! too many clients for queue')
-      clientSocket.emit('server error', 'too many clients for queue')
-      return
+      return new ServerError('too many clients for queue')
     }
 
     clientsForQueue.push(clientSocket)
     this.clients[channelId] = clientsForQueue
     clientSocket.queueId = channelId
     clientSocket.clientId = clientId
-    this.deliverPendingMessages(clientSocket)
+    return true
   }
 
-  deliverPendingMessages (clientSocket) {
+  deliverPendingMessages (recipientSocket) {
     console.log('delivering pending messages...')
-    const queueId = clientSocket.queueId
+    const queueId = recipientSocket.queueId
     console.log('for channelId', queueId)
-    console.log('and clientId', clientSocket.clientId)
+    console.log('and clientId', recipientSocket.clientId)
     const pending = this.pendingMessages.get(queueId)
     if (pending) {
-      pending.map(message => {
-        console.log('delivering message: ', message)
-        clientSocket.emit('message', message)
+      const toBeKept = pending.filter(m => m.clientId === recipientSocket.clientId)
+      const toBeDelivered = pending.filter(m => m.clientId !== recipientSocket.clientId)
+      toBeDelivered.map(message => {
+        console.log('delivering message: ', message.message)
+        recipientSocket.emit('message', message.message)
       })
-      this.pendingMessages.del(queueId)
+      if (toBeKept.length === 0) {
+        this.pendingMessages.del(queueId)
+      } else {
+        this.pendingMessages.set(queueId, toBeKept)
+      }
     }
   }
 
-  onMessage (source, message) {
+  onMessage (senderSocket, message, ack) {
     if (!this.verifyMessage(message)) {
-      source.emit('server error', 'message too long')
+      ack(new ServerError('message too long'))
       return
     }
 
-    const receiver = this.findReceiver(source)
+    const receiver = this.findReceiver(senderSocket)
     if (receiver) {
       receiver.emit('message', message)
+      ack(true)
     } else {
-      this.addPendingMessages(source, message)
+      ack(this.addPendingMessages(senderSocket, message))
     }
   }
 
@@ -115,19 +139,23 @@ export class SocketServer {
     return receivers.length === 1 ? receivers[0] : undefined
   }
 
-  addPendingMessages (source, message) {
-    let queueId = source.queueId
+  addPendingMessages (senderSocket, message) {
+    const queueId = senderSocket.queueId
+    const clientId = senderSocket.clientId
     console.log('adding pending message', message)
     console.log('for channelId:', queueId)
-    console.log('and clientId:', source.clientId)
+    console.log('and clientId:', clientId)
     let pendingMessages = this.pendingMessages.get(queueId) || []
     if (pendingMessages.length === maximumQueueSize) {
-      source.emit('server error', 'too many pending messagess')
-      return
+      console.log('too many pending messagess')
+      return new ServerError('too many pending messagess')
     }
-
-    pendingMessages.push(message)
+    pendingMessages.push({
+      message,
+      clientId
+    })
     this.pendingMessages.set(queueId, pendingMessages)
+    return true
   }
 }
 

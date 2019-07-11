@@ -64,9 +64,9 @@ class JsonRpcChannel {
     this.dispatcher.removeSubscription(subscription)
   }
 
-  emit = message => {
+  emit = async message => {
     this.checkJsonRpcMessage(message)
-    this.channel.emit(JSON.stringify(message))
+    await this.channel.emit(JSON.stringify(message))
   }
 
   createConnectUrl = baseUrl => {

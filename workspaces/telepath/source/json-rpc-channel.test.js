@@ -70,25 +70,19 @@ describe('JSON RPC Channel', () => {
         )
       })
 
-      it('throws when message is not in a json rpc 2.0 format', () => {
+      it('throws when message is not in a json rpc 2.0 format', async () => {
         const expectedError = new Error('request is not a JSON-RPC 2.0 object')
-        expect(() =>
-          jsonrpc.emit(invalidVersionMessage)
-        ).toThrow(expectedError)
+        await expect(jsonrpc.emit(invalidVersionMessage)).rejects.toThrow(expectedError)
       })
 
-      it('throws when message has an id', () => {
+      it('throws when message has an id', async () => {
         const expectedError = new Error('JSON-RPC message may not have an "id" property')
-        expect(() =>
-          jsonrpc.emit(messageWithId)
-        ).toThrow(expectedError)
+        await expect(jsonrpc.emit(messageWithId)).rejects.toThrow(expectedError)
       })
 
-      it('throws when message does not specify a method', () => {
+      it('throws when message does not specify a method', async () => {
         const expectedError = new Error('JSON-RPC request is missing a "method" property')
-        expect(() =>
-          jsonrpc.emit(messageWithoutMethod)
-        ).toThrow(expectedError)
+        await expect(jsonrpc.emit(messageWithoutMethod)).rejects.toThrow(expectedError)
       })
     })
 
