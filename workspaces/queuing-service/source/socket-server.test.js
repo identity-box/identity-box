@@ -26,11 +26,27 @@ class ServerError extends Error {
 }
 
 describe('socket server', () => {
+  const queue = 'queue'
+  const senderClientId = 'senderClientId'
+  const receiverClientId = 'receiverClientId'
+  const message = 'some message'
   let socketServer
+  let sender
+  let senderIdentityAck
+  let senderMessageAck
+  let receiver
+  let receiverIdentityAck
+  let receiverMessageAck
 
   beforeEach(() => {
     socketServer = new SocketServer()
     console.log = jest.fn()
+    senderIdentityAck = jest.fn()
+    senderMessageAck = jest.fn()
+    receiverIdentityAck = jest.fn()
+    receiverMessageAck = jest.fn()
+    sender = new FakeClientSocket()
+    receiver = new FakeClientSocket()
   })
 
   afterEach(() => {
@@ -38,20 +54,9 @@ describe('socket server', () => {
   })
 
   describe('when sender is connected', () => {
-    const queue = 'queue'
-    const senderClientId = 'senderClientId'
-    const receiverClientId = 'receiverClientId'
-    const message = 'some message'
-    let sender
-    let ack
-    let senderMessageAck
-
     beforeEach(() => {
-      ack = jest.fn()
-      senderMessageAck = jest.fn()
-      sender = new FakeClientSocket()
       sender.connect(socketServer)
-      sender.receiveIncoming('identify', { channelId: queue, clientId: senderClientId }, ack)
+      sender.receiveIncoming('identify', { channelId: queue, clientId: senderClientId }, senderIdentityAck)
     })
 
     it('is removed from registry when it disconnects', () => {
@@ -60,11 +65,31 @@ describe('socket server', () => {
       expect(Object.keys(socketServer.clients).length).toBe(0)
     })
 
-    describe('identity acknowledge', () => {
-      let receiver
+    it('does not receive its own pending messages', () => {
+      sender.receiveIncoming('message', message, senderMessageAck)
+      sender.receiveIncoming('identify', { channelId: queue, clientId: senderClientId }, senderIdentityAck)
+      expect(sender.outgoing.length).toBe(0)
+    })
 
+    it('sender and receiver get the right messages', () => {
+      const messageRcv = 'message from receiver'
+      sender.receiveIncoming('message', message, senderMessageAck)
+      sender.receiveIncoming('disconnect')
+      receiver.connect(socketServer)
+      receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId }, receiverIdentityAck)
+      receiver.receiveIncoming('message', messageRcv, receiverIdentityAck)
+      expect(receiver.outgoing.length).toBe(1)
+      expect(receiver.outgoing[0].payload).toBe(message)
+      receiver.receiveIncoming('disconnect')
+      sender.connect(socketServer)
+      sender.receiveIncoming('identify', { channelId: queue, clientId: senderClientId }, senderIdentityAck)
+      expect(sender.outgoing.length).toBe(1)
+      expect(sender.outgoing[0].payload).toBe(messageRcv)
+    })
+
+    describe('identity acknowledge', () => {
       it('acknowledges the identify message', () => {
-        expect(ack).toBeCalled()
+        expect(senderIdentityAck).toBeCalled()
       })
 
       it('acknowledges the identity message **before** sending pending messages', () => {
@@ -80,12 +105,12 @@ describe('socket server', () => {
         expect(receiver.outgoing[0].payload).toBe(message)
       })
 
-      it('identity ack function is called with value "true" if successful', () => {
-        expect(ack).toHaveBeenCalledTimes(1)
-        expect(ack).toHaveBeenCalledWith(true)
+      it('sender identity ack function is called with value "true" if successful', () => {
+        expect(senderIdentityAck).toHaveBeenCalledTimes(1)
+        expect(senderIdentityAck).toHaveBeenCalledWith(true)
       })
 
-      it('message ack function is called with value "true" if successful', () => {
+      it('sender message ack function is called with value "true" if successful', () => {
         const messageAck = jest.fn()
         sender.receiveIncoming('message', message, messageAck)
 
@@ -95,20 +120,13 @@ describe('socket server', () => {
     })
 
     describe('when receiver is connected', () => {
-      let receiver
-      let receiverIdentityAck
-      let messageAck
-
       beforeEach(() => {
-        receiverIdentityAck = jest.fn()
-        messageAck = jest.fn()
-        receiver = new FakeClientSocket()
         receiver.connect(socketServer)
         receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId }, receiverIdentityAck)
       })
 
       it('receives message that has been sent', () => {
-        sender.receiveIncoming('message', message, messageAck)
+        sender.receiveIncoming('message', message, senderMessageAck)
         expect(receiver.outgoing[0].payload).toBe(message)
       })
 
@@ -145,16 +163,9 @@ describe('socket server', () => {
     })
 
     describe('when receiver is connected for different queue', () => {
-      let receiver
-      let receiverMessageAck
-      let receiverIdentifyAck
-
       beforeEach(() => {
-        receiverIdentifyAck = jest.fn()
-        receiverMessageAck = jest.fn()
-        receiver = new FakeClientSocket()
         receiver.connect(socketServer)
-        receiver.receiveIncoming('identify', { channelId: 'different queue', clientId: receiverClientId }, receiverIdentifyAck)
+        receiver.receiveIncoming('identify', { channelId: 'different queue', clientId: receiverClientId }, receiverIdentityAck)
       })
 
       it('receives nothing', () => {
