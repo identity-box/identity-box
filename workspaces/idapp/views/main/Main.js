@@ -90,11 +90,15 @@ const Main = () => {
 
   const subscribe = async () => {
     console.log('subscribing...')
-    subscription.current = await channel.current.subscribe(message => {
-      console.log('received message: ', message)
-    }, error => {
-      console.log('error: ', error)
-    })
+    try {
+      subscription.current = await channel.current.subscribe(message => {
+        console.log('received message: ', message)
+      }, error => {
+        console.log('error: ', error)
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const unsubscribe = () => {

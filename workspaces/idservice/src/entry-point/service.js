@@ -16,7 +16,7 @@ const getTelepath = async () => {
 
 const idservice = async () => {
   const telepath = await getTelepath()
-  const subscription = telepath.subscribe(message => {
+  const subscription = await telepath.subscribe(message => {
     console.log('received message:', message)
   }, error => {
     console.log('error: ' + error)
