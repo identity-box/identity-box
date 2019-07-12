@@ -171,10 +171,8 @@ channel.unsubscribe(subscription)
 ```
 
 Subscribe is an asynchronous operation and consists of establishing the connection
-with the web socket server and then identifying itself as one of the connecting parties (as described above). It is recommended to wait for the
-`subscribe` call to finish. Currently, if you `emit` a message before `subscribe` finished, the message will be recorded and transmitted as soon
-as the client successfully identifies itself to the queuing server. As this increases complexity without much added value, for future compatibility
-we recommend to first wait for `subscribe` to finish and only then start _emitting_ messages.
+with the web socket server and then identifying itself as one of the connecting parties (as described above). You must wait for the
+`subscribe` call to finish before emitting messages. If you `emit` a message before `subscribe` finished, an exception will be thrown.
 
 `subscribe` may throw one of the following errors:
 

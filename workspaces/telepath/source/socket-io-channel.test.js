@@ -71,9 +71,10 @@ describe('SocketIOChannel', () => {
     })
   })
 
-  it('does send the message before the connection is established', async () => {
-    await service.emit(Buffer.from([1, 2, 3]))
-    expect(socketStub.emit.mock.calls.length).toBe(0)
+  it('throws exception when emitting before the connection is established', async () => {
+    await expect(service.emit(Buffer.from([1, 2, 3]))).rejects.toThrow(
+      new Error('Please wait for subscribe call to finish before emitting messages!')
+    )
   })
 
   it('throws when identify times out', async () => {
@@ -98,18 +99,6 @@ describe('SocketIOChannel', () => {
         timeout: 100
       })
     ).rejects.toThrow(new Error('connection timeout'))
-  })
-
-  describe('when sending messages before setup is done', () => {
-    beforeEach(() => {
-      socketStub.on = jest.fn()
-      let data = Buffer.from([1, 2, 3, 4])
-      service.emit(data)
-    })
-
-    it('records message as pending and does not send yet', () => {
-      expect(service.pendingMessages.length).toBe(1)
-    })
   })
 
   describe('when started with an unconnected socket', () => {
@@ -147,13 +136,6 @@ describe('SocketIOChannel', () => {
         expect(socketStub.emit.mock.calls[0][0]).toBe('message')
         const encodedData = base64url.encode(data)
         expect(socketStub.emit.mock.calls[0][1]).toBe(encodedData)
-      })
-
-      it('sends pending messages after connection is established', async () => {
-        service.pendingMessages = [Buffer.from([1, 2, 3, 4])]
-        await service.start({ channelId, onMessage, onError })
-        expect(service.pendingMessages.length).toBe(0)
-        expect(socketStub.emit.mock.calls[1][0]).toBe('message')
       })
 
       it('throws an error if one of the pending message cannot be delivered to the server', async () => {

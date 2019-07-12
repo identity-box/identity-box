@@ -1,7 +1,7 @@
 import base64url from 'base64url'
 import timeoutCallback from 'timeout-callback'
 
-export class SocketIOChannel {
+class SocketIOChannel {
   pendingMessages = []
   setupDone = false
   socketFactoryMethod
@@ -16,7 +16,7 @@ export class SocketIOChannel {
     await this.waitUntilConnected(timeout)
     this.installEventHandlers({ onMessage, onError })
     await this.identify({ channelId, timeout })
-    await this.sendPendingMessages()
+    this.setupDone = true
   }
 
   waitUntilConnected (timeout) {
@@ -88,18 +88,13 @@ export class SocketIOChannel {
   }
 
   async emit (data) {
-    const message = base64url.encode(data)
     if (this.setupDone) {
+      const message = base64url.encode(data)
       await this.emitMessage(message)
     } else {
-      this.pendingMessages.push(message)
+      throw new Error('Please wait for subscribe call to finish before emitting messages!')
     }
   }
-
-  async sendPendingMessages () {
-    const promises = this.pendingMessages.map(message => this.emitMessage(message))
-    await Promise.all(promises)
-    this.pendingMessages = []
-    this.setupDone = true
-  }
 }
+
+export { SocketIOChannel }
