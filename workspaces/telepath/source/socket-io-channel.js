@@ -13,13 +13,13 @@ export class SocketIOChannel {
 
   async start ({ channelId, onMessage, onError, timeout = 30000 }) {
     this.socket = this.socketFactoryMethod()
-    await this.waitUntilConnected()
+    await this.waitUntilConnected(timeout)
     this.installEventHandlers({ onMessage, onError })
     await this.identify({ channelId, timeout })
     await this.sendPendingMessages()
   }
 
-  waitUntilConnected () {
+  waitUntilConnected (timeout) {
     return new Promise((resolve, reject) => {
       if (this.socket.connected) {
         this.socket.off()
@@ -27,8 +27,12 @@ export class SocketIOChannel {
       } else {
         this.socket.on('connect', () => {
           this.socket.off('connect')
+          clearTimeout(this.connectionTimer)
           resolve()
         })
+        this.connectionTimer = setTimeout(() => {
+          reject(new Error('connection timeout'))
+        }, timeout)
         this.socket.connect()
       }
     })

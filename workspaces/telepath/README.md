@@ -178,8 +178,9 @@ we recommend to first wait for `subscribe` to finish and only then start _emitti
 
 `subscribe` may throw one of the following errors:
 
-1. `new Error('callback timeout')` - when there was no acknowledgment from the web socket server (queuing service)
-2. `new Error('too many clients for queue')` - when a client attempts to subscribe when two other clients are already subscribed and 
+1. `new Error('connection timeout')` - when connecting to web socket times out
+2. `new Error('callback timeout')` - when there was no acknowledgment from the web socket server (queuing service)
+3. `new Error('too many clients for queue')` - when a client attempts to subscribe when two other clients are already subscribed and 
 the new client has client id that does not match any of the two other clients.
 
 Any errors happening after a successful subscription will be reported to the `onError` handler if provided.

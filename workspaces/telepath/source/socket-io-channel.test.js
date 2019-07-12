@@ -35,10 +35,16 @@ describe('SocketIOChannel', () => {
     identifyTimesOut = false
     handlers = []
     socketStub = {
+      connectTimeout: false,
       connect: jest.fn().mockImplementation(function () {
         const onConnect = handlers['connect']
         if (onConnect) {
-          setTimeout(() => onConnect(), 1)
+          if (this.connectTimeout) {
+            this.connectTimeout = false
+            setTimeout(() => {}, 1000)
+          } else {
+            setTimeout(() => onConnect(), 1)
+          }
         }
       }),
       on: jest.fn().mockImplementation(function (event, cb) {
@@ -74,12 +80,24 @@ describe('SocketIOChannel', () => {
     identifyTimesOut = true
     await expect(
       service.start({
-        channelId: '',
+        channelId,
         onMessage,
         onError,
         timeout: 100
       })
-    ).rejects.toThrow()
+    ).rejects.toThrow(new Error('callback timeout'))
+  })
+
+  it('throws when waiting for websocket connection timeaouts', async () => {
+    socketStub.connectTimeout = true
+    await expect(
+      service.start({
+        channelId,
+        onMessage,
+        onError,
+        timeout: 100
+      })
+    ).rejects.toThrow(new Error('connection timeout'))
   })
 
   describe('when sending messages before setup is done', () => {
