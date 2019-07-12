@@ -15,12 +15,8 @@ export class SocketIOChannel {
     this.socket = this.socketFactoryMethod()
     await this.waitUntilConnected()
     this.installEventHandlers({ onMessage, onError })
-    const status = await this.identify({ channelId, timeout })
-    if (status instanceof Error) {
-      throw status
-    } else {
-      await this.sendPendingMessages()
-    }
+    await this.identify({ channelId, timeout })
+    await this.sendPendingMessages()
   }
 
   waitUntilConnected () {

@@ -48,8 +48,8 @@ class JsonRpcChannel {
     await this.channel.subscribe(message => {
       try {
         this.dispatcher.onMessage(this.processMessage(message))
-      } catch {
-        // ditching invalid JSON-RPC message
+      } catch (e) {
+        this.dispatcher.onError(e)
       }
     }, error => this.dispatcher.onError(error))
   }
