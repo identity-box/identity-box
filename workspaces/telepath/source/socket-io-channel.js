@@ -1,7 +1,7 @@
 import base64url from 'base64url'
 import timeoutCallback from 'timeout-callback'
 
-export class SocketIOChannel {
+class SocketIOChannel {
   pendingMessages = []
   setupDone = false
   socketFactoryMethod
@@ -13,12 +13,13 @@ export class SocketIOChannel {
 
   async start ({ channelId, onMessage, onError, timeout = 30000 }) {
     this.socket = this.socketFactoryMethod()
-    await this.waitUntilConnected()
-    await this.identify({ channelId, timeout })
+    await this.waitUntilConnected(timeout)
     this.installEventHandlers({ onMessage, onError })
+    await this.identify({ channelId, timeout })
+    this.setupDone = true
   }
 
-  waitUntilConnected () {
+  waitUntilConnected (timeout) {
     return new Promise((resolve, reject) => {
       if (this.socket.connected) {
         this.socket.off()
@@ -26,8 +27,12 @@ export class SocketIOChannel {
       } else {
         this.socket.on('connect', () => {
           this.socket.off('connect')
+          clearTimeout(this.connectionTimer)
           resolve()
         })
+        this.connectionTimer = setTimeout(() => {
+          reject(new Error('connection timeout'))
+        }, timeout)
         this.socket.connect()
       }
     })
@@ -38,12 +43,15 @@ export class SocketIOChannel {
       this.socket.emit(
         'identify',
         { channelId, clientId: this.clientId },
-        timeoutCallback(timeout, e => {
-          if (e instanceof Error) {
-            reject(e)
+        timeoutCallback(timeout, (timeoutError, data) => {
+          if (timeoutError) {
+            reject(timeoutError)
           } else {
-            this.sendPendingMessages()
-            resolve()
+            if (data.error) {
+              reject(new Error(data.error.message))
+            } else {
+              resolve(data)
+            }
           }
         })
       )
@@ -56,24 +64,37 @@ export class SocketIOChannel {
     })
     if (onError) {
       this.socket.on('error', onError)
-      this.socket.on('server error', onError)
     }
   }
 
-  emit (data) {
-    const message = base64url.encode(data)
-    if (this.setupDone) {
-      this.socket.emit('message', message)
-    } else {
-      this.pendingMessages.push(message)
-    }
-  }
-
-  sendPendingMessages () {
-    this.pendingMessages.forEach(message => {
-      this.socket.emit('message', message)
+  emitMessage (message, timeout = 30000) {
+    return new Promise((resolve, reject) => {
+      this.socket.emit(
+        'message',
+        message,
+        timeoutCallback(timeout, (error, data) => {
+          if (error) {
+            reject(error)
+          } else {
+            if (data.error) {
+              reject(new Error(data.error.message))
+            } else {
+              resolve(data)
+            }
+          }
+        })
+      )
     })
-    this.pendingMessages = []
-    this.setupDone = true
+  }
+
+  async emit (data) {
+    if (this.setupDone) {
+      const message = base64url.encode(data)
+      await this.emitMessage(message)
+    } else {
+      throw new Error('Please wait for subscribe call to finish before emitting messages!')
+    }
   }
 }
+
+export { SocketIOChannel }

@@ -32,7 +32,7 @@ class SecureChannel {
 
   emit = async message => {
     const nonceAndCypherText = await this.encrypt(message)
-    this.socketIOChannel.emit(nonceAndCypherText)
+    await this.socketIOChannel.emit(nonceAndCypherText)
   }
 
   encrypt = async message => {

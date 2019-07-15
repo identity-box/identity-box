@@ -48,8 +48,8 @@ class JsonRpcChannel {
     await this.channel.subscribe(message => {
       try {
         this.dispatcher.onMessage(this.processMessage(message))
-      } catch {
-        // ditching invalid JSON-RPC message
+      } catch (e) {
+        this.dispatcher.onError(e)
       }
     }, error => this.dispatcher.onError(error))
   }
@@ -64,9 +64,9 @@ class JsonRpcChannel {
     this.dispatcher.removeSubscription(subscription)
   }
 
-  emit = message => {
+  emit = async message => {
     this.checkJsonRpcMessage(message)
-    this.channel.emit(JSON.stringify(message))
+    await this.channel.emit(JSON.stringify(message))
   }
 
   createConnectUrl = baseUrl => {

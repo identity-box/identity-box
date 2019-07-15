@@ -5,7 +5,7 @@ import { Telepath } from '../telepath'
 const getTelepath = async () => {
   const telepath = new Telepath({
     path: path.resolve(process.cwd(), 'telepath.config'),
-    queuingServiceUrl: 'https://idbox-queue.now.sh',
+    queuingServiceUrl: process.env.serviceUrl || 'https://idbox-queue.now.sh',
     baseUrl: 'https://idbox.now.sh'
   })
   telepath.describe()
@@ -15,7 +15,7 @@ const getTelepath = async () => {
 
 const idservice = async () => {
   const telepath = await getTelepath()
-  const subscription = telepath.subscribe(message => {
+  const subscription = await telepath.subscribe(message => {
     console.log('received message:', message)
   }, error => {
     console.log('error: ' + error)
