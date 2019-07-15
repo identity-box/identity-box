@@ -4,6 +4,7 @@ import styled from '@emotion/native'
 import { Button } from 'react-native'
 import { Buffers } from '@react-frontend-developer/buffers'
 import * as Random from 'expo-random'
+import Constants from 'expo-constants'
 
 import { Telepath } from '@identity-box/telepath'
 
@@ -11,41 +12,33 @@ const randomBytes = byteCount => {
   return Random.getRandomBytesAsync(byteCount)
 }
 
-// these channel description comes from idservice/telepath.config
-// we still have to think how to feed the channel information to the mobile
-//
-// for now remember - if idservice/telepath.config changes, you need to change
-// the constants below
-//
-// `clientId` should be random to some extent, preferably created when the app first starts
-// and then serialized to be resused in the future sessions.
-//
-// Keeping the same clientId allows resubscribing even if the previous connection was not properly closed.
-// If there is a new connection request coming on a new socket but from the same client id
-// this connection will replace the previous socket connection.
-// ClientId is therefore a bit sensitive as it allows replacing a currently open websocket
-// connection to the queuing service - it should not therefore be keept in code, but
-// generated a stored securely on the device.
-// local testing
-const getChannelDescription = async () => ({
-  id: 'ZaA1XcluxtFMvVkeEIl5E2em',
-  key: Buffers.copyToUint8Array(base64url.toBuffer('v85SJq-8LM4e1Jw5YIJcN7IWSZNpwTrdSDnxvexf5B0')),
-  appName: 'IdentityBox',
-  clientId: 'Te9J40DAW_E'
-})
-// idbox (marcin's rasb)
-// const getChannelDescription = async () => ({
-//   id: 'dAyhSOWVXwlX10cg4fqXYbw9',
-//   key: Buffers.copyToUint8Array(base64url.toBuffer('ULNAoENwb-Cw6pHnkTULDbvd5jZ4jfbYUp8yV3Xz1Dw')),
-//   appName: 'IdentityBox',
-//   clientId: 'Te9J40DAW_E'
-// })
-// const getChannelDescription = async () => ({
-//   id: 'ZaA1XcluxtFMvVkeEIl5E2em',
-//   key: Buffers.copyToUint8Array(base64url.toBuffer('v85SJq-8LM4e1Jw5YIJcN7IWSZNpwTrdSDnxvexf5B0')),
-//   appName: 'IdentityBox',
-//   clientId: 'Te9J40DAW_E'
-// })
+// The channel description for the app comes from one of the config files.
+// Before starting the app make sure to create a valid config file
+// with the channel data that you want to use. Please
+// take a look at one of the existing configuration files (`*.config.js`).
+// All the constants from the config file will be added to `app.json`
+// under the `extra` key. The `app.json` is created by adding this
+// `extra` key to the contents of the `config.json`.
+// Therefore before running `yarn expo start` or any other expo command,
+// please make sure you select the correct configuration by
+// running `expo-env --env=<your-configuration>`. This will properly
+// populate the `extra` entry of the `app.json` making it visible
+// to the app via `Constants.manifest.extra`.
+// For more information check [expo-env](https://www.npmjs.com/package/expo-env).
+const getChannelDescription = () => {
+  const {
+    id,
+    key,
+    appName,
+    clientId
+  } = Constants.manifest.extra.telepathChannel
+  return {
+    id,
+    key: Buffers.copyToUint8Array(base64url.toBuffer(key)),
+    appName,
+    clientId
+  }
+}
 
 const Container = styled.View({
   flex: 1,
@@ -108,9 +101,11 @@ const Main = () => {
   }
 
   const establishConnectionWithIdBox = async () => {
-    const telepath = new Telepath({ serviceUrl: 'http://localhost:3000', randomBytes })
-    // const telepath = new Telepath({ serviceUrl: 'https://idbox-queue.now.sh', randomBytes })
-    channel.current = telepath.createChannel(await getChannelDescription())
+    const telepath = new Telepath({
+      serviceUrl: Constants.manifest.extra.queuingServiceUrl,
+      randomBytes
+    })
+    channel.current = telepath.createChannel(getChannelDescription())
     channel.current.describe({
       baseUrl: 'https://idbox.now.sh'
     })

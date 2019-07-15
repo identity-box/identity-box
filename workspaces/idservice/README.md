@@ -13,6 +13,28 @@ $ yarn add @identity-box/idservice
 $ yarn setup.sh
 ```
 
+## telepath.config
+
+This is the file where your telepath configuration is kept. The included `telepath.config`
+can be used for development (either locally or on your idbox), but should be removed before
+launching the actual service so that a fresh telepath configuration is created.
+
+The channel provided in the provided `telepath.config` matches the `idapp` configuration in
+`workspaces/idapp/development-lqs.config`.
+
+## serviceUrl
+
+By default, idservice will use `https://idbox-queue.now.sh` as the queuing service. If you want
+to run it with a local server, you can set the `serviceUrl` environment variable and point it
+to the service you want to use, e.g:
+
+```bash
+$ serviceUrl=http://localhost:3000 ./index.js
+```
+
+The command above applies when you run idservice out of the monorepo itself. If
+you follow the standard installation, please follow the instructions below.
+
 ## Usage
 
 To directly run the service, use:
