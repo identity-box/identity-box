@@ -18,6 +18,10 @@ populate the `extra` entry of the `app.json` making it visible
 to the app via `Constants.manifest.extra`.
 For more information check [expo-env](https://www.npmjs.com/package/expo-env).
 
+> Please, make sure you use your own unique telepath channel when your queuing service
+is set to `https://idbox-queue.now.sh`. Otherwise, you may have troubles to understand
+what's actually going on.
+
 ## Usage
 
 ```

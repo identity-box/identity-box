@@ -35,6 +35,11 @@ $ serviceUrl=http://localhost:3000 ./index.js
 The command above applies when you run idservice out of the monorepo itself. If
 you follow the standard installation, please follow the instructions below.
 
+> Please, make sure you use your own unique telepath channel when your queuing service
+is set to `https://idbox-queue.now.sh` (the default). Otherwise, you may have troubles to understand
+what's actually going on. In particular, the provided `telepath.config` should only be use with
+you own local queuing service.
+
 ## Usage
 
 To directly run the service, use:
