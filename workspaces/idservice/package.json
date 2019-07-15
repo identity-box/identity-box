@@ -5,14 +5,15 @@
   "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
     "idservice": "./index.js",
-    "idservice-cjs": "./index-cjs.js"
+    "idservice-cjs": "./index-cjs.js",
+    "setup": "./setup.sh"
   },
   "files": [
     "src",
     "ecosystem.config.js",
     "index.js",
     "index-cjs.js",
-    "postinstall.sh"
+    "setup.sh"
   ],
   "keywords": [
     "ipfs",
@@ -24,9 +25,6 @@
   ],
   "author": "Marcin Czenko",
   "license": "ISC",
-  "scripts": {
-    "postinstall": "./postinstall.sh"
-  },
   "dependencies": {
     "@identity-box/telepath": "^0.1.4",
     "@react-frontend-developer/buffers": "^1.0.21",

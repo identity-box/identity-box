@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1",
+    "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.2.0",
     "jest-expo": "^33.0.2"
   },
