@@ -1,16 +1,10 @@
-import React, { useEffect, useCallback, useRef } from 'react'
-import base64url from 'base64url'
-import styled from '@emotion/native'
-import { Button } from 'react-native'
-import { Buffers } from '@react-frontend-developer/buffers'
-import * as Random from 'expo-random'
+import { useEffect, useRef } from 'react'
 import Constants from 'expo-constants'
-
+import { Buffers } from '@react-frontend-developer/buffers'
+import base64url from 'base64url'
 import { Telepath } from '@identity-box/telepath'
 
-const randomBytes = byteCount => {
-  return Random.getRandomBytesAsync(byteCount)
-}
+import { randomBytes } from 'src/crypto'
 
 // The channel description for the app comes from one of the config files.
 // Before starting the app make sure to create a valid config file
@@ -40,55 +34,14 @@ const getChannelDescription = () => {
   }
 }
 
-const Container = styled.View({
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: '#F5FCFF'
-})
-
-const Welcome = styled.Text({
-  fontSize: 20,
-  textAlign: 'center',
-  margin: 10
-})
-
-const Main = () => {
-  const onPressCallback = useCallback(
-    async () => {
-      console.log('Creating identity...')
-      const message = {
-        jsonrpc: '2.0',
-        method: 'test',
-        params: [
-          1,
-          'some string',
-          {
-            a: 'an object',
-            b: 2
-          }
-        ]
-      }
-      try {
-        await channel.current.emit(message)
-      } catch (e) {
-        console.log(e.message)
-      }
-    },
-    []
-  )
-
+const useTelepath = (onMessage, onError) => {
   const channel = useRef(undefined)
   const subscription = useRef(undefined)
 
   const subscribe = async () => {
     console.log('subscribing...')
     try {
-      subscription.current = await channel.current.subscribe(message => {
-        console.log('received message: ', message)
-      }, error => {
-        console.log('error: ', error)
-      })
+      subscription.current = await channel.current.subscribe(onMessage, onError)
     } catch (e) {
       console.log(e)
     }
@@ -100,7 +53,7 @@ const Main = () => {
     }
   }
 
-  const establishConnectionWithIdBox = async () => {
+  const connect = async () => {
     const telepath = new Telepath({
       serviceUrl: Constants.manifest.extra.queuingServiceUrl,
       randomBytes
@@ -116,7 +69,7 @@ const Main = () => {
   useEffect(() => {
     console.log('Opening telepath channel')
 
-    establishConnectionWithIdBox()
+    connect()
 
     return () => {
       console.log('unsubscribing...')
@@ -124,16 +77,7 @@ const Main = () => {
     }
   }, [])
 
-  return (
-    <Container>
-      <Welcome>Create your first identity</Welcome>
-      <Button
-        onPress={onPressCallback}
-        title='Create...'
-        accessibilityLabel='Create an identity...'
-      />
-    </Container>
-  )
+  return channel.current
 }
 
-export { Main }
+export { useTelepath }
