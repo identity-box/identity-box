@@ -1,17 +1,18 @@
 const createIdentity = async ({
   telepathChannel,
-  name
+  name,
+  publicEncryptionKey,
+  publicSigningKey
 }) => {
   console.log(`Creating identity: ${name}`)
   const message = {
     jsonrpc: '2.0',
-    method: 'test',
+    method: 'create_identity',
     params: [
-      1,
-      'some string',
       {
-        a: 'an object',
-        b: 2
+        name,
+        publicEncryptionKey,
+        publicSigningKey
       }
     ]
   }
