@@ -1,6 +1,7 @@
 import ipfsClient from 'ipfs-http-client'
 import path from 'path'
 import { Telepath } from '../telepath'
+import { createIdentity } from '../identity'
 
 const getTelepath = async () => {
   const telepath = new Telepath({
@@ -14,9 +15,30 @@ const getTelepath = async () => {
 }
 
 const idservice = async () => {
+  const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
   const telepath = await getTelepath()
-  const subscription = await telepath.subscribe(message => {
-    console.log('received message:', message)
+  const subscription = await telepath.subscribe(async message => {
+    if (message.method === 'create_identity' && message.params && message.params.length === 1) {
+      const { name, publicEncryptionKey, publicSigningKey } = message.params[0]
+      console.log(`Creating identity with name "${name}"`)
+      const identity = createIdentity({
+        name,
+        publicEncryptionKey,
+        publicSigningKey
+      })
+      try {
+        const message = {
+          jsonrpc: '2.0',
+          method: 'set_identity',
+          params: [
+            { identity }
+          ]
+        }
+        await telepath.emit(message)
+      } catch (e) {
+        console.error(e.message)
+      }
+    }
   }, error => {
     console.log('error: ' + error)
   })
@@ -32,10 +54,9 @@ const idservice = async () => {
     process.exit(0)
   })
 
-  const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
-
   if (!process.argv[2]) {
-    throw new Error('No CID argument provided!')
+    console.log('No CID argument provided!')
+    return
   }
 
   const cid = process.argv[2]
