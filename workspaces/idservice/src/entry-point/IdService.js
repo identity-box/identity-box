@@ -1,6 +1,6 @@
 import path from 'path'
 import { Telepath } from '../telepath'
-import { IdentityProvider } from '../identity'
+import { IdentityProvider, createDIDDocument } from '../identity'
 
 class IdService {
   identityProvider
@@ -88,6 +88,13 @@ class IdService {
       try {
         const identity = await this.createIdentity(message.params[0])
         this.respondWithIdentity(identity)
+        const didDoc = createDIDDocument({
+          ...identity,
+          ...message.params[0]
+        })
+        const cid = await this.identityProvider.writeToIPFS(didDoc)
+        console.log('cid:', cid)
+        console.log('ipns name:', this.identityProvider.ipnsNameFromDID(identity.did))
       } catch (e) {
         console.error(e.message)
         this.respondWithError(e)

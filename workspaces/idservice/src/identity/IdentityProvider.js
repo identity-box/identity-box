@@ -23,7 +23,23 @@ class IdentityProvider {
       type: 'rsa',
       size: 2048
     })
-    return this.id
+    return {
+      did: `did:ipid:${this.id.id}`,
+      name: this.id.name
+    }
+  }
+
+  writeToIPFS = async didDoc => {
+    const cid = await this.ipfs.dag.put(
+      didDoc,
+      { format: 'dag-cbor', hashAlg: 'sha2-256' }
+    )
+    return cid.toBaseEncodedString()
+  }
+
+  ipnsNameFromDID = did => {
+    const match = did.match(/did:ipid:(.*)$/)
+    return match && match[1]
   }
 }
 
