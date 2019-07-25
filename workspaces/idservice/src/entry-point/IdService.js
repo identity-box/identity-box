@@ -1,6 +1,7 @@
 import path from 'path'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
+import { IPNSFirebase } from '../services'
 
 class IdService {
   identityProvider
@@ -8,6 +9,7 @@ class IdService {
   subscription
 
   start = async () => {
+    IPNSFirebase.connect()
     this.identityProvider = new IdentityProvider()
     this.telepath = await this.getTelepath()
     this.subscription = await this.telepath.subscribe(
@@ -94,7 +96,12 @@ class IdService {
         })
         const cid = await this.identityProvider.writeToIPFS(didDoc)
         console.log('cid:', cid)
-        console.log('ipns name:', this.identityProvider.ipnsNameFromDID(identity.did))
+        const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
+        console.log('ipns name:', ipnsName)
+        await IPNSFirebase.setIPNSRecord({
+          ipnsName,
+          cid
+        })
       } catch (e) {
         console.error(e.message)
         this.respondWithError(e)

@@ -30,6 +30,7 @@
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "esm": "^3.2.25",
+    "firebase-admin": "^8.2.0",
     "ipfs-http-client": "^30.1.4",
     "qrcode-terminal": "^0.12.0",
     "tweetnacl": "^1.0.1"
