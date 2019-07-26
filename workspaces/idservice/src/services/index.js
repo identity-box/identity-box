@@ -1,0 +1,1 @@
+export { IPNSFirebase } from './IPNSFirebase'

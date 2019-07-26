@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-const { idservice } = require('./src/entry-point/index-cjs')
+import { IdService } from './src/entry-point'
 
-idservice().catch(reason => {
+const idservice = new IdService()
+
+idservice.start().catch(reason => {
   console.error(reason.toString())
-  if (reason.toString() === 'Error: No CID argument provided!') {
-    return
-  }
   process.exit(1)
 })
 

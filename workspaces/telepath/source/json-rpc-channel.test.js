@@ -74,7 +74,8 @@ describe('JSON RPC Channel', () => {
       it('does not silent errors thrown by the subscribe in secure channel', async () => {
         const expectedError = new Error('callback timeout')
         secureChannel.subscribe.mockRejectedValueOnce(expectedError)
-        await expect(jsonrpc.subscribe(onMessage, onError)).rejects.toThrow(expectedError)
+        jsonrpc.subscribe(onMessage, onError)
+        await expect(jsonrpc.connect()).rejects.toThrow(expectedError)
         expect(onError).not.toHaveBeenCalled()
       })
     })
@@ -111,7 +112,8 @@ describe('JSON RPC Channel', () => {
       beforeEach(async () => {
         onMessage = jest.fn()
         onError = jest.fn()
-        await jsonrpc.subscribe(onMessage, onError)
+        jsonrpc.subscribe(onMessage, onError)
+        await jsonrpc.connect()
         channelOnMessageHandler = secureChannel.subscribe.mock.calls[0][0]
       })
 

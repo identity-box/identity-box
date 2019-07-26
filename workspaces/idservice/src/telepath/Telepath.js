@@ -100,6 +100,10 @@ class Telepath {
     }
   }
 
+  connect = async () => {
+    await this.channel.connect()
+  }
+
   subscribe = (onMessage, onError) => {
     return this.channel.subscribe(onMessage, onError)
   }

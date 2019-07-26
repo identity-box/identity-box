@@ -145,15 +145,16 @@ receive any single message. Using client id allows us to solve this problem easi
 
 ## Subscribing to a channel
 
-After creating a channel you are ready to subscribe to it:
+After creating a channel you first connect to it and then subscribe. If you want to be sure you do not miss any pending messages you may also decide to subscribe before connecting (but this should not really be necessary):
 
 ```javascript
 try {
-  const subscription = await channel.subscribe(message => {
+  const subscription = channel.subscribe(message => {
     console.log('received message: ', message)
   }, error => {
     console.log('error: ', error)
   })
+  await channel.connect()
 } catch (e) {
   console.log(e.message)
 }
@@ -170,18 +171,19 @@ try {
 channel.unsubscribe(subscription)
 ```
 
-Subscribe is an asynchronous operation and consists of establishing the connection
-with the web socket server and then identifying itself as one of the connecting parties (as described above). You must wait for the
-`subscribe` call to finish before emitting messages. If you `emit` a message before `subscribe` finished, an exception will be thrown.
+Notice that you can have many subscriptions and you will be notified on all of them.
 
-`subscribe` may throw one of the following errors:
+Connecting is an asynchronous operation and consists of establishing the connection
+with the web socket server and then identifying itself as one of the connecting parties (as described above). You must wait for the
+`connect` call to finish before emitting messages. If you `emit` a message before `connect` finishes, an exception will be thrown.
+
+`connect` may throw one of the following errors:
 
 1. `new Error('connection timeout')` - when connecting to web socket times out
 2. `new Error('callback timeout')` - when there was no acknowledgment from the web socket server (queuing service)
-3. `new Error('too many clients for queue')` - when a client attempts to subscribe when two other clients are already subscribed and 
-the new client has client id that does not match any of the two other clients.
+3. `new Error('too many clients for queue')` - when a client attempts to connect when two other clients are already connected and the new client has client id that does not match any of the two other clients.
 
-Any errors happening after a successful subscription will be reported to the `onError` handler if provided.
+Any errors happening after a successful connection will be reported to the `onError` handler if provided.
 
 Emitting messages is also asynchronous operation and it can throw on of the following errors:
 

@@ -1,1 +1,1 @@
-export { idservice } from './service'
+export { IdService } from './IdService'
