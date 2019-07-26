@@ -1,12 +1,12 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
-import { Button } from 'react-native'
-import * as SecureStore from 'expo-secure-store'
+import { Button, ActivityIndicator } from 'react-native'
 
 import { useTelepath } from './useTelepath'
 import { createIdentity } from './createIdentity'
 
+import { IdentityManager } from './IdentityManager'
 import { randomBytes } from 'src/crypto'
 
 import {
@@ -16,11 +16,13 @@ import {
   IdentityName
 } from './ui'
 
-const Identity = () => {
+const FirstIdentity = ({ navigation }) => {
   const channel = useRef(undefined)
+  const identityManager = useRef(undefined)
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
+  const [inProgress, setInProgress] = useState(false)
 
   channel.current = useTelepath(message => {
     console.log('received message: ', message)
@@ -32,39 +34,26 @@ const Identity = () => {
     console.log('error: ', error)
   })
 
+  const getIdentityManager = async () => {
+    identityManager.current = await IdentityManager.instance()
+  }
+
+  useEffect(() => {
+    getIdentityManager()
+  }, [])
+
   const persistIdentity = async ({ did, name }) => {
-    console.log('encryptionKeyPair.publicKey:', Buffer.from(encryptionKeyPair.current.publicKey).toString('hex'))
-    console.log('encryptionKeyPair.secretKey:', Buffer.from(encryptionKeyPair.current.secretKey).toString('hex'))
-    console.log('signingKeyPair.publicKey:', Buffer.from(signingKeyPair.current.publicKey).toString('hex'))
-    console.log('signingKeyPair.secretKey:', Buffer.from(signingKeyPair.current.secretKey).toString('hex'))
-    const encryptionKey = {
-      publicKeyBase64: base64url.encode(encryptionKeyPair.current.publicKey),
-      secretKeyBase64: base64url.encode(encryptionKeyPair.current.secretKey)
-    }
-    const signingKey = {
-      publicKeyBase64: base64url.encode(signingKeyPair.current.publicKey),
-      secretKeyBase64: base64url.encode(signingKeyPair.current.secretKey)
-    }
-    const key = base64url.encode(name)
-    const value = base64url.encode(JSON.stringify({
-      did,
-      name,
-      encryptionKey,
-      signingKey
-    }))
-    console.log('key:', key)
-    console.log('value:', value)
     try {
-      await SecureStore.setItemAsync(key, value)
-      const v = await SecureStore.getItemAsync(key)
-      const identity = JSON.parse(base64url.decode(v))
-      const { did, name, encryptionKey, signingKey } = identity
-      console.log('did:', did)
-      console.log('name:', name)
-      console.log('encryptionKey.publicKey:', base64url.toBuffer(encryptionKey.publicKeyBase64).toString('hex'))
-      console.log('encryptionKey.secretKey:', base64url.toBuffer(encryptionKey.secretKeyBase64).toString('hex'))
-      console.log('signingKey.publicKey:', base64url.toBuffer(signingKey.publicKeyBase64).toString('hex'))
-      console.log('signingKey.secretKey:', base64url.toBuffer(signingKey.secretKeyBase64).toString('hex'))
+      const identity = {
+        did,
+        name,
+        encryptionKeyPair: encryptionKeyPair.current,
+        signingKeyPair: signingKeyPair.current
+      }
+      await identityManager.current.addIdentity(identity)
+      await identityManager.current.setCurrent(name)
+      setInProgress(false)
+      navigation.navigate('CurrentIdentity')
     } catch (e) {
       console.error(e)
     }
@@ -90,6 +79,7 @@ const Identity = () => {
   }
 
   const onCreateIdentity = useCallback(async () => {
+    setInProgress(true)
     await createSigningKeyPair()
     await createEncryptionKeyPair()
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
@@ -120,8 +110,9 @@ const Identity = () => {
         disabled={name.length === 0}
         accessibilityLabel='Create an identity...'
       />
+      { inProgress && <ActivityIndicator /> }
     </Container>
   )
 }
 
-export { Identity }
+export { FirstIdentity }
