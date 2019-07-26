@@ -22,6 +22,15 @@ launching the actual service so that a fresh telepath configuration is created.
 The channel provided in the provided `telepath.config` matches the `idapp` configuration in
 `workspaces/idapp/development-lqs.config`.
 
+## GOOGLE_APPLICATION_CREDENTIALS
+
+We use Firebase temporarily when waiting for IPNS to be more reliable.
+To have it working, you need to copy `idbox-firebase.json` (Keybase) to your system and then before starting the service make sure that the following variable is pointing to the full path to the above mentioned file. This will idservice to use Firebase Admin SDK.
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=/Users/mczenko/code/idbox-firebase/idbox-firebase.json
+```
+
 ## serviceUrl
 
 By default, idservice will use `https://idbox-queue.now.sh` as the queuing service. If you want
