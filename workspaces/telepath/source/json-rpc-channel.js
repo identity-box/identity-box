@@ -44,7 +44,7 @@ class JsonRpcChannel {
     }
   }
 
-  start = async () => {
+  connect = async () => {
     await this.channel.subscribe(message => {
       try {
         this.dispatcher.onMessage(this.processMessage(message))
@@ -54,9 +54,8 @@ class JsonRpcChannel {
     }, error => this.dispatcher.onError(error))
   }
 
-  subscribe = async (onMessage, onError) => {
+  subscribe = (onMessage, onError) => {
     const subscription = this.dispatcher.addSubscription(onMessage, onError)
-    await this.start()
     return subscription
   }
 

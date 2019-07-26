@@ -60,6 +60,8 @@ class IdentityManager {
   }
 
   readIdentities = async () => {
+    // uncomment to trigger the "create first identity" screen
+    // await AsyncStorage.removeItem('identityNames')
     const identityNamesStr = await AsyncStorage.getItem('identityNames')
 
     if (!identityNamesStr) return

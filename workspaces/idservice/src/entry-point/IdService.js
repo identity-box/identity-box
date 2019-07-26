@@ -12,7 +12,8 @@ class IdService {
     IPNSFirebase.connect()
     this.identityProvider = new IdentityProvider()
     this.telepath = await this.getTelepath()
-    this.subscription = await this.telepath.subscribe(
+    await this.telepath.connect()
+    this.subscription = this.telepath.subscribe(
       message => this.processMessage(message),
       error => {
         console.log('error: ' + error)

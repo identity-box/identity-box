@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import Constants from 'expo-constants'
 import { Buffers } from '@react-frontend-developer/buffers'
 import base64url from 'base64url'
@@ -34,55 +33,39 @@ const getChannelDescription = () => {
   }
 }
 
-const useTelepath = (onMessage, onError) => {
-  const channel = useRef(undefined)
-  const subscription = useRef(undefined)
+let _instance = null
 
-  const subscribe = () => {
-    console.log('subscribing...')
-    subscription.current = channel.current.subscribe(onMessage, onError)
-    console.log('ok')
-  }
+class TelepathProvider {
+  channel
 
-  const unsubscribe = () => {
-    if (subscription.current) {
-      channel.current.unsubscribe(subscription.current)
+  static instance = async () => {
+    if (!_instance) {
+      _instance = new TelepathProvider()
+      await _instance.readIdentities()
     }
+    return _instance
   }
 
-  const connect = async () => {
+  connect = async () => {
     const telepath = new Telepath({
       serviceUrl: Constants.manifest.extra.queuingServiceUrl,
       randomBytes
     })
-    channel.current = telepath.createChannel(getChannelDescription())
-    channel.current.describe({
+    this.channel = telepath.createChannel(getChannelDescription())
+    this.channel.describe({
       baseUrl: 'https://idbox.now.sh'
     })
 
-    try {
-      console.log('connecting...')
-      await channel.current.connect()
-      console.log('ok')
-    } catch (e) {
-      console.log(e)
-    }
-
-    subscribe()
+    await this.channel.connect()
   }
 
-  useEffect(() => {
-    console.log('Opening telepath channel')
+  subscribe = (onMessage, onError) => {
+    return this.channel.subscribe(onMessage, onError)
+  }
 
-    connect()
-
-    return () => {
-      console.log('unsubscribing...')
-      unsubscribe()
-    }
-  }, [])
-
-  return channel.current
+  unsubscribe = subscription => {
+    this.channel.unsubscribe(subscription)
+  }
 }
 
-export { useTelepath }
+export { TelepathProvider }
