@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { ActivityIndicator, StatusBar } from 'react-native'
 
-import { IdentityManager } from 'src/views/identity'
+import { useTelepath } from 'src/telepath'
+import { useIdentity } from 'src/identity'
 
 import {
   Container,
@@ -10,12 +11,9 @@ import {
 } from 'src/views/identity/ui'
 
 const AppLoading = ({ navigation }) => {
-  const identityManager = useRef(undefined)
-
-  const selectScreen = async () => {
-    identityManager.current = await IdentityManager.instance()
-
-    if (identityManager.current.hasIdentities()) {
+  useTelepath()
+  useIdentity(identityManager => {
+    if (identityManager.hasIdentities()) {
       console.log('has identities')
       setTimeout(() => {
         navigation.navigate('CurrentIdentity')
@@ -26,11 +24,7 @@ const AppLoading = ({ navigation }) => {
         navigation.navigate('FirstIdentity')
       }, 2000)
     }
-  }
-
-  useEffect(() => {
-    selectScreen()
-  }, [])
+  })
 
   return (
     <Container>

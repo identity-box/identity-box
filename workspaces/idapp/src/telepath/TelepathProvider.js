@@ -41,7 +41,7 @@ class TelepathProvider {
   static instance = async () => {
     if (!_instance) {
       _instance = new TelepathProvider()
-      await _instance.readIdentities()
+      await _instance.connect()
     }
     return _instance
   }

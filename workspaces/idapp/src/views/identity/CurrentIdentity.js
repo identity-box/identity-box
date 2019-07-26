@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 
-import { IdentityManager } from './IdentityManager'
+import { useIdentity } from 'src/identity'
 
 import {
   Container,
@@ -9,18 +9,11 @@ import {
 } from 'src/views/identity/ui'
 
 const CurrentIdentity = () => {
-  const identityManager = useRef(undefined)
-
   const [identity, setIdentity] = useState({ name: '', did: '' })
 
-  const getIdentityManager = async () => {
-    identityManager.current = await IdentityManager.instance()
-    setIdentity(identityManager.current.getCurrent())
-  }
-
-  useEffect(() => {
-    getIdentityManager()
-  }, [])
+  useIdentity(identityManager => {
+    setIdentity(identityManager.getCurrent())
+  })
 
   return (
     <Container>

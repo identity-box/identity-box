@@ -1,13 +1,13 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 import { Button, ActivityIndicator } from 'react-native'
 
-import { useTelepath } from './useTelepath'
-import { createIdentity } from './createIdentity'
-
-import { IdentityManager } from './IdentityManager'
 import { randomBytes } from 'src/crypto'
+import { useTelepath } from 'src/telepath'
+import { useIdentity } from 'src/identity'
+
+import { createIdentity } from './createIdentity'
 
 import {
   Container,
@@ -17,14 +17,14 @@ import {
 } from './ui'
 
 const FirstIdentity = ({ navigation }) => {
-  const channel = useRef(undefined)
   const identityManager = useRef(undefined)
+  const telepathProvider = useRef(undefined)
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
   const [inProgress, setInProgress] = useState(false)
 
-  channel.current = useTelepath(message => {
+  telepathProvider.current = useTelepath(message => {
     console.log('received message: ', message)
     if (message.method === 'set_identity' && message.params && message.params.length === 1) {
       const { identity } = message.params[0]
@@ -34,13 +34,7 @@ const FirstIdentity = ({ navigation }) => {
     console.log('error: ', error)
   })
 
-  const getIdentityManager = async () => {
-    identityManager.current = await IdentityManager.instance()
-  }
-
-  useEffect(() => {
-    getIdentityManager()
-  }, [])
+  identityManager.current = useIdentity()
 
   const persistIdentity = async ({ did, name }) => {
     try {
@@ -85,7 +79,7 @@ const FirstIdentity = ({ navigation }) => {
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
-      telepathChannel: channel.current,
+      telepathChannel: telepathProvider.current.channel,
       name,
       publicEncryptionKey,
       publicSigningKey
