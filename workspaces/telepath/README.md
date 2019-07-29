@@ -118,7 +118,7 @@ We see that an identifier is just a base64 encoded random buffer.
 The same applies for the key, but here the length is aligned with `nacl.secretbox.keyLength`.
 You have to take this into account when using your own `randomBytes` function (e.g. on React Native).
 
-A new thing in the example about if `clientId`. Client Id is not something that belongs to the channel description
+A new thing in the example above is `clientId`. Client Id is not something that belongs to the channel description
 and formally speaking is optional, although highly recommended.
 
 Telepath always maintains a channel between two, and only two parties at the very moment. Internally, when you subscribe

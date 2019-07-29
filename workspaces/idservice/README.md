@@ -33,7 +33,7 @@ The channel provided in the provided `telepath.config` matches the `idapp` confi
 ## GOOGLE\_APPLICATION\_CREDENTIALS
 
 We use Firebase temporarily when waiting for IPNS to be more reliable.
-To have it working, you need to copy `idbox-firebase.json` (Keybase) to your system and then before starting the service make sure that the following variable is pointing to the full path to the above mentioned file. This will idservice to use Firebase Admin SDK.
+To have it working, you need to copy `idbox-firebase.json` (Keybase) to your system and then before starting the service make sure that the following variable is pointing to the full path to the above mentioned file. This will make idservice to use Firebase Admin SDK.
 
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS=<path to idbox-firebase.json>
