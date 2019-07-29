@@ -13,6 +13,14 @@ $ yarn add @identity-box/idservice
 $ yarn setup.sh
 ```
 
+## IPFS
+
+Make sure the IPFS daemon is running:
+
+```bash
+ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment
+```
+
 ## telepath.config
 
 This is the file where your telepath configuration is kept. The included `telepath.config`
