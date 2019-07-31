@@ -1,10 +1,20 @@
 import styled from '@emotion/native'
 
-const Container = styled.View({
+const PageContainer = styled.View({
   flex: 1,
+  display: 'flex',
+  flexFlow: 'column',
   justifyContent: 'center',
+  alignItems: 'center'
+})
+
+const Container = styled.View({
+  display: 'flex',
+  flexFlow: 'column',
+  justifyContent: 'flex-start',
   alignItems: 'center',
-  backgroundColor: '#F5FCFF'
+  height: '70%',
+  width: '80%'
 })
 
 const Welcome = styled.Text({
@@ -15,20 +25,19 @@ const Welcome = styled.Text({
 
 const Description = styled.Text({
   fontSize: 12,
-  width: '60%',
-  textAlign: 'center',
-  margin: 10
+  textAlign: 'center'
 })
 
 const IdentityName = styled.TextInput({
   height: 40,
-  width: '60%',
   marginTop: 30,
   marginBottom: 30,
+  width: '100%',
   textAlign: 'center'
 })
 
 export {
+  PageContainer,
   Container,
   Welcome,
   Description,

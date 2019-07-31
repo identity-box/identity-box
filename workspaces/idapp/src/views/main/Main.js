@@ -4,8 +4,8 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer } from 
 import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
 import { AppLoading } from './AppLoading'
 
-const DefaultAppStack = createStackNavigator({ CurrentIdentity })
-const FirstIdentityStack = createStackNavigator({ FirstIdentity })
+const DefaultAppStack = createStackNavigator({ CurrentIdentity }, { headerMode: 'none' })
+const FirstIdentityStack = createStackNavigator({ FirstIdentity }, { headerMode: 'none' })
 
 const AppContainer = createAppContainer(createSwitchNavigator({
   AppLoading,

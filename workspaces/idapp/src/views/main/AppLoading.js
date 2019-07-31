@@ -1,10 +1,12 @@
 import React from 'react'
+import styled from '@emotion/native'
 import { ActivityIndicator, StatusBar } from 'react-native'
 
 import { useTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
 
 import {
+  PageContainer,
   Container,
   Welcome,
   Description
@@ -27,12 +29,16 @@ const AppLoading = ({ navigation }) => {
   })
 
   return (
-    <Container>
-      <Welcome>Welcome to Identity Box App!</Welcome>
-      <ActivityIndicator />
-      <Description>Initializing...</Description>
-      <StatusBar barStyle='default' />
-    </Container>
+    <PageContainer>
+      <Container style={{
+        justifyContent: 'center'
+      }}>
+        <Welcome>Welcome to Identity Box App!</Welcome>
+        <ActivityIndicator />
+        <Description style={{ marginTop: 10 }}>Initializing...</Description>
+        <StatusBar barStyle='default' />
+      </Container>
+    </PageContainer>
   )
 }
 
