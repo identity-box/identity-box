@@ -101,7 +101,7 @@ $ pm2 logs idservice
 
 This shows all the logs of idservice and outputs the last 15 lines (the default).
 
-To see only standard output logs, and print more lines from the output use: 
+To see only standard output logs, and print more lines from the output use:
 
 ```bash
 $ pm2 logs idservice --out --lines 150
