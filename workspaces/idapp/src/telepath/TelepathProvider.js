@@ -5,35 +5,25 @@ import { randomBytes } from 'src/crypto'
 
 import { TelepathConfiguration } from './TelepathConfiguration'
 
-// const getChannelDescription = () => {
-//   const {
-//     id,
-//     key,
-//     appName,
-//     clientId
-//   } = Constants.manifest.extra.telepathChannel
-//   return {
-//     id,
-//     key: Buffers.copyToUint8Array(base64url.toBuffer(key)),
-//     appName,
-//     clientId
-//   }
-// }
-
 let _instance = null
 
 class TelepathProvider {
   channel
+  connected = false
 
-  static instance = async () => {
+  static instance = async channelDescription => {
     if (!_instance) {
+      console.log('TelepathProvider: creating new instance...')
       _instance = new TelepathProvider()
-      await _instance.connect()
+    }
+    if (!_instance.connected) {
+      await _instance.connect(channelDescription)
     }
     return _instance
   }
 
-  connect = async () => {
+  connect = async channelDescription => {
+    const telepathConfiguration = await TelepathConfiguration.instance(channelDescription)
     // The queuing service url (queuingServiceUrl) for the app comes from one of the config files.
     // Before starting the app make sure to create a valid config file
     // with the configuration that you want to use. Please
@@ -51,18 +41,13 @@ class TelepathProvider {
       serviceUrl: Constants.manifest.extra.queuingServiceUrl,
       randomBytes
     })
-    const {
-      id,
-      key,
-      appName
-    } = Constants.manifest.extra.telepathChannel
-    const telepathConfiguration = await TelepathConfiguration.instance({ id, key, appName })
     this.channel = telepath.createChannel(telepathConfiguration.get())
     this.channel.describe({
       baseUrl: 'https://idbox.now.sh'
     })
 
     await this.channel.connect()
+    this.connected = true
   }
 
   subscribe = (onMessage, onError) => {

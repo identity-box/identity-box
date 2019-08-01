@@ -25,14 +25,17 @@ const FirstIdentity = ({ navigation }) => {
   const [name, setName] = useState('')
   const [inProgress, setInProgress] = useState(false)
 
-  telepathProvider.current = useTelepath(message => {
-    console.log('received message: ', message)
-    if (message.method === 'set_identity' && message.params && message.params.length === 1) {
-      const { identity } = message.params[0]
-      persistIdentity(identity)
+  telepathProvider.current = useTelepath({
+    onMessage: message => {
+      console.log('received message: ', message)
+      if (message.method === 'set_identity' && message.params && message.params.length === 1) {
+        const { identity } = message.params[0]
+        persistIdentity(identity)
+      }
+    },
+    onError: error => {
+      console.log('error: ', error)
     }
-  }, error => {
-    console.log('error: ', error)
   })
 
   identityManager.current = useIdentity()

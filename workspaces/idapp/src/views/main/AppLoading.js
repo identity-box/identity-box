@@ -1,9 +1,8 @@
 import React from 'react'
-import styled from '@emotion/native'
 import { ActivityIndicator, StatusBar } from 'react-native'
 
 import { useTelepath } from 'src/telepath'
-import { useIdentity } from 'src/identity'
+import { IdentityManager } from 'src/identity'
 
 import {
   PageContainer,
@@ -13,18 +12,23 @@ import {
 } from 'src/views/identity/ui'
 
 const AppLoading = ({ navigation }) => {
-  useTelepath()
-  useIdentity(identityManager => {
-    if (identityManager.hasIdentities()) {
-      console.log('has identities')
-      setTimeout(() => {
-        navigation.navigate('CurrentIdentity')
-      }, 2000)
-    } else {
-      console.log('does not have any identities yet')
-      setTimeout(() => {
-        navigation.navigate('FirstIdentity')
-      }, 2000)
+  useTelepath({
+    onMissingTelepathConfiguration: () => {
+      navigation.navigate('ScanIdBoxTelepath')
+    },
+    onTelepathReady: async () => {
+      const identityManager = await IdentityManager.instance()
+      if (identityManager.hasIdentities()) {
+        console.log('has identities')
+        setTimeout(() => {
+          navigation.navigate('CurrentIdentity')
+        }, 2000)
+      } else {
+        console.log('does not have any identities yet')
+        setTimeout(() => {
+          navigation.navigate('FirstIdentity')
+        }, 2000)
+      }
     }
   })
 
