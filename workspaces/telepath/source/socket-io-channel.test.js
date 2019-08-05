@@ -114,8 +114,10 @@ describe('SocketIOChannel', () => {
       expect(service.socket).toBe(socketStub)
       expect(socketStub.connect.mock.calls.length).toBe(1)
       expect(socketStub.on.mock.calls[0][0]).toBe('connect')
-      expect(socketStub.on.mock.calls[1][0]).toBe('message')
-      expect(socketStub.on.mock.calls[2][0]).toBe('error')
+      expect(socketStub.on.mock.calls[1][0]).toBe('disconnect')
+      expect(socketStub.on.mock.calls[2][0]).toBe('reconnect')
+      expect(socketStub.on.mock.calls[3][0]).toBe('message')
+      expect(socketStub.on.mock.calls[4][0]).toBe('error')
     })
 
     it('it identifies itself when socket connects', () => {
@@ -146,7 +148,7 @@ describe('SocketIOChannel', () => {
       })
 
       it('base64url decodes incoming messages', () => {
-        const registeredMessasgeHandler = socketStub.on.mock.calls[1][1]
+        const registeredMessasgeHandler = socketStub.on.mock.calls[3][1]
         const message = Buffer.from('a message')
         const encodedMessage = base64url.encode(message)
         registeredMessasgeHandler(encodedMessage)
