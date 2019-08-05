@@ -13,7 +13,9 @@ import {
 
 const AppLoading = ({ navigation }) => {
   useIdBoxTelepath({
-    onMissingTelepathConfiguration: () => {
+    name: 'idbox',
+    reset: false,
+    onError: () => {
       navigation.navigate('ScanIdBoxTelepath')
     },
     onTelepathReady: async () => {

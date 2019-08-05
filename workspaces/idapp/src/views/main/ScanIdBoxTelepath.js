@@ -3,7 +3,7 @@ import { Button, View, StyleSheet } from 'react-native'
 import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
-import { TelepathConfiguration } from 'src/telepath'
+import { MultiTelepathConfiguration } from 'src/telepath'
 
 import {
   PageContainer,
@@ -41,7 +41,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
     setScanning(false)
     const channelDescription = getChannelDescription(data)
     console.log('channelDescription:', channelDescription)
-    const telepathConfiguration = await TelepathConfiguration.instance()
+    const telepathConfiguration = MultiTelepathConfiguration.instance('idbox')
     await telepathConfiguration.set(channelDescription)
     navigation.navigate('AppLoading')
   })

@@ -1,2 +1,2 @@
 export { useIdBoxTelepath } from './useIdBoxTelepath'
-export { TelepathConfiguration } from './TelepathConfiguration'
+export { MultiTelepathConfiguration } from './MultiTelepathConfiguration'

@@ -26,6 +26,7 @@ const FirstIdentity = ({ navigation }) => {
   const [inProgress, setInProgress] = useState(false)
 
   telepathProvider.current = useIdBoxTelepath({
+    name: 'idbox',
     onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'set_identity' && message.params && message.params.length === 1) {

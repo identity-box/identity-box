@@ -3,27 +3,38 @@ import { Telepath } from '@identity-box/telepath'
 
 import { randomBytes } from 'src/crypto'
 
-import { TelepathConfiguration } from './TelepathConfiguration'
+import { MultiTelepathConfiguration } from './MultiTelepathConfiguration'
 
-let _instance = null
+const _instances = {}
 
-class TelepathProvider {
-  channel
+class MultiTelepathProvider {
+  name
+  channels = {}
   connected = false
 
-  static instance = async channelDescription => {
-    if (!_instance) {
-      console.log('TelepathProvider: creating new instance...')
-      _instance = new TelepathProvider()
+  static instance = async name => {
+    if (!_instances[name]) {
+      console.log('MultiTelepathProvider: creating new provider instance...')
+      _instances[name] = new MultiTelepathProvider(name)
     }
-    if (!_instance.connected) {
-      await _instance.connect(channelDescription)
-    }
-    return _instance
+    return _instances[name]
+  }
+
+  constructor (name) {
+    this.name = name
   }
 
   connect = async channelDescription => {
-    const telepathConfiguration = await TelepathConfiguration.instance(channelDescription)
+    const telepathConfigurationProvider = MultiTelepathConfiguration.instance(this.name)
+    if (channelDescription) {
+      await telepathConfigurationProvider.set(channelDescription)
+    }
+
+    const telepathConfiguration = await telepathConfigurationProvider.get()
+
+    if (!telepathConfiguration) {
+      throw new Error(`Cannot connect! Missing telepath configuration with name ${this.name}`)
+    }
     // The queuing service url (queuingServiceUrl) for the app comes from one of the config files.
     // Before starting the app make sure to create a valid config file
     // with the configuration that you want to use. Please
@@ -41,7 +52,7 @@ class TelepathProvider {
       serviceUrl: Constants.manifest.extra.queuingServiceUrl,
       randomBytes
     })
-    this.channel = telepath.createChannel(telepathConfiguration.get())
+    this.channel = telepath.createChannel(telepathConfiguration)
     this.channel.describe({
       baseUrl: 'https://idbox.now.sh'
     })
@@ -59,4 +70,4 @@ class TelepathProvider {
   }
 }
 
-export { TelepathProvider }
+export { MultiTelepathProvider }

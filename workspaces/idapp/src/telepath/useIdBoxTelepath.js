@@ -1,19 +1,29 @@
 import { useEffect, useRef } from 'react'
-import { TelepathProvider } from './TelepathProvider'
+import { AsyncStorage } from 'react-native'
+import { MultiTelepathProvider } from './MultiTelepathProvider'
+import { MultiTelepathConfiguration } from './MultiTelepathConfiguration'
 
 const useIdBoxTelepath = ({
+  name,
+  reset,
+  channelDescription,
   onMessage,
   onError,
-  channelDescription,
-  onTelepathReady,
-  onMissingTelepathConfiguration
+  onTelepathReady
 } = {}, deps = []) => {
   const telepathProvider = useRef(undefined)
   const subscription = useRef(undefined)
 
   const subscribe = async () => {
     try {
-      telepathProvider.current = await TelepathProvider.instance(channelDescription)
+      if (reset) {
+        await AsyncStorage.removeItem('identityNames')
+        await MultiTelepathConfiguration.reset(name)
+      }
+      telepathProvider.current = await MultiTelepathProvider.instance(name)
+      if (!telepathProvider.current.connected) {
+        await telepathProvider.current.connect(channelDescription)
+      }
       if (onMessage) {
         console.log('subscribing...')
         subscription.current = telepathProvider.current.subscribe(onMessage, onError)
@@ -22,7 +32,7 @@ const useIdBoxTelepath = ({
       onTelepathReady && onTelepathReady()
     } catch (e) {
       console.log(e.message)
-      onMissingTelepathConfiguration && onMissingTelepathConfiguration(e)
+      onError && onError(e)
     }
   }
 

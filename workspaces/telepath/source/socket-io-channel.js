@@ -5,14 +5,22 @@ class SocketIOChannel {
   pendingMessages = []
   setupDone = false
   socketFactoryMethod
+  channelId
+  onMessage
+  onError
+  timeout
 
   constructor ({ clientId, socketFactoryMethod }) {
     this.clientId = clientId
     this.socketFactoryMethod = socketFactoryMethod
+    this.socket = this.socketFactoryMethod()
   }
 
   async start ({ channelId, onMessage, onError, timeout = 30000 }) {
-    this.socket = this.socketFactoryMethod()
+    this.channelId = channelId
+    this.onMessage = onMessage
+    this.onError = onError
+    this.timeout = timeout
     await this.waitUntilConnected(timeout)
     this.installEventHandlers({ onMessage, onError })
     await this.identify({ channelId, timeout })
@@ -59,6 +67,38 @@ class SocketIOChannel {
   }
 
   installEventHandlers ({ onMessage, onError }) {
+    this.socket.on('disconnect', async reason => {
+      this.setupDone = false
+      if (reason === 'io server disconnect') {
+        console.log('server disconnected - trying to reconnect...')
+        try {
+          await this.start({
+            channelId: this.channelId,
+            onMessage: this.onMessage,
+            onError: this.onError,
+            timeout: this.timeout
+          })
+        } catch (e) {
+          console.log('error reconnecting:', e)
+          onError && onError(e)
+        }
+      } else {
+        console.log('disconnected - trying to reconnect...')
+      }
+    })
+    this.socket.on('reconnect', async () => {
+      console.log('reconnected')
+      try {
+        await this.identify({
+          channelId: this.channelId,
+          timeout: this.timeout
+        })
+        this.setupDone = true
+      } catch (e) {
+        console.log('could not re-identify when reconnecting:', e)
+        this.onError && this.onError(e)
+      }
+    })
     this.socket.on('message', message => {
       onMessage(base64url.toBuffer(message))
     })
