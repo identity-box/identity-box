@@ -4,7 +4,7 @@ import nacl from 'tweetnacl'
 import { Button, ActivityIndicator } from 'react-native'
 
 import { randomBytes } from 'src/crypto'
-import { useTelepath } from 'src/telepath'
+import { useIdBoxTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
 
 import { createIdentity } from './createIdentity'
@@ -25,7 +25,7 @@ const FirstIdentity = ({ navigation }) => {
   const [name, setName] = useState('')
   const [inProgress, setInProgress] = useState(false)
 
-  telepathProvider.current = useTelepath({
+  telepathProvider.current = useIdBoxTelepath({
     onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'set_identity' && message.params && message.params.length === 1) {

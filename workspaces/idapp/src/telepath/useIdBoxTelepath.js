@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { TelepathProvider } from './TelepathProvider'
 
-const useTelepath = ({
+const useIdBoxTelepath = ({
   onMessage,
   onError,
   channelDescription,
@@ -44,4 +44,4 @@ const useTelepath = ({
   return telepathProvider.current
 }
 
-export { useTelepath }
+export { useIdBoxTelepath }

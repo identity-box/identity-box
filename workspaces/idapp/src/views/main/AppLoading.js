@@ -1,7 +1,7 @@
 import React from 'react'
 import { ActivityIndicator, StatusBar } from 'react-native'
 
-import { useTelepath } from 'src/telepath'
+import { useIdBoxTelepath } from 'src/telepath'
 import { IdentityManager } from 'src/identity'
 
 import {
@@ -12,7 +12,7 @@ import {
 } from 'src/views/identity/ui'
 
 const AppLoading = ({ navigation }) => {
-  useTelepath({
+  useIdBoxTelepath({
     onMissingTelepathConfiguration: () => {
       navigation.navigate('ScanIdBoxTelepath')
     },
