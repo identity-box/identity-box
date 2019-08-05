@@ -2,9 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
 import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-// import styled from '@emotion/native'
 
-import { useIdentity } from 'src/identity'
+import { MultiTelepathConfiguration } from 'src/telepath'
 
 import {
   PageContainer,
@@ -13,14 +12,9 @@ import {
   Welcome
 } from 'src/views/identity/ui'
 
-const CurrentIdentity = () => {
-  const [identity, setIdentity] = useState({ name: '', did: '' })
+const ScanIdBoxTelepath = ({ navigation }) => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
-
-  useIdentity(identityManager => {
-    setIdentity(identityManager.getCurrent())
-  })
 
   const enableCamera = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
@@ -36,19 +30,30 @@ const CurrentIdentity = () => {
     setScanning(true)
   }, [])
 
-  const handleBarCodeScanned = useCallback(({ type, data }) => {
+  const getChannelDescription = connectUrl => {
+    const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)/)
+
+    return match && match.groups
+  }
+
+  const handleBarCodeScanned = useCallback(async ({ type, data }) => {
     console.log(`Code scanned. Type: ${type}, data: ${data}`)
     setScanning(false)
+    const channelDescription = getChannelDescription(data)
+    console.log('channelDescription:', channelDescription)
+    const telepathConfiguration = MultiTelepathConfiguration.instance('idbox')
+    await telepathConfiguration.set(channelDescription)
+    navigation.navigate('AppLoading')
   })
 
   return (
     <PageContainer>
       <Container>
-        <Welcome>{identity.name}</Welcome>
+        <Welcome>Identity Box</Welcome>
         <Description style={{
           flexGrow: 1
         }}>
-          {identity.did}
+          Scan your Identity Box QR-Code to connect...
         </Description>
         { scanning && <View style={{
           width: 200,
@@ -70,4 +75,4 @@ const CurrentIdentity = () => {
   )
 }
 
-export { CurrentIdentity }
+export { ScanIdBoxTelepath }

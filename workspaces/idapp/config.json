@@ -24,7 +24,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "IdApp uses the camera to scan QR codes in order to communicate with the browser."
+      }
     },
     "packagerOpts": {
       "config": "metro.config.js"

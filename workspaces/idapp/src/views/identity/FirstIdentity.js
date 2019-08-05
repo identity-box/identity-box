@@ -10,6 +10,7 @@ import { useIdentity } from 'src/identity'
 import { createIdentity } from './createIdentity'
 
 import {
+  PageContainer,
   Container,
   Welcome,
   Description,
@@ -24,14 +25,18 @@ const FirstIdentity = ({ navigation }) => {
   const [name, setName] = useState('')
   const [inProgress, setInProgress] = useState(false)
 
-  telepathProvider.current = useTelepath(message => {
-    console.log('received message: ', message)
-    if (message.method === 'set_identity' && message.params && message.params.length === 1) {
-      const { identity } = message.params[0]
-      persistIdentity(identity)
+  telepathProvider.current = useTelepath({
+    name: 'idbox',
+    onMessage: message => {
+      console.log('received message: ', message)
+      if (message.method === 'set_identity' && message.params && message.params.length === 1) {
+        const { identity } = message.params[0]
+        persistIdentity(identity)
+      }
+    },
+    onError: error => {
+      console.log('error: ', error)
     }
-  }, error => {
-    console.log('error: ', error)
   })
 
   identityManager.current = useIdentity()
@@ -87,25 +92,31 @@ const FirstIdentity = ({ navigation }) => {
   }, [name])
 
   return (
-    <Container>
-      <Welcome>Create your first identity</Welcome>
-      <Description>
-        Give your identity an easy to remember name.
-        This name will not be shared.
-      </Description>
-      <IdentityName
-        placeholder='Some easy to remember name here...'
-        onChangeText={setName}
-        value={name}
-      />
-      <Button
-        onPress={onCreateIdentity}
-        title='Create...'
-        disabled={name.length === 0}
-        accessibilityLabel='Create an identity...'
-      />
-      { inProgress && <ActivityIndicator /> }
-    </Container>
+    <PageContainer>
+      <Container style={{
+        justifyContent: 'center'
+      }}>
+        <Welcome>Create your first identity</Welcome>
+        <Description>
+          Give your identity an easy to remember name.
+        </Description>
+        <Description>
+          This name will not be shared.
+        </Description>
+        <IdentityName
+          placeholder='Some easy to remember name here...'
+          onChangeText={setName}
+          value={name}
+        />
+        <Button
+          onPress={onCreateIdentity}
+          title='Create...'
+          disabled={name.length === 0}
+          accessibilityLabel='Create an identity...'
+        />
+        { inProgress && <ActivityIndicator /> }
+      </Container>
+    </PageContainer>
   )
 }
 
