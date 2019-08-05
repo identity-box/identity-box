@@ -1,50 +1,32 @@
 import { useEffect, useRef } from 'react'
-import Constants from 'expo-constants'
-import base64url from 'base64url'
-import { Buffers } from '@react-frontend-developer/buffers'
-import { Telepath } from '@identity-box/telepath'
-
-import { randomBytes } from 'src/crypto'
-
-// why 12? why not...
-const clientIdEntropy = 12
+import { AsyncStorage } from 'react-native'
+import { MultiTelepathProvider } from './MultiTelepathProvider'
+import { MultiTelepathConfiguration } from './MultiTelepathConfiguration'
 
 const useTelepath = ({
+  name,
+  reset,
+  channelDescription,
   onMessage,
   onError,
-  channelDescription,
   onTelepathReady
 } = {}, deps = []) => {
-  const channel = useRef(undefined)
+  const telepathProvider = useRef(undefined)
   const subscription = useRef(undefined)
-
-  const createClientId = async () => {
-    const clientIdBytes = await randomBytes(clientIdEntropy)
-    return base64url.encode(clientIdBytes)
-  }
 
   const subscribe = async () => {
     try {
-      const clientId = await createClientId()
-      const telepath = new Telepath({
-        serviceUrl: Constants.manifest.extra.queuingServiceUrl,
-        randomBytes
-      })
-      channel.current = telepath.createChannel({
-        id: channelDescription.id,
-        key: Buffers.copyToUint8Array(base64url.toBuffer(channelDescription.key)),
-        appName: base64url.decode(channelDescription.appName),
-        clientId
-      })
-      channel.current.describe({
-        baseUrl: 'https://idbox.now.sh'
-      })
-
-      await channel.current.connect()
-
+      if (reset) {
+        await AsyncStorage.removeItem('identityNames')
+        await MultiTelepathConfiguration.reset(name)
+      }
+      telepathProvider.current = await MultiTelepathProvider.instance(name)
+      if (!telepathProvider.current.connected) {
+        await telepathProvider.current.connect(channelDescription)
+      }
       if (onMessage) {
         console.log('subscribing...')
-        subscription.current = channel.current.subscribe(onMessage, onError)
+        subscription.current = telepathProvider.current.subscribe(onMessage, onError)
         console.log('ok')
       }
       onTelepathReady && onTelepathReady()
@@ -55,9 +37,9 @@ const useTelepath = ({
   }
 
   const unsubscribe = () => {
-    if (channel.current && subscription.current !== undefined) {
+    if (telepathProvider.current && subscription.current !== undefined) {
       console.log('unsubscribing...')
-      channel.current.unsubscribe(subscription.current)
+      telepathProvider.current.unsubscribe(subscription.current)
     }
   }
 
@@ -69,7 +51,7 @@ const useTelepath = ({
     }
   }, deps)
 
-  return channel.current
+  return telepathProvider.current
 }
 
 export { useTelepath }
