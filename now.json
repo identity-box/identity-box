@@ -2,12 +2,12 @@
   "version": 2,
   "name": "Identity Box",
   "builds": [
-    { "src": "workspaces/webapp/package.json", "use": "@now/next" },
+    { "src": "workspaces/hush-hush/package.json", "use": "@now/next" },
     { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
   ],
   "routes": [
-    { "src": "/webapp", "dest": "/workspaces/webapp/" },
-    { "src": "/webapp/(.*)", "dest": "/workspaces/webapp/$1" },
+    { "src": "/hush-hush", "dest": "/workspaces/hush-hush/" },
+    { "src": "/hush-hush/(.*)", "dest": "/workspaces/hush-hush/$1" },
     { "src": "/(?<path>.*)", "dest": "/workspaces/homepage/$path"}
   ],
   "scope": "identity-box",
