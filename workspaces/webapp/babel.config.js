@@ -20,7 +20,7 @@ function setupPresets (babelEnv) {
       'next/babel', {
         'preset-env': {
           modules: false,
-          targets: '> 0.25%, not dead'
+          targets: ['> 0.25%, not dead']
         }
       }
     ],
