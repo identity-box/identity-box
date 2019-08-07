@@ -3,7 +3,7 @@ const webpack = require('webpack')
 
 module.exports = withCSS({
   target: 'serverless',
-  assetPrefix: '/webapp',
+  assetPrefix: '/hush-hush',
   webpack (config) {
     config.module.rules.push({
       test: /\.(png|svg|eot|otf|ttf|woff|woff2)$/,
@@ -12,7 +12,7 @@ module.exports = withCSS({
         options: {
           limit: 10000,
           emitFile: true,
-          publicPath: '/webapp/_next/static/',
+          publicPath: '/hush-hush/_next/static/',
           outputPath: 'static/',
           name: '[name].[ext]'
         }
