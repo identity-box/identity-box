@@ -11,10 +11,10 @@ import { useScrollResoration } from './useScrollRestoration'
 import { useMobileDocumentNavigator } from './useMobileDocumentNavigator'
 
 const DocumentationLayoutSmall = ({ children, location, data, onStateChanged, deltas }) => {
-  const [ menuActive, setMenuActive ] = useState(false)
-  const [ position, setPosition ] = useState('relative')
-  const [ grid, setGrid ] = useState('300px 100vw')
-  const [ animationDelay, setAnimationDelay ] = useState(0)
+  const [menuActive, setMenuActive] = useState(false)
+  const [position, setPosition] = useState('relative')
+  const [grid, setGrid] = useState('300px 100vw')
+  const [animationDelay, setAnimationDelay] = useState(0)
 
   const {
     recordScrollPosition,

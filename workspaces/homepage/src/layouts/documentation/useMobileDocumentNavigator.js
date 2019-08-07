@@ -7,7 +7,7 @@ const useMobileDocumentNavigator = ({
   onNewPathSelected,
   location
 }, deps) => {
-  const [ prevLocation, setPrevLocation ] = useState()
+  const [prevLocation, setPrevLocation] = useState()
 
   const navigateUnusually = ({ path, pathWithHash }) => {
     setTimeout(() => {

@@ -44,8 +44,8 @@ const MobileNavigation = ({ menuActive, title, docs, location, onStateChanged, d
 }
 
 const DocumentationLayoutMedium = ({ children, location, data, onStateChanged, deltas }) => {
-  const [ menuActive, setMenuActive ] = useState(false)
-  const [ prevLocation, setPrevLocation ] = useState()
+  const [menuActive, setMenuActive] = useState(false)
+  const [prevLocation, setPrevLocation] = useState()
 
   const showMenu = () => {
     setMenuActive(!menuActive)

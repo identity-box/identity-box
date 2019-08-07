@@ -5,7 +5,9 @@ import { IPNSFirebase } from '../services'
 
 class IdService {
   identityProvider
+
   telepath
+
   subscription
 
   start = async () => {

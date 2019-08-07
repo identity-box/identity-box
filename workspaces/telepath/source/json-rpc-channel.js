@@ -3,6 +3,7 @@ import { MessageDispatcher } from './message-dispatcher'
 
 class JsonRpcChannel {
   channel
+
   dispatcher
 
   constructor ({ channel }) {

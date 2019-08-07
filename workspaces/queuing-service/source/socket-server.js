@@ -44,7 +44,7 @@ class SocketServer {
   }
 
   onIdentify (clientSocket, { channelId, clientId }) {
-    let clientsForQueue = this.removeClientIdFromClients(
+    const clientsForQueue = this.removeClientIdFromClients(
       clientId,
       this.clients[channelId] || []
     )
@@ -138,7 +138,7 @@ class SocketServer {
     const channelId = senderSocket.channelId
     const clientId = senderSocket.clientId
     Logger.logInfo(`adding pending message on channel ${senderSocket.channelId}`)
-    let pendingMessages = this.pendingMessages.get(channelId) || []
+    const pendingMessages = this.pendingMessages.get(channelId) || []
     if (pendingMessages.length === maximumQueueSize) {
       Logger.logError('too many pending messagess')
       return new ServerError('too many pending messagess')

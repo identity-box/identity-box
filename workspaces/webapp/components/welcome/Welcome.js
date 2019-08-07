@@ -3,7 +3,7 @@ import { PageCentered, Centered, Spacer } from '@react-frontend-developer/react-
 import { Segment, Button, Icon, Header } from 'semantic-ui-react'
 
 const Welcome = () => {
-  const [ iconName, setIconName ] = useState('thumbs up')
+  const [iconName, setIconName] = useState('thumbs up')
 
   const onClick = () => {
     iconName === 'thumbs up'

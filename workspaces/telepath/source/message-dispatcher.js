@@ -1,5 +1,6 @@
 class MessageDispatcher {
   messageHandlers = []
+
   errorHandlers = []
 
   addSubscription = (onMessage, onError) => {

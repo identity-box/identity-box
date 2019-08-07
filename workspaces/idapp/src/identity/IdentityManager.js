@@ -7,7 +7,9 @@ let _instance = null
 
 class IdentityManager {
   identityNames = []
+
   identities = {}
+
   current
 
   static instance = async () => {

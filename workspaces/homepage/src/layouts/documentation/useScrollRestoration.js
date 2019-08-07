@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 
 const useScrollResoration = () => {
-  const [ enabled, setEnabled ] = useState(false)
+  const [enabled, setEnabled] = useState(false)
   const scrollPos = useRef(null)
 
   const recordScrollPosition = () => {

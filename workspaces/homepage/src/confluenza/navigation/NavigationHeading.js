@@ -7,6 +7,7 @@ class NavigationHeading extends React.Component {
   state = {
     cln: ''
   }
+
   getActiveProps = (currentLocation, href) => {
     this.location = currentLocation.pathname.replace(/\/$/, '')
     this.hash = currentLocation.hash

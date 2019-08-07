@@ -2,6 +2,7 @@ import ipfsClient from 'ipfs-http-client'
 
 class IdentityProvider {
   ipfs
+
   id
 
   constructor () {

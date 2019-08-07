@@ -3,11 +3,17 @@ import timeoutCallback from 'timeout-callback'
 
 class SocketIOChannel {
   pendingMessages = []
+
   setupDone = false
+
   socketFactoryMethod
+
   channelId
+
   onMessage
+
   onError
+
   timeout
 
   constructor ({ clientId, socketFactoryMethod }) {

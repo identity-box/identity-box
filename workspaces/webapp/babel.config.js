@@ -13,7 +13,7 @@ module.exports = function (api) {
 
 function setupPresets (babelEnv) {
   const emotion = babelEnv === 'production'
-    ? { 'hoist': true }
+    ? { hoist: true }
     : { sourceMap: true, autoLabel: true }
   return [
     [

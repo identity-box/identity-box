@@ -112,7 +112,7 @@ describe('socket server', () => {
       })
 
       it('allows max 2 parties per queue id', () => {
-        let receiver2 = new FakeClientSocket()
+        const receiver2 = new FakeClientSocket()
         receiver2.connect(socketServer)
         const receiver2Ack = jest.fn()
         receiver2.receiveIncoming('identify', { channelId: queue, clientId: 'some new clientId' }, receiver2Ack)
@@ -127,7 +127,7 @@ describe('socket server', () => {
       })
 
       it('accepts a new connection from the same client', () => {
-        let receiver2 = new FakeClientSocket()
+        const receiver2 = new FakeClientSocket()
         receiver2.connect(socketServer)
         const receiver2Ack = jest.fn()
         receiver2.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId }, receiver2Ack)
@@ -226,7 +226,7 @@ describe('socket server', () => {
 
       it('retains queues for 10 minutes', () => {
         forwardTime(startTime + tenMinutes)
-        let receiver = new FakeClientSocket()
+        const receiver = new FakeClientSocket()
         receiver.connect(socketServer)
         receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId }, receiverIdentifyAck)
         expect(receiver.outgoing[0].payload).toBe(message)
@@ -234,7 +234,7 @@ describe('socket server', () => {
 
       it('purges queues after 10 minutes', () => {
         forwardTime(startTime + tenMinutes + 1)
-        let receiver = new FakeClientSocket()
+        const receiver = new FakeClientSocket()
         receiver.connect(socketServer)
         receiver.receiveIncoming('identify', { channelId: queue, clientId: receiverClientId }, receiverIdentifyAck)
         expect(receiver.outgoing.length).toBe(0)

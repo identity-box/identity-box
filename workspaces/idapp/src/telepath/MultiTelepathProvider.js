@@ -9,7 +9,9 @@ const _instances = {}
 
 class MultiTelepathProvider {
   name
+
   channels = {}
+
   connected = false
 
   static instance = async name => {

@@ -14,12 +14,12 @@
     "node": ">=7.6.0"
   },
   "devDependencies": {
-    "mockdate": "^2.0.2",
-    "now": "^15.4.0",
+    "mockdate": "^2.0.4",
+    "now": "^16.0.0",
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "@zeit/ncc": "^0.18.5",
+    "@zeit/ncc": "^0.20.4",
     "express": "^4.16.2",
     "lru-cache": "^5.1.1",
     "socket.io": "^2.2.0"

@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { rhythm } from 'src/utils/typography'
 import { Grid } from '@react-frontend-developer/css-grid-helper'
 
-let grid = new Grid([
+const grid = new Grid([
   'sidebar content'
 ], {
   gridTemplateColumns: '300px calc(100vw - 350px)'

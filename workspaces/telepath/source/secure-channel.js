@@ -4,10 +4,15 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 
 class SecureChannel {
   id
+
   key
+
   appName
+
   clientId
+
   socketIOChannel
+
   randomBytes
 
   constructor ({ id, key, appName, clientId, socketIOChannel, randomBytes }) {

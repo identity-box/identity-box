@@ -6,12 +6,15 @@ import { randomBytes } from 'src/crypto'
 // why 12? why not...
 const clientIdEntropy = 12
 
-let _instances = {}
+const _instances = {}
 
 class MultiTelepathConfiguration {
   id
+
   key
+
   appName
+
   clientId
 
   static instance = name => {

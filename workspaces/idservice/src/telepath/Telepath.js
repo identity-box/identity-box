@@ -7,10 +7,15 @@ import { Telepath as TelepathOrig } from '@identity-box/telepath'
 
 class Telepath {
   path
+
   queuingServiceUrl
+
   baseUrl
+
   telepath
+
   channel
+
   clientId
 
   get id () {
