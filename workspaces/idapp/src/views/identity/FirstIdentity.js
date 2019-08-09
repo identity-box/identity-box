@@ -39,7 +39,9 @@ const FirstIdentity = ({ navigation }) => {
     }
   })
 
-  identityManager.current = useIdentity()
+  const identity = useIdentity()
+
+  identityManager.current = identity.identityManager
 
   const persistIdentity = async ({ did, name }) => {
     try {

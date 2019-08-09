@@ -9,6 +9,7 @@
     "@emotion/core": "^10.0.15",
     "@emotion/styled": "^10.0.15",
     "@react-frontend-developer/react-layout-helpers": "^1.0.21",
+    "base64url": "^3.0.1",
     "next": "^9.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",

@@ -24,7 +24,7 @@ const AppLoading = ({ navigation }) => {
         console.log('has identities')
         setTimeout(() => {
           navigation.navigate('CurrentIdentity')
-        }, 2000)
+        }, 0)
       } else {
         console.log('does not have any identities yet')
         setTimeout(() => {

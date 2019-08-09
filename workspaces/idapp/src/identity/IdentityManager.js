@@ -9,6 +9,11 @@ class IdentityManager {
   identityNames = []
 
   identities = {}
+  peerIdentities = {}
+
+  get peerIdentityNames () {
+    return Object.keys(this.peerIdentities)
+  }
 
   current
 
@@ -16,6 +21,7 @@ class IdentityManager {
     if (!_instance) {
       _instance = new IdentityManager()
       await _instance.readIdentities()
+      await _instance.readPeerIdentities()
     }
     return _instance
   }
@@ -50,6 +56,12 @@ class IdentityManager {
     }
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+  }
+
+  addPeerIdentity = async ({ name, did }) => {
+    this.peerIdentities = { ...this.peerIdentities, [name]: did }
+    await AsyncStorage.setItem('peerIdentities', JSON.stringify(this.peerIdentities))
+    return this.peerIdentities
   }
 
   setCurrent = async name => {
@@ -100,8 +112,20 @@ class IdentityManager {
     }
   }
 
+  readPeerIdentities = async () => {
+    const peerIdentitiesStr = await AsyncStorage.getItem('peerIdentities')
+
+    if (!peerIdentitiesStr) return
+
+    this.peerIdentities = JSON.parse(peerIdentitiesStr)
+  }
+
   hasIdentities = () => {
     return Object.keys(this.identities).length > 0
+  }
+
+  hasPeerIdentities = () => {
+    return Object.keys(this.peerIdentities).length > 0
   }
 }
 

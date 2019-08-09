@@ -18,8 +18,10 @@ const CurrentIdentity = () => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
 
-  useIdentity(identityManager => {
-    setIdentity(identityManager.getCurrent())
+  useIdentity({
+    onReady: identityManager => {
+      setIdentity(identityManager.getCurrent())
+    }
   })
 
   const enableCamera = async () => {
@@ -61,6 +63,7 @@ const CurrentIdentity = () => {
         </View>}
         <Button
           title='Scan...'
+          color='#FF6699'
           disabled={!cameraEnabled || scanning}
           accessibilityLabel='Scan QR-Code'
           onPress={scanQRCode}
@@ -68,6 +71,10 @@ const CurrentIdentity = () => {
       </Container>
     </PageContainer>
   )
+}
+
+CurrentIdentity.navigationOptions = {
+  tabBarLabel: 'Identity'
 }
 
 export { CurrentIdentity }
