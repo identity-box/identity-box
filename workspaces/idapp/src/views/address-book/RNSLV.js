@@ -45,7 +45,7 @@ class AddressBookExample extends Component {
 
   deleteSectionRow (rowMap, rowKey) {
     this.closeRow(rowMap, rowKey)
-    var [section, row] = rowKey.split('.')
+    var [section] = rowKey.split('.')
     const newData = [...this.state.sectionListData]
     const prevIndex = this.state.sectionListData[section].data.findIndex(item => item.key === rowKey)
     newData[section].data.splice(prevIndex, 1)

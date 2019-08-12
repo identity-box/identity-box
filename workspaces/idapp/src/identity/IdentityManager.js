@@ -9,7 +9,9 @@ class IdentityManager {
   identityNames = []
 
   identities = {}
+
   peerIdentities = {}
+
   subscriptions = []
 
   get peerIdentityNames () {

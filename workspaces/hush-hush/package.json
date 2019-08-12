@@ -8,12 +8,13 @@
   "dependencies": {
     "@emotion/core": "^10.0.15",
     "@emotion/styled": "^10.0.15",
+    "@identity-box/idbox-react-ui": "^0.1.0",
     "@react-frontend-developer/react-layout-helpers": "^1.0.21",
     "base64url": "^3.0.1",
     "next": "^9.0.3",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3"
   },
@@ -26,7 +27,7 @@
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.14",
     "@testing-library/jest-dom": "^4.0.0",
-    "@testing-library/react": "^8.0.8",
+    "@testing-library/react": "^9.1.0",
     "@zeit/next-css": "^1.0.1",
     "file-loader": "^4.1.0",
     "jest-emotion": "^10.0.14",

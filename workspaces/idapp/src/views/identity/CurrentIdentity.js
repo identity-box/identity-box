@@ -12,7 +12,6 @@ import {
   Description,
   Welcome
 } from 'src/views/identity/ui'
-import { AddNewIdentity } from '../address-book/AddNewIdentity'
 
 const CurrentIdentity = ({ navigation }) => {
   const [identity, setIdentity] = useState({ name: '', did: '' })
