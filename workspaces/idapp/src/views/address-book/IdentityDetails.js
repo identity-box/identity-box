@@ -1,7 +1,9 @@
-import React from 'react'
-import { Text } from 'react-native'
+import React, { useCallback } from 'react'
 import styled from '@emotion/native'
 import QRCode from 'react-native-qrcode-svg'
+import { Button } from 'react-native'
+
+import { useIdentity } from 'src/identity'
 
 const Container = styled.View({
   flex: 1,
@@ -10,7 +12,6 @@ const Container = styled.View({
 })
 
 const SubContainer = styled.View({
-  // flex: 1,
   flexFlow: 'column',
   alignItems: 'center',
   justifyContent: 'center',
@@ -24,6 +25,11 @@ const IdentityName = styled.Text({
   marginBottom: 20
 })
 
+const Separator = styled.View(({ size }) => ({
+  width: 1,
+  height: size
+}))
+
 const DID = styled.Text({
   fontSize: 12,
   marginBottom: 20,
@@ -34,6 +40,18 @@ const DID = styled.Text({
 const IdentityDetails = ({ navigation }) => {
   const name = navigation.getParam('name', '')
   const did = navigation.getParam('did', '')
+
+  const { deletePeerIdentity } = useIdentity({
+    onPeerIdentitiesChanged: () => {
+      navigation.navigate('AddressBook')
+    }
+  })
+
+  const deleteIdentity = useCallback(() => {
+    console.log(`deleting peer identity with name: ${name}`)
+    deletePeerIdentity({ name })
+  }, [])
+
   return (
     <Container>
       <SubContainer>
@@ -42,6 +60,13 @@ const IdentityDetails = ({ navigation }) => {
         <QRCode
           value={did}
           size={150}
+        />
+        <Separator size={50} />
+        <Button
+          title='Delete this identity'
+          color='red'
+          accessibilityLabel='delete identity'
+          onPress={deleteIdentity}
         />
       </SubContainer>
     </Container>

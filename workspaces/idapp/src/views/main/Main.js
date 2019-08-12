@@ -2,7 +2,7 @@ import React from 'react'
 import { createSwitchNavigator, createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation'
 
 import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
-import { AddressBook, IdentityDetails } from 'src/views/address-book'
+import { AddressBook, IdentityDetails, AddNewIdentity } from 'src/views/address-book'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
@@ -21,7 +21,7 @@ AddressBookStack.navigationOptions = {
   tabBarLabel: 'Address Book'
 }
 
-const DefaultAppStack = createBottomTabNavigator({
+const MainAppStack = createBottomTabNavigator({
   CurrentIdentity,
   AddressBookStack
 }, {
@@ -46,6 +46,14 @@ const DefaultAppStack = createBottomTabNavigator({
       }
     }
   })
+})
+
+const DefaultAppStack = createStackNavigator({
+  MainAppStack,
+  AddNewIdentity
+}, {
+  headerMode: 'none',
+  mode: 'modal'
 })
 
 const FirstIdentityStack = createStackNavigator({ FirstIdentity }, { headerMode: 'none' })

@@ -39,6 +39,9 @@ const AddressBook = ({ navigation }) => {
       setIdentities(idManager.identities)
       setPeerIdentities(idManager.peerIdentities)
       setIdentityNames(idManager.identityNames)
+    },
+    onPeerIdentitiesChanged: ({ peerIdentities }) => {
+      setPeerIdentities(peerIdentities)
     }
   })
 

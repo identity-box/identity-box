@@ -12,8 +12,9 @@ import {
   Description,
   Welcome
 } from 'src/views/identity/ui'
+import { AddNewIdentity } from '../address-book/AddNewIdentity'
 
-const CurrentIdentity = () => {
+const CurrentIdentity = ({ navigation }) => {
   const [identity, setIdentity] = useState({ name: '', did: '' })
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
@@ -33,6 +34,17 @@ const CurrentIdentity = () => {
     enableCamera()
   }, [])
 
+  const addNewIdentity = ({ did }) => {
+    // let identity
+    // if (section.title === 'Your identities') {
+    //   const id = identities[item]
+    //   identity = { name: id.name, did: id.did }
+    // } else {
+    //   identity = { name: item, did: peerIdentities[item] }
+    // }
+    navigation.navigate('AddNewIdentity', { did })
+  }
+
   const scanQRCode = useCallback(async () => {
     console.log('scan QR code')
     setScanning(true)
@@ -41,6 +53,10 @@ const CurrentIdentity = () => {
   const handleBarCodeScanned = useCallback(({ type, data }) => {
     console.log(`Code scanned. Type: ${type}, data: ${data}`)
     setScanning(false)
+    if (data.match(/^did:ipid:.{46}$/)) {
+      console.log(`Detected DID: ${data}`)
+      addNewIdentity({ did: data })
+    }
   })
 
   return (

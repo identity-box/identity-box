@@ -10,6 +10,7 @@ class IdentityManager {
 
   identities = {}
   peerIdentities = {}
+  subscriptions = []
 
   get peerIdentityNames () {
     return Object.keys(this.peerIdentities)
@@ -61,7 +62,41 @@ class IdentityManager {
   addPeerIdentity = async ({ name, did }) => {
     this.peerIdentities = { ...this.peerIdentities, [name]: did }
     await AsyncStorage.setItem('peerIdentities', JSON.stringify(this.peerIdentities))
+    this.notify('onPeerIdentitiesChanged', {
+      peerIdentities: this.peerIdentities,
+      addedIdentity: { name, did }
+    })
     return this.peerIdentities
+  }
+
+  deletePeerIdentity = async ({ name }) => {
+    delete this.peerIdentities[name]
+    this.peerIdentities = { ...this.peerIdentities }
+    await AsyncStorage.setItem('peerIdentities', JSON.stringify(this.peerIdentities))
+    this.notify('onPeerIdentitiesChanged', {
+      peerIdentities: this.peerIdentities,
+      deletedIdentity: { name }
+    })
+    return this.peerIdentities
+  }
+
+  notify = (observerName, params) => {
+    this.subscriptions.forEach(s => {
+      s[observerName] && s[observerName](params)
+    })
+  }
+
+  subscribe = subscription => {
+    this.subscriptions = [
+      ...this.subscriptions,
+      subscription
+    ]
+
+    return this.subscriptions.length - 1
+  }
+
+  unsubscribe = subscriptionId => {
+    this.subscriptions.splice(subscriptionId, 1)
   }
 
   setCurrent = async name => {
