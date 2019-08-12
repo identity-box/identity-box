@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { IdentityManager } from './IdentityManager'
 
-const useIdentity = ({ onReady, onPeerIdentityAdded }) => {
+const useIdentity = ({ onReady, onPeerIdentityAdded } = {}) => {
   const identityManager = useRef(undefined)
 
   const addPeerIdentity = async ({ name, did }) => {
