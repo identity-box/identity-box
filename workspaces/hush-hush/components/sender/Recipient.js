@@ -1,26 +1,39 @@
-import React, { useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { FadingValueBox } from '../animations'
-import { Blue, InfoBox, MrSpacer } from '../ui'
+import { Blue, InfoBox, MrSpacer, Green } from '../ui'
 import { Centered } from '@react-frontend-developer/react-layout-helpers'
 
-import { Connector } from '../identity'
+const Recipient = ({ onRecipientReady, telepathChannel }) => {
+  const requestRecipient = async () => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'select_identity',
+      params: []
+    }
+    try {
+      await telepathChannel.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
 
-const Recipient = () => {
-  const onDone = useCallback(() => {
-    console.log('Connected')
-  })
+  useEffect(() => {
+    telepathChannel.subscribe(message => {
+      console.log('received message: ', message)
+    }, error => {
+      console.log('error: ', error)
+    })
+    requestRecipient()
+  }, [])
 
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox>You need to tell Hush Hush who is the intended recipient of your secret.</InfoBox>
-        <InfoBox>
-          For this reason, Hush Hush, needs to connect to your mobile where you can then
-          select the intended recipient from your <Blue>Identity Box IdApp Address Book</Blue>.
-        </InfoBox>
+        <InfoBox>Hush Hush <Green>successfully</Green> connected to your mobile!</InfoBox>
         <MrSpacer space='50px' />
-        <Connector onDone={onDone}
-          title='Connect...' />
+        <InfoBox>
+          Open Identity Box IdApp <Blue>now</Blue>, and select the recipient...
+        </InfoBox>
       </Centered>
     </FadingValueBox>
   )
