@@ -3,6 +3,12 @@ const webpack = require('webpack')
 
 module.exports = withCSS({
   target: 'serverless',
+  env: {
+    serviceUrl: {
+      development: 'http://localhost:3000',
+      production: 'https://idbox-queue.now.sh'
+    }
+  },
   assetPrefix: '/hush-hush',
   webpack (config) {
     config.module.rules.push({

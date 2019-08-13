@@ -16,7 +16,7 @@ class MultiTelepathProvider {
 
   static instance = async name => {
     if (!_instances[name]) {
-      console.log('MultiTelepathProvider: creating new provider instance...')
+      console.log(`MultiTelepathProvider: creating new provider instance for name: ${name}...`)
       _instances[name] = new MultiTelepathProvider(name)
     }
     return _instances[name]
@@ -69,6 +69,10 @@ class MultiTelepathProvider {
 
   unsubscribe = subscription => {
     this.channel.unsubscribe(subscription)
+  }
+
+  emit = async message => {
+    await this.channel.emit(message)
   }
 }
 

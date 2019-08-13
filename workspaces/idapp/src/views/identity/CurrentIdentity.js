@@ -1,10 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
 import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 // import styled from '@emotion/native'
 
 import { useIdentity } from 'src/identity'
+import { useTelepath } from 'src/telepath'
 
 import {
   PageContainer,
@@ -17,6 +18,26 @@ const CurrentIdentity = ({ navigation }) => {
   const [identity, setIdentity] = useState({ name: '', did: '' })
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
+  const [channelDescription, setChannelDescription] = useState({})
+  const telepathProvider = useRef(undefined)
+
+  const enableCamera = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA)
+    setCameraEnabled(status === 'granted')
+  }
+
+  const confirmQRCodeScanned = async telepathProvider => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'connectionSetupDone',
+      params: []
+    }
+    try {
+      await telepathProvider.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
 
   useIdentity({
     onReady: identityManager => {
@@ -24,10 +45,20 @@ const CurrentIdentity = ({ navigation }) => {
     }
   })
 
-  const enableCamera = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA)
-    setCameraEnabled(status === 'granted')
-  }
+  telepathProvider.current = useTelepath({
+    name: channelDescription.appName,
+    channelDescription,
+    onMessage: message => {
+      console.log('received message: ', message)
+    },
+    onError: error => {
+      console.log('error: ', error)
+    },
+    onTelepathReady: ({ telepathProvider }) => {
+      console.log('telepath ready')
+      confirmQRCodeScanned(telepathProvider)
+    }
+  }, [channelDescription])
 
   useEffect(() => {
     enableCamera()
@@ -49,12 +80,24 @@ const CurrentIdentity = ({ navigation }) => {
     setScanning(true)
   }, [])
 
+  const getChannelDescription = connectUrl => {
+    const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)/)
+
+    return match && match.groups
+  }
+
   const handleBarCodeScanned = useCallback(({ type, data }) => {
     console.log(`Code scanned. Type: ${type}, data: ${data}`)
     setScanning(false)
     if (data.match(/^did:ipid:.{46}$/)) {
       console.log(`Detected DID: ${data}`)
       addNewIdentity({ did: data })
+    } else {
+      const channelDescription = getChannelDescription(data)
+      if (channelDescription) {
+        console.log('channelDescription:', channelDescription)
+        setChannelDescription(channelDescription)
+      }
     }
   })
 

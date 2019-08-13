@@ -2763,10 +2763,10 @@
   resolved "https://registry.yarnpkg.com/@react-frontend-developer/buffers/-/buffers-1.0.21.tgz#aeff93a4a76c529a941e31d45e7f119872a9c796"
   integrity sha512-0/48wHGU0DMJxzHp3exEJLm4HBWRYHTsTCmSe7fposqae317eWbG4rU2TmlluZAjJRHigaGpULir0rvqzDtA/A==
 
-"@react-frontend-developer/css-grid-helper@^1.0.20":
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/@react-frontend-developer/css-grid-helper/-/css-grid-helper-1.0.20.tgz#bfca2c3ddb292bcf2ab8027ad14025e6620fe216"
-  integrity sha512-JdDsAtHSDzyAjMgox/NeAOYUGmgax7nASKb51vmS3KyDPaBfHpUzyUoMOy2vkwGMQ+RlT+zUMsNGt6JAvudSMw==
+"@react-frontend-developer/css-grid-helper@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@react-frontend-developer/css-grid-helper/-/css-grid-helper-1.0.22.tgz#5b598c957755b0cacd2c8fbe811fa95d91c10eef"
+  integrity sha512-2Fd2e907pkxn1FhBG8s9Q9NzWsqjIxboWpjVmKT/6E+BB7tUHdaAsr2YfqZB2bpX1sPqVsE9bPa1RSaguenGUQ==
 
 "@react-frontend-developer/react-layout-helpers@^1.0.21":
   version "1.0.21"
@@ -2775,6 +2775,14 @@
   dependencies:
     "@emotion/core" "^10.0.10"
     "@emotion/styled" "^10.0.11"
+
+"@react-frontend-developer/react-layout-helpers@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@react-frontend-developer/react-layout-helpers/-/react-layout-helpers-1.0.22.tgz#9eda0e3ec81df561fd6f974f7515d627c0b045b6"
+  integrity sha512-IFXBxXVeQ5FwRuxY3nDIMBlmv98N0ElJnHbUJaKuItA5pAFvnOttFIbdONBMkX6eAi8+kR6lzL7U4BizHVg2kQ==
+  dependencies:
+    "@emotion/core" "^10.0.15"
+    "@emotion/styled" "^10.0.15"
 
 "@react-native-community/cli@^1.2.1":
   version "1.9.10"

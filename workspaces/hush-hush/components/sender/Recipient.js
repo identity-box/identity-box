@@ -1,82 +1,29 @@
-import React, { Component } from 'react'
+import React, { useCallback } from 'react'
 import { FadingValueBox } from '../animations'
+import { Blue, InfoBox, MrSpacer } from '../ui'
+import { Centered } from '@react-frontend-developer/react-layout-helpers'
 
-import { Form, Input, Label } from '../forms'
 import { Connector } from '../identity'
-import { Blue } from '../ui'
 
-// From https://emailregex.com
-const emailValidationRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const Recipient = () => {
+  const onDone = useCallback(() => {
+    console.log('Connected')
+  })
 
-class Recipient extends Component {
-  state = {
-    recipient: '',
-    validRecipient: false,
-    transitioning: false
-  }
-
-  constructor () {
-    super()
-    this.recipientField = React.createRef()
-  }
-
-  onChange = event => {
-    const recipient = event.target.value
-    if (this.validRecipient(recipient)) {
-      this.setState({ recipient, validRecipient: true })
-    } else {
-      this.setState({ recipient, validRecipient: false })
-    }
-  }
-
-  onSubmit = event => {
-    event.preventDefault()
-  }
-
-  onDone = (telepathChannel) => {
-    this.setState({ transitioning: true })
-    this.props.onSubmit && this.props.onSubmit(this.state.recipient, telepathChannel)
-  }
-
-  validRecipient = recipient => {
-    return recipient.length > 0 &&
-      recipient.match(emailValidationRegEx)
-  }
-
-  componentDidMount () {
-    this.recipientField.current.focus()
-  }
-
-  render () {
-    if (this.state.transitioning) {
-      return (
-        <FadingValueBox trigger={this.state.transitioning}>
-          <div css={{ width: '100%', textAlign: 'center' }}>
-            Checking invitation for <Blue>{this.state.recipient}</Blue>...
-          </div>
-        </FadingValueBox>
-      )
-    }
-    return (
-      <FadingValueBox>
-        <Form onSubmit={this.onSubmit}>
-          <Label htmlFor='frmEmailA'>Recipient:</Label>
-          <Input id='frmEmailA' type='email'
-            name='email'
-            ref={this.recipientField}
-            value={this.state.recipient}
-            placeholder='name@example.com'
-            required
-            autocomplete='email'
-            onChange={this.onChange}
-            css={{ marginBottom: '1rem' }} />
-          { this.state.validRecipient && <Connector onDone={this.onDone}
-            title="Let's hush..."
-            disabled={this.state.disabled} /> }
-        </Form>
-      </FadingValueBox>
-    )
-  }
+  return (
+    <FadingValueBox>
+      <Centered>
+        <InfoBox>You need to tell Hush Hush who is the intended recipient of your secret.</InfoBox>
+        <InfoBox>
+          For this reason, Hush Hush, needs to connect to your mobile where you can then
+          select the intended recipient from your <Blue>Identity Box IdApp Address Book</Blue>.
+        </InfoBox>
+        <MrSpacer space='50px' />
+        <Connector onDone={onDone}
+          title='Connect...' />
+      </Centered>
+    </FadingValueBox>
+  )
 }
 
 export { Recipient }

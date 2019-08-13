@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Telepath } from '@identity-box/telepath'
 import { IdAppConnector } from '@identity-box/idbox-react-ui'
+import nacl from 'tweetnacl'
+import base64url from 'base64url'
 
 const Connector = ({
   onDone = () => {},
@@ -14,11 +16,31 @@ const Connector = ({
     return telepathChannel.createConnectUrl('https://idbox.now.sh')
   }
 
+  const createRandomId = () => {
+    const idSize = 18
+    const idBytes = nacl.randomBytes(idSize)
+    return base64url.encode(idBytes)
+  }
+
+  const createRandomKey = () => {
+    return nacl.randomBytes(nacl.secretbox.keyLength)
+  }
+
+  const createRandomClientId = () => {
+    return base64url.encode(nacl.randomBytes(8))
+  }
+
   const createChannel = async () => {
     const telepath = new Telepath({
-      serviceUrl: 'https://idbox-queue.now.sh'
+      serviceUrl: process.env.serviceUrl[process.env.NODE_ENV]
     })
-    const telepathChannel = await telepath.createChannel({ appName: 'Hush Hush' })
+    const telepathChannel = await telepath.createChannel({
+      id: createRandomId(),
+      key: createRandomKey(),
+      appName: 'Hush Hush',
+      clientId: createRandomClientId()
+    })
+    await telepathChannel.connect()
     setTelepathChannel(telepathChannel)
   }
 
