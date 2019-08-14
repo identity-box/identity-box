@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { IdAppConnect } from './IdAppConnect'
 import { Recipient } from './Recipient'
+import { EnterSecret } from './EnterSecret'
 
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
@@ -16,10 +17,17 @@ const Stages = Object.freeze({
 const SenderHush = () => {
   const [workflow, setWorkflow] = useState(Stages.Connect)
   const [telepathChannel, setTelepathChannel] = useState(undefined)
+  const [did, setDid] = useState(undefined)
 
-  const onRecipientReady = useCallback(async (recipient, telepathChannel) => {
-    console.log('got your recipient DID:', recipient)
-  }, [])
+  const onRecipientReady = useCallback(async ({ did }) => {
+    console.log('got your recipient DID:', did)
+    setDid(did)
+    setWorkflow(Stages.Secret)
+  }, [telepathChannel])
+
+  const onSecretReady = useCallback(async ({ secret }) => {
+    console.log('got your secret:', secret, did)
+  }, [did])
 
   const onConnected = useCallback(telepathChannel => {
     console.log('Connected to IdApp')
@@ -39,11 +47,19 @@ const SenderHush = () => {
     )
   }
 
+  const renderEnterSecret = () => {
+    return (
+      <EnterSecret did={did} onSecretReady={onSecretReady} />
+    )
+  }
+
   switch (workflow) {
     case Stages.Connect:
       return renderConnect()
     case Stages.Recipient:
       return renderRecipient()
+    case Stages.Secret:
+      return renderEnterSecret()
     default:
       return null
   }

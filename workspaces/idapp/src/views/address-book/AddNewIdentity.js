@@ -1,54 +1,15 @@
 import React, { useState, useCallback } from 'react'
 import { Button } from 'react-native'
-import styled from '@emotion/native'
 import QRCode from 'react-native-qrcode-svg'
 
 import { useIdentity } from 'src/identity'
-
-const Container = styled.View({
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center'
-})
-
-const SubContainer = styled.View({
-  flexFlow: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '80%',
-  height: '80%'
-})
-
-const Description = styled.Text({
-  fontSize: 12,
-  color: '#aaaaaa',
-  textAlign: 'center'
-})
-
-const IdentityName = styled.TextInput({
-  fontSize: 24,
-  fontWeight: 'bold',
-  marginTop: 30,
-  marginBottom: 30,
-  width: '100%',
-  textAlign: 'center'
-})
-
-const DID = styled.Text({
-  fontSize: 12,
-  marginTop: 20,
-  width: 150,
-  flexGrow: 1,
-  textAlign: 'center'
-})
-
-const Row = styled.View({
-  flex: 1,
-  flexDirection: 'row',
-  width: '70%',
-  justifyContent: 'space-between',
-  alignItems: 'center'
-})
+import { Container,
+  SubContainer,
+  Description,
+  IdentityName,
+  DID,
+  Row
+} from './ui'
 
 const AddNewIdentity = ({ navigation }) => {
   const [name, setName] = useState('')

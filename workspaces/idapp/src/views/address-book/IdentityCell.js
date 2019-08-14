@@ -9,6 +9,13 @@ const Touchable = styled.TouchableOpacity({
   paddingRight: 10
 })
 
+const TouchableHighlight = styled.TouchableHighlight({
+  paddingTop: 10,
+  paddingBottom: 10,
+  paddingLeft: 10,
+  paddingRight: 10
+})
+
 const Container = styled.View({
   paddingTop: 10,
   paddingBottom: 10,
@@ -31,6 +38,21 @@ const IdentityCell = ({ children, onSelect }) => {
   )
 }
 
+const HighlightedIdentityCell = ({ children, onSelect }) => {
+  return (
+    <TouchableHighlight
+      underlayColor='#d3d3d3'
+      onPress={_ => {
+        onSelect && onSelect(children)
+      }}
+    >
+      <View>
+        <Text>{children}</Text>
+      </View>
+    </TouchableHighlight>
+  )
+}
+
 const EmptyIdentityCell = ({ children }) => {
   return (
     <Container>
@@ -39,4 +61,4 @@ const EmptyIdentityCell = ({ children }) => {
   )
 }
 
-export { IdentityCell, EmptyIdentityCell }
+export { IdentityCell, EmptyIdentityCell, HighlightedIdentityCell }

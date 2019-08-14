@@ -2,7 +2,7 @@ import React from 'react'
 import { createSwitchNavigator, createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation'
 
 import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
-import { AddressBook, IdentityDetails, AddNewIdentity } from 'src/views/address-book'
+import { AddressBook, IdentityDetails, AddNewIdentity, SelectIdentity } from 'src/views/address-book'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
@@ -50,7 +50,8 @@ const MainAppStack = createBottomTabNavigator({
 
 const DefaultAppStack = createStackNavigator({
   MainAppStack,
-  AddNewIdentity
+  AddNewIdentity,
+  SelectIdentity
 }, {
   headerMode: 'none',
   mode: 'modal'

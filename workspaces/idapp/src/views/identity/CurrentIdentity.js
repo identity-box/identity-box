@@ -50,6 +50,9 @@ const CurrentIdentity = ({ navigation }) => {
     channelDescription,
     onMessage: message => {
       console.log('received message: ', message)
+      if (message.method === 'select_identity') {
+        navigation.navigate('SelectIdentity', { name: channelDescription.appName })
+      }
     },
     onError: error => {
       console.log('error: ', error)

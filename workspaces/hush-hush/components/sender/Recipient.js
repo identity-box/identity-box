@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { FadingValueBox } from '../animations'
-import { Blue, InfoBox, MrSpacer, Green } from '../ui'
-import { Centered } from '@react-frontend-developer/react-layout-helpers'
+import { Blue, InfoBox, MrSpacer, Green, Centered } from '../ui'
 
 const Recipient = ({ onRecipientReady, telepathChannel }) => {
   const requestRecipient = async () => {
@@ -20,6 +19,13 @@ const Recipient = ({ onRecipientReady, telepathChannel }) => {
   useEffect(() => {
     telepathChannel.subscribe(message => {
       console.log('received message: ', message)
+      const { method, params } = message
+      if (method === 'set_did' && params) {
+        if (params.length > 0) {
+          const { did } = params[0]
+          did && onRecipientReady && onRecipientReady({ did })
+        }
+      }
     }, error => {
       console.log('error: ', error)
     })
