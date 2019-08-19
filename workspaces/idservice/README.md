@@ -10,7 +10,7 @@ On your identity-box, first create a folder where you want your service to be in
 $ mkdir idservice
 $ cd idservice
 $ yarn add @identity-box/idservice
-$ yarn setup.sh
+$ yarn setup
 ```
 
 ## IPFS

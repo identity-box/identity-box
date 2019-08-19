@@ -2,10 +2,12 @@ import React, { useState, useCallback } from 'react'
 import { IdAppConnect } from './IdAppConnect'
 import { Recipient } from './Recipient'
 import { EnterSecret } from './EnterSecret'
+import { FetchDidDocument } from './FetchDiDDocument'
 
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
   Recipient: Symbol('gettingRecipient'),
+  RecipientDIDDocument: Symbol('recipientDIDDocument'),
   Invite: Symbol('inviteRecipient'),
   Inviting: Symbol('invitingProgress'),
   Pending: Symbol('invitationPending'),
@@ -27,6 +29,7 @@ const SenderHush = () => {
 
   const onSecretReady = useCallback(async ({ secret }) => {
     console.log('got your secret:', secret, did)
+    setWorkflow(Stages.RecipientDIDDocument)
   }, [did])
 
   const onConnected = useCallback(telepathChannel => {
@@ -34,6 +37,10 @@ const SenderHush = () => {
     setTelepathChannel(telepathChannel)
     setWorkflow(Stages.Recipient)
   }, [])
+
+  const onDIDDocumentRetrieved = useCallback(didDocument => {
+    console.log('DID Document:', didDocument)
+  })
 
   const renderConnect = () => {
     return (
@@ -53,6 +60,12 @@ const SenderHush = () => {
     )
   }
 
+  const renderRecipientDIDDocument = () => {
+    return (
+      <FetchDidDocument onDIDDocumentRetrieved={onDIDDocumentRetrieved} did={did} />
+    )
+  }
+
   switch (workflow) {
     case Stages.Connect:
       return renderConnect()
@@ -60,6 +73,8 @@ const SenderHush = () => {
       return renderRecipient()
     case Stages.Secret:
       return renderEnterSecret()
+    case Stages.RecipientDIDDocument:
+      return renderRecipientDIDDocument()
     default:
       return null
   }

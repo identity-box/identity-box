@@ -3,6 +3,11 @@ import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
 import { IPNSFirebase } from '../services'
 
+const supportedMessages = [
+  'create_identity',
+  'get-did-document'
+]
+
 class IdService {
   identityProvider
 
@@ -73,6 +78,21 @@ class IdService {
     }
   }
 
+  respondWithDIDDocument = async didDocument => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method: 'set-did-document',
+        params: [
+          didDocument
+        ]
+      }
+      await this.telepath.emit(response)
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
   respondWithError = async error => {
     try {
       const response = {
@@ -88,23 +108,42 @@ class IdService {
     }
   }
 
+  handleCreateIdentity = async message => {
+    const identity = await this.createIdentity(message.params[0])
+    this.respondWithIdentity(identity)
+    const didDoc = createDIDDocument({
+      ...identity,
+      ...message.params[0]
+    })
+    const cid = await this.identityProvider.writeToIPFS(didDoc)
+    console.log('cid:', cid)
+    const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
+    console.log('ipns name:', ipnsName)
+    await IPNSFirebase.setIPNSRecord({
+      ipnsName,
+      cid
+    })
+  }
+
+  handleGetDIDDocument = async message => {
+    const { did } = message.params[0]
+    const ipnsName = this.identityProvider.ipnsNameFromDID(did)
+    const cid = await IPNSFirebase.getCIDForIPNSName({ ipnsName })
+    const didDocument = await this.identityProvider.readFromIPFS(cid)
+    this.respondWithDIDDocument(didDocument)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
-        const identity = await this.createIdentity(message.params[0])
-        this.respondWithIdentity(identity)
-        const didDoc = createDIDDocument({
-          ...identity,
-          ...message.params[0]
-        })
-        const cid = await this.identityProvider.writeToIPFS(didDoc)
-        console.log('cid:', cid)
-        const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
-        console.log('ipns name:', ipnsName)
-        await IPNSFirebase.setIPNSRecord({
-          ipnsName,
-          cid
-        })
+        switch (message.method) {
+          case 'create_identity':
+            await this.handleCreateIdentity(message)
+            break
+          case 'get-did-document':
+            await this.handleGetDIDDocument(message)
+            break
+        }
       } catch (e) {
         console.error(e.message)
         this.respondWithError(e)
@@ -112,7 +151,7 @@ class IdService {
     }
   }
 
-  messageSupported = message => (message.method === 'create_identity' && message.params && message.params.length === 1)
+  messageSupported = message => (supportedMessages.includes(message.method) && message.params && message.params.length === 1)
 }
 
 export { IdService }

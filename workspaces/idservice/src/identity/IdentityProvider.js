@@ -38,6 +38,11 @@ class IdentityProvider {
     return cid.toBaseEncodedString()
   }
 
+  readFromIPFS = async cid => {
+    const { value } = await this.ipfs.dag.get(cid)
+    return value
+  }
+
   ipnsNameFromDID = did => {
     const match = did.match(/did:ipid:(.*)$/)
     return match && match[1]

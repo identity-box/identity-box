@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { AsyncStorage } from 'react-native'
 import { MultiTelepathProvider } from './MultiTelepathProvider'
 import { MultiTelepathConfiguration } from './MultiTelepathConfiguration'
 
@@ -17,10 +16,9 @@ const useTelepath = ({
   const subscribe = async () => {
     try {
       if (reset) {
-        await AsyncStorage.removeItem('identityNames')
-        await MultiTelepathConfiguration.reset(name)
+        MultiTelepathConfiguration.reset(name)
       }
-      telepathProvider.current = await MultiTelepathProvider.instance(name)
+      telepathProvider.current = MultiTelepathProvider.instance(name)
       if (!telepathProvider.current.connected || channelDescription) {
         await telepathProvider.current.connect(channelDescription)
       }

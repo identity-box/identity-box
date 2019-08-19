@@ -7,6 +7,14 @@ module.exports = withCSS({
     serviceUrl: {
       development: 'http://localhost:3000',
       production: 'https://idbox-queue.now.sh'
+    },
+    telepath: {
+      idbox: {
+        id: 'ZGmDmEIVfPXkxrOnyycpi51W',
+        key: 'lcsys9Ufp24A5htwW0O9T75ILPK8I0LOkEX1kCyswbE',
+        appName: 'SHVzaEh1c2g',
+        clientId: 'Q8TLfEGzhZ1NDWcp'
+      }
     }
   },
   assetPrefix: '/hush-hush',
