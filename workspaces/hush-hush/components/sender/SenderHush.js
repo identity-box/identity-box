@@ -4,12 +4,14 @@ import { Recipient } from './Recipient'
 import { EnterSecret } from './EnterSecret'
 import { FetchDidDocument } from './FetchDiDDocument'
 import { EncryptSecret } from './EncryptSecret'
+import { CreateLink } from './CreateLink'
 
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
   Recipient: Symbol('gettingRecipient'),
   RecipientDIDDocument: Symbol('recipientDIDDocument'),
   EncryptSecret: Symbol('encryptingSecretWithRecipientPublicKey'),
+  CreateLink: Symbol('createLink'),
   Invite: Symbol('inviteRecipient'),
   Inviting: Symbol('invitingProgress'),
   Pending: Symbol('invitationPending'),
@@ -24,6 +26,7 @@ const SenderHush = () => {
   const [did, setDid] = useState(undefined)
   const [secret, setSecret] = useState(undefined)
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
+  const [cid, setCID] = useState(undefined)
 
   const onRecipientReady = useCallback(async ({ did }) => {
     console.log('got your recipient DID:', did)
@@ -56,7 +59,9 @@ const SenderHush = () => {
 
   const onEncryptedCIDRetrieved = useCallback(cid => {
     console.log('Encrypted Secret CID:', cid)
-  }, [did, publicEncryptionKey])
+    setCID(cid)
+    setWorkflow(Stages.CreateLink)
+  }, [])
 
   const renderConnect = () => {
     return (
@@ -91,6 +96,12 @@ const SenderHush = () => {
     )
   }
 
+  const renderCreateLink = () => {
+    return (
+      <CreateLink cid={cid} did={did} />
+    )
+  }
+
   switch (workflow) {
     case Stages.Connect:
       return renderConnect()
@@ -102,6 +113,8 @@ const SenderHush = () => {
       return renderRecipientDIDDocument()
     case Stages.EncryptSecret:
       return renderEncryptSecret()
+    case Stages.CreateLink:
+      return renderCreateLink()
     default:
       return null
   }
