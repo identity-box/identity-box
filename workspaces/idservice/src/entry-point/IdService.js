@@ -5,7 +5,8 @@ import { IPNSFirebase } from '../services'
 
 const supportedMessages = [
   'create_identity',
-  'get-did-document'
+  'get-did-document',
+  'store-json'
 ]
 
 class IdService {
@@ -93,6 +94,21 @@ class IdService {
     }
   }
 
+  respondWithCID = async cid => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method: 'store-json-response',
+        params: [
+          { cid }
+        ]
+      }
+      await this.telepath.emit(response)
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
   respondWithError = async error => {
     try {
       const response = {
@@ -133,6 +149,12 @@ class IdService {
     this.respondWithDIDDocument(didDocument)
   }
 
+  handleStoreJSON = async message => {
+    const json = message.params[0]
+    const cid = await this.identityProvider.writeToIPFS(json)
+    this.respondWithCID(cid)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
@@ -142,6 +164,9 @@ class IdService {
             break
           case 'get-did-document':
             await this.handleGetDIDDocument(message)
+            break
+          case 'store-json':
+            await this.handleStoreJSON(message)
             break
         }
       } catch (e) {

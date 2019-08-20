@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
+import nacl from 'tweetnacl'
+import base64url from 'base64url'
 import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
-// import styled from '@emotion/native'
 
+import { randomBytes } from 'src/crypto'
 import { useIdentity } from 'src/identity'
 import { useTelepath } from 'src/telepath'
 
@@ -19,6 +21,7 @@ const CurrentIdentity = ({ navigation }) => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
   const [channelDescription, setChannelDescription] = useState({})
+  // const [telepathProvider, setTelepathProvider] = useState(undefined)
   const telepathProvider = useRef(undefined)
 
   const enableCamera = async () => {
@@ -39,27 +42,51 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }
 
+  const sendEncryptedContent = async encryptedContentRecord => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'encrypt_content_response',
+      params: [encryptedContentRecord]
+    }
+    try {
+      await telepathProvider.current.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   useIdentity({
     onReady: identityManager => {
       setIdentity(identityManager.getCurrent())
     }
   })
 
-  telepathProvider.current = useTelepath({
+  useTelepath({
     name: channelDescription.appName,
     channelDescription,
-    onMessage: message => {
+    onMessage: async message => {
       console.log('received message: ', message)
       if (message.method === 'select_identity') {
         navigation.navigate('SelectIdentity', { name: channelDescription.appName })
+      } else if (message.method === 'encrypt-content' && message.params.length > 0) {
+        const { content, theirPublicKey } = message.params[0]
+        const nonce = await randomBytes(nacl.box.nonceLength)
+        const mySecretKey = identity.encryptionKey.secretKey
+        const messageBuffer = base64url.toBuffer(content)
+        const encryptedContent = nacl.box(messageBuffer, nonce, base64url.toBuffer(theirPublicKey), mySecretKey)
+        sendEncryptedContent({
+          encryptedContent: base64url.encode(encryptedContent),
+          nonce: base64url.encode(nonce)
+        })
       }
     },
     onError: error => {
       console.log('error: ', error)
     },
-    onTelepathReady: ({ telepathProvider }) => {
+    onTelepathReady: ({ telepathProvider: tp }) => {
       console.log('telepath ready')
-      confirmQRCodeScanned(telepathProvider)
+      confirmQRCodeScanned(tp)
+      telepathProvider.current = tp
     }
   }, [channelDescription])
 

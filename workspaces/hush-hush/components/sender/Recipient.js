@@ -17,7 +17,7 @@ const Recipient = ({ onRecipientReady, telepathChannel }) => {
   }
 
   useEffect(() => {
-    telepathChannel.subscribe(message => {
+    const subscription = telepathChannel.subscribe(message => {
       console.log('received message: ', message)
       const { method, params } = message
       if (method === 'set_did' && params) {
@@ -30,6 +30,9 @@ const Recipient = ({ onRecipientReady, telepathChannel }) => {
       console.log('error: ', error)
     })
     requestRecipient()
+    return () => {
+      telepathChannel.unsubscribe(subscription)
+    }
   }, [])
 
   return (

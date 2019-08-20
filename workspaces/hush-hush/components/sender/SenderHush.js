@@ -3,11 +3,13 @@ import { IdAppConnect } from './IdAppConnect'
 import { Recipient } from './Recipient'
 import { EnterSecret } from './EnterSecret'
 import { FetchDidDocument } from './FetchDiDDocument'
+import { EncryptSecret } from './EncryptSecret'
 
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
   Recipient: Symbol('gettingRecipient'),
   RecipientDIDDocument: Symbol('recipientDIDDocument'),
+  EncryptSecret: Symbol('encryptingSecretWithRecipientPublicKey'),
   Invite: Symbol('inviteRecipient'),
   Inviting: Symbol('invitingProgress'),
   Pending: Symbol('invitationPending'),
@@ -20,6 +22,8 @@ const SenderHush = () => {
   const [workflow, setWorkflow] = useState(Stages.Connect)
   const [telepathChannel, setTelepathChannel] = useState(undefined)
   const [did, setDid] = useState(undefined)
+  const [secret, setSecret] = useState(undefined)
+  const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
 
   const onRecipientReady = useCallback(async ({ did }) => {
     console.log('got your recipient DID:', did)
@@ -28,9 +32,10 @@ const SenderHush = () => {
   }, [telepathChannel])
 
   const onSecretReady = useCallback(async ({ secret }) => {
-    console.log('got your secret:', secret, did)
+    console.log('got your secret:', secret)
+    setSecret(secret)
     setWorkflow(Stages.RecipientDIDDocument)
-  }, [did])
+  }, [])
 
   const onConnected = useCallback(telepathChannel => {
     console.log('Connected to IdApp')
@@ -40,7 +45,18 @@ const SenderHush = () => {
 
   const onDIDDocumentRetrieved = useCallback(didDocument => {
     console.log('DID Document:', didDocument)
-  })
+    const publicEncryptionKeys = didDocument.publicKey.filter(pk => pk.type === 'ECDHPublicKey' && pk.status !== 'revoked')
+    if (publicEncryptionKeys && publicEncryptionKeys.length > 0) {
+      const publicEncryptionKey = publicEncryptionKeys[0].publicKeyBase64
+      console.log('publicEncryptionKey:', publicEncryptionKey)
+      setPublicEncryptionKey(publicEncryptionKey)
+      setWorkflow(Stages.EncryptSecret)
+    }
+  }, [])
+
+  const onEncryptedCIDRetrieved = useCallback(cid => {
+    console.log('Encrypted Secret CID:', cid)
+  }, [did, publicEncryptionKey])
 
   const renderConnect = () => {
     return (
@@ -66,6 +82,15 @@ const SenderHush = () => {
     )
   }
 
+  const renderEncryptSecret = () => {
+    return (
+      <EncryptSecret onEncryptedCIDRetrieved={onEncryptedCIDRetrieved}
+        encryptionKey={publicEncryptionKey}
+        secret={secret}
+        idappTelepathChannel={telepathChannel} />
+    )
+  }
+
   switch (workflow) {
     case Stages.Connect:
       return renderConnect()
@@ -75,6 +100,8 @@ const SenderHush = () => {
       return renderEnterSecret()
     case Stages.RecipientDIDDocument:
       return renderRecipientDIDDocument()
+    case Stages.EncryptSecret:
+      return renderEncryptSecret()
     default:
       return null
   }

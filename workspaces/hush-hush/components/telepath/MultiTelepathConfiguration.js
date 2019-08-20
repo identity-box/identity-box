@@ -102,7 +102,12 @@ class MultiTelepathConfiguration {
 
     console.log(`Restoring succeeded.`)
 
-    return { id, key, appName, clientId }
+    return {
+      id,
+      key: Buffers.copyToUint8Array(base64url.toBuffer(key)),
+      appName: base64url.decode(appName),
+      clientId
+    }
   }
 
   configurationChanged = ({ id, key, appName, clientId }) => {
