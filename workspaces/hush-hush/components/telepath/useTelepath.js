@@ -4,6 +4,7 @@ import { MultiTelepathConfiguration } from './MultiTelepathConfiguration'
 
 const useTelepath = ({
   name,
+  transient,
   reset,
   channelDescription,
   onMessage,
@@ -18,7 +19,7 @@ const useTelepath = ({
       if (reset) {
         MultiTelepathConfiguration.reset(name)
       }
-      telepathProvider.current = MultiTelepathProvider.instance(name)
+      telepathProvider.current = MultiTelepathProvider.instance(name, transient)
       if (!telepathProvider.current.connected || channelDescription) {
         await telepathProvider.current.connect(channelDescription)
       }

@@ -6,6 +6,8 @@ import { FetchDidDocument } from './FetchDiDDocument'
 import { EncryptSecret } from './EncryptSecret'
 import { CreateLink } from './CreateLink'
 
+import { useTelepath } from '../telepath'
+
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
   Recipient: Symbol('gettingRecipient'),
@@ -27,6 +29,7 @@ const SenderHush = () => {
   const [secret, setSecret] = useState(undefined)
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
   const [cid, setCID] = useState(undefined)
+  const [idBoxTransientTelepath, setIdBoxTransientTelepath] = useState({})
 
   const onRecipientReady = useCallback(async ({ did }) => {
     console.log('got your recipient DID:', did)
@@ -83,7 +86,9 @@ const SenderHush = () => {
 
   const renderRecipientDIDDocument = () => {
     return (
-      <FetchDidDocument onDIDDocumentRetrieved={onDIDDocumentRetrieved} did={did} />
+      <FetchDidDocument onDIDDocumentRetrieved={onDIDDocumentRetrieved}
+        did={did}
+        idBoxTransientTelepathName={idBoxTransientTelepath.appName} />
     )
   }
 
@@ -92,7 +97,8 @@ const SenderHush = () => {
       <EncryptSecret onEncryptedCIDRetrieved={onEncryptedCIDRetrieved}
         encryptionKey={publicEncryptionKey}
         secret={secret}
-        idappTelepathChannel={telepathChannel} />
+        idappTelepathChannel={telepathChannel}
+        idBoxTransientTelepathName={idBoxTransientTelepath.appName} />
     )
   }
 
@@ -101,6 +107,47 @@ const SenderHush = () => {
       <CreateLink cid={cid} did={did} />
     )
   }
+
+  const onTelepathReady = useCallback(async ({ telepathProvider }) => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'create-new-telepath-channel',
+      params: []
+    }
+    try {
+      await telepathProvider.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }, [])
+
+  useTelepath({
+    name: 'idbox',
+    onTelepathReady: onTelepathReady,
+    onMessage: message => {
+      console.log('message received:', message.method)
+      if (message.method === 'create-new-telepath-channel-response' && message.params.length > 0) {
+        const idBoxTransientTelepath = message.params[0]
+        console.log('idboxTransientTelepath', idBoxTransientTelepath)
+        setIdBoxTransientTelepath(idBoxTransientTelepath)
+      }
+    },
+    onError: error => {
+      console.log(error)
+    }
+  })
+
+  useTelepath({
+    name: idBoxTransientTelepath.appName,
+    channelDescription: idBoxTransientTelepath,
+    transient: true,
+    onTelepathReady: () => {
+      console.log('transient idbox telepath created successfully')
+    },
+    onError: error => {
+      console.log(error)
+    }
+  }, [idBoxTransientTelepath])
 
   switch (workflow) {
     case Stages.Connect:

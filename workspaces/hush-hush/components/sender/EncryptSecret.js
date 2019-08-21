@@ -7,7 +7,7 @@ import { Blue, InfoBox, Centered } from '../ui'
 
 import { useTelepath } from '../telepath'
 
-const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTelepathChannel }) => {
+const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTelepathChannel, idBoxTransientTelepathName }) => {
   const [symmetricKey, setSymmetricKey] = useState(undefined)
   const [telepathProvider, setTelepathProvider] = useState(undefined)
   const storeJSON = async json => {
@@ -79,7 +79,7 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
   })
 
   useTelepath({
-    name: 'idbox',
+    name: idBoxTransientTelepathName,
     onTelepathReady: onTelepathRady,
     onMessage: message => {
       if (message.method === 'store-json-response' && message.params.length > 0) {

@@ -4,7 +4,7 @@ import { Blue, InfoBox, MrSpacer, Centered } from '../ui'
 
 import { useTelepath } from '../telepath'
 
-const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
+const FetchDidDocument = ({ onDIDDocumentRetrieved, did, idBoxTransientTelepathName }) => {
   const getDIDDocument = async (telepathProvider) => {
     const message = {
       jsonrpc: '2.0',
@@ -20,13 +20,13 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
     }
   }
 
-  const onTelepathRady = useCallback(async ({ telepathProvider }) => {
+  const onTelepathReady = useCallback(async ({ telepathProvider }) => {
     await getDIDDocument(telepathProvider)
   }, [])
 
   useTelepath({
-    name: 'idbox',
-    onTelepathReady: onTelepathRady,
+    name: idBoxTransientTelepathName,
+    onTelepathReady: onTelepathReady,
     onMessage: message => {
       if (message.method === 'set-did-document' && message.params.length > 0) {
         onDIDDocumentRetrieved && onDIDDocumentRetrieved(message.params[0])

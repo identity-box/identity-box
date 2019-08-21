@@ -16,9 +16,11 @@ class MultiTelepathConfiguration {
 
   clientId
 
-  static instance = name => {
+  transient = false
+
+  static instance = (name, transient) => {
     if (!_instances[name]) {
-      _instances[name] = new MultiTelepathConfiguration(name)
+      _instances[name] = new MultiTelepathConfiguration(name, transient)
     }
     return _instances[name]
   }
@@ -44,8 +46,9 @@ class MultiTelepathConfiguration {
     }
   }
 
-  constructor (name) {
+  constructor (name, transient) {
     this.name = name
+    this.transient = transient
   }
 
   createClientId = () => {
@@ -123,10 +126,12 @@ class MultiTelepathConfiguration {
       this.key = Buffers.copyToUint8Array(base64url.toBuffer(key))
       this.appName = base64url.decode(appName)
       this.clientId = clientId
-      localStorage.setItem(`telepathChannelId-${name}`, this.id)
-      localStorage.setItem(`telepathChannelKey-${name}`, base64url.encode(this.key))
-      localStorage.setItem(`telepathChannelAppName-${name}`, base64url.encode(this.appName))
-      localStorage.setItem(`telepathChannelClientId-${name}`, this.clientId)
+      if (!this.transient) {
+        localStorage.setItem(`telepathChannelId-${name}`, this.id)
+        localStorage.setItem(`telepathChannelKey-${name}`, base64url.encode(this.key))
+        localStorage.setItem(`telepathChannelAppName-${name}`, base64url.encode(this.appName))
+        localStorage.setItem(`telepathChannelClientId-${name}`, this.clientId)
+      }
     }
   }
 

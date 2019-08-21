@@ -7,24 +7,27 @@ const _instances = {}
 class MultiTelepathProvider {
   name
 
+  transient
+
   channels = {}
 
   connected = false
 
-  static instance = name => {
+  static instance = (name, transient) => {
     if (!_instances[name]) {
       console.log(`MultiTelepathProvider: creating new provider instance for name: ${name}...`)
-      _instances[name] = new MultiTelepathProvider(name)
+      _instances[name] = new MultiTelepathProvider(name, transient)
     }
     return _instances[name]
   }
 
-  constructor (name) {
+  constructor (name, transient) {
     this.name = name
+    this.transient = transient
   }
 
   connect = async channelDescription => {
-    const telepathConfigurationProvider = MultiTelepathConfiguration.instance(this.name)
+    const telepathConfigurationProvider = MultiTelepathConfiguration.instance(this.name, this.transient)
     if (channelDescription) {
       telepathConfigurationProvider.set(channelDescription)
     }

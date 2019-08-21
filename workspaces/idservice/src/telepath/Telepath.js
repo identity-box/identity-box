@@ -58,8 +58,8 @@ class Telepath {
   }
 
   createTelepathChannel = () => {
-    if (!fs.existsSync(this.path)) {
-      console.log(`No telepath configuration found in ${this.path}.`)
+    if (!this.path || !fs.existsSync(this.path)) {
+      this.path && console.log(`No telepath configuration found in ${this.path}.`)
       console.log('Creating new telepath channel...')
       this.channel = this.telepath.createChannel({
         id: this.createRandomId(),
@@ -87,6 +87,7 @@ class Telepath {
   }
 
   write = () => {
+    if (!this.path) return
     const { id, key, appName, clientId } = this.channel
     const configurationString = `${id} ${base64url.encode(key)} ${base64url.encode(appName)} ${clientId}`
 

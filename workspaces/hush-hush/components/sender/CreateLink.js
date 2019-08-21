@@ -3,7 +3,7 @@ import { Button } from 'semantic-ui-react'
 import base64url from 'base64url'
 import { FadingValueBox } from '../animations'
 import { Textarea } from '../forms'
-import { InfoBox, Centered, MrSpacer } from '../ui'
+import { Green, InfoBox, Centered, MrSpacer } from '../ui'
 
 const CreateLink = ({ cid, did }) => {
   const [copied, setCopied] = useState(false)
@@ -61,10 +61,10 @@ const CreateLink = ({ cid, did }) => {
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox marginBottom='20px'>Your secret is ready to be shared with your hush budy.</InfoBox>
+        <InfoBox marginBottom='20px'>Your secret is <Green>ready</Green> to be shared with your hush budy.</InfoBox>
         <InfoBox marginBottom='20px'>Copy it, paste to your favorite email client and send it to the recipient.</InfoBox>
         <InfoBox marginBottom='30px'>
-          BTW: you can share this link anyway you like. It is safe.
+          BTW: you can share this link anyway you like. <Green>It is safe. </Green>
           Only your intended hush budy will be able to decrypt the secret.
           And that's gorgeous. Isn't it?
         </InfoBox>
