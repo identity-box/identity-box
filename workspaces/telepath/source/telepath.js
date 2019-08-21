@@ -9,7 +9,7 @@ class Telepath {
     this.randomBytes = randomBytes
   }
 
-  createChannel = ({ id, key, appName, clientId }) => {
+  createChannel = ({ id, key, appName, clientId, servicePointId }) => {
     if (!id || !key || !appName) {
       throw new Error('id, key, or appName is missing!')
     }
@@ -26,6 +26,7 @@ class Telepath {
       key: channelKey,
       appName: appName,
       clientId,
+      servicePointId,
       socketIOChannel,
       randomBytes: this.randomBytes
     })

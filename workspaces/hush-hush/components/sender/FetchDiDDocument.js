@@ -11,10 +11,14 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did, idBoxTransientTelepathN
       method: 'get-did-document',
       params: [{
         did
+      }, {
+        from: telepathProvider.clientId
       }]
     }
     try {
-      await telepathProvider.emit(message)
+      await telepathProvider.emit(message, {
+        to: telepathProvider.servicePointId
+      })
     } catch (e) {
       console.log(e.message)
     }
@@ -25,7 +29,8 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did, idBoxTransientTelepathN
   }, [])
 
   useTelepath({
-    name: idBoxTransientTelepathName,
+    name: 'idbox',
+    service: true,
     onTelepathReady: onTelepathReady,
     onMessage: message => {
       if (message.method === 'set-did-document' && message.params.length > 0) {

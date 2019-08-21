@@ -17,6 +17,9 @@ class Logger {
       console.log(header)
       console.log('channelId', clientSocket.channelId)
       console.log('clientId', clientSocket.clientId)
+      if (clientSocket.service) {
+        console.log('this is a service telepath channel')
+      }
     }
   }
 

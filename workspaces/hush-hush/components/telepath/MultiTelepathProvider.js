@@ -7,11 +7,19 @@ const _instances = {}
 class MultiTelepathProvider {
   name
 
+  channel
+
   transient
 
-  channels = {}
-
   connected = false
+
+  get servicePointId () {
+    return this.channel.servicePointId
+  }
+
+  get clientId () {
+    return this.channel.clientId
+  }
 
   static instance = (name, transient) => {
     if (!_instances[name]) {
@@ -70,8 +78,8 @@ class MultiTelepathProvider {
     this.channel.unsubscribe(subscription)
   }
 
-  emit = async message => {
-    await this.channel.emit(message)
+  emit = async (message, params) => {
+    await this.channel.emit(message, params)
   }
 }
 

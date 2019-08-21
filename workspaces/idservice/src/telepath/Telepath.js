@@ -65,7 +65,8 @@ class Telepath {
         id: this.createRandomId(),
         key: this.createRandomKey(),
         appName: 'IdentityBox',
-        clientId: this.clientId
+        clientId: this.clientId,
+        servicePointId: this.clientId
       })
       this.write()
     } else {
@@ -82,7 +83,8 @@ class Telepath {
       id: channelId,
       key: Buffers.copyToUint8Array(base64url.toBuffer(keyBase64)),
       appName: base64url.decode(appNameBase64),
-      clientId
+      clientId,
+      servicePointId: clientId
     })
   }
 
@@ -118,9 +120,9 @@ class Telepath {
     this.channel.unsubscribe(subscription)
   }
 
-  emit = async message => {
+  emit = async (message, params) => {
     try {
-      await this.channel.emit(message)
+      await this.channel.emit(message, params)
     } catch (e) {
       console.log(e.message)
     }

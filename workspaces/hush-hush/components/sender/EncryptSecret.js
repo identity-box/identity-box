@@ -16,10 +16,14 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
       method: 'store-json',
       params: [{
         json
+      }, {
+        from: telepathProvider.clientId
       }]
     }
     try {
-      await telepathProvider.emit(message)
+      await telepathProvider.emit(message, {
+        to: telepathProvider.servicePointId
+      })
     } catch (e) {
       console.log(e.message)
     }
@@ -79,7 +83,7 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
   })
 
   useTelepath({
-    name: idBoxTransientTelepathName,
+    name: 'idbox',
     onTelepathReady: onTelepathRady,
     onMessage: message => {
       if (message.method === 'store-json-response' && message.params.length > 0) {
