@@ -10,8 +10,10 @@ export default class FakeClientSocket {
     if (event === 'identify') {
       this.queueId = message.channelId
       this.clientId = message.clientId
+      this.eventHandlers[event](message, ...args)
+    } else {
+      this.eventHandlers[event](message, undefined, ...args)
     }
-    this.eventHandlers[event](message, ...args)
   }
 
   emit (event, payload) {

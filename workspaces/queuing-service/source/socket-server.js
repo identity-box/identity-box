@@ -118,7 +118,6 @@ class SocketServer {
 
   onMessage (senderSocket, message, params, ack) {
     Logger.separator()
-    console.log('onMessage:', message, params, ack)
     if (!this.verifyMessage(senderSocket, message, params)) {
       Logger.logError('message corrupted or too long')
       ack(new ServerError('message corrupted or too long'))
@@ -129,7 +128,7 @@ class SocketServer {
     if (senderSocket.service) {
       const receiver = this.findReceiverForServiceChannel(senderSocket, params.to)
       if (receiver) {
-        Logger.logMessage(`{ sender: ${senderSocket.clientId}, recipient: ${receiver.clientId}, message: ${message} }`)
+        Logger.logMessage(`{ sender: ${senderSocket.clientId}, recipient: ${receiver.clientId}, message: ${message}, params: ${params} }`)
         receiver.emit('message', message)
         ack(true)
       } else {
