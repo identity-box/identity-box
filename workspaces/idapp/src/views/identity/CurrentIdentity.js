@@ -55,6 +55,19 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }
 
+  const sendCurrentIdentity = async currentDid => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'get_current_identity_response',
+      params: [{ currentDid }]
+    }
+    try {
+      await telepathProvider.current.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   useIdentity({
     onReady: identityManager => {
       setIdentity(identityManager.getCurrent())
@@ -66,7 +79,9 @@ const CurrentIdentity = ({ navigation }) => {
     channelDescription,
     onMessage: async message => {
       console.log('received message: ', message)
-      if (message.method === 'select_identity') {
+      if (message.method === 'get_current_identity') {
+        sendCurrentIdentity(identity.did)
+      } else if (message.method === 'select_identity') {
         navigation.navigate('SelectIdentity', { name: channelDescription.appName })
       } else if (message.method === 'encrypt-content' && message.params.length > 0) {
         const { content, theirPublicKey } = message.params[0]

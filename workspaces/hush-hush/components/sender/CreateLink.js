@@ -5,10 +5,10 @@ import { FadingValueBox } from '../animations'
 import { Textarea } from '../forms'
 import { Green, InfoBox, Centered, MrSpacer } from '../ui'
 
-const CreateLink = ({ cid, did }) => {
+const CreateLink = ({ cid, did, currentDid }) => {
   const [copied, setCopied] = useState(false)
   const secretField = useRef(undefined)
-  const link = `https://hush-hush.now.sh/secret#${base64url.encode(`${did}.${cid}`)}`
+  const link = `https://hush-hush.now.sh/secret#${base64url.encode(`${did}.${cid}.${currentDid}`)}`
 
   const isOS = () => {
     return navigator.userAgent.match(/ipad|iphone/i)

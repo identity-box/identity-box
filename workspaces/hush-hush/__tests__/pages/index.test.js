@@ -16,6 +16,6 @@ describe('index', () => {
 
   it('displays welcome text', () => {
     const { getByText } = render(<Home />)
-    expect(getByText(/You need to tell Hush Hush/i)).toBeInTheDocument()
+    expect(getByText(/Hush Hush needs to know two things/i)).toBeInTheDocument()
   })
 })

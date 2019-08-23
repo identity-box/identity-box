@@ -76,7 +76,17 @@ exports[`index has proper styling 1`] = `
           <div
             css="[object Object]"
           >
-            You need to tell Hush Hush who is the intended recipient of your secret.
+            In order to share your secret securely with the intendent (and only intended) recipient, Hush Hush needs to know two things:
+          </div>
+          <div
+            css="[object Object]"
+          >
+            1. The DID of the intended recipoient.
+          </div>
+          <div
+            css="[object Object]"
+          >
+            2. Your current DID - so that the recipient can verify your signature.
           </div>
           <div
             css="[object Object]"
@@ -88,6 +98,26 @@ exports[`index has proper styling 1`] = `
               Identity Box IdApp Address Book
             </span>
             .
+          </div>
+          <div
+            css="[object Object]"
+          />
+          <div
+            css="[object Object]"
+          >
+            Please make sure that you have your 
+            <span
+              css="[object Object]"
+            >
+              IdApp
+            </span>
+             ready and that you have selected the idenity you want to use before hitting
+            <span
+              css="[object Object]"
+            >
+              connect
+            </span>
+             below.
           </div>
           <div
             css="[object Object]"

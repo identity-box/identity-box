@@ -24,13 +24,16 @@ const SenderHush = () => {
   const [workflow, setWorkflow] = useState(Stages.Connect)
   const [telepathChannel, setTelepathChannel] = useState(undefined)
   const [did, setDid] = useState(undefined)
+  const [currentDid, setCurrentDid] = useState(undefined)
   const [secret, setSecret] = useState(undefined)
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
   const [cid, setCID] = useState(undefined)
 
-  const onRecipientReady = useCallback(async ({ did }) => {
+  const onRecipientReady = useCallback(async ({ did, currentDid }) => {
     console.log('got your recipient DID:', did)
+    console.log('and your current DID:', currentDid)
     setDid(did)
+    setCurrentDid(currentDid)
     setWorkflow(Stages.Secret)
   }, [telepathChannel])
 
@@ -99,7 +102,7 @@ const SenderHush = () => {
 
   const renderCreateLink = () => {
     return (
-      <CreateLink cid={cid} did={did} />
+      <CreateLink cid={cid} did={did} currentDid={currentDid} />
     )
   }
 

@@ -69,7 +69,7 @@ const SelectIdentity = ({ navigation }) => {
   const sendIdentity = async ({ did }) => {
     const message = {
       jsonrpc: '2.0',
-      method: 'set_did',
+      method: 'select_identity_response',
       params: [{
         did
       }]
