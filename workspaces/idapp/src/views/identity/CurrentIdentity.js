@@ -55,6 +55,21 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }
 
+  const sendDecryptedContent = async decryptedContent => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'decrypt_content_response',
+      params: [{
+        decryptedContent
+      }]
+    }
+    try {
+      await telepathProvider.current.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   const sendCurrentIdentity = async currentDid => {
     const message = {
       jsonrpc: '2.0',
@@ -93,6 +108,19 @@ const CurrentIdentity = ({ navigation }) => {
           encryptedContent: base64url.encode(encryptedContent),
           nonce: base64url.encode(nonce)
         })
+      } else if (message.method === 'decrypt-content' && message.params.length > 0) {
+        const { encryptedContentBase64, nonceBase64, theirPublicKeyBase64 } = message.params[0]
+        const box = base64url.toBuffer(encryptedContentBase64)
+        const nonce = base64url.toBuffer(nonceBase64)
+        const theirPublicKey = base64url.toBuffer(theirPublicKeyBase64)
+        const mySecretKey = identity.encryptionKey.secretKey
+        console.log('box=', box)
+        console.log('nonce=', nonce)
+        console.log('theirPublicKey=', theirPublicKey)
+        console.log('mySecretKey=', mySecretKey)
+        const decryptedContent = nacl.box.open(box, nonce, theirPublicKey, mySecretKey)
+        console.log('decryptedContent=', decryptedContent)
+        sendDecryptedContent(base64url.encode(decryptedContent))
       }
     },
     onError: error => {

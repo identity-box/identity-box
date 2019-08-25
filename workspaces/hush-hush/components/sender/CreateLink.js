@@ -8,7 +8,7 @@ import { Green, InfoBox, Centered, MrSpacer } from '../ui'
 const CreateLink = ({ cid, did, currentDid }) => {
   const [copied, setCopied] = useState(false)
   const secretField = useRef(undefined)
-  const link = `https://hush-hush.now.sh/secret#${base64url.encode(`${did}.${cid}.${currentDid}`)}`
+  const link = `https://hush-hush.now.sh/secret#${base64url.encode(`${cid}.${did}.${currentDid}`)}`
 
   const isOS = () => {
     return navigator.userAgent.match(/ipad|iphone/i)

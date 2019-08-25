@@ -9,7 +9,8 @@ import nacl from 'tweetnacl'
 const supportedMessages = [
   'create_identity',
   'get-did-document',
-  'store-json'
+  'store-json',
+  'get-json'
 ]
 
 class IdService {
@@ -95,7 +96,7 @@ class IdService {
     try {
       const response = {
         jsonrpc: '2.0',
-        method: 'set-did-document',
+        method: 'get-did-document-response',
         params: [
           didDocument
         ]
@@ -115,6 +116,23 @@ class IdService {
         method: 'store-json-response',
         params: [
           { cid }
+        ]
+      }
+      await this.telepath.emit(response, {
+        to
+      })
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  respondWithJSON = async (json, to) => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method: 'get-json-response',
+        params: [
+          { json }
         ]
       }
       await this.telepath.emit(response, {
@@ -173,6 +191,12 @@ class IdService {
     this.respondWithCID(cid, message.params[1].from)
   }
 
+  handleGetJSON = async message => {
+    const { cid } = message.params[0]
+    const { json } = await this.identityProvider.readFromIPFS(cid)
+    this.respondWithJSON(json, message.params[1].from)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
@@ -185,6 +209,9 @@ class IdService {
             break
           case 'store-json':
             await this.handleStoreJSON(message)
+            break
+          case 'get-json':
+            await this.handleGetJSON(message)
             break
         }
       } catch (e) {

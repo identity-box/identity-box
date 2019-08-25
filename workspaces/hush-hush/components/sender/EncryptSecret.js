@@ -55,7 +55,7 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
     return { encryptedSecret, nonce }
   }
 
-  const onTelepathRady = useCallback(async ({ telepathProvider }) => {
+  const onTelepathReady = useCallback(async ({ telepathProvider }) => {
     setTelepathProvider(telepathProvider)
     encryptSymmetricKey()
   }, [])
@@ -84,10 +84,11 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
 
   useTelepath({
     name: 'idbox',
-    onTelepathReady: onTelepathRady,
+    onTelepathReady: onTelepathReady,
     onMessage: message => {
       if (message.method === 'store-json-response' && message.params.length > 0) {
-        onEncryptedCIDRetrieved && onEncryptedCIDRetrieved(message.params[0])
+        const { cid } = message.params[0]
+        onEncryptedCIDRetrieved && onEncryptedCIDRetrieved(cid)
       }
     },
     onError: error => {

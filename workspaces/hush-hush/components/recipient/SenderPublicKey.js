@@ -4,7 +4,7 @@ import { Blue, InfoBox, MrSpacer, Centered } from '../ui'
 
 import { useTelepath } from '../telepath'
 
-const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
+const SenderPublicKey = ({ next, did }) => {
   const getDIDDocument = async (telepathProvider) => {
     const message = {
       jsonrpc: '2.0',
@@ -33,7 +33,9 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
     onTelepathReady: onTelepathReady,
     onMessage: message => {
       if (message.method === 'get-did-document-response' && message.params.length > 0) {
-        onDIDDocumentRetrieved && onDIDDocumentRetrieved(message.params[0])
+        const didDocument = message.params[0]
+
+        next && next(didDocument)
       }
     },
     onError: error => {
@@ -44,7 +46,7 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox>Retrieving DID Document for the recipient with did:</InfoBox>
+        <InfoBox>Retrieving DID Document for the identity with did:</InfoBox>
         <MrSpacer space='50px' />
         <InfoBox><Blue>{did}</Blue></InfoBox>
       </Centered>
@@ -52,4 +54,4 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
   )
 }
 
-export { FetchDidDocument }
+export { SenderPublicKey }

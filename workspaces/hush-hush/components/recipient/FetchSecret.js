@@ -1,16 +1,17 @@
 import React, { useCallback } from 'react'
+
 import { FadingValueBox } from '../animations'
-import { Blue, InfoBox, MrSpacer, Centered } from '../ui'
+import { Blue, Green, InfoBox, Centered, MrSpacer } from '../ui'
 
 import { useTelepath } from '../telepath'
 
-const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
-  const getDIDDocument = async (telepathProvider) => {
+const FetchSecret = ({ next, cid }) => {
+  const getJSON = async (telepathProvider) => {
     const message = {
       jsonrpc: '2.0',
-      method: 'get-did-document',
+      method: 'get-json',
       params: [{
-        did
+        cid
       }, {
         from: telepathProvider.clientId
       }]
@@ -25,15 +26,16 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
   }
 
   const onTelepathReady = useCallback(async ({ telepathProvider }) => {
-    await getDIDDocument(telepathProvider)
+    await getJSON(telepathProvider)
   }, [])
 
   useTelepath({
     name: 'idbox',
     onTelepathReady: onTelepathReady,
     onMessage: message => {
-      if (message.method === 'get-did-document-response' && message.params.length > 0) {
-        onDIDDocumentRetrieved && onDIDDocumentRetrieved(message.params[0])
+      if (message.method === 'get-json-response' && message.params.length > 0) {
+        const { json } = message.params[0]
+        next && next(json)
       }
     },
     onError: error => {
@@ -44,12 +46,12 @@ const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox>Retrieving DID Document for the recipient with did:</InfoBox>
-        <MrSpacer space='50px' />
-        <InfoBox><Blue>{did}</Blue></InfoBox>
+        <InfoBox>Fetching <Green>encrypted secret</Green> with <Blue>CID:</Blue></InfoBox>
+        <MrSpacer space='15px' />
+        <InfoBox><Blue>{cid}</Blue></InfoBox>
       </Centered>
     </FadingValueBox>
   )
 }
 
-export { FetchDidDocument }
+export { FetchSecret }
