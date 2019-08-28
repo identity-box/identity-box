@@ -8,16 +8,18 @@ const createIdentity = async ({
   const message = {
     jsonrpc: '2.0',
     method: 'create_identity',
-    params: [
-      {
-        name,
-        publicEncryptionKey,
-        publicSigningKey
-      }
-    ]
+    params: [{
+      name,
+      publicEncryptionKey,
+      publicSigningKey
+    }, {
+      from: telepathChannel.clientId
+    }]
   }
   try {
-    await telepathChannel.emit(message)
+    await telepathChannel.emit(message, {
+      to: telepathChannel.servicePointId
+    })
   } catch (e) {
     console.log(e.message)
   }

@@ -1,7 +1,17 @@
 import path from 'path'
+import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
 import { IPNSFirebase } from '../services'
+import base64url from 'base64url'
+import nacl from 'tweetnacl'
+
+const supportedMessages = [
+  'create_identity',
+  'get-did-document',
+  'store-json',
+  'get-json'
+]
 
 class IdService {
   identityProvider
@@ -58,7 +68,14 @@ class IdService {
     return identity
   }
 
-  respondWithIdentity = async identity => {
+  createRandomName = () => {
+    const randomNameSize = 18
+    const nameBytes = nacl.randomBytes(randomNameSize)
+    const name = TypedArrays.uint8Array2string(nameBytes, 'hex')
+    return base64url.encode(name)
+  }
+
+  respondWithIdentity = async (identity, to) => {
     try {
       const response = {
         jsonrpc: '2.0',
@@ -67,13 +84,66 @@ class IdService {
           { identity }
         ]
       }
-      await this.telepath.emit(response)
+      await this.telepath.emit(response, {
+        to
+      })
     } catch (e) {
       console.error(e.message)
     }
   }
 
-  respondWithError = async error => {
+  respondWithDIDDocument = async (didDocument, to) => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method: 'get-did-document-response',
+        params: [
+          didDocument
+        ]
+      }
+      await this.telepath.emit(response, {
+        to
+      })
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  respondWithCID = async (cid, to) => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method: 'store-json-response',
+        params: [
+          { cid }
+        ]
+      }
+      await this.telepath.emit(response, {
+        to
+      })
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  respondWithJSON = async (json, to) => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method: 'get-json-response',
+        params: [
+          { json }
+        ]
+      }
+      await this.telepath.emit(response, {
+        to
+      })
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
+  respondWithError = async (error, to) => {
     try {
       const response = {
         jsonrpc: '2.0',
@@ -82,29 +152,68 @@ class IdService {
           { error: error.message }
         ]
       }
-      await this.telepath.emit(response)
+      await this.telepath.emit(response, {
+        to
+      })
     } catch (e) {
       console.error(e.message)
     }
   }
 
+  handleCreateIdentity = async message => {
+    const identity = await this.createIdentity(message.params[0])
+    this.respondWithIdentity(identity, message.params[1].from)
+    const didDoc = createDIDDocument({
+      ...identity,
+      ...message.params[0]
+    })
+    const cid = await this.identityProvider.writeToIPFS(didDoc)
+    console.log('cid:', cid)
+    const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
+    console.log('ipns name:', ipnsName)
+    await IPNSFirebase.setIPNSRecord({
+      ipnsName,
+      cid
+    })
+  }
+
+  handleGetDIDDocument = async message => {
+    const { did } = message.params[0]
+    const ipnsName = this.identityProvider.ipnsNameFromDID(did)
+    const cid = await IPNSFirebase.getCIDForIPNSName({ ipnsName })
+    const didDocument = await this.identityProvider.readFromIPFS(cid)
+    this.respondWithDIDDocument(didDocument, message.params[1].from)
+  }
+
+  handleStoreJSON = async message => {
+    const json = message.params[0]
+    const cid = await this.identityProvider.writeToIPFS(json)
+    this.respondWithCID(cid, message.params[1].from)
+  }
+
+  handleGetJSON = async message => {
+    const { cid } = message.params[0]
+    const { json } = await this.identityProvider.readFromIPFS(cid)
+    this.respondWithJSON(json, message.params[1].from)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
-        const identity = await this.createIdentity(message.params[0])
-        this.respondWithIdentity(identity)
-        const didDoc = createDIDDocument({
-          ...identity,
-          ...message.params[0]
-        })
-        const cid = await this.identityProvider.writeToIPFS(didDoc)
-        console.log('cid:', cid)
-        const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
-        console.log('ipns name:', ipnsName)
-        await IPNSFirebase.setIPNSRecord({
-          ipnsName,
-          cid
-        })
+        switch (message.method) {
+          case 'create_identity':
+            await this.handleCreateIdentity(message)
+            break
+          case 'get-did-document':
+            await this.handleGetDIDDocument(message)
+            break
+          case 'store-json':
+            await this.handleStoreJSON(message)
+            break
+          case 'get-json':
+            await this.handleGetJSON(message)
+            break
+        }
       } catch (e) {
         console.error(e.message)
         this.respondWithError(e)
@@ -112,7 +221,7 @@ class IdService {
     }
   }
 
-  messageSupported = message => (message.method === 'create_identity' && message.params && message.params.length === 1)
+  messageSupported = message => (supportedMessages.includes(message.method) && message.params && message.params.length === 2)
 }
 
 export { IdService }

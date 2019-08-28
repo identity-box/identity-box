@@ -10,6 +10,8 @@ class SocketIOChannel {
 
   channelId
 
+  service
+
   onMessage
 
   onError
@@ -22,14 +24,15 @@ class SocketIOChannel {
     this.socket = this.socketFactoryMethod()
   }
 
-  async start ({ channelId, onMessage, onError, timeout = 30000 }) {
+  async start ({ channelId, service, onMessage, onError, timeout = 30000 }) {
     this.channelId = channelId
     this.onMessage = onMessage
     this.onError = onError
     this.timeout = timeout
+    this.service = service
     await this.waitUntilConnected(timeout)
     this.installEventHandlers({ onMessage, onError })
-    await this.identify({ channelId, timeout })
+    await this.identify({ channelId, timeout, service })
     this.setupDone = true
   }
 
@@ -52,11 +55,11 @@ class SocketIOChannel {
     })
   }
 
-  identify ({ channelId, timeout }) {
+  identify ({ channelId, timeout, service }) {
     return new Promise((resolve, reject) => {
       this.socket.emit(
         'identify',
-        { channelId, clientId: this.clientId },
+        { channelId, clientId: this.clientId, service },
         timeoutCallback(timeout, (timeoutError, data) => {
           if (timeoutError) {
             reject(timeoutError)
@@ -97,7 +100,8 @@ class SocketIOChannel {
       try {
         await this.identify({
           channelId: this.channelId,
-          timeout: this.timeout
+          timeout: this.timeout,
+          service: this.service
         })
         this.setupDone = true
       } catch (e) {
@@ -113,11 +117,12 @@ class SocketIOChannel {
     }
   }
 
-  emitMessage (message, timeout = 30000) {
+  emitMessage (message, params = {}, timeout = 30000) {
     return new Promise((resolve, reject) => {
       this.socket.emit(
         'message',
         message,
+        params,
         timeoutCallback(timeout, (error, data) => {
           if (error) {
             reject(error)
@@ -133,10 +138,10 @@ class SocketIOChannel {
     })
   }
 
-  async emit (data) {
+  async emit (data, params) {
     if (this.setupDone) {
       const message = base64url.encode(data)
-      await this.emitMessage(message)
+      await this.emitMessage(message, params)
     } else {
       throw new Error('Please wait for subscribe call to finish before emitting messages!')
     }

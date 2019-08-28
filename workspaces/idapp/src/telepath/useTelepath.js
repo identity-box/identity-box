@@ -21,7 +21,7 @@ const useTelepath = ({
         await MultiTelepathConfiguration.reset(name)
       }
       telepathProvider.current = await MultiTelepathProvider.instance(name)
-      if (!telepathProvider.current.connected) {
+      if (!telepathProvider.current.connected || channelDescription) {
         await telepathProvider.current.connect(channelDescription)
       }
       if (onMessage) {
@@ -29,7 +29,7 @@ const useTelepath = ({
         subscription.current = telepathProvider.current.subscribe(onMessage, onError)
         console.log('ok')
       }
-      onTelepathReady && onTelepathReady()
+      onTelepathReady && onTelepathReady({ telepathProvider: telepathProvider.current })
     } catch (e) {
       console.log(e.message)
       onError && onError(e)
@@ -44,8 +44,9 @@ const useTelepath = ({
   }
 
   useEffect(() => {
-    subscribe()
-
+    if (name) {
+      subscribe()
+    }
     return () => {
       unsubscribe()
     }

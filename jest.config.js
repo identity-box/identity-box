@@ -1,8 +1,9 @@
 module.exports = {
   projects: [
-    'workspaces/webapp',
+    'workspaces/hush-hush',
     'workspaces/queuing-service',
     'workspaces/telepath',
+    'workspaces/idbox-react-ui',
     {
       rootDir: 'workspaces/idservice',
       testEnvironment: 'node'

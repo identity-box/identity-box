@@ -58,14 +58,15 @@ class Telepath {
   }
 
   createTelepathChannel = () => {
-    if (!fs.existsSync(this.path)) {
-      console.log(`No telepath configuration found in ${this.path}.`)
+    if (!this.path || !fs.existsSync(this.path)) {
+      this.path && console.log(`No telepath configuration found in ${this.path}.`)
       console.log('Creating new telepath channel...')
       this.channel = this.telepath.createChannel({
         id: this.createRandomId(),
         key: this.createRandomKey(),
         appName: 'IdentityBox',
-        clientId: this.clientId
+        clientId: this.clientId,
+        servicePointId: this.clientId
       })
       this.write()
     } else {
@@ -82,11 +83,13 @@ class Telepath {
       id: channelId,
       key: Buffers.copyToUint8Array(base64url.toBuffer(keyBase64)),
       appName: base64url.decode(appNameBase64),
-      clientId
+      clientId,
+      servicePointId: clientId
     })
   }
 
   write = () => {
+    if (!this.path) return
     const { id, key, appName, clientId } = this.channel
     const configurationString = `${id} ${base64url.encode(key)} ${base64url.encode(appName)} ${clientId}`
 
@@ -117,9 +120,9 @@ class Telepath {
     this.channel.unsubscribe(subscription)
   }
 
-  emit = async message => {
+  emit = async (message, params) => {
     try {
-      await this.channel.emit(message)
+      await this.channel.emit(message, params)
     } catch (e) {
       console.log(e.message)
     }

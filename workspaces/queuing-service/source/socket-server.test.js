@@ -199,7 +199,7 @@ describe('socket server', () => {
       expect(senderMessageAck).toHaveBeenCalledTimes(1)
       expect(senderMessageAck).toHaveBeenNthCalledWith(1, true)
       sender.receiveIncoming('message', tooBig, senderMessageAck)
-      const error = new ServerError('message too long')
+      const error = new ServerError('message corrupted or too long')
       expect(senderMessageAck).toHaveBeenCalledTimes(2)
       expect(senderMessageAck).toHaveBeenNthCalledWith(2, error)
     })

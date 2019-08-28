@@ -1,0 +1,1 @@
+export { IdAppConnector } from './IdAppConnector'

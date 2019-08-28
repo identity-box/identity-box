@@ -30,12 +30,17 @@ class IdentityProvider {
     }
   }
 
-  writeToIPFS = async didDoc => {
+  writeToIPFS = async json => {
     const cid = await this.ipfs.dag.put(
-      didDoc,
+      json,
       { format: 'dag-cbor', hashAlg: 'sha2-256' }
     )
     return cid.toBaseEncodedString()
+  }
+
+  readFromIPFS = async cid => {
+    const { value } = await this.ipfs.dag.get(cid)
+    return value
   }
 
   ipnsNameFromDID = did => {

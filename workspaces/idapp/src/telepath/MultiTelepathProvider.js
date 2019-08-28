@@ -10,13 +10,21 @@ const _instances = {}
 class MultiTelepathProvider {
   name
 
-  channels = {}
+  channel
 
   connected = false
 
+  get servicePointId () {
+    return this.channel.servicePointId
+  }
+
+  get clientId () {
+    return this.channel.clientId
+  }
+
   static instance = async name => {
     if (!_instances[name]) {
-      console.log('MultiTelepathProvider: creating new provider instance...')
+      console.log(`MultiTelepathProvider: creating new provider instance for name: ${name}...`)
       _instances[name] = new MultiTelepathProvider(name)
     }
     return _instances[name]
@@ -69,6 +77,10 @@ class MultiTelepathProvider {
 
   unsubscribe = subscription => {
     this.channel.unsubscribe(subscription)
+  }
+
+  emit = async (message, params) => {
+    await this.channel.emit(message, params)
   }
 }
 

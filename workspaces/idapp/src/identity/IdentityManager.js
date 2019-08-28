@@ -10,12 +10,21 @@ class IdentityManager {
 
   identities = {}
 
+  peerIdentities = {}
+
+  subscriptions = []
+
+  get peerIdentityNames () {
+    return Object.keys(this.peerIdentities)
+  }
+
   current
 
   static instance = async () => {
     if (!_instance) {
       _instance = new IdentityManager()
       await _instance.readIdentities()
+      await _instance.readPeerIdentities()
     }
     return _instance
   }
@@ -50,6 +59,46 @@ class IdentityManager {
     }
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+  }
+
+  addPeerIdentity = async ({ name, did }) => {
+    this.peerIdentities = { ...this.peerIdentities, [name]: did }
+    await AsyncStorage.setItem('peerIdentities', JSON.stringify(this.peerIdentities))
+    this.notify('onPeerIdentitiesChanged', {
+      peerIdentities: this.peerIdentities,
+      addedIdentity: { name, did }
+    })
+    return this.peerIdentities
+  }
+
+  deletePeerIdentity = async ({ name }) => {
+    delete this.peerIdentities[name]
+    this.peerIdentities = { ...this.peerIdentities }
+    await AsyncStorage.setItem('peerIdentities', JSON.stringify(this.peerIdentities))
+    this.notify('onPeerIdentitiesChanged', {
+      peerIdentities: this.peerIdentities,
+      deletedIdentity: { name }
+    })
+    return this.peerIdentities
+  }
+
+  notify = (observerName, params) => {
+    this.subscriptions.forEach(s => {
+      s[observerName] && s[observerName](params)
+    })
+  }
+
+  subscribe = subscription => {
+    this.subscriptions = [
+      ...this.subscriptions,
+      subscription
+    ]
+
+    return this.subscriptions.length - 1
+  }
+
+  unsubscribe = subscriptionId => {
+    this.subscriptions.splice(subscriptionId, 1)
   }
 
   setCurrent = async name => {
@@ -100,8 +149,20 @@ class IdentityManager {
     }
   }
 
+  readPeerIdentities = async () => {
+    const peerIdentitiesStr = await AsyncStorage.getItem('peerIdentities')
+
+    if (!peerIdentitiesStr) return
+
+    this.peerIdentities = JSON.parse(peerIdentitiesStr)
+  }
+
   hasIdentities = () => {
     return Object.keys(this.identities).length > 0
+  }
+
+  hasPeerIdentities = () => {
+    return Object.keys(this.peerIdentities).length > 0
   }
 }
 

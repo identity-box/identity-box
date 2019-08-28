@@ -31,7 +31,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
   }, [])
 
   const getChannelDescription = connectUrl => {
-    const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)/)
+    const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)&S=(?<servicePointId>.*)/)
 
     return match && match.groups
   }

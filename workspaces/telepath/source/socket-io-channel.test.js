@@ -51,15 +51,29 @@ describe('SocketIOChannel', () => {
         handlers[event] = cb
       }),
       off: jest.fn(),
-      emit: jest.fn().mockImplementation(function (event, payload, ack) {
-        if (ack && !identifyTimesOut) {
-          if (this.serverError) {
-            setTimeout(() => {
-              ack(this.serverError.toJSON())
-              this.serverError = null
-            }, 1)
-          } else {
-            setTimeout(() => ack(true), 1)
+      emit: jest.fn().mockImplementation(function (event, payload, params, ack) {
+        if (typeof params === 'function' && !ack) {
+          // params is ack in this case
+          if (params && !identifyTimesOut) {
+            if (this.serverError) {
+              setTimeout(() => {
+                params(this.serverError.toJSON())
+                this.serverError = null
+              }, 1)
+            } else {
+              setTimeout(() => params(true), 1)
+            }
+          }
+        } else {
+          if (ack && !identifyTimesOut) {
+            if (this.serverError) {
+              setTimeout(() => {
+                ack(this.serverError.toJSON())
+                this.serverError = null
+              }, 1)
+            } else {
+              setTimeout(() => ack(true), 1)
+            }
           }
         }
       })
@@ -110,7 +124,7 @@ describe('SocketIOChannel', () => {
       })
     })
 
-    it('installs all the handler', () => {
+    it('installs all the handlers', () => {
       expect(service.socket).toBe(socketStub)
       expect(socketStub.connect.mock.calls.length).toBe(1)
       expect(socketStub.on.mock.calls[0][0]).toBe('connect')

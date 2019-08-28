@@ -27,6 +27,14 @@ class JsonRpcChannel {
     return this.channel.clientId
   }
 
+  get servicePointId () {
+    return this.channel.servicePointId
+  }
+
+  get isService () {
+    return this.channel.isService
+  }
+
   processMessage = message => {
     const messageJSON = JSON.parse(message)
     this.checkJsonRpcMessage(messageJSON)
@@ -64,9 +72,9 @@ class JsonRpcChannel {
     this.dispatcher.removeSubscription(subscription)
   }
 
-  emit = async message => {
+  emit = async (message, params) => {
     this.checkJsonRpcMessage(message)
-    await this.channel.emit(JSON.stringify(message))
+    await this.channel.emit(JSON.stringify(message), params)
   }
 
   createConnectUrl = baseUrl => {
