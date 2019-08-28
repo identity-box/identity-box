@@ -5,14 +5,14 @@ import { Start } from './Start'
 import { FetchSecret } from './FetchSecret'
 import { SenderPublicKey } from './SenderPublicKey'
 import { ConnectIdApp } from './ConnectIdApp'
-import { DecryptSymmetricKey } from './DecryptSymmetricKey'
+import { DecryptSecret } from './DecryptSecret'
+import { PresentSecret } from './PresentSecret'
 
 const Stages = Object.freeze({
   Start: Symbol('start'),
   FetchSecret: Symbol('fetchSecret'),
   SenderPublicKey: Symbol('senderPublicEncryptionKey'),
   ConnectIdApp: Symbol('connectIdApp'),
-  DecryptSymmetricKey: Symbol('decryptSymmetricKey'),
   DecryptSecret: Symbol('decryptSecret'),
   PresentSecret: Symbol('presentSecret')
 })
@@ -25,6 +25,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
   const [encryptedSecret, setEncryptedSecret] = useState(undefined)
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
   const [telepathChannel, setTelepathChannel] = useState(undefined)
+  const [secret, setSecret] = useState(undefined)
 
   const processLink = () => {
     const [cidEncryptedSecret, didRecipient, didSender] = base64url.decode(senderTagBase64).split('.')
@@ -82,33 +83,32 @@ const ProcessSecret = ({ senderTagBase64 }) => {
         console.log('connected to IdApp')
         console.log('tp=', telepathChannel)
         setTelepathChannel(telepathChannel)
-        setWorkflow(Stages.DecryptSymmetricKey)
+        setWorkflow(Stages.DecryptSecret)
       }} />
     )
   }, [])
 
-  const renderDecryptSymmetricKey = useCallback(() => {
+  const renderDecryptSecret = useCallback(() => {
     return (
-      <DecryptSymmetricKey telepathChannel={telepathChannel}
+      <DecryptSecret telepathChannel={telepathChannel}
         encryptedSecret={encryptedSecret}
         didRecipient={didRecipient}
         theirPublicKey={publicEncryptionKey}
-        next={symmetricKey => {
-          console.log('symmetricKey=', symmetricKey)
+        next={({ secret }) => {
+          console.log('secret=', secret)
+          setSecret(secret)
           setTimeout(() => {
-            setWorkflow(Stages.DecryptSecret)
+            setWorkflow(Stages.PresentSecret)
           }, 2000)
         }} />
     )
   }, [telepathChannel])
 
-  const renderDecryptSecret = useCallback(() => {
-    return null
-  }, [])
-
   const renderPresentSecret = useCallback(() => {
-    return null
-  }, [])
+    return (
+      <PresentSecret secret={secret} />
+    )
+  }, [secret])
 
   switch (workflow) {
     case Stages.Start:
@@ -119,8 +119,6 @@ const ProcessSecret = ({ senderTagBase64 }) => {
       return renderSenderPublicKey()
     case Stages.ConnectIdApp:
       return renderConnectIdApp()
-    case Stages.DecryptSymmetricKey:
-      return renderDecryptSymmetricKey()
     case Stages.DecryptSecret:
       return renderDecryptSecret()
     case Stages.PresentSecret:

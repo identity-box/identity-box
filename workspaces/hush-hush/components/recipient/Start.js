@@ -12,7 +12,7 @@ const Start = ({ next }) => {
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox>Your link looks <Green>good</Green></InfoBox>
+        <InfoBox>Your link looks <Green>good</Green>.</InfoBox>
       </Centered>
     </FadingValueBox>
   )

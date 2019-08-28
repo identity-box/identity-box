@@ -81,12 +81,12 @@ exports[`index has proper styling 1`] = `
           <div
             css="[object Object]"
           >
-            1. The DID of the intended recipoient.
+            1. The DID of the intended recipient.
           </div>
           <div
             css="[object Object]"
           >
-            2. Your current DID - so that the recipient can verify your signature.
+            2. Your current DID.
           </div>
           <div
             css="[object Object]"
@@ -111,7 +111,7 @@ exports[`index has proper styling 1`] = `
             >
               IdApp
             </span>
-             ready and that you have selected the idenity you want to use before hitting
+             ready and that you have selected the idenity you want to use before hitting 
             <span
               css="[object Object]"
             >
