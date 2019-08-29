@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "home-page",
+  "name": "hush-hush",
   "version": "0.1.4",
-  "description": "Home page for Identity Box",
+  "description": "Hush Hush secret sharing web app",
   "author": "Marcin Czenko",
   "license": "MIT",
   "dependencies": {
