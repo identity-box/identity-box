@@ -1,6 +1,6 @@
 {
   "name": "idbox-queuing-service",
-  "version": "0.1.13",
+  "version": "0.1.17",
   "description": "IdBox Queuing Service",
   "homepage": "https://idbox.now.sh",
   "private": true,

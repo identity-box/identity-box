@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/idbox-react-ui",
-  "version": "0.1.0",
+  "version": "0.1.17",
   "description": "Identity Box React library",
   "homepage": "https://idbox.now.sh",
   "license": "MIT",
@@ -28,8 +28,8 @@
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "jest-canvas-mock": "^2.1.0",
-    "@testing-library/react": "^9.1.0"
+    "@testing-library/react": "^9.1.0",
+    "jest-canvas-mock": "^2.1.0"
   },
   "publishConfig": {
     "access": "public"
