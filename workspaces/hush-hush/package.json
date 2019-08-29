@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "now-build": "yarn build",
+    "now-build": "(cd ../../ && yarn build) && yarn build",
     "start": "next start"
   },
   "devDependencies": {

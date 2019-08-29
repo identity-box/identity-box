@@ -2,17 +2,14 @@ __tests__
 coverage
 node_modules
 proposal
-tools
 .next
 /*.*
 !/*.md
 !/package.json
 !/yarn.lock
+!/babel.config.js
+!/lerna.json
 
-workspaces/telepath/*.*
-workspaces/telepath/source
-!workspaces/telepath/*.md
-!workspaces/telepath/images/*.*
 workspaces/queuing-service/**
 !workspaces/queuing-service/*.md
 workspaces/idservice/**
