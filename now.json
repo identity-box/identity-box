@@ -6,9 +6,12 @@
     { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
   ],
   "routes": [
-    { "src": "/hush-hush", "dest": "/workspaces/hush-hush/" },
-    { "src": "/hush-hush/(.*)", "dest": "/workspaces/hush-hush/$1" },
-    { "src": "/(?<path>.*)", "dest": "/workspaces/homepage/$path"}
+    {
+      "src": "/hush-hush(.*)",
+      "dest": "/workspaces/hush-hush$1",
+      "continue": true
+    },
+    { "src": "(.*)", "dest": "/workspaces/homepage$1", "continue": true }
   ],
   "scope": "identity-box",
   "alias": "idbox"
