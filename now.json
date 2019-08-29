@@ -1,14 +1,18 @@
 {
   "version": 2,
+  "public": true,
   "name": "Identity Box",
   "builds": [
     { "src": "workspaces/hush-hush/package.json", "use": "@now/next" },
     { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
   ],
   "routes": [
-    { "src": "/hush-hush", "dest": "/workspaces/hush-hush/", "continue": true },
-    { "src": "/hush-hush/(.*)", "dest": "/workspaces/hush-hush/$1", "continue": true },
-    { "src": "/(?<path>.*)", "dest": "/workspaces/homepage/$path", "continue": true}
+    { "src": "/hush-hush", "dest": "/workspaces/hush-hush/"},
+    { "src": "/hush-hush/secret", "dest": "/workspaces/hush-hush/secret.html"},
+    { "src": "/hush-hush/secret/", "dest": "/workspaces/hush-hush/secret.html"},
+    { "src": "/hush-hush/secret(#.*)", "dest": "/workspaces/hush-hush/secret$1"},
+    { "src": "/hush-hush/(.*)", "dest": "/workspaces/hush-hush/$1"},
+    { "src": "/(?<path>.*)", "dest": "/workspaces/homepage/$path"}
   ],
   "scope": "identity-box",
   "alias": "idbox"
