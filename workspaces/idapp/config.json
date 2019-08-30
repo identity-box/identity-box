@@ -2,7 +2,7 @@
   "expo": {
     "name": "IdBox application",
     "slug": "id-app",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
@@ -23,10 +23,15 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "versionCode": 0
+    },
     "ios": {
+      "buildNumber": "0.1.0",
+      "bundleIdentifier": "sh.now.idapp",
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "IdApp uses the camera to scan QR codes in order to communicate with the browser."
+        "NSCameraUsageDescription": "IdApp uses the camera to scan QR codes."
       }
     },
     "packagerOpts": {
