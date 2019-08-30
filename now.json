@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "public": true,
+  "public": false,
   "name": "Identity Box",
   "builds": [
     { "src": "workspaces/hush-hush/package.json", "use": "@now/next" },
