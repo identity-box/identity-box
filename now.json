@@ -7,12 +7,20 @@
     { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
   ],
   "routes": [
-    { "src": "/hush-hush", "dest": "/workspaces/hush-hush/"},
-    { "src": "/hush-hush/secret", "dest": "/workspaces/hush-hush/secret.html"},
-    { "src": "/hush-hush/secret/", "dest": "/workspaces/hush-hush/secret.html"},
-    { "src": "/hush-hush/secret(#.*)", "dest": "/workspaces/hush-hush/secret$1"},
-    { "src": "/hush-hush/(.*)", "dest": "/workspaces/hush-hush/$1"},
-    { "src": "/(?<path>.*)", "dest": "/workspaces/homepage/$path"}
+    {
+      "src": "/hush-hush(.*)",
+      "dest": "/workspaces/hush-hush$1",
+      "continue": true
+    },
+    {
+      "src": "/workspaces/hush-hush/secret/",
+      "dest": "/workspaces/hush-hush/secret",
+      "continue": true
+    },
+    {
+      "src": "(?!/workspaces/hush-hush)(.*)",
+      "dest": "/workspaces/homepage$1"
+    }
   ],
   "scope": "identity-box",
   "alias": "idbox"
