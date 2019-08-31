@@ -1,3 +1,9 @@
+---
+path: /experience-identity-box
+title: Experience Identity Box
+tag: beta
+---
+
 ## Experience Identity Box
 
 If you are invited to our Early Adoption Program via [TestFlight](https://developer.apple.com/testflight/) you can help us evaluating Identity Box even before actual boxes are made available.
