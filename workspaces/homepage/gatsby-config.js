@@ -64,7 +64,12 @@ module.exports = {
       }
     },
     'gatsby-plugin-emotion',
-    'gatsby-plugin-catch-links',
+    {
+      resolve: `gatsby-plugin-catch-links`,
+      options: {
+        excludePattern: /hush-hush/
+      }
+    },
     'gatsby-plugin-layout',
     'gatsby-plugin-root-import'
   ]
