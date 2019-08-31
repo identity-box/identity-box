@@ -40,12 +40,12 @@ After scanning this QRCode, you will be able to create your first identity. Futu
 
 At this early stage, we require that your "easy to remember" name to be unique - we recommend you to use your full name or some identifier that you can consider unique. If you name is already use by another tester, creating your Identity will fail and the app at its current stage does not handle bad-weather scenario well. If you after providing the name and pressing *Create* the app does not move to the next screen, please kill the app, start it again, and try a different name. The following builds will provide better handling of conflicts and enable switching between boxes, so this problem is only temporary and not highly relevant at this initial testing phase.
 
-After your name is successfully created (this happens normally very fast), you will see the following screen (here I used the name *Zygfryd Hulajnoga*):
+After your name is successfully created (this happens normally very fast), you will see the following screen (here I used the name *Zygfryd*):
 
 <a name="figure-4"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Current Identity View" src="images/ZygfrydHulajnoga.png"/>
+  <img alt="Current Identity View" src="images/Zygfryd.png"/>
 </div>
 <p class="figure-title"><b>Figure 4</b> Current Identity View</p>
 </div>
