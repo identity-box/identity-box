@@ -4,8 +4,6 @@ title: Experience Identity Box
 tag: beta
 ---
 
-## Experience Identity Box
-
 If you are invited to our Early Adoption Program via [TestFlight](https://developer.apple.com/testflight/) you can help us evaluating Identity Box even before actual boxes are made available.
 
 For this purpose, specially for our early adopters, we created a *virtual* Identity Box that can be used when testing the IdentityBox app.
@@ -14,7 +12,7 @@ When you start your IdentityBox app for the first time, you will be asked to sca
 
 <a name="figure-1"></a> 
 <p align="center">
-  <img alt="Scan IdentityBox QRCode" src="images/ConnectToIdBox.png" width="50%" height="50%" />
+  <img alt="Scan IdentityBox QRCode" src="images/ConnectToIdBox.png" width="30%" height="30%" style="border: 1px solid black"/>
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 1</b> Connect to Identity Box</p>
 
@@ -22,7 +20,7 @@ Here, we want you to use our virtual Identity Box by scanning the following QRCo
 
 <a name="figure-2"></a> 
 <p align="center">
-  <img alt="Virtual IdentityBox QRCode" src="images/QRCodeStockholm.png" width="50%" height="50%" />
+  <img alt="Virtual IdentityBox QRCode" src="images/QRCodeStockholm.png" width="30%" height="30%" />
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 2</b> Virtual Identity Box QRCode</p>
 
@@ -30,7 +28,7 @@ After scanning this QRCode, you will be able to create your first identity. Futu
 
 <a name="figure-3"></a> 
 <p align="center">
-  <img alt="Create First Identity" src="images/CreateFirstIdentity.png" width="50%" height="50%" />
+  <img alt="Create First Identity" src="images/CreateFirstIdentity.png" width="30%" height="30%" style="border: 1px solid black"/>
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 3</b> Create your first identity</p>
 
@@ -40,7 +38,7 @@ After your name is successfully created (this happens normally very fast), you w
 
 <a name="figure-4"></a> 
 <p align="center">
-  <img alt="Current Identity View" src="images/ZygfrydHulajnoga.png" width="50%" height="50%" />
+  <img alt="Current Identity View" src="images/ZygfrydHulajnoga.png" width="30%" height="30%" style="border: 1px solid black"/>
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 4</b> Current Identity View</p>
 
@@ -48,7 +46,7 @@ You can now also open *Address Book* tab, to see your own, and your peer identit
 
 <a name="figure-5"></a> 
 <p align="center">
-  <img alt="Address Book" src="images/AddressBook.png" width="50%" height="50%" />
+  <img alt="Address Book" src="images/AddressBook.png" width="30%" height="30%" style="border: 1px solid black"/>
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 5</b> Address Book</p>
 
@@ -59,7 +57,7 @@ You add peer identities to your address book by scanning QRCode of your peers fr
 
 <a name="figure-6"></a> 
 <p align="center">
-  <img alt="Adding Peer Identity" src="images/NewPeerIdentity.png" width="100%" height="50%" />
+  <img alt="Adding Peer Identity" src="images/NewPeerIdentity.png" width="100%" height="50%" style="border: 1px solid black"/>
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 6</b> Adding Peer Identity</p>
 
@@ -68,12 +66,14 @@ for your own identities.
 
 <a name="figure-7"></a> 
 <p align="center">
-  <img alt="Identity Details" src="images/IdentityDetails.png" width="80%" height="50%" />
+  <img alt="Identity Details" src="images/IdentityDetails.png" width="60%" height="60%" style="border: 1px solid black"/>
 </p>
 <p align="center" style="font-size: 0.8em"><b>Figure 7</b> Identity Details</p>
 
 If you want to experience using Identity Box app, we provide a simple secret sharing portal called *Hush Hush*, where you can securely exchange secrets with your peers. Please visit [Hush Hush](https://idbox.now.sh/hush-hush) and follow
 the instructions.
+
+> Hint - you can send secrets to yourself as well.
 
 We appreciate your all your feedback and we thank you for helping us build the self-sovereign identity system of the future!
 
