@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "IdBox application",
-    "slug": "id-app",
+    "name": "Identity Box IdApp mobile app",
+    "slug": "idapp",
     "privacy": "unlisted",
     "sdkVersion": "33.0.0",
     "platforms": [
@@ -24,10 +24,10 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 0
+      "versionCode": 1
     },
     "ios": {
-      "buildNumber": "0.1.0",
+      "buildNumber": "0.1.1",
       "bundleIdentifier": "sh.now.idapp",
       "supportsTablet": true,
       "infoPlist": {

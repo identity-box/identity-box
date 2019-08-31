@@ -40,6 +40,7 @@ const DID = styled.Text({
 const IdentityDetails = ({ navigation }) => {
   const name = navigation.getParam('name', '')
   const did = navigation.getParam('did', '')
+  const isOwn = navigation.getParam('isOwn', false)
 
   const { deletePeerIdentity } = useIdentity({
     onPeerIdentitiesChanged: () => {
@@ -61,13 +62,17 @@ const IdentityDetails = ({ navigation }) => {
           value={did}
           size={150}
         />
-        <Separator size={50} />
-        <Button
-          title='Delete this identity'
-          color='red'
-          accessibilityLabel='delete identity'
-          onPress={deleteIdentity}
-        />
+        { !isOwn &&
+          <>
+            <Separator size={50} />
+            <Button
+              title='Delete this identity'
+              color='red'
+              accessibilityLabel='delete identity'
+              onPress={deleteIdentity}
+            />
+          </>
+        }
       </SubContainer>
     </Container>
   )

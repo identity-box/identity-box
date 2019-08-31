@@ -49,7 +49,7 @@ const AddressBook = ({ navigation }) => {
     let identity
     if (section.title === 'Your identities') {
       const id = identities[item]
-      identity = { name: id.name, did: id.did }
+      identity = { name: id.name, did: id.did, isOwn: true }
     } else {
       identity = { name: item, did: peerIdentities[item] }
     }
@@ -83,17 +83,17 @@ const AddressBook = ({ navigation }) => {
 }
 
 AddressBook.navigationOptions = {
-  title: 'Identities',
-  headerRightContainerStyle: {
-    paddingRight: 10
-  },
-  headerRight: (
-    <Button
-      color='#FF6699'
-      onPress={() => console.log('Add identity!')}
-      title='Add'
-    />
-  )
+  title: 'Identities'
+  // headerRightContainerStyle: {
+  //   paddingRight: 10
+  // },
+  // headerRight: (
+  //   <Button
+  //     color='#FF6699'
+  //     onPress={() => console.log('Add identity!')}
+  //     title='Add'
+  //   />
+  // )
 }
 
 export { AddressBook }

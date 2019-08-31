@@ -14,6 +14,7 @@ const List = styled.ul({
 export class Navigation extends React.PureComponent {
   state = {
     // proposalDeltas: [],
+    betaDeltas: [],
     componentDeltas: [],
     developerDeltas: [],
     serviceDeltas: []
@@ -34,6 +35,11 @@ export class Navigation extends React.PureComponent {
       //   tag: 'proposal',
       //   deltaGroupName: 'proposal'
       // }),
+      this.createNavigationGroupForTag({
+        title: 'Early Adopters',
+        tag: 'beta',
+        deltaGroupName: 'beta'
+      }),
       this.createNavigationGroupForTag({
         title: 'Developers',
         tag: 'developer',
