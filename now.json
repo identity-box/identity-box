@@ -21,11 +21,6 @@
       "src": "(?!/workspaces/hush-hush)(.*)",
       "dest": "/workspaces/homepage$1",
       "continue": true
-    },
-    {
-      "src": "/workspaces/homepage/hush-hush(.*)",
-      "dest": "/workspaces/hush-hush$1",
-      "continue": true
     }
   ],
   "scope": "identity-box",
