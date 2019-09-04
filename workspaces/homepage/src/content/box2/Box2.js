@@ -96,12 +96,7 @@ const Box2 = ({ data }) => (
     }}>
       <Box2Content1 data={data} />
     </Row>
-    <Media query='(min-width: 569px) and (max-width: 1100px)' render={() => (
-      <NetworkGraph height='100px' position={{
-        marginBottom: '20px'
-      }} />
-    )} />
-    <Media query='(max-width: 568px)' render={() => (
+    <Media query='(max-width: 1100px)' render={() => (
       <NetworkGraph height='100px' position={{
         marginBottom: '20px'
       }} />
