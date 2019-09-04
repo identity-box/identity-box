@@ -2,7 +2,7 @@
   "name": "@identity-box/idbox-react-ui",
   "version": "0.1.17",
   "description": "Identity Box React library",
-  "homepage": "https://idbox.now.sh",
+  "homepage": "https://idbox.online/components/idbox-react-ui",
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",

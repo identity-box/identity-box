@@ -10,7 +10,7 @@ const CreateLink = ({ cid, did, currentDid }) => {
   const secretField = useRef(undefined)
   const baseUrl = process.env.NODE_ENV === 'development'
     ? 'http://localhost:3001'
-    : 'https://idbox.now.sh'
+    : 'https://idbox.online'
   const link = `${baseUrl}/hush-hush/secret#${base64url.encode(`${cid}.${did}.${currentDid}`)}`
 
   const isOS = () => {

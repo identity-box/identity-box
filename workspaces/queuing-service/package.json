@@ -2,7 +2,7 @@
   "name": "idbox-queuing-service",
   "version": "0.1.17",
   "description": "IdBox Queuing Service",
-  "homepage": "https://idbox.now.sh",
+  "homepage": "https://idbox.online/components/queuing-service",
   "private": true,
   "license": "MIT",
   "scripts": {

@@ -88,7 +88,7 @@ for your own identities.
 <p class="figure-title"><b>Figure 7</b> Identity Details</p>
 </div>
 
-If you want to experience using Identity Box app, we provide a simple secret sharing portal called *Hush Hush*, where you can securely exchange secrets with your peers. Please visit <a href="https://idbox.now.sh/hush-hush" target="_blank">Hush Hush</a> and follow
+If you want to experience using Identity Box app, we provide a simple secret sharing portal called *Hush Hush*, where you can securely exchange secrets with your peers. Please visit <a href="https://idbox.online/hush-hush" target="_blank">Hush Hush</a> and follow
 the instructions.
 
 > Hint - you can send secrets to yourself as well.

@@ -47,7 +47,7 @@ class IdService {
     const telepath = new Telepath({
       path: path.resolve(process.cwd(), 'telepath.config'),
       queuingServiceUrl: process.env.serviceUrl || 'https://idbox-queue.now.sh',
-      baseUrl: 'https://idbox.now.sh'
+      baseUrl: 'https://idbox.online'
     })
     telepath.describe()
     await telepath.printQRCodeOnTerminal()

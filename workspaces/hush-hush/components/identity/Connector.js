@@ -13,7 +13,7 @@ const Connector = ({
   const [telepathChannel, setTelepathChannel] = useState(null)
 
   const getConnectUrl = () => {
-    return telepathChannel.createConnectUrl('https://idbox.now.sh')
+    return telepathChannel.createConnectUrl('https://idbox.online')
   }
 
   const createRandomId = () => {

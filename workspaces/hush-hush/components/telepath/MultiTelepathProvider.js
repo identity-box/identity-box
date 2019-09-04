@@ -63,7 +63,7 @@ class MultiTelepathProvider {
     })
     this.channel = telepath.createChannel(telepathConfiguration)
     this.channel.describe({
-      baseUrl: 'https://idbox.now.sh'
+      baseUrl: 'https://idbox.online'
     })
 
     await this.channel.connect()
