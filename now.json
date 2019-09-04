@@ -23,6 +23,5 @@
       "continue": true
     }
   ],
-  "scope": "identity-box",
-  "alias": "idbox"
+  "scope": "identity-box"
 }
