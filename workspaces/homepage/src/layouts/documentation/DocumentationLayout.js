@@ -59,24 +59,22 @@ const DocumentationLayout = ({ children, location }) => {
             {matches =>
               matches ? (
                 <DocumentationLayoutWide location={location} data={data}>
-                  { children }
+                  {children}
                 </DocumentationLayoutWide>
               ) : (
                 <Media query='(min-width: 768px)'>
                   {matches =>
                     matches ? (
                       <DocumentationLayoutMedium location={location} data={data}>
-                        { children }
+                        {children}
                       </DocumentationLayoutMedium>
                     ) : (
                       <DocumentationLayoutSmall location={location} data={data}>
-                        { children }
+                        {children}
                       </DocumentationLayoutSmall>
-                    )
-                  }
+                    )}
                 </Media>
-              )
-            }
+              )}
           </Media>
         )
       }}

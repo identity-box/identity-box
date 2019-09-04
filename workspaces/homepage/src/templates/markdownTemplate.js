@@ -13,12 +13,14 @@ const Template = ({ data: { site: { siteMetadata }, doc }, location }) => {
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
         <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' rel='stylesheet' />
       </Helmet>
-      <EditFile fileAbsolutePath={fileAbsolutePath}
+      <EditFile
+        fileAbsolutePath={fileAbsolutePath}
         externalContent={content}
-        editBaseUrl={editBaseUrl} />
+        editBaseUrl={editBaseUrl}
+      />
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{ __html: content ? content.childMarkdownRemark.html.split('\n').slice(1).join('\n') : html }} />
-      { content && html !== '' && <div dangerouslySetInnerHTML={{ __html: html }} />}
+      {content && html !== '' && <div dangerouslySetInnerHTML={{ __html: html }} />}
     </div>
   )
 }

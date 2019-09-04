@@ -38,7 +38,8 @@ const AppLoading = ({ navigation }) => {
     <PageContainer>
       <Container style={{
         justifyContent: 'center'
-      }}>
+      }}
+      >
         <Welcome>Welcome to Identity Box App!</Welcome>
         <ActivityIndicator />
         <Description style={{ marginTop: 10 }}>Initializing...</Description>

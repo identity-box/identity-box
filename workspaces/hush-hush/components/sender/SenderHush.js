@@ -86,17 +86,21 @@ const SenderHush = () => {
 
   const renderRecipientDIDDocument = () => {
     return (
-      <FetchDidDocument onDIDDocumentRetrieved={onDIDDocumentRetrieved}
-        did={did} />
+      <FetchDidDocument
+        onDIDDocumentRetrieved={onDIDDocumentRetrieved}
+        did={did}
+      />
     )
   }
 
   const renderEncryptSecret = () => {
     return (
-      <EncryptSecret onEncryptedCIDRetrieved={onEncryptedCIDRetrieved}
+      <EncryptSecret
+        onEncryptedCIDRetrieved={onEncryptedCIDRetrieved}
         encryptionKey={publicEncryptionKey}
         secret={secret}
-        idappTelepathChannel={telepathChannel} />
+        idappTelepathChannel={telepathChannel}
+      />
     )
   }
 

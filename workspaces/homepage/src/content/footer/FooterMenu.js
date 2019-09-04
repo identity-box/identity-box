@@ -15,21 +15,25 @@ const Items = styled.ul({
 })
 
 const FooterMenu = ({ title, children, ...props }) => (
-  <div css={{
-    display: 'flex',
-    flexFlow: 'column',
-    fontFamily: 'Roboto Mono, monospace',
-    fontSize: '10pt'
-  }} {...props} >
+  <div
+    css={{
+      display: 'flex',
+      flexFlow: 'column',
+      fontFamily: 'Roboto Mono, monospace',
+      fontSize: '10pt'
+    }} {...props}
+  >
     <h3 css={{
       margin: 0,
       color: 'white',
       fontFamily: 'Roboto Mono, monospace',
       fontSize: '10pt',
       fontWeight: 400
-    }}>{title}</h3>
+    }}
+    >{title}
+    </h3>
     <Items>
-      { React.Children.map(children, child => (
+      {React.Children.map(children, child => (
         <Li>{child}</Li>
       ))}
     </Items>

@@ -97,7 +97,8 @@ const FirstIdentity = ({ navigation }) => {
     <PageContainer>
       <Container style={{
         justifyContent: 'center'
-      }}>
+      }}
+      >
         <Welcome>Create your first identity</Welcome>
         <Description>
           Give your identity an easy to remember name.
@@ -116,7 +117,7 @@ const FirstIdentity = ({ navigation }) => {
           disabled={name.length === 0}
           accessibilityLabel='Create an identity...'
         />
-        { inProgress && <ActivityIndicator /> }
+        {inProgress && <ActivityIndicator />}
       </Container>
     </PageContainer>
   )

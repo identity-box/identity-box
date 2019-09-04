@@ -54,8 +54,8 @@ class EditFile extends React.Component {
 
     return (
       <Wrapper>
-        { this.renderOriginalContent(fileAbsolutePath) }
-        { this.renderExternalContent(externalContent) }
+        {this.renderOriginalContent(fileAbsolutePath)}
+        {this.renderExternalContent(externalContent)}
       </Wrapper>
     )
   }

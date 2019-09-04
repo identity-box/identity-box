@@ -18,24 +18,29 @@ const FooterBody = ({ data }) => (
       alignSelf: 'flex-start',
       marginLeft: '55px'
     }
-  }}>
+  }}
+  >
     <FooterMenu title='Identity Box'>
       <MenuLink to='/developers/contributing'>About</MenuLink>
       <MenuLinkExternal href='https://youtu.be/aqAUmgE3WyM' target='_blank'>Demo</MenuLinkExternal>
       <MenuLink to='/developers/contributing'>Buy</MenuLink>
     </FooterMenu>
-    <FooterMenu title='Documentation' css={{
-      '@media (min-width: 568px)': {
-        marginLeft: '80px'
-      }
-    }}>
+    <FooterMenu
+      title='Documentation' css={{
+        '@media (min-width: 568px)': {
+          marginLeft: '80px'
+        }
+      }}
+    >
       <MenuLink to='/developers/contributing'>User guide</MenuLink>
       <MenuLink to='/developers/contributing'>Blog</MenuLink>
       <MenuLink to='/developers/contributing'>Developers</MenuLink>
     </FooterMenu>
-    <Media query='(min-width: 800px)' render={() => (
-      <FooterGraphic imageUrl={getImage(data, 'IdBoxFooterGraphic')} />
-    )} />
+    <Media
+      query='(min-width: 800px)' render={() => (
+        <FooterGraphic imageUrl={getImage(data, 'IdBoxFooterGraphic')} />
+      )}
+    />
   </FooterRow>
 )
 

@@ -8,9 +8,15 @@ const Copyright = () => (
       fontFamily: 'Roboto Mono, monospace',
       fontSize: '10pt',
       margin: 0
-    }}><span css={{
+    }}
+    >
+      <span css={{
         fontSize: '14pt'
-      }}>&copy;</span> 2019 Identity Box</p>
+      }}
+      >
+        &copy;
+      </span> 2019 Identity Box
+    </p>
   </Row>
 )
 

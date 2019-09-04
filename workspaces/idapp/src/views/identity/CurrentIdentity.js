@@ -178,20 +178,20 @@ const CurrentIdentity = ({ navigation }) => {
     <PageContainer>
       <Container>
         <Welcome>{identity.name}</Welcome>
-        <Description style={{
-          flexGrow: 1
-        }}>
+        <Description style={{ flexGrow: 1 }}>
           {identity.did}
         </Description>
-        { scanning && <View style={{
-          width: 200,
-          height: 200
-        }}>
-          <BarCodeScanner
-            onBarCodeScanned={handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
-          />
-        </View>}
+        {scanning &&
+          <View style={{
+            width: 200,
+            height: 200
+          }}
+          >
+            <BarCodeScanner
+              onBarCodeScanned={handleBarCodeScanned}
+              style={StyleSheet.absoluteFillObject}
+            />
+          </View>}
         <Button
           title='Scan...'
           color='#FF6699'

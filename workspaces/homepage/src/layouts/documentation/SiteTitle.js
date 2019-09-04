@@ -27,7 +27,7 @@ const HomeLink = styled(Link)({
 const SiteTitle = ({ title }) => (
   <HomeLink to='/'>
     <Wrapper>
-      { title }
+      {title}
     </Wrapper>
   </HomeLink>
 )

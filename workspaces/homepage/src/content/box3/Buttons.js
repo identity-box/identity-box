@@ -9,9 +9,12 @@ const Wrapper = styled.div({
 const Buttons = () => (
   <Wrapper>
     <Link to='/developers/contributing'>Learn more</Link>
-    <ExternalLink css={{
-      marginLeft: '50px'
-    }} href='https://youtu.be/aqAUmgE3WyM' target='_blank'>Watch demo</ExternalLink>
+    <ExternalLink
+      css={{
+        marginLeft: '50px'
+      }} href='https://youtu.be/aqAUmgE3WyM' target='_blank'
+    >Watch demo
+    </ExternalLink>
   </Wrapper>
 )
 

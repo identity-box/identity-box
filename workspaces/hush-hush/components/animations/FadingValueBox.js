@@ -25,9 +25,11 @@ const FadingValueWrapper = styled.div(props => {
 })
 
 const FadingValueBox = ({ trigger, children, duration = 1 }) => (
-  <AnimationBox startValue={0}
+  <AnimationBox
+    startValue={0}
     stopValue={1}
-    key={trigger}>
+    key={trigger}
+  >
     {
       opacity =>
         <FadingValueWrapper duration={duration} opacity={opacity}>

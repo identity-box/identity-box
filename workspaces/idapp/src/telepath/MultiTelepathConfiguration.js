@@ -93,7 +93,7 @@ class MultiTelepathConfiguration {
       return undefined
     }
 
-    console.log(`Restoring succeeded.`)
+    console.log('Restoring succeeded.')
 
     return {
       id,

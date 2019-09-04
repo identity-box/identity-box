@@ -37,23 +37,25 @@ class TopLevelNavigationItem extends React.Component {
     this.triggerRef = React.createRef()
   }
 
-  onChange = (delta, collpasableElement) => {
+  handleOnChange = (delta, collpasableElement) => {
     this.props.onChange(delta, collpasableElement, this.triggerRef.current)
   }
 
   render () {
     return (
-      <Collapsable id={`collapsable${this.props.tag}${this.props.title}`} onChange={this.onChange} delta={this.props.delta} trigger={(unfold, folded) => (
-        <Wrapper onClick={() => unfold()} ref={this.triggerRef}>
-          {this.props.active && <ActiveMarker active={this.props.active} />}
-          <Text color='white'>{this.props.title}</Text>
-          <ArrowPositioner>
-            { folded ? <ArrowDown /> : <ArrowUp /> }
-          </ArrowPositioner>
-        </Wrapper>
-      )}>
+      <Collapsable
+        id={`collapsable${this.props.tag}${this.props.title}`} onChange={this.handleOnChange} delta={this.props.delta} trigger={(unfold, folded) => (
+          <Wrapper onClick={() => unfold()} ref={this.triggerRef}>
+            {this.props.active && <ActiveMarker active={this.props.active} />}
+            <Text color='white'>{this.props.title}</Text>
+            <ArrowPositioner>
+              {folded ? <ArrowDown /> : <ArrowUp />}
+            </ArrowPositioner>
+          </Wrapper>
+        )}
+      >
         <div style={{ backgroundColor: 'white', border: '1px solid #F7F7F7', width: '100%' }}>
-          { this.props.children }
+          {this.props.children}
         </div>
       </Collapsable>
     )

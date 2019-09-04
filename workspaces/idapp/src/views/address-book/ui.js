@@ -29,7 +29,7 @@ const IdentityName = styled.TextInput({
   textAlign: 'center'
 })
 
-const DID = styled.Text({
+const Did = styled.Text({
   fontSize: 12,
   marginTop: 20,
   width: 150,
@@ -45,10 +45,11 @@ const Row = styled.View({
   alignItems: 'center'
 })
 
-export { Container,
+export {
+  Container,
   SubContainer,
   Description,
   IdentityName,
-  DID,
+  Did,
   Row
 }

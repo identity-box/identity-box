@@ -28,7 +28,7 @@ module.exports = {
         plugins: [
           'gatsby-remark-autolink-headers',
           {
-            resolve: `gatsby-remark-prismjs`,
+            resolve: 'gatsby-remark-prismjs',
             options: {
               // Class prefix for <pre> tags containing syntax highlighting;
               // defaults to 'language-' (eg <pre class="language-js">).
@@ -58,9 +58,9 @@ module.exports = {
     },
     'gatsby-plugin-react-helmet',
     {
-      resolve: `gatsby-plugin-typography`,
+      resolve: 'gatsby-plugin-typography',
       options: {
-        pathToConfigModule: `src/utils/typography`
+        pathToConfigModule: 'src/utils/typography'
       }
     },
     'gatsby-plugin-emotion',

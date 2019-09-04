@@ -37,7 +37,7 @@ describe('SocketIOChannel', () => {
     socketStub = {
       connectTimeout: false,
       connect: jest.fn().mockImplementation(function () {
-        const onConnect = handlers['connect']
+        const onConnect = handlers.connect
         if (onConnect) {
           if (this.connectTimeout) {
             this.connectTimeout = false
@@ -171,7 +171,7 @@ describe('SocketIOChannel', () => {
 
       it('passes socket level errors on to the provided error handler', () => {
         const error = 'some error'
-        handlers['error'](error)
+        handlers.error(error)
         expect(onError.mock.calls[0][0]).toBe(error)
       })
 

@@ -96,9 +96,9 @@ class Collapsable extends React.Component {
   render () {
     return (
       <div ref={this.wrapperRef}>
-        { this.props.trigger(this.unfold, this.state.folded) }
+        {this.props.trigger(this.unfold, this.state.folded)}
         <div style={this.state.style} ref={this.divRef}>
-          { this.props.children }
+          {this.props.children}
         </div>
       </div>
     )

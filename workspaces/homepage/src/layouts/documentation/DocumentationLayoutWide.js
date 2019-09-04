@@ -16,7 +16,7 @@ const DocumentationLayoutWide = ({ children, location, data, onStateChanged, del
         </FixedNavigation>
       </SidebarGridItem>
       <ContentGridItem>
-        { children }
+        {children}
       </ContentGridItem>
     </DocumentationLayoutGrid>
   )

@@ -43,7 +43,7 @@ class NavigationHeading extends React.Component {
           className={this.state.cln}
           getProps={({ location, href }) => this.getActiveProps(location, href)}
         >
-          { value }
+          {value}
         </NavigationLink>
       </li>
     )

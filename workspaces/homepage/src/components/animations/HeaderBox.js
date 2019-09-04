@@ -26,9 +26,11 @@ const Decor = styled.div(props => {
 })
 
 const HeaderBox = ({ trigger, color, children }) => (
-  <AnimationBox startValue={0}
+  <AnimationBox
+    startValue={0}
     stopValue='100%'
-    key={trigger}>
+    key={trigger}
+  >
     {
       width =>
         <Wrapper>

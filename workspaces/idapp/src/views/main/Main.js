@@ -1,5 +1,7 @@
 import React from 'react'
-import { createSwitchNavigator, createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation'
+import { createSwitchNavigator, createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
 import { AddressBook, IdentityDetails, AddNewIdentity, SelectIdentity } from 'src/views/address-book'
@@ -31,10 +33,10 @@ const MainAppStack = createBottomTabNavigator({
       const { routeName } = navigation.state
       let iconName
       if (routeName === 'CurrentIdentity') {
-        iconName = `perm-identity`
+        iconName = 'perm-identity'
         return <MaterialIcons name={iconName} size={25} color={tintColor} />
       } else if (routeName === 'AddressBookStack') {
-        iconName = `address-book-o`
+        iconName = 'address-book-o'
         return <FontAwesome name={iconName} size={25} color={tintColor} />
       }
     },

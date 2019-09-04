@@ -21,7 +21,8 @@ const Layout = ({ location, children }) => {
             margin: 0,
             padding: 0
           }
-        }} />
+        }}
+        />
         {children}
       </Wrapper>
     )
@@ -37,7 +38,8 @@ const Layout = ({ location, children }) => {
               fontSize: '112%'
             }
           }
-        }} />
+        }}
+        />
         <DocumentationLayout location={location}>{children}</DocumentationLayout>
       </div>
     )

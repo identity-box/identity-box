@@ -51,7 +51,8 @@ const Connector = ({
   if (!telepathChannel) return null
   return (
     <div css={{ alignSelf: 'center' }}>
-      <IdAppConnector open={open}
+      <IdAppConnector
+        open={open}
         telepathChannel={telepathChannel}
         buttonText={title}
         buttonDisabled={disabled}
@@ -62,7 +63,8 @@ const Connector = ({
           setOpen(false)
           onDone(telepathChannel)
         }}
-        onCancel={() => setOpen(false)} />
+        onCancel={() => setOpen(false)}
+      />
     </div>
   )
 }

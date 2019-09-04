@@ -190,7 +190,8 @@ export class Navigation extends React.PureComponent {
       title={group.title}
       onChange={(delta, el, triggerElement) => this.topLevelNavigationItemChanged(delta, el, triggerElement)}
       active={this.isActive(group.docs)}
-      delta={this.aggregateDeltas(this.state[`${group.deltaGroupName}Deltas`])}>
+      delta={this.aggregateDeltas(this.state[`${group.deltaGroupName}Deltas`])}
+    >
       <div>
         <List>
           {
@@ -200,8 +201,8 @@ export class Navigation extends React.PureComponent {
                 location={this.props.location}
                 {...doc}
                 onChange={(delta, el, triggerElement) =>
-                  this.midLevelNavigationItemChanged(group.deltaGroupName, i, delta, el, triggerElement)
-                } />
+                  this.midLevelNavigationItemChanged(group.deltaGroupName, i, delta, el, triggerElement)}
+              />
             ))
           }
         </List>
@@ -220,7 +221,7 @@ export class Navigation extends React.PureComponent {
   }
 
   // This is insane, but seem to do miracles on iOS: https://stackoverflow.com/a/51998690/1272679
-  onScroll = e => {
+  handleOnScroll = e => {
     clearTimeout(this.scrollTimer)
     this.scrollTimer = setTimeout(() => {
       if (this.scrollerRef.current) {
@@ -231,23 +232,25 @@ export class Navigation extends React.PureComponent {
 
   render () {
     return (
-      <div onScroll={this.onScroll} ref={this.scrollerRef} css={{
-        overflowY: 'auto',
-        position: 'relative',
-        height: 'calc(100% - 20px - 2rem - 1.8rem - 98px)',
-        '@media (orientation: landscape)': {
-          height: 'calc(100% - 20px - 2rem - 1.8rem - 70px)'
-        },
-        WebkitOverflowScrolling: `touch`,
-        '::-webkit-scrollbar': {
-          width: `6px`,
-          height: `6px`
-        },
-        '::-webkit-scrollbar-thumb': {
-          background: '#ccc'
-        }
-      }}>
-        { this.navigationGroups.map(g => this.renderNavigationGroup(g))}
+      <div
+        onScroll={this.handleOnScroll} ref={this.scrollerRef} css={{
+          overflowY: 'auto',
+          position: 'relative',
+          height: 'calc(100% - 20px - 2rem - 1.8rem - 98px)',
+          '@media (orientation: landscape)': {
+            height: 'calc(100% - 20px - 2rem - 1.8rem - 70px)'
+          },
+          WebkitOverflowScrolling: 'touch',
+          '::-webkit-scrollbar': {
+            width: '6px',
+            height: '6px'
+          },
+          '::-webkit-scrollbar-thumb': {
+            background: '#ccc'
+          }
+        }}
+      >
+        {this.navigationGroups.map(g => this.renderNavigationGroup(g))}
       </div>
     )
   }

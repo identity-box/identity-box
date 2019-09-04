@@ -30,7 +30,7 @@ const Separator = styled.View(({ size }) => ({
   height: size
 }))
 
-const DID = styled.Text({
+const Did = styled.Text({
   fontSize: 12,
   marginBottom: 20,
   flexGrow: 1,
@@ -57,12 +57,12 @@ const IdentityDetails = ({ navigation }) => {
     <Container>
       <SubContainer>
         <IdentityName>{name}</IdentityName>
-        <DID>{did}</DID>
+        <Did>{did}</Did>
         <QRCode
           value={did}
           size={150}
         />
-        { !isOwn &&
+        {!isOwn &&
           <>
             <Separator size={50} />
             <Button
@@ -71,8 +71,7 @@ const IdentityDetails = ({ navigation }) => {
               accessibilityLabel='delete identity'
               onPress={deleteIdentity}
             />
-          </>
-        }
+          </>}
       </SubContainer>
     </Container>
   )

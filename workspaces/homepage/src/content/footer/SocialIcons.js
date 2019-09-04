@@ -12,15 +12,17 @@ const SocialIconsRow = styled.div({
 })
 
 const SocialIcon = ({ imageUrl, ...props }) => (
-  <div css={{
-    margin: 0,
-    width: '32px',
-    height: '32px',
-    backgroundImage: `url(${imageUrl})`,
-    backgroundSize: 'auto 100%',
-    backgroundPosition: 'center center',
-    backgroundRepeat: 'no-repeat'
-  }} {...props} />
+  <div
+    css={{
+      margin: 0,
+      width: '32px',
+      height: '32px',
+      backgroundImage: `url(${imageUrl})`,
+      backgroundSize: 'auto 100%',
+      backgroundPosition: 'center center',
+      backgroundRepeat: 'no-repeat'
+    }} {...props}
+  />
 )
 
 const SocialIcons = ({ data }) => (
@@ -29,7 +31,8 @@ const SocialIcons = ({ data }) => (
       alignSelf: 'flex-start',
       marginLeft: '55px'
     }
-  }}>
+  }}
+  >
     <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Twitter')} /></a>
     <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Youtube')} css={{ width: '46px' }} /></a>
     <a href='https://github.com/marcinczenko/identity-box'><SocialIcon imageUrl={getImage(data, 'GitHub')} /></a>

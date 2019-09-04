@@ -20,7 +20,7 @@ class RecipientOld extends Component {
     this.recipientField = React.createRef()
   }
 
-  onChange = event => {
+  handleOnChange = event => {
     const recipient = event.target.value
     if (this.validRecipient(recipient)) {
       this.setState({ recipient, validRecipient: true })
@@ -29,11 +29,11 @@ class RecipientOld extends Component {
     }
   }
 
-  onSubmit = event => {
+  handleOnSubmit = event => {
     event.preventDefault()
   }
 
-  onDone = (telepathChannel) => {
+  handleOnDone = (telepathChannel) => {
     this.setState({ transitioning: true })
     this.props.onSubmit && this.props.onSubmit(this.state.recipient, telepathChannel)
   }
@@ -59,20 +59,25 @@ class RecipientOld extends Component {
     }
     return (
       <FadingValueBox>
-        <Form onSubmit={this.onSubmit}>
+        <Form onSubmit={this.handleOnSubmit}>
           <Label htmlFor='frmEmailA'>Recipient:</Label>
-          <Input id='frmEmailA' type='email'
+          <Input
+            id='frmEmailA' type='email'
             name='email'
             ref={this.recipientField}
             value={this.state.recipient}
             placeholder='name@example.com'
             required
             autocomplete='email'
-            onChange={this.onChange}
-            css={{ marginBottom: '1rem' }} />
-          { this.state.validRecipient && <Connector onDone={this.onDone}
-            title="Let's hush..."
-            disabled={this.state.disabled} /> }
+            onChange={this.handleOnChange}
+            css={{ marginBottom: '1rem' }}
+          />
+          {this.state.validRecipient &&
+            <Connector
+              onDone={this.handleOnDone}
+              title="Let's hush..."
+              disabled={this.state.disabled}
+            />}
         </Form>
       </FadingValueBox>
     )

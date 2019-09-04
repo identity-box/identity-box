@@ -35,14 +35,18 @@ const EnterSecret = ({ did, onSecretReady }) => {
         </InfoBox>
         <Form onSubmit={onSubmit}>
           <Label htmlFor='secret'>Your secret</Label>
-          <Textarea id='secret' ref={secretField}
+          <Textarea
+            id='secret' ref={secretField}
             value={secret}
             placeholder='Type your secret here...'
-            onChange={onChange} />
+            onChange={onChange}
+          />
           <div css={{ alignSelf: 'center', marginTop: '1rem' }}>
-            <Button primary
+            <Button
+              primary
               disabled={disabled}
-              onClick={onSubmit}>
+              onClick={onSubmit}
+            >
               Send...
             </Button>
           </div>

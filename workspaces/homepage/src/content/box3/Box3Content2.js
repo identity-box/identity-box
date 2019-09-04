@@ -45,7 +45,8 @@ const Box3Content2 = ({ data }) => (
         '@media (max-width: 1100px)': {
           margin: 0
         }
-      }}>
+      }}
+      >
       Identity Box works with IPFS - Interplanetary File System - a P2P
       hypermedia protocol to make the web faster, safer, and more open.
       </TextBox>
@@ -58,7 +59,8 @@ const Box3Content2 = ({ data }) => (
         '@media (max-width: 1100px)': {
           margin: 0
         }
-      }}>
+      }}
+      >
       Our Identity Box embraces the concept of Self-Sofereign Identity -
       digital identity that you own and fully control.
       </TextBox>
@@ -71,7 +73,8 @@ const Box3Content2 = ({ data }) => (
         '@media (max-width: 1100px)': {
           margin: 0
         }
-      }}>
+      }}
+      >
       With our Identity App for your mobile, you fully own and control
       your identity. Create multiple identities that can be used in
       various contexts to further increase your privacy.
@@ -85,7 +88,8 @@ const Box3Content2 = ({ data }) => (
         '@media (max-width: 1100px)': {
           margin: 0
         }
-      }}>
+      }}
+      >
       Store your personal data on IPFS securely. Sell your own storage
       space to other users or affordably use the storage provided by others.
       Help building the distributed infrastructure of the future.

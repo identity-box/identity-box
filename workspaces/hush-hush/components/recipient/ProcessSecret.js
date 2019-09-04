@@ -49,31 +49,36 @@ const ProcessSecret = ({ senderTagBase64 }) => {
       <Start next={() => {
         processLink()
         setWorkflow(Stages.FetchSecret)
-      }} />
+      }}
+      />
     )
   }, [])
 
   const renderFetchSecret = useCallback(() => {
     return (
-      <FetchSecret cid={cid} next={json => {
-        console.log('json=', json)
-        setEncryptedSecret(json)
-        setTimeout(() => {
-          setWorkflow(Stages.SenderPublicKey)
-        }, 2000)
-      }} />
+      <FetchSecret
+        cid={cid} next={json => {
+          console.log('json=', json)
+          setEncryptedSecret(json)
+          setTimeout(() => {
+            setWorkflow(Stages.SenderPublicKey)
+          }, 2000)
+        }}
+      />
     )
   }, [cid])
 
   const renderSenderPublicKey = useCallback(() => {
     return (
-      <SenderPublicKey did={didSender} next={didDocument => {
-        console.log('didDocument=', didDocument)
-        processDIDDocument(didDocument)
-        setTimeout(() => {
-          setWorkflow(Stages.ConnectIdApp)
-        }, 2000)
-      }} />
+      <SenderPublicKey
+        did={didSender} next={didDocument => {
+          console.log('didDocument=', didDocument)
+          processDIDDocument(didDocument)
+          setTimeout(() => {
+            setWorkflow(Stages.ConnectIdApp)
+          }, 2000)
+        }}
+      />
     )
   }, [didSender])
 
@@ -84,13 +89,15 @@ const ProcessSecret = ({ senderTagBase64 }) => {
         console.log('tp=', telepathChannel)
         setTelepathChannel(telepathChannel)
         setWorkflow(Stages.DecryptSecret)
-      }} />
+      }}
+      />
     )
   }, [])
 
   const renderDecryptSecret = useCallback(() => {
     return (
-      <DecryptSecret telepathChannel={telepathChannel}
+      <DecryptSecret
+        telepathChannel={telepathChannel}
         encryptedSecret={encryptedSecret}
         didRecipient={didRecipient}
         theirPublicKey={publicEncryptionKey}
@@ -100,7 +107,8 @@ const ProcessSecret = ({ senderTagBase64 }) => {
           setTimeout(() => {
             setWorkflow(Stages.PresentSecret)
           }, 2000)
-        }} />
+        }}
+      />
     )
   }, [telepathChannel])
 

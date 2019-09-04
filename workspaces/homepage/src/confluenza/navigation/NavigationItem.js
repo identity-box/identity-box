@@ -29,9 +29,12 @@ class NavigationItem extends React.Component {
     return (
       <li key={path}>
         <MidLevelNavigationItem location={location} path={path} title={title} onChange={onChange}>
-          { actualHeadings.length > 0 && <List>
-            { actualHeadings.map((heading, index) => this.renderNavigationHeading(heading, index, path)) }
-          </List> }
+          {
+            actualHeadings.length > 0 &&
+              <List>
+                {actualHeadings.map((heading, index) => this.renderNavigationHeading(heading, index, path))}
+              </List>
+          }
         </MidLevelNavigationItem>
       </li>
     )

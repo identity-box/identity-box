@@ -106,11 +106,11 @@ class MultiTelepathConfiguration {
         }
       }
       console.log(`Restoring configuration with name ${this.name} failed.`)
-      console.log(`Did you forget to put your initial configuration in your next.config.js?`)
+      console.log('Did you forget to put your initial configuration in your next.config.js?')
       return undefined
     }
 
-    console.log(`Restoring succeeded.`)
+    console.log('Restoring succeeded.')
 
     return {
       id,

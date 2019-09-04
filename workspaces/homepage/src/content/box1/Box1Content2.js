@@ -31,8 +31,7 @@ const Box1Content2 = ({ data }) => (
             institutions almost complete freedom to use the data without consenting the user.
             </TextBox>
           </>
-        )
-      }
+        )}
     </Media>
   </>
 )

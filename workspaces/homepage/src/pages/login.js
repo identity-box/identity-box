@@ -37,7 +37,7 @@ const Login = () => {
 
   const login = event => {
     if (hash(secret) === loginSecret) {
-      navigate(`/`, {
+      navigate('/', {
         state: {
           authenticated: true
         }
@@ -61,16 +61,20 @@ const Login = () => {
         alignItems: 'center',
         maxWidth: '300px',
         width: '80%'
-      }}>
+      }}
+      >
         <FadingValueBox>
-          <Form onSubmit={login} css={{
-            display: 'flex',
-            flexFlow: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
+          <Form
+            onSubmit={login} css={{
+              display: 'flex',
+              flexFlow: 'column',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
             <Label htmlFor='frmSecretA'>Look into the future:</Label>
-            <Input autoFocus id='frmSecretA' type='password'
+            <Input
+              autoFocus id='frmSecretA' type='password'
               name='secret'
               value={secret}
               placeholder='something only you know...'

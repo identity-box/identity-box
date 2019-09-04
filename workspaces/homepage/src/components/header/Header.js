@@ -54,9 +54,12 @@ const Header = () => (
     <Menu>
       <MenuLinkExternal href='https://github.com/identity-box/identity-box' target='_blank'>Github</MenuLinkExternal>
       <MenuLinkExternal href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuLinkExternal>
-      <MenuLink css={{
-        margin: '5px 20px'
-      }} to='/developers/contributing' target='_blank'>Blog</MenuLink>
+      <MenuLink
+        css={{
+          margin: '5px 20px'
+        }} to='/developers/contributing' target='_blank'
+      >Blog
+      </MenuLink>
     </Menu>
   </Wrapper>
 )

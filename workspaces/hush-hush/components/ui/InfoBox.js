@@ -7,7 +7,9 @@ const InfoBox = ({ children, marginTop = 0, marginBottom = 0, color = 'white' })
       marginTop,
       marginBottom,
       color
-    }}>{children}</div>
+    }}
+    >{children}
+    </div>
   )
 }
 

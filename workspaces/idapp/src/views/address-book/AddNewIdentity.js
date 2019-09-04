@@ -3,11 +3,12 @@ import { Button } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 
 import { useIdentity } from 'src/identity'
-import { Container,
+import {
+  Container,
   SubContainer,
   Description,
   IdentityName,
-  DID,
+  Did,
   Row
 } from './ui'
 
@@ -48,7 +49,7 @@ const AddNewIdentity = ({ navigation }) => {
           value={did}
           size={150}
         />
-        <DID>{did}</DID>
+        <Did>{did}</Did>
         <Row>
           <Button
             title='Add'

@@ -44,19 +44,22 @@ const Box3Content1 = ({ data }) => (
     <H1>Enter Identity Box</H1>
     <div css={{
       display: 'flex'
-    }}>
+    }}
+    >
       <H3>and start building the decentralized web of the future today</H3>
     </div>
     <div css={{
       display: 'flex'
-    }}>
+    }}
+    >
       <TextBox css={{
         width: 0,
         '@media (max-width: 1100px)': {
           width: 0
         },
         flexGrow: 1
-      }}>
+      }}
+      >
         Identity Box is your personal P2P networking node giving you
         access to the global network of distributed storage, digital
         identity, and even more in the future.

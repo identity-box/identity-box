@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react'
-import { SectionList, Button } from 'react-native'
+import { SectionList } from 'react-native'
 
 import styled from '@emotion/native'
 

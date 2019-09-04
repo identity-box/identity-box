@@ -19,10 +19,13 @@ const ConnectIdApp = ({ next }) => {
         <InfoBox marginTop='15px'>The private key will never leave your mobile. <Green>It is thus super safe!</Green></InfoBox>
         <MrSpacer space='20px' />
         <InfoBox>
-          Please make sure that you have your <Blue>IdApp</Blue> open on your mobile.</InfoBox>
+          Please make sure that you have your <Blue>IdApp</Blue> open on your mobile.
+        </InfoBox>
         <MrSpacer space='50px' />
-        <Connector onDone={onDone}
-          title='Connect...' />
+        <Connector
+          onDone={onDone}
+          title='Connect...'
+        />
       </Centered>
     </FadingValueBox>
   )

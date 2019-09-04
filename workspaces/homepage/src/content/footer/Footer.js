@@ -13,7 +13,8 @@ const Footer = ({ data }) => (
     '@media (max-width: 568px)': {
       paddingTop: '20px'
     }
-  }}>
+  }}
+  >
     <FooterBody data={data} />
     <SocialIcons data={data} />
     <Copyright />

@@ -20,7 +20,8 @@ const NetworkGraph = ({ height, position, hideBottomPad }) => (
       height: '20px',
       zIndex: 1,
       backgroundColor: 'rgba(203, 165, 26, 0.7)'
-    }} />
+    }}
+    />
     <div css={{
       position: 'relative',
       zIndex: 0,
@@ -29,14 +30,17 @@ const NetworkGraph = ({ height, position, hideBottomPad }) => (
       width: '4px',
       height,
       backgroundColor: 'rgba(203, 165, 26, 0.8)'
-    }} />
-    {!hideBottomPad && <div css={{
-      position: 'relative',
-      marginTop: '-10px',
-      width: '20px',
-      height: '20px',
-      backgroundColor: 'rgba(203, 165, 26, 0.8)'
-    }} />}
+    }}
+    />
+    {!hideBottomPad &&
+      <div css={{
+        position: 'relative',
+        marginTop: '-10px',
+        width: '20px',
+        height: '20px',
+        backgroundColor: 'rgba(203, 165, 26, 0.8)'
+      }}
+      />}
   </NetworkGraphWrapper>
 )
 
@@ -64,21 +68,25 @@ const Box2 = ({ data }) => (
     '@media (min-width: 1100px)': {
       paddingTop: '150px'
     }
-  }}>
+  }}
+  >
     <Media query='(max-width: 1400px)'>
       {matches =>
         matches ? (
           <Background imageUrl={getImage(data, 'Network5')} />
         ) : (
           <Background imageUrl={getImage(data, 'Network4')} />
-        )
-      }
+        )}
     </Media>
-    <Media query='(min-width: 569px) and (max-width: 1100px)' render={() => (
-      <NetworkGraph height='100px' position={{
-        marginBottom: '20px'
-      }} />
-    )} />
+    <Media
+      query='(min-width: 569px) and (max-width: 1100px)' render={() => (
+        <NetworkGraph
+          height='100px' position={{
+            marginBottom: '20px'
+          }}
+        />
+      )}
+    />
     <Row css={{
       justifyContent: 'flex-end',
       marginBottom: '150px',
@@ -93,14 +101,19 @@ const Box2 = ({ data }) => (
         marginLeft: '0px',
         marginBottom: '-10px'
       }
-    }}>
+    }}
+    >
       <Box2Content1 data={data} />
     </Row>
-    <Media query='(max-width: 1100px)' render={() => (
-      <NetworkGraph height='100px' position={{
-        marginBottom: '20px'
-      }} />
-    )} />
+    <Media
+      query='(max-width: 1100px)' render={() => (
+        <NetworkGraph
+          height='100px' position={{
+            marginBottom: '20px'
+          }}
+        />
+      )}
+    />
     <Row css={{
       marginLeft: '50px',
       marginBottom: '-10px',
@@ -115,30 +128,36 @@ const Box2 = ({ data }) => (
       '@media (min-width: 1100px)': {
         marginBottom: '300px'
       }
-    }}>
+    }}
+    >
       <Box2Content2 data={data} />
     </Row>
-    <Media query='(max-width: 1100px)' render={() => (
-      <>
-        <NetworkGraph height='100px' hideBottomPad position={{
-          zIndex: 35
-        }} />
-        <div css={{
-          zIndex: 30,
-          width: '250px',
-          height: '250px',
-          marginTop: '-25px',
-          '@media (max-width: 568px)': {
-            width: '150px',
-            height: '150px'
-          },
-          backgroundImage: `url(${getImage(data, 'IdBoxWithOneConnector')})`,
-          backgroundSize: 'auto 100%',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat'
-        }} />
-      </>
-    )} />
+    <Media
+      query='(max-width: 1100px)' render={() => (
+        <>
+          <NetworkGraph
+            height='100px' hideBottomPad position={{
+              zIndex: 35
+            }}
+          />
+          <div css={{
+            zIndex: 30,
+            width: '250px',
+            height: '250px',
+            marginTop: '-25px',
+            '@media (max-width: 568px)': {
+              width: '150px',
+              height: '150px'
+            },
+            backgroundImage: `url(${getImage(data, 'IdBoxWithOneConnector')})`,
+            backgroundSize: 'auto 100%',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat'
+          }}
+          />
+        </>
+      )}
+    />
   </Box>
 )
 

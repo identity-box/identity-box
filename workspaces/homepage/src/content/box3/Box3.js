@@ -10,15 +10,18 @@ const Box3 = ({ data }) => (
   <div css={{
     position: 'relative',
     width: '100%'
-  }}>
+  }}
+  >
     <Box backgroundStyles={{
       position: 'relative',
       backgroundImage: 'none',
       backgroundColor: '#092C3E'
-    }}>
+    }}
+    >
       <Row css={{
         justifyContent: 'flex-start'
-      }}>
+      }}
+      >
         <Box3Content1 data={data} />
       </Row>
       <Row css={{
@@ -29,7 +32,8 @@ const Box3 = ({ data }) => (
           marginLeft: '80px',
           alignSelf: 'flex-start'
         }
-      }}>
+      }}
+      >
         <Box3Content2 data={data} />
       </Row>
       <Row>

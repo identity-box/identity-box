@@ -52,18 +52,21 @@ const ScanIdBoxTelepath = ({ navigation }) => {
         <Welcome>Identity Box</Welcome>
         <Description style={{
           flexGrow: 1
-        }}>
+        }}
+        >
           Scan your Identity Box QR-Code to connect...
         </Description>
-        { scanning && <View style={{
-          width: 200,
-          height: 200
-        }}>
-          <BarCodeScanner
-            onBarCodeScanned={handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
-          />
-        </View>}
+        {scanning &&
+          <View style={{
+            width: 200,
+            height: 200
+          }}
+          >
+            <BarCodeScanner
+              onBarCodeScanned={handleBarCodeScanned}
+              style={StyleSheet.absoluteFillObject}
+            />
+          </View>}
         <Button
           title='Scan...'
           disabled={!cameraEnabled || scanning}
