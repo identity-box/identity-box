@@ -14,8 +14,8 @@
     "node": ">=7.6.0"
   },
   "devDependencies": {
-    "mockdate": "^2.0.4",
-    "now": "^16.0.0",
+    "mockdate": "^2.0.5",
+    "now": "^16.1.3",
     "supertest": "^4.0.2"
   },
   "dependencies": {

@@ -7,12 +7,12 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0",
+    "babel-eslint": "10.0.3",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0",
     "lerna": "^3.16.4",
     "pm2": "^3.5.0",
-    "standard": "^13.1.0"
+    "standard": "14.1.0"
   },
   "workspaces": {
     "packages": [
