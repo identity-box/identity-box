@@ -8,16 +8,8 @@ import { Box1, Box2, Box3 } from 'src/content'
 
 import { BodyFrame } from 'src/components/ui-blocks'
 
-import { useLogin } from 'src/hooks'
-
 const Home = ({ data, location }) => {
-  const loggedIn = useLogin(location)
-
   console.log('                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future \n ')
-
-  if (!loggedIn) {
-    return null
-  }
 
   return (
     <>

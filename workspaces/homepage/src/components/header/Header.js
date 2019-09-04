@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import headerLogo from 'src/images/IdBoxHeader.png'
 
-import { MenuLinkExternal } from 'src/components/ui-blocks'
+import { MenuLink, MenuLinkExternal } from 'src/components/ui-blocks'
 
 const Logo = styled.div({
   display: 'flex',
@@ -52,9 +52,11 @@ const Header = () => (
       <LogoText>Identity Box</LogoText>
     </Logo>
     <Menu>
-      <MenuLinkExternal href='https://github.com/marcinczenko/identity-box' target='_blank'>Github</MenuLinkExternal>
+      <MenuLinkExternal href='https://github.com/identity-box/identity-box' target='_blank'>Github</MenuLinkExternal>
       <MenuLinkExternal href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuLinkExternal>
-      <MenuLinkExternal href='http://marcinczenko.github.io' target='_blank'>Blog</MenuLinkExternal>
+      <MenuLink css={{
+        margin: '5px 20px'
+      }} to='/developers/contributing' target='_blank'>Blog</MenuLink>
     </Menu>
   </Wrapper>
 )
