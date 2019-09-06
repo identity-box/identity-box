@@ -13,7 +13,7 @@ const List = styled.ul({
 
 export class Navigation extends React.PureComponent {
   state = {
-    // proposalDeltas: [],
+    proposalDeltas: [],
     betaDeltas: [],
     componentDeltas: [],
     developerDeltas: [],
@@ -30,11 +30,11 @@ export class Navigation extends React.PureComponent {
     this.restoreNavigationState()
 
     this.navigationGroups = [
-      // this.createNavigationGroupForTag({
-      //   title: 'Project Proposal',
-      //   tag: 'proposal',
-      //   deltaGroupName: 'proposal'
-      // }),
+      this.createNavigationGroupForTag({
+        title: 'Identity Box',
+        tag: 'proposal',
+        deltaGroupName: 'proposal'
+      }),
       this.createNavigationGroupForTag({
         title: 'Early Adopters',
         tag: 'beta',

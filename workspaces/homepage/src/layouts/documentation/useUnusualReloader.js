@@ -10,9 +10,9 @@ const useUnusualReloader = location => {
 
     setTimeout(() => {
       setReady(true)
-      navigate(pathWithHash)
+      navigate(pathWithHash, { replace: true })
     }, 300)
-    navigate(path)
+    navigate(path, { replace: true })
   }, [])
 
   return ready

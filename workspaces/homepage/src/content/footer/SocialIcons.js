@@ -3,7 +3,8 @@ import styled from '@emotion/styled'
 import { getImage } from 'src/assets'
 
 const SocialIconsRow = styled.div({
-  width: '140px',
+  // width: '140px',
+  width: '74px',
   display: 'flex',
   flexFlow: 'row nowrap',
   justifyContent: 'space-between',
@@ -34,7 +35,7 @@ const SocialIcons = ({ data }) => (
   }}
   >
     <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Twitter')} /></a>
-    <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Youtube')} css={{ width: '46px' }} /></a>
+    {/* <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Youtube')} css={{ width: '46px' }} /></a> */}
     <a href='https://github.com/marcinczenko/identity-box'><SocialIcon imageUrl={getImage(data, 'GitHub')} /></a>
   </SocialIconsRow>
 )

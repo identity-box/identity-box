@@ -20,21 +20,25 @@ const FooterBody = ({ data }) => (
     }
   }}
   >
-    <FooterMenu title='Identity Box'>
-      <MenuLink to='/developers/contributing'>About</MenuLink>
-      <MenuLinkExternal href='https://youtu.be/aqAUmgE3WyM' target='_blank'>Demo</MenuLinkExternal>
-      <MenuLink to='/developers/contributing'>Buy</MenuLink>
+    <FooterMenu
+      title='Identity Box' css={{
+        alignSelf: 'flex-start'
+      }}
+    >
+      <MenuLink to='/identity-box'>About</MenuLink>
+      <MenuLink to='/experience-identity-box'>Early Access</MenuLink>
     </FooterMenu>
     <FooterMenu
       title='Documentation' css={{
+        alignSelf: 'flex-start',
         '@media (min-width: 568px)': {
           marginLeft: '80px'
         }
       }}
     >
-      <MenuLink to='/developers/contributing'>User guide</MenuLink>
-      <MenuLink to='/developers/contributing'>Blog</MenuLink>
-      <MenuLink to='/developers/contributing'>Developers</MenuLink>
+      <MenuLink to='/components/idbox-react-ui'>Components</MenuLink>
+      <MenuLink to='/services/idservice'>Services</MenuLink>
+      <MenuLink to='/developers/contributing'>Contributing</MenuLink>
     </FooterMenu>
     <Media
       query='(min-width: 800px)' render={() => (

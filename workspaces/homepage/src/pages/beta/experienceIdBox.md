@@ -4,7 +4,9 @@ title: Experience Identity Box
 tag: beta
 ---
 
-If you are invited to our Early Adoption Program via [TestFlight](https://developer.apple.com/testflight/) you can help us evaluating Identity Box even before actual boxes are made available.
+> You can join our Early Access Program by subscribing at [https://mailchi.mp/d0a5998cc646/identity-box-eap](https://mailchi.mp/d0a5998cc646/identity-box-eap).
+
+If you are invited to our Early Access Program via [TestFlight](https://developer.apple.com/testflight/) (iOS) or [Expo](https://expo.io) (Android, coming soon) you can help us evaluating Identity Box even before actual boxes are made available.
 
 For this purpose, specially for our early adopters, we created a *virtual* Identity Box that can be used when testing the IdentityBox app.
 

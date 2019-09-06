@@ -8,13 +8,13 @@ const Wrapper = styled.div({
 
 const Buttons = () => (
   <Wrapper>
-    <Link to='/developers/contributing'>Learn more</Link>
-    <ExternalLink
+    <Link to='/identity-box'>Learn more</Link>
+    <Link
       css={{
         marginLeft: '50px'
-      }} href='https://youtu.be/aqAUmgE3WyM' target='_blank'
-    >Watch demo
-    </ExternalLink>
+      }} to='/experience-identity-box'
+    >Early Access Program
+    </Link>
   </Wrapper>
 )
 

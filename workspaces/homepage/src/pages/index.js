@@ -20,7 +20,7 @@ const useUnusualReloader = location => {
 
     setTimeout(() => {
       setReady(true)
-      navigate(path)
+      // navigate(path)
     }, 300)
   }, [])
 
