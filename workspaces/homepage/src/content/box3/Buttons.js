@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
-import { Link, ExternalLink } from 'src/components/forms'
+import { Link } from 'src/components/forms'
 
 const Wrapper = styled.div({
   display: 'flex'

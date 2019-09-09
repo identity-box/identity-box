@@ -1,16 +1,11 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import Media from 'react-media'
 import { getImage } from 'src/assets'
-import { MenuLink, MenuLinkExternal as MenuLinkExternalOriginal } from 'src/components/ui-blocks'
+import { MenuLink } from 'src/components/ui-blocks'
 
 import { FooterRow } from './FooterRow'
 import { FooterMenu } from './FooterMenu'
 import { FooterGraphic } from './FooterGraphic'
-
-const MenuLinkExternal = styled(MenuLinkExternalOriginal)({
-  margin: 0
-})
 
 const FooterBody = ({ data }) => (
   <FooterRow css={{

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { graphql, navigate } from 'gatsby'
+import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
 import { Header } from 'src/components/header'
@@ -8,19 +8,12 @@ import { Box1, Box2, Box3 } from 'src/content'
 
 import { BodyFrame } from 'src/components/ui-blocks'
 
-const normalizeLocationPath = location => {
-  return location.pathname.replace(/\/$/, '')
-}
-
 const useUnusualReloader = location => {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    const path = normalizeLocationPath(location)
-
     setTimeout(() => {
       setReady(true)
-      // navigate(path)
     }, 300)
   }, [])
 
