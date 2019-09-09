@@ -5,8 +5,8 @@ const BodyFrame = styled.div({
   flexFlow: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '100vw',
-  minWidth: '300px'
+  minWidth: '300px',
+  maxWidth: '1200px'
 })
 
 export { BodyFrame }

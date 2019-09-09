@@ -7,6 +7,7 @@ const Wrapper = styled.div({
   display: 'flex',
   flexFlow: 'column nowrap',
   justifyContent: 'center',
+  alignItems: 'center',
   width: '100vw',
   backgroundColor: 'black'
 })

@@ -70,14 +70,7 @@ const Box2 = ({ data }) => (
     }
   }}
   >
-    <Media query='(max-width: 1400px)'>
-      {matches =>
-        matches ? (
-          <Background imageUrl={getImage(data, 'Network5')} />
-        ) : (
-          <Background imageUrl={getImage(data, 'Network4')} />
-        )}
-    </Media>
+    <Background imageUrl={getImage(data, 'Network5')} />
     <Media
       query='(min-width: 569px) and (max-width: 1100px)' render={() => (
         <NetworkGraph
