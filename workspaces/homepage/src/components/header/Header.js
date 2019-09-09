@@ -33,11 +33,20 @@ const Menu = styled.div({
   alignItems: 'center'
 })
 
-const Wrapper = styled.div({
+const HyperWrapper = styled.div({
+  display: 'flex',
+  justifyContent: 'center',
   position: 'fixed',
   top: 0,
   zIndex: 0,
-  width: '100vw',
+  width: '100%',
+  backgroundImage: 'linear-gradient(#2F2E2D, #000000)',
+  opacity: '0.84'
+})
+
+const Wrapper = styled.div({
+  width: '100%',
+  maxWidth: '1200px',
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
@@ -46,22 +55,24 @@ const Wrapper = styled.div({
 })
 
 const Header = () => (
-  <Wrapper>
-    <Logo>
-      <LogoImg alt='IdBox logo' src={headerLogo} width='52px' />
-      <LogoText>Identity Box</LogoText>
-    </Logo>
-    <Menu>
-      <MenuLinkExternal href='https://github.com/identity-box/identity-box' target='_blank'>Github</MenuLinkExternal>
-      <MenuLinkExternal href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuLinkExternal>
-      {/* <MenuLink
+  <HyperWrapper>
+    <Wrapper>
+      <Logo>
+        <LogoImg alt='IdBox logo' src={headerLogo} width='52px' />
+        <LogoText>Identity Box</LogoText>
+      </Logo>
+      <Menu>
+        <MenuLinkExternal href='https://github.com/identity-box/identity-box' target='_blank'>Github</MenuLinkExternal>
+        <MenuLinkExternal href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuLinkExternal>
+        {/* <MenuLink
         css={{
           margin: '5px 20px'
         }} to='/developers/contributing' target='_blank'
       >Blog
       </MenuLink> */}
-    </Menu>
-  </Wrapper>
+      </Menu>
+    </Wrapper>
+  </HyperWrapper>
 )
 
 export { Header }
