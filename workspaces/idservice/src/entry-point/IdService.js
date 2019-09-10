@@ -168,6 +168,7 @@ class IdService {
       ...message.params[0]
     })
     const cid = await this.identityProvider.writeToIPFS(didDoc)
+    await this.identityProvider.pin(cid)
     console.log('cid:', cid)
     const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
     console.log('ipns name:', ipnsName)
@@ -188,6 +189,7 @@ class IdService {
   handleStoreJSON = async message => {
     const json = message.params[0]
     const cid = await this.identityProvider.writeToIPFS(json)
+    await this.identityProvider.pin(cid)
     this.respondWithCID(cid, message.params[1].from)
   }
 

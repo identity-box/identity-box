@@ -1,3 +1,3 @@
 module.exports = {
-  queuingServiceUrl: 'http://192.168.1.12:3000'
+  queuingServiceUrl: 'http://10.57.57.110:3000'
 }

@@ -38,6 +38,10 @@ class IdentityProvider {
     return cid.toBaseEncodedString()
   }
 
+  pin = async hash => {
+    await this.ipfs.pin.add(hash)
+  }
+
   readFromIPFS = async cid => {
     const { value } = await this.ipfs.dag.get(cid)
     return value
