@@ -27,6 +27,7 @@
     "expo-permissions": "~6.0.0",
     "expo-random": "~6.0.0",
     "expo-secure-store": "~6.0.0",
+    "expo-web-browser": "~6.0.0",
     "react": "16.9.0",
     "react-dom": "^16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",

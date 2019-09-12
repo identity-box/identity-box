@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
-import { Settings } from 'src/views/settings'
+import { Settings, BackupMnemonic } from 'src/views/settings'
 import { AddressBook, IdentityDetails, AddNewIdentity, SelectIdentity } from 'src/views/address-book'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
@@ -83,7 +83,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   AppLoading,
   ScanIdBoxTelepath,
   DefaultApp: DefaultAppStack,
-  FirstIdentity: FirstIdentityStack
+  FirstIdentity: FirstIdentityStack,
+  BackupMnemonic
 },
 {
   initialRouteName: 'AppLoading'

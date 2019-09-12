@@ -1,7 +1,7 @@
 ---
 path: /identity-box
-title: Identity Box
-tag: proposal
+title: Welcome to Identity Box
+tag: user
 ---
 
 > This is still a work in progress document, which will later be published as the Identity Box white paper.
