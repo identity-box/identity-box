@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useCallback } from 'react'
+// import React, { useEffect, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Button } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 
 import { Wrapper, Header, Description, Row } from './ui'
 
 const Backup = ({ navigation }) => {
-  const [backupEnabled, setBackupEnabled] = useState()
+  // const [backupEnabled, setBackupEnabled] = useState()
+  const [backupEnabled] = useState()
 
   const onEnableBackup = useCallback(() => {
     navigation.navigate('BackupMnemonic')

@@ -10,7 +10,8 @@ const supportedMessages = [
   'create_identity',
   'get-did-document',
   'store-json',
-  'get-json'
+  'get-json',
+  'reset'
 ]
 
 class IdService {
@@ -143,6 +144,21 @@ class IdService {
     }
   }
 
+  respond = async (method, to) => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method,
+        params: []
+      }
+      await this.telepath.emit(response, {
+        to
+      })
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
   respondWithError = async (error, to) => {
     try {
       const response = {
@@ -199,6 +215,11 @@ class IdService {
     this.respondWithJSON(json, message.params[1].from)
   }
 
+  handleReset = async message => {
+    await this.identityProvider.deleteAll()
+    this.respond('reset-response', message.params[1].from)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
@@ -214,6 +235,9 @@ class IdService {
             break
           case 'get-json':
             await this.handleGetJSON(message)
+            break
+          case 'reset':
+            await this.handleReset(message)
             break
         }
       } catch (e) {

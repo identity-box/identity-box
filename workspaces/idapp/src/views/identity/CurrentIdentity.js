@@ -138,13 +138,6 @@ const CurrentIdentity = ({ navigation }) => {
   }, [])
 
   const addNewIdentity = ({ did }) => {
-    // let identity
-    // if (section.title === 'Your identities') {
-    //   const id = identities[item]
-    //   identity = { name: id.name, did: id.did }
-    // } else {
-    //   identity = { name: item, did: peerIdentities[item] }
-    // }
     navigation.navigate('AddNewIdentity', { did })
   }
 

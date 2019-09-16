@@ -157,6 +157,21 @@ class IdentityManager {
     this.peerIdentities = JSON.parse(peerIdentitiesStr)
   }
 
+  reset = async () => {
+    await Promise.all(this.identityNames.map(async idName => {
+      const key = base64url.encode(idName)
+      await SecureStore.deleteItemAsync(key)
+    }))
+    await AsyncStorage.removeItem('identityNames')
+    this.identityNames = []
+    this.identities = {}
+    await AsyncStorage.removeItem('selectedIdentityName')
+    this.current = undefined
+    await AsyncStorage.removeItem('peerIdentities')
+    this.peerIdentities = {}
+    this.subscriptions = []
+  }
+
   hasIdentities = () => {
     return Object.keys(this.identities).length > 0
   }

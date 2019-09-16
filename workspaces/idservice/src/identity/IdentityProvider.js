@@ -1,4 +1,5 @@
 import ipfsClient from 'ipfs-http-client'
+import { IPNSFirebase } from '../services'
 
 class IdentityProvider {
   ipfs
@@ -50,6 +51,20 @@ class IdentityProvider {
   ipnsNameFromDID = did => {
     const match = did.match(/did:ipid:(.*)$/)
     return match && match[1]
+  }
+
+  deleteAll = async () => {
+    const keys = await this.ipfs.key.list()
+    await Promise.all(keys.map(async ({ name }) => {
+      if (name === 'self') return
+      console.log('deleting key: ', name)
+      await this.ipfs.key.rm(name)
+    }))
+    await Promise.all(keys.map(async ({ id: ipnsName, name }) => {
+      if (name === 'self') return
+      console.log('deleting IPNS name: ', ipnsName)
+      await IPNSFirebase.deleteIPNSRecord({ ipnsName })
+    }))
   }
 }
 

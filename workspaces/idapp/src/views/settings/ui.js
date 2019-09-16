@@ -10,7 +10,7 @@ const Container = styled.View({
 const Subcontainer = styled.View({
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'space-around',
   width: '80%',
   height: '80%'
 })
