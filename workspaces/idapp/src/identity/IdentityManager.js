@@ -1,7 +1,9 @@
 import { AsyncStorage } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
-import { Buffers } from '@react-frontend-developer/buffers'
+import nacl from 'tweetnacl'
+import { Buffers, TypedArrays } from '@react-frontend-developer/buffers'
+import { randomBytes, entropyToMnemonic } from 'src/crypto'
 
 let _instance = null
 
@@ -59,6 +61,57 @@ class IdentityManager {
     }
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+  }
+
+  createBackupKey = async () => {
+    return randomBytes(nacl.secretbox.keyLength)
+  }
+
+  createEncryptedBackupWithKey = async backupKey => {
+    const backupBox = await this.createBackupBox()
+
+    const nonce = await randomBytes(nacl.secretbox.nonceLength)
+    const secretBackupBox = nacl.secretbox(
+      TypedArrays.string2Uint8Array(backupBox, 'utf8'),
+      nonce,
+      backupKey
+    )
+    return base64url.encode(Buffer.concat([Buffer.from(nonce), Buffer.from(secretBackupBox)]))
+  }
+
+  createEncryptedBackup = async () => {
+    const backupKey = await this.createBackupKey()
+    await SecureStore.setItemAsync('backupKey', base64url.encode(backupKey))
+    const backupBox = await this.createBackupBox()
+
+    const nonce = await randomBytes(nacl.secretbox.nonceLength)
+    const secretBackupBox = nacl.secretbox(
+      TypedArrays.string2Uint8Array(backupBox, 'utf8'),
+      nonce,
+      backupKey
+    )
+    const mnemonic = entropyToMnemonic(backupKey)
+    return {
+      encryptedBackup: base64url.encode(Buffer.concat([Buffer.from(nonce), Buffer.from(secretBackupBox)])),
+      mnemonic
+    }
+  }
+
+  createBackupBox = async () => {
+    const serializableIdentities = await Promise.all(this.identityNames.map(async idName => {
+      const key = base64url.encode(idName)
+      return SecureStore.getItemAsync(key)
+    }))
+
+    const serializablePeerIdentities = base64url.encode(
+      await AsyncStorage.getItem('peerIdentities') ||
+      JSON.stringify([])
+    )
+
+    return base64url.encode(JSON.stringify({
+      ownIdentities: serializableIdentities,
+      peerIdentities: serializablePeerIdentities
+    }))
   }
 
   addPeerIdentity = async ({ name, did }) => {
@@ -162,6 +215,7 @@ class IdentityManager {
       const key = base64url.encode(idName)
       await SecureStore.deleteItemAsync(key)
     }))
+    await SecureStore.deleteItemAsync('backupEnabled')
     await AsyncStorage.removeItem('identityNames')
     this.identityNames = []
     this.identities = {}

@@ -29,7 +29,7 @@ const FirstIdentity = ({ navigation }) => {
     name: 'idbox',
     onMessage: message => {
       console.log('received message: ', message)
-      if (message.method === 'set_identity' && message.params && message.params.length === 1) {
+      if (message.method === 'create-identity-response' && message.params && message.params.length === 1) {
         const { identity } = message.params[0]
         persistIdentity(identity)
       }

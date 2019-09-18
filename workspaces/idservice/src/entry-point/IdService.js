@@ -7,11 +7,12 @@ import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
 const supportedMessages = [
-  'create_identity',
+  'create-identity',
   'get-did-document',
   'store-json',
   'get-json',
-  'reset'
+  'reset',
+  'backup'
 ]
 
 class IdService {
@@ -80,7 +81,7 @@ class IdService {
     try {
       const response = {
         jsonrpc: '2.0',
-        method: 'set_identity',
+        method: 'create-identity-response',
         params: [
           { identity }
         ]
@@ -220,11 +221,16 @@ class IdService {
     this.respond('reset-response', message.params[1].from)
   }
 
+  handleBackup = async message => {
+    await this.identityProvider.backup(message.params[0])
+    this.respond('backup-response', message.params[1].from)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
         switch (message.method) {
-          case 'create_identity':
+          case 'create-identity':
             await this.handleCreateIdentity(message)
             break
           case 'get-did-document':
@@ -238,6 +244,9 @@ class IdService {
             break
           case 'reset':
             await this.handleReset(message)
+            break
+          case 'backup':
+            await this.handleBackup(message)
             break
         }
       } catch (e) {

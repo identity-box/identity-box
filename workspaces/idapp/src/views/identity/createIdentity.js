@@ -7,7 +7,7 @@ const createIdentity = async ({
   console.log(`Creating identity: ${name}`)
   const message = {
     jsonrpc: '2.0',
-    method: 'create_identity',
+    method: 'create-identity',
     params: [{
       name,
       publicEncryptionKey,
