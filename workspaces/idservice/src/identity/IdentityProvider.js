@@ -5,7 +5,7 @@ import ipfsClient from 'ipfs-http-client'
 import { IPNSFirebase } from '../services'
 
 class IdentityProvider {
-  password = 'password'
+  password = process.env.IDBOX_BACKUP_PASSWORD
   ipfs
   id
 
