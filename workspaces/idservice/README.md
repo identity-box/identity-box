@@ -30,7 +30,11 @@ launching the actual service so that a fresh telepath configuration is created.
 The channel provided in the provided `telepath.config` matches the `idapp` configuration in
 `workspaces/idapp/development-lqs.config`.
 
-## GOOGLE\_APPLICATION\_CREDENTIALS
+## Required environment variables
+
+IdService assume some environment variables to be set.
+
+### GOOGLE\_APPLICATION\_CREDENTIALS
 
 We use Firebase temporarily when waiting for IPNS to be more reliable.
 To have it working, you need to copy `idbox-firebase.json` (Keybase) to your system and then before starting the service make sure that the following variable is pointing to the full path to the above mentioned file. This will make idservice to use Firebase Admin SDK.
@@ -39,9 +43,20 @@ To have it working, you need to copy `idbox-firebase.json` (Keybase) to your sys
 export GOOGLE_APPLICATION_CREDENTIALS=<path to idbox-firebase.json>
 ```
 
+### IPFS_PATH
+
+`IPFS_PATH` needs to point to the IPFS data directory. On the local machine this is usually `$HOME/.ipfs`.
+
+### Automatic backup
+
+For the automatic backups functionality, IdService requires two environment variables to be set: `IDBOX_BACKUP` holding the absolute path
+to the backup directory, and `IDBOX_BACKUP_PASSWORD` to hold the password to encrypt the idbox IPNS keys. Every key from `$IPFS_PATH/keystore` will
+have its corresponding `pem` file in `$IDBOX_BACKUP` directory. `$IDBOX_BACKUP` will also contain a `backup` file with all user's identities from the IdApp (encrypted).
+
+
 ## serviceUrl
 
-By default, idservice will use `https://idbox-queue.now.sh` as the queuing service. If you want
+By default, IdService will use `https://idbox-queue.now.sh` as the queuing service. If you want
 to run it with a local server, you can set the `serviceUrl` environment variable and point it
 to the service you want to use, e.g:
 
@@ -49,7 +64,7 @@ to the service you want to use, e.g:
 $ serviceUrl=http://localhost:3000 ./index.js
 ```
 
-The command above applies when you run idservice out of the monorepo itself. If
+The command above applies when you run IdService out of the monorepo itself. If
 you follow the standard installation, please follow the instructions below.
 
 > Please, make sure you use your own unique telepath channel when your queuing service
