@@ -43,11 +43,35 @@ const Row = styled.View({
   alignItems: 'center'
 })
 
+const PassphraseMnemonicContainer = styled.View({
+  width: '100%',
+  height: 100,
+  marginBottom: 30,
+  borderTopWidth: 1,
+  borderLeftWidth: 1,
+  borderBottomWidth: 1,
+  borderRightWidth: 1,
+  paddingLeft: 5,
+  paddingTop: 5,
+  paddingBottom: 5,
+  paddingRight: 5
+})
+
+const PassphraseMnemonic = styled.TextInput({
+  fontSize: 12,
+  textAlignVertical: 'top',
+  height: '100%',
+  width: '100%',
+  textAlign: 'left'
+})
+
 export {
   Container,
   Subcontainer,
   Wrapper,
   Header,
   Description,
-  Row
+  Row,
+  PassphraseMnemonic,
+  PassphraseMnemonicContainer
 }

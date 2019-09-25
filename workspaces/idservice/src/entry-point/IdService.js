@@ -12,7 +12,9 @@ const supportedMessages = [
   'store-json',
   'get-json',
   'reset',
-  'backup'
+  'backup',
+  'has-backup',
+  'restore'
 ]
 
 class IdService {
@@ -145,12 +147,12 @@ class IdService {
     }
   }
 
-  respond = async (method, to) => {
+  respond = async (method, to, params) => {
     try {
       const response = {
         jsonrpc: '2.0',
         method,
-        params: []
+        params: params || []
       }
       await this.telepath.emit(response, {
         to
@@ -226,6 +228,16 @@ class IdService {
     this.respond('backup-response', message.params[1].from)
   }
 
+  handleHasBackup = async message => {
+    const hasBackup = this.identityProvider.hasBackup()
+    this.respond('has-backup-response', message.params[1].from, [{ hasBackup }])
+  }
+
+  handleRestore = async message => {
+    const encryptedBackup = await this.identityProvider.restore(message.params[0])
+    this.respond('restore-response', message.params[1].from, [{ encryptedBackup }])
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
@@ -247,6 +259,12 @@ class IdService {
             break
           case 'backup':
             await this.handleBackup(message)
+            break
+          case 'has-backup':
+            await this.handleHasBackup(message)
+            break
+          case 'restore':
+            await this.handleRestore(message)
             break
         }
       } catch (e) {

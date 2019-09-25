@@ -4,6 +4,10 @@ import base64url from 'base64url'
 import styled from '@emotion/native'
 import QRCode from 'react-native-qrcode-svg'
 import { Button } from 'react-native'
+import nacl from 'tweetnacl'
+import { TypedArrays } from '@react-frontend-developer/buffers'
+
+import { entropyToMnemonic } from 'src/crypto'
 
 import { useIdentity } from 'src/identity'
 import { useTelepath } from 'src/telepath'
@@ -47,6 +51,12 @@ const IdentityDetails = ({ navigation }) => {
   const did = navigation.getParam('did', '')
   const isOwn = navigation.getParam('isOwn', false)
 
+  const backupIdFromBackupKey = backupKey => {
+    const mnemonic = entropyToMnemonic(backupKey)
+    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic, 'utf8')
+    return base64url.encode(nacl.hash(mnemonicUint8Array))
+  }
+
   const { deletePeerIdentity } = useIdentity({
     onReady: idManager => {
       identityManager.current = idManager
@@ -56,7 +66,8 @@ const IdentityDetails = ({ navigation }) => {
       if (backupEnabled) {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup)
+        const backupId = backupIdFromBackupKey(backupKey)
+        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId)
       } else {
         navigation.navigate('AddressBook')
       }
@@ -68,12 +79,13 @@ const IdentityDetails = ({ navigation }) => {
     deletePeerIdentity({ name })
   }, [])
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup) => {
+  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId) => {
     const message = {
       jsonrpc: '2.0',
       method: 'backup',
       params: [{
-        encryptedBackup
+        encryptedBackup,
+        backupId
       }, {
         from: telepathProvider.clientId
       }]

@@ -25,6 +25,7 @@ class IdentityManager {
   static instance = async () => {
     if (!_instance) {
       _instance = new IdentityManager()
+      // await _instance.reset()
       await _instance.readIdentities()
       await _instance.readPeerIdentities()
     }
@@ -95,6 +96,30 @@ class IdentityManager {
       encryptedBackup: base64url.encode(Buffer.concat([Buffer.from(nonce), Buffer.from(secretBackupBox)])),
       mnemonic
     }
+  }
+
+  initFromEncryptedBackup = async (encryptedBackup, backupKey) => {
+    const backupAndNonce = TypedArrays.string2Uint8Array(encryptedBackup, 'base64')
+    const nonce = backupAndNonce.slice(0, nacl.secretbox.nonceLength)
+    const backup = backupAndNonce.slice(nacl.secretbox.nonceLength)
+    const backupBoxUint8Array = nacl.secretbox.open(backup, nonce, backupKey)
+    const backupBoxBase64 = TypedArrays.uint8Array2string(backupBoxUint8Array, 'utf8')
+    const backupBox = JSON.parse(base64url.decode(backupBoxBase64))
+    const { ownIdentities, peerIdentities } = backupBox
+    await AsyncStorage.setItem('peerIdentities', base64url.decode(peerIdentities))
+    const identities = ownIdentities.reduce((acc, identity) => {
+      const { name } = JSON.parse(base64url.decode(identity))
+      acc[name] = identity
+      return acc
+    }, {})
+    const identityNames = Object.keys(identities)
+    await AsyncStorage.setItem('identityNames', JSON.stringify(identityNames))
+    await Promise.all(identityNames.map(name => {
+      const key = base64url.encode(name)
+      return SecureStore.setItemAsync(key, identities[name])
+    }))
+    await this.readIdentities()
+    await this.readPeerIdentities()
   }
 
   createBackupBox = async () => {
