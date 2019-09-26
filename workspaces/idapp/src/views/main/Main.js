@@ -4,10 +4,11 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
+import { Settings, BackupMnemonic, ConfirmFactoryReset, RestoreFromBackup, BackupNotFound } from 'src/views/settings'
 import { AddressBook, IdentityDetails, AddNewIdentity, SelectIdentity } from 'src/views/address-book'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
+import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 
 // const DefaultAppStack = createStackNavigator({ CurrentIdentity }, { headerMode: 'none' })
 const AddressBookStack = createStackNavigator({
@@ -23,9 +24,23 @@ AddressBookStack.navigationOptions = {
   tabBarLabel: 'Address Book'
 }
 
+const SettingsStack = createStackNavigator({
+  Settings
+}, {
+  defaultNavigationOptions: {
+    headerTintColor: '#FF6699'
+  },
+  headerMode: 'none'
+})
+
+SettingsStack.navigationOptions = {
+  tabBarLabel: 'Settings'
+}
+
 const MainAppStack = createBottomTabNavigator({
   CurrentIdentity,
-  AddressBookStack
+  AddressBookStack,
+  SettingsStack
 }, {
   // initialRouteName: 'AddressBookStack',
   defaultNavigationOptions: ({ navigation }) => ({
@@ -38,6 +53,9 @@ const MainAppStack = createBottomTabNavigator({
       } else if (routeName === 'AddressBookStack') {
         iconName = 'address-book-o'
         return <FontAwesome name={iconName} size={25} color={tintColor} />
+      } else if (routeName === 'SettingsStack') {
+        iconName = 'settings'
+        return <Feather name={iconName} size={25} color={tintColor} />
       }
     },
     tabBarOptions: {
@@ -65,11 +83,16 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   AppLoading,
   ScanIdBoxTelepath,
   DefaultApp: DefaultAppStack,
-  FirstIdentity: FirstIdentityStack
+  FirstIdentity: FirstIdentityStack,
+  BackupMnemonic,
+  ConfirmFactoryReset,
+  RestoreFromBackup,
+  BackupNotFound
 },
 {
+  // initialRouteName: 'BackupNotFound'
   initialRouteName: 'AppLoading'
-  // initialRouteName: 'DefaultApp'
+  // initialRouteName: 'RestoreFromBackup'
 }
 ))
 

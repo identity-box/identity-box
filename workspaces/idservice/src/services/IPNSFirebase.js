@@ -38,6 +38,20 @@ class IPNSFirebase {
     const cid = doc.data().cid
     return cid
   }
+
+  static deleteIPNSRecord = async ({
+    ipnsName
+  }) => {
+    const db = admin.firestore()
+
+    const docRef = db.collection('ipns').doc(ipnsName)
+    const doc = await docRef.get()
+    if (!doc.exists) {
+      console.log(`No CID for IPNS name ${ipnsName}`)
+      return
+    }
+    await docRef.delete()
+  }
 }
 
 export { IPNSFirebase }

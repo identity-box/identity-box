@@ -1,9 +1,16 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
+import * as SecureStore from 'expo-secure-store'
+import base64url from 'base64url'
 import styled from '@emotion/native'
 import QRCode from 'react-native-qrcode-svg'
 import { Button } from 'react-native'
+import nacl from 'tweetnacl'
+import { TypedArrays } from '@react-frontend-developer/buffers'
+
+import { entropyToMnemonic } from 'src/crypto'
 
 import { useIdentity } from 'src/identity'
+import { useTelepath } from 'src/telepath'
 
 const Container = styled.View({
   flex: 1,
@@ -38,13 +45,32 @@ const Did = styled.Text({
 })
 
 const IdentityDetails = ({ navigation }) => {
+  const identityManager = useRef(undefined)
+  const telepathProvider = useRef(undefined)
   const name = navigation.getParam('name', '')
   const did = navigation.getParam('did', '')
   const isOwn = navigation.getParam('isOwn', false)
 
+  const backupIdFromBackupKey = backupKey => {
+    const mnemonic = entropyToMnemonic(backupKey)
+    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic, 'utf8')
+    return base64url.encode(nacl.hash(mnemonicUint8Array))
+  }
+
   const { deletePeerIdentity } = useIdentity({
-    onPeerIdentitiesChanged: () => {
-      navigation.navigate('AddressBook')
+    onReady: idManager => {
+      identityManager.current = idManager
+    },
+    onPeerIdentitiesChanged: async () => {
+      const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
+      if (backupEnabled) {
+        const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
+        const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
+        const backupId = backupIdFromBackupKey(backupKey)
+        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId)
+      } else {
+        navigation.navigate('AddressBook')
+      }
     }
   })
 
@@ -52,6 +78,44 @@ const IdentityDetails = ({ navigation }) => {
     console.log(`deleting peer identity with name: ${name}`)
     deletePeerIdentity({ name })
   }, [])
+
+  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId) => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'backup',
+      params: [{
+        encryptedBackup,
+        backupId
+      }, {
+        from: telepathProvider.clientId
+      }]
+    }
+    try {
+      await telepathProvider.emit(message, {
+        to: telepathProvider.servicePointId
+      })
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
+  useTelepath({
+    name: 'idbox',
+    onTelepathReady: async ({ telepathProvider: tp }) => {
+      telepathProvider.current = tp
+    },
+    onMessage: async message => {
+      console.log('received message: ', message)
+      if (message.method === 'backup-response') {
+        navigation.navigate('AddressBook')
+      }
+    },
+    onError: async error => {
+      console.log('error: ', error)
+      await SecureStore.deleteItemAsync('backupEnabled')
+      navigation.navigate('AddressBook')
+    }
+  })
 
   return (
     <Container>

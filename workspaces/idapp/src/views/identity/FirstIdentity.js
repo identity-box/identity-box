@@ -24,14 +24,39 @@ const FirstIdentity = ({ navigation }) => {
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
   const [inProgress, setInProgress] = useState(false)
+  const [backupAvailable, setBackupAvailable] = useState(false)
 
-  telepathProvider.current = useTelepath({
+  const checkForBackup = async telepathProvider => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'has-backup',
+      params: [{}, {
+        from: telepathProvider.clientId
+      }]
+    }
+    try {
+      await telepathProvider.emit(message, {
+        to: telepathProvider.servicePointId
+      })
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
+  useTelepath({
     name: 'idbox',
+    onTelepathReady: ({ telepathProvider: tp }) => {
+      telepathProvider.current = tp
+      checkForBackup(tp)
+    },
     onMessage: message => {
       console.log('received message: ', message)
-      if (message.method === 'set_identity' && message.params && message.params.length === 1) {
+      if (message.method === 'create-identity-response' && message.params && message.params.length === 1) {
         const { identity } = message.params[0]
         persistIdentity(identity)
+      } else if (message.method === 'has-backup-response' && message.params && message.params.length === 1) {
+        const { hasBackup } = message.params[0]
+        setBackupAvailable(hasBackup || false)
       }
     },
     onError: error => {
@@ -39,9 +64,11 @@ const FirstIdentity = ({ navigation }) => {
     }
   })
 
-  const identity = useIdentity()
-
-  identityManager.current = identity.identityManager
+  useIdentity({
+    onReady: idManager => {
+      identityManager.current = idManager
+    }
+  })
 
   const persistIdentity = async ({ did, name }) => {
     try {
@@ -93,6 +120,10 @@ const FirstIdentity = ({ navigation }) => {
     })
   }, [name])
 
+  const onRestoreFromBackup = () => {
+    navigation.navigate('RestoreFromBackup')
+  }
+
   return (
     <PageContainer>
       <Container style={{
@@ -117,6 +148,23 @@ const FirstIdentity = ({ navigation }) => {
           disabled={name.length === 0}
           accessibilityLabel='Create an identity...'
         />
+        {
+          backupAvailable && (
+            <>
+              <Description style={{
+                marginTop: 20,
+                marginBottom: 20
+              }}
+              >- OR -
+              </Description>
+              <Button
+                onPress={onRestoreFromBackup}
+                title='Restore from backup...'
+                accessibilityLabel='Restore identities from backup'
+              />
+            </>
+          )
+        }
         {inProgress && <ActivityIndicator />}
       </Container>
     </PageContainer>

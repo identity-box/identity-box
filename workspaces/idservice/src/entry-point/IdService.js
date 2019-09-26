@@ -7,10 +7,14 @@ import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
 const supportedMessages = [
-  'create_identity',
+  'create-identity',
   'get-did-document',
   'store-json',
-  'get-json'
+  'get-json',
+  'reset',
+  'backup',
+  'has-backup',
+  'restore'
 ]
 
 class IdService {
@@ -79,7 +83,7 @@ class IdService {
     try {
       const response = {
         jsonrpc: '2.0',
-        method: 'set_identity',
+        method: 'create-identity-response',
         params: [
           { identity }
         ]
@@ -143,6 +147,21 @@ class IdService {
     }
   }
 
+  respond = async (method, to, params) => {
+    try {
+      const response = {
+        jsonrpc: '2.0',
+        method,
+        params: params || []
+      }
+      await this.telepath.emit(response, {
+        to
+      })
+    } catch (e) {
+      console.error(e.message)
+    }
+  }
+
   respondWithError = async (error, to) => {
     try {
       const response = {
@@ -168,6 +187,7 @@ class IdService {
       ...message.params[0]
     })
     const cid = await this.identityProvider.writeToIPFS(didDoc)
+    await this.identityProvider.pin(cid)
     console.log('cid:', cid)
     const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
     console.log('ipns name:', ipnsName)
@@ -188,6 +208,7 @@ class IdService {
   handleStoreJSON = async message => {
     const json = message.params[0]
     const cid = await this.identityProvider.writeToIPFS(json)
+    await this.identityProvider.pin(cid)
     this.respondWithCID(cid, message.params[1].from)
   }
 
@@ -197,11 +218,31 @@ class IdService {
     this.respondWithJSON(json, message.params[1].from)
   }
 
+  handleReset = async message => {
+    await this.identityProvider.deleteAll()
+    this.respond('reset-response', message.params[1].from)
+  }
+
+  handleBackup = async message => {
+    await this.identityProvider.backup(message.params[0])
+    this.respond('backup-response', message.params[1].from)
+  }
+
+  handleHasBackup = async message => {
+    const hasBackup = this.identityProvider.hasBackup()
+    this.respond('has-backup-response', message.params[1].from, [{ hasBackup }])
+  }
+
+  handleRestore = async message => {
+    const encryptedBackup = await this.identityProvider.restore(message.params[0])
+    this.respond('restore-response', message.params[1].from, [{ encryptedBackup }])
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
         switch (message.method) {
-          case 'create_identity':
+          case 'create-identity':
             await this.handleCreateIdentity(message)
             break
           case 'get-did-document':
@@ -212,6 +253,18 @@ class IdService {
             break
           case 'get-json':
             await this.handleGetJSON(message)
+            break
+          case 'reset':
+            await this.handleReset(message)
+            break
+          case 'backup':
+            await this.handleBackup(message)
+            break
+          case 'has-backup':
+            await this.handleHasBackup(message)
+            break
+          case 'restore':
+            await this.handleRestore(message)
             break
         }
       } catch (e) {
