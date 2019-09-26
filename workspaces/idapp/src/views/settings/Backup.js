@@ -24,7 +24,7 @@ const Backup = ({ navigation }) => {
   }, [])
 
   const onLearnMore = useCallback(() => {
-    WebBrowser.openBrowserAsync('https://idbox.online/identity-box')
+    WebBrowser.openBrowserAsync('https://idbox.online/backups')
   }, [])
 
   useEffect(() => {

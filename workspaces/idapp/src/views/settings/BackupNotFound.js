@@ -10,7 +10,7 @@ const BackupNotFound = ({ navigation }) => {
   }
 
   const onLearnMore = () => {
-    WebBrowser.openBrowserAsync('https://idbox.online/identity-box')
+    WebBrowser.openBrowserAsync('https://idbox.online/backups')
   }
 
   return (
