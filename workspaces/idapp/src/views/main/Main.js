@@ -90,8 +90,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   BackupNotFound
 },
 {
-  initialRouteName: 'BackupNotFound'
-  // initialRouteName: 'AppLoading'
+  // initialRouteName: 'BackupNotFound'
+  initialRouteName: 'AppLoading'
   // initialRouteName: 'RestoreFromBackup'
 }
 ))
