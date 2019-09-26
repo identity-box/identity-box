@@ -1,7 +1,7 @@
 {
   "name": "@identity-box/idservice",
   "private": false,
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
     "idservice": "./index.js",
@@ -26,7 +26,7 @@
   "author": "Marcin Czenko",
   "license": "ISC",
   "dependencies": {
-    "@identity-box/telepath": "^0.1.17",
+    "@identity-box/telepath": "^0.1.18",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "esm": "^3.2.25",
