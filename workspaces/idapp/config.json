@@ -24,10 +24,10 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 1
+      "versionCode": 2
     },
     "ios": {
-      "buildNumber": "0.1.1",
+      "buildNumber": "0.1.2",
       "bundleIdentifier": "sh.now.idapp",
       "supportsTablet": true,
       "infoPlist": {
