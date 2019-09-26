@@ -84,15 +84,15 @@ const BackupMnemonic = ({ navigation }) => {
                   able to restore it for you if you loose it.
                 </Description>
                 <Text style={{ textAlign: 'center', marginBottom: 50 }}>{mnemonic}</Text>
+                <Button
+                  onPress={onDismiss}
+                  title='Got it'
+                  accessibilityLabel='Got it'
+                />
               </>
             )
             : <Text style={{ textAlign: 'center', marginBottom: 50 }}>Creating first backup...</Text>
         }
-        <Button
-          onPress={onDismiss}
-          title='Got it'
-          accessibilityLabel='Got it'
-        />
       </Subcontainer>
     </Container>
   )

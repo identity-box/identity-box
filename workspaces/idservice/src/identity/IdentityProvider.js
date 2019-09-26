@@ -175,11 +175,19 @@ class IdentityProvider {
     }))
   }
 
+  backupExists = backupId => {
+    return fs.existsSync(path.join(process.env.IDBOX_BACKUP, backupId))
+  }
+
   restore = async ({ backupId }) => {
-    const encryptedBackup = this.restoreIds(backupId)
-    await this.restoreNames(backupId)
-    await this.restoreDIDDocuments(backupId)
-    return encryptedBackup
+    if (this.backupExists(backupId)) {
+      const encryptedBackup = this.restoreIds(backupId)
+      await this.restoreNames(backupId)
+      await this.restoreDIDDocuments(backupId)
+      return encryptedBackup
+    } else {
+      return 'not found'
+    }
   }
 }
 

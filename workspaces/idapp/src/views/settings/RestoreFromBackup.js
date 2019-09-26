@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { TypedArrays } from '@react-frontend-developer/buffers'
-import { Button } from 'react-native'
+import { Button, ActivityIndicator } from 'react-native'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 
@@ -10,6 +10,7 @@ import { useTelepath } from 'src/telepath'
 import { Container, Subcontainer, Header, Description, PassphraseMnemonic, PassphraseMnemonicContainer, Row } from './ui'
 
 const RestoreFromBackup = ({ navigation }) => {
+  const [inProgress, setInProgress] = useState(false)
   const [passphraseValid, setPassphraseValid] = useState(false)
   const [focused, setFocused] = useState(false)
   const [mnemonic, setMnemonic] = useState(undefined)
@@ -41,16 +42,22 @@ const RestoreFromBackup = ({ navigation }) => {
       telepathProvider.current = tp
     },
     onMessage: async message => {
+      setInProgress(false)
       console.log('received message: ', message)
       if (message.method === 'restore-response') {
         const { encryptedBackup } = message.params[0]
-        const identityManager = await IdentityManager.instance()
-        await identityManager.initFromEncryptedBackup(encryptedBackup, backupKey.current)
-        navigation.navigate('CurrentIdentity')
+        if (encryptedBackup === 'not found') {
+          navigation.navigate('BackupNotFound')
+        } else {
+          const identityManager = await IdentityManager.instance()
+          await identityManager.initFromEncryptedBackup(encryptedBackup, backupKey.current)
+          navigation.navigate('CurrentIdentity')
+        }
       }
     },
     onError: error => {
       console.log('error: ', error)
+      setInProgress(false)
     }
   })
 
@@ -82,6 +89,7 @@ const RestoreFromBackup = ({ navigation }) => {
 
   const onRestore = useCallback(() => {
     console.log('restoring....')
+    setInProgress(true)
     const backupId = backupIdFromMnemonic(mnemonic)
     restoreIdBox(telepathProvider.current, backupId)
   }, [mnemonic])
@@ -114,19 +122,23 @@ const RestoreFromBackup = ({ navigation }) => {
           />
         </PassphraseMnemonicContainer>
         {!focused && !passphraseValid && <Description>Invalid Mnemonic</Description>}
-        <Row style={{ justifyContent: 'space-around' }}>
-          <Button
-            onPress={onRestore}
-            disabled={!passphraseValid}
-            title='Restore'
-            accessibilityLabel='Restore'
-          />
-          <Button
-            onPress={onCancel}
-            title='Cancel'
-            accessibilityLabel='Cancel'
-          />
-        </Row>
+        {!inProgress
+          ? (
+            <Row style={{ justifyContent: 'space-around' }}>
+              <Button
+                onPress={onRestore}
+                disabled={!passphraseValid}
+                title='Restore'
+                accessibilityLabel='Restore'
+              />
+              <Button
+                onPress={onCancel}
+                title='Cancel'
+                accessibilityLabel='Cancel'
+              />
+            </Row>
+          )
+          : <ActivityIndicator />}
       </Subcontainer>
     </Container>
   )
