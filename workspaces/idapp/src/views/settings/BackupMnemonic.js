@@ -77,7 +77,7 @@ const BackupMnemonic = ({ navigation }) => {
             ? (
               <>
                 <Description>
-                  Below is your passphrase mnemonic (it also already copied to clipboard).
+                  Below is your passphrase mnemonic (it is also already copied to your clipboard).
                   You will need it if you ever need to restore your identities.
                 </Description>
                 <Description style={{ color: 'red' }}>

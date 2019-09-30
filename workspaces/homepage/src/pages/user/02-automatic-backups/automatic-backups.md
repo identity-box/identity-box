@@ -4,7 +4,7 @@ title: Automatic Backups
 tag: beta
 ---
 
-Being able to backup the identities is obviously a necessity - in the end you may loose your phone, or you just got a new one, or you use more than one device (we do not cover this case yet).
+Being able to backup the identities is obviously a necessity - in the end you may lose your phone, or you just got a new one, or you use more than one device (we do not cover this case yet).
 
 Even in an early stage as we are, we need the possibility to backup and restore the identities, so that our testers can easily restore their environment in case they had to reinstall the app. Without even a basic backup and restore functionality, testing is hard and can quickly become inconvenient.
 
@@ -27,7 +27,7 @@ When Identity Box records the encrypted backup from your mobile, it will also ba
 
 ### What to preserve from the Identity Box
 
-Your Identity Box keeps your decentralized identifiers (DIDs) and the corresponding DID Documents. Recall that a DID is an IPNS name which itself represents a cryptographic key pair. Identity Box encrypts all such keys and adds the encrypted keys to the backup (we encrypt it because we want them to be extra protected when you extract your backup from your Identity Box in order to have a safe copy of it). It also adds all you DID documents to the backup (unencrypted, as they only contain public content anyway).
+Your Identity Box keeps your decentralized identifiers (DIDs) and the corresponding DID Documents. Recall that a DID is an IPNS name which itself represents a cryptographic key pair. Identity Box encrypts all such keys and adds the encrypted keys to the backup (we encrypt it because we want them to be extra protected when you extract your backup from your Identity Box in order to have a safe copy of it). It also adds all your DID documents to the backup (unencrypted, as they only contain public content anyway).
 
 ### Backups are automatic
 
@@ -115,7 +115,7 @@ If the integrity check fails for any reason, you will receive feedback and oppor
 <p class="figure-title"><b>Figure 8</b> Passphrase mnemonic incorrect</p>
 </div>
 
-Notice that the fact that the integrity of the mnemonic has been confirmed does not mean that the backup kept on the device corresponds to this mnemonic - this will be checked just after you tap on _Restore_. If the backup found on the device does not match your passphrase mnemonic, it will be communicated to the user:
+Notice that the fact that the integrity of the mnemonic has been confirmed does not mean that the backup kept on your Identity Box corresponds to this mnemonic - this will be checked just after you tap on _Restore_. If the backup found on the device does not match your passphrase mnemonic, it will be communicated to the user:
 
 <a name="figure-9"></a> 
 <div class="flex-wrap">
