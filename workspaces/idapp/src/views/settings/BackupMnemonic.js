@@ -92,7 +92,7 @@ const BackupMnemonic = ({ navigation }) => {
                 />
               </>
             )
-            : <Text style={{ textAlign: 'center', marginBottom: 50 }}>Creating first backup...</Text>
+            : <Text style={{ textAlign: 'center', marginBottom: 50 }}>Enabling backup...</Text>
         }
       </Subcontainer>
     </Container>
