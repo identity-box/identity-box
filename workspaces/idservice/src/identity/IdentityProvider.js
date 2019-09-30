@@ -57,8 +57,9 @@ class IdentityProvider {
     return match && match[1]
   }
 
-  deleteAll = async () => {
-    const keys = await this.ipfs.key.list()
+  deleteAll = async identityNames => {
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => identityNames.includes(k.name))
     await Promise.all(keys.map(async ({ name }) => {
       if (name === 'self') return
       console.log('deleting key: ', name)

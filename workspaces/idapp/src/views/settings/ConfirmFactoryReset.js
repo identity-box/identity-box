@@ -33,11 +33,13 @@ const ConfirmFactoryReset = ({ navigation }) => {
     }
   })
 
-  const resetIdBox = async telepathProvider => {
+  const resetIdBox = async (telepathProvider, identityNames) => {
     const message = {
       jsonrpc: '2.0',
       method: 'reset',
-      params: [{}, {
+      params: [{
+        identityNames
+      }, {
         from: telepathProvider.clientId
       }]
     }
@@ -52,8 +54,9 @@ const ConfirmFactoryReset = ({ navigation }) => {
 
   const onPerformReset = useCallback(async () => {
     console.log('will perform factory reset now...')
+    const identityNames = identityManager.identityNames
     await identityManager.reset()
-    resetIdBox(telepathProvider)
+    resetIdBox(telepathProvider, identityNames)
   }, [identityManager, telepathProvider])
 
   return (
