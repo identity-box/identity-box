@@ -42,7 +42,6 @@ const RestoreFromBackup = ({ navigation }) => {
       telepathProvider.current = tp
     },
     onMessage: async message => {
-      setInProgress(false)
       console.log('received message: ', message)
       if (message.method === 'restore-response') {
         const { encryptedBackup } = message.params[0]

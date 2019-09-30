@@ -57,8 +57,9 @@ class IdentityProvider {
     return match && match[1]
   }
 
-  deleteAll = async () => {
-    const keys = await this.ipfs.key.list()
+  deleteAll = async identityNames => {
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => identityNames.includes(k.name))
     await Promise.all(keys.map(async ({ name }) => {
       if (name === 'self') return
       console.log('deleting key: ', name)
@@ -124,10 +125,11 @@ class IdentityProvider {
     fs.mkdirSync(this.getBackupFolderPath(backupId), { recursive: true, mode: 0o755 })
   }
 
-  backup = async ({ encryptedBackup, backupId }) => {
+  backup = async ({ encryptedBackup, backupId, identityNames }) => {
     this.createBackupFolders(backupId)
     this.backupIds(encryptedBackup, backupId)
-    const keys = await this.ipfs.key.list()
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => identityNames.includes(k.name))
     await Promise.all(keys.map(async ({ name, id }) => {
       if (name === 'self') return
       console.log('backing up key: ', name)

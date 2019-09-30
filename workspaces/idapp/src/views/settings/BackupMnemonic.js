@@ -17,13 +17,14 @@ const BackupMnemonic = ({ navigation }) => {
     navigation.navigate('Settings')
   }, [])
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId) => {
+  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
     const message = {
       jsonrpc: '2.0',
       method: 'backup',
       params: [{
         encryptedBackup,
-        backupId
+        backupId,
+        identityNames
       }, {
         from: telepathProvider.clientId
       }]
@@ -51,7 +52,7 @@ const BackupMnemonic = ({ navigation }) => {
       setMnemonic(mnemonic)
       Clipboard.setString(mnemonic)
       console.log('encryptedBackup=', encryptedBackup)
-      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId)
+      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId, identityManager.identityNames)
     },
     onMessage: async message => {
       console.log('received message: ', message)
@@ -91,7 +92,7 @@ const BackupMnemonic = ({ navigation }) => {
                 />
               </>
             )
-            : <Text style={{ textAlign: 'center', marginBottom: 50 }}>Creating first backup...</Text>
+            : <Text style={{ textAlign: 'center', marginBottom: 50 }}>Enabling backup...</Text>
         }
       </Subcontainer>
     </Container>

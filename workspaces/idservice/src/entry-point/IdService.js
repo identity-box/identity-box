@@ -219,7 +219,8 @@ class IdService {
   }
 
   handleReset = async message => {
-    await this.identityProvider.deleteAll()
+    const { identityNames } = message.params[0]
+    await this.identityProvider.deleteAll(identityNames)
     this.respond('reset-response', message.params[1].from)
   }
 
