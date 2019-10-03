@@ -17,7 +17,8 @@ export class Navigation extends React.PureComponent {
     betaDeltas: [],
     componentDeltas: [],
     developerDeltas: [],
-    serviceDeltas: []
+    serviceDeltas: [],
+    provisioningDeltas: [],
   }
 
   navigationGroups
@@ -54,6 +55,11 @@ export class Navigation extends React.PureComponent {
         title: 'Services',
         tag: 'service',
         deltaGroupName: 'service'
+      }),
+      this.createNavigationGroupForTag({
+        title: 'Provisioning',
+        tag: 'provisioning',
+        deltaGroupName: 'provisioning'
       })
     ]
   }

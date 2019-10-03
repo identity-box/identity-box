@@ -1,0 +1,7 @@
+---
+- hosts: all
+  user: root
+
+  roles:
+    - { role: andrewrothstein.ipfs, become: yes }
+

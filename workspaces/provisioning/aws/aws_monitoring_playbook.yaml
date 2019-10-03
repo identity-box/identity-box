@@ -1,0 +1,8 @@
+---
+- name: aws-monitoring
+  hosts: instances
+
+  roles:
+    - andrewrothstein.ipfs
+    - aws_monitoring
+

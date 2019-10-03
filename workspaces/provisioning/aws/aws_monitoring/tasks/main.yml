@@ -1,0 +1,35 @@
+---
+# tasks file for aws monitoring
+    - name: install nessesagy package
+      apt: 
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - unzip
+        - libwww-perl
+        - libdatetime-perl
+
+    - name: Download monitoring scripts
+      get_url:
+        url: https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip
+        dest: /root/CloudWatchMonitoringScripts-1.2.2.zip
+        mode: 0755
+
+    - name: Unzip monitoring scripts
+      shell: unzip /root/CloudWatchMonitoringScripts-1.2.2.zip -d /root
+   
+    - name: copy awscreds.conf
+      copy:
+        src: awscreds.conf
+        dest: /root/aws-scripts-mon/awscreds.conf
+        owner: root
+        group: root
+        mode: 0600
+  
+    - name: create crontab job
+      cron:
+        name: "aws monitoring"
+        user: "root"
+        minute: "*/5"
+        job: "/root/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --disk-space-util --disk-path=/ --from-cron"
