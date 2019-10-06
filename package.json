@@ -9,6 +9,8 @@
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "^24.9.0",
+    "commitizen": "^4.0.3",
+    "git-cz": "^3.2.1",
     "jest": "^24.9.0",
     "lerna": "^3.16.4",
     "pm2": "^3.5.0",
@@ -25,7 +27,8 @@
     "test:watch": "yarn jest --watch --colors",
     "lint": "yarn standard",
     "lint:fix": "yarn standard --fix --verbose",
-    "build": "yarn lerna run build --scope @identity-box/**"
+    "build": "yarn lerna run build --scope @identity-box/**",
+    "commit": "git-cz"
   },
   "standard": {
     "parser": "babel-eslint",
@@ -44,5 +47,10 @@
       "browser",
       "jest"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
   }
 }
