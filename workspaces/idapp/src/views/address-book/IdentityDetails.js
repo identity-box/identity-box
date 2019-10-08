@@ -67,7 +67,7 @@ const IdentityDetails = ({ navigation }) => {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId)
+        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
       } else {
         navigation.navigate('AddressBook')
       }
@@ -79,13 +79,14 @@ const IdentityDetails = ({ navigation }) => {
     deletePeerIdentity({ name })
   }, [])
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId) => {
+  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
     const message = {
       jsonrpc: '2.0',
       method: 'backup',
       params: [{
         encryptedBackup,
-        backupId
+        backupId,
+        identityNames
       }, {
         from: telepathProvider.clientId
       }]
