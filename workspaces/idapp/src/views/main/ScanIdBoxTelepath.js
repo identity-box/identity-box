@@ -30,6 +30,11 @@ const ScanIdBoxTelepath = ({ navigation }) => {
     setScanning(true)
   }, [])
 
+  const cancel = useCallback(() => {
+    console.log('cancel')
+    setScanning(false)
+  }, [])
+
   const getChannelDescription = connectUrl => {
     const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)&S=(?<servicePointId>.*)/)
 
@@ -68,10 +73,11 @@ const ScanIdBoxTelepath = ({ navigation }) => {
             />
           </View>}
         <Button
-          title='Scan...'
-          disabled={!cameraEnabled || scanning}
+          title={scanning ? 'Cancel' : 'Scan...'}
+          color={scanning ? 'black' : '#FF6699'}
+          disabled={!cameraEnabled}
           accessibilityLabel='Scan QR-Code'
-          onPress={scanQRCode}
+          onPress={scanning ? cancel : scanQRCode}
         />
       </Container>
     </PageContainer>
