@@ -83,10 +83,10 @@ const AddNewIdentity = ({ navigation }) => {
 
   useTelepath({
     name: 'idbox',
-    onTelepathReady: async ({ telepathProvider: tp }) => {
+    onTelepathReady: ({ telepathProvider: tp }) => {
       telepathProvider.current = tp
     },
-    onMessage: async message => {
+    onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
         navigation.navigate('CurrentIdentity')
