@@ -175,8 +175,6 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }, [])
 
-  console.log('render')
-
   return (
     <PageContainer>
       <Container>
