@@ -21,7 +21,7 @@ const CurrentIdentity = ({ navigation }) => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
   const [channelDescription, setChannelDescription] = useState({})
-  // const [telepathProvider, setTelepathProvider] = useState(undefined)
+  const [cameraSize, setCameraSize] = useState(200)
   const telepathProvider = useRef(undefined)
 
   const enableCamera = async () => {
@@ -141,9 +141,17 @@ const CurrentIdentity = ({ navigation }) => {
     navigation.navigate('AddNewIdentity', { did })
   }
 
-  const scanQRCode = useCallback(async () => {
+  const scanQRCode = useCallback(() => {
     console.log('scan QR code')
+    setTimeout(() => {
+      setCameraSize(cameraSize === 200 ? 199 : 200)
+    }, 0)
     setScanning(true)
+  }, [cameraSize])
+
+  const cancel = useCallback(() => {
+    console.log('cancel')
+    setScanning(false)
   }, [])
 
   const getChannelDescription = connectUrl => {
@@ -165,7 +173,9 @@ const CurrentIdentity = ({ navigation }) => {
         setChannelDescription(channelDescription)
       }
     }
-  })
+  }, [])
+
+  console.log('render')
 
   return (
     <PageContainer>
@@ -176,21 +186,23 @@ const CurrentIdentity = ({ navigation }) => {
         </Description>
         {scanning &&
           <View style={{
-            width: 200,
-            height: 200
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: cameraSize,
+            height: cameraSize
           }}
           >
             <BarCodeScanner
-              onBarCodeScanned={handleBarCodeScanned}
+              onBarCodeScanned={scanning ? handleBarCodeScanned : undefined}
               style={StyleSheet.absoluteFillObject}
             />
           </View>}
         <Button
-          title='Scan...'
-          color='#FF6699'
-          disabled={!cameraEnabled || scanning}
+          title={scanning ? 'Cancel' : 'Scan...'}
+          color={scanning ? 'black' : '#FF6699'}
+          disabled={!cameraEnabled}
           accessibilityLabel='Scan QR-Code'
-          onPress={scanQRCode}
+          onPress={scanning ? cancel : scanQRCode}
         />
       </Container>
     </PageContainer>
