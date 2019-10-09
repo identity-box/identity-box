@@ -118,6 +118,8 @@ class IdentityManager {
       const key = base64url.encode(name)
       return SecureStore.setItemAsync(key, identities[name])
     }))
+    await SecureStore.setItemAsync('backupEnabled', 'true')
+    await SecureStore.setItemAsync('backupKey', base64url.encode(backupKey))
     await this.readIdentities()
     await this.readPeerIdentities()
   }
