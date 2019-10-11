@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "IdApp",
+    "name": "Identity App",
     "slug": "idapp",
     "privacy": "unlisted",
     "sdkVersion": "33.0.0",
@@ -31,7 +31,7 @@
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "IdApp uses the camera to scan QR codes."
+        "NSCameraUsageDescription": "Identity App uses the camera to scan QR codes."
       }
     },
     "packagerOpts": {
