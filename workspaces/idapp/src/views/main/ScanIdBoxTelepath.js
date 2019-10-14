@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
+import { useTheme } from 'react-navigation'
 import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
@@ -10,11 +11,12 @@ import {
   Container,
   Description,
   Welcome
-} from 'src/views/identity/ui'
+} from './ui'
 
 const ScanIdBoxTelepath = ({ navigation }) => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
+  const theme = useTheme()
 
   const enableCamera = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
@@ -74,7 +76,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
           </View>}
         <Button
           title={scanning ? 'Cancel' : 'Scan...'}
-          color={scanning ? 'black' : '#FF6699'}
+          color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}
           disabled={!cameraEnabled}
           accessibilityLabel='Scan QR-Code'
           onPress={scanning ? cancel : scanQRCode}

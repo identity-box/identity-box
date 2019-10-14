@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
+import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 import * as Permissions from 'expo-permissions'
@@ -23,6 +24,7 @@ const CurrentIdentity = ({ navigation }) => {
   const [channelDescription, setChannelDescription] = useState({})
   const [cameraSize, setCameraSize] = useState(200)
   const telepathProvider = useRef(undefined)
+  const theme = useTheme()
 
   const enableCamera = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
@@ -197,7 +199,7 @@ const CurrentIdentity = ({ navigation }) => {
           </View>}
         <Button
           title={scanning ? 'Cancel' : 'Scan...'}
-          color={scanning ? 'black' : '#FF6699'}
+          color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}
           disabled={!cameraEnabled}
           accessibilityLabel='Scan QR-Code'
           onPress={scanning ? cancel : scanQRCode}

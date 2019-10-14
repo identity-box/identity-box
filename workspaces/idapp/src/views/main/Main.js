@@ -1,5 +1,7 @@
 import React from 'react'
-import { createSwitchNavigator, createAppContainer } from 'react-navigation'
+import { Appearance, useColorScheme } from 'react-native-appearance'
+import { createSwitchNavigator, createAppContainer, ThemeColors } from 'react-navigation'
+import { ThemeProvider } from 'emotion-theming'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
@@ -43,7 +45,7 @@ const MainAppStack = createBottomTabNavigator({
   SettingsStack
 }, {
   // initialRouteName: 'AddressBookStack',
-  defaultNavigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({ navigation, theme }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state
       let iconName
@@ -62,7 +64,7 @@ const MainAppStack = createBottomTabNavigator({
       activeTintColor: '#FF6699',
       inactiveTintColor: 'gray',
       style: {
-        backgroundColor: 'black'
+        backgroundColor: theme === 'light' ? 'black' : ThemeColors.dark.header
       }
     }
   })
@@ -96,9 +98,22 @@ const AppContainer = createAppContainer(createSwitchNavigator({
 }
 ))
 
+Appearance.getColorScheme()
+
+Appearance.addChangeListener(({ colorScheme }) => {
+  console.log('current color scheme:', colorScheme)
+})
+
 const Main = () => {
+  const colorScheme = useColorScheme()
+  console.log('theme=', colorScheme)
   return (
-    <AppContainer />
+    <ThemeProvider theme={{
+      colorScheme
+    }}
+    >
+      <AppContainer theme={colorScheme} />
+    </ThemeProvider>
   )
 }
 

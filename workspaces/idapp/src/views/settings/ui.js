@@ -1,11 +1,13 @@
 import styled from '@emotion/native'
+import { ThemeColors } from 'react-navigation'
 
-const Container = styled.View({
+const Container = styled.View(({ theme: { colorScheme: theme } }) => ({
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
-  alignItems: 'center'
-})
+  alignItems: 'center',
+  backgroundColor: ThemeColors[theme].body
+}))
 
 const Subcontainer = styled.View({
   flexDirection: 'column',
@@ -57,13 +59,15 @@ const PassphraseMnemonicContainer = styled.View({
   paddingRight: 5
 })
 
-const PassphraseMnemonic = styled.TextInput({
+const PassphraseMnemonic = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
   fontSize: 12,
+  color: theme === 'light' ? 'black' : 'white',
   textAlignVertical: 'top',
   height: '100%',
   width: '100%',
-  textAlign: 'left'
-})
+  textAlign: 'left',
+  backgroundColor: theme === 'light' ? 'white' : '#1a1a1a'
+}))
 
 export {
   Container,

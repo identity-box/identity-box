@@ -30,6 +30,7 @@
       "buildNumber": "0.1.0",
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
+      "userInterfaceStyle": "automatic",
       "infoPlist": {
         "NSCameraUsageDescription": "Identity App uses the camera to scan QR codes."
       }

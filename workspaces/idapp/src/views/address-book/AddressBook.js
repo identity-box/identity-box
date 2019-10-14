@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react'
+import { useTheme } from 'react-navigation'
 import { SectionList, TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -18,15 +19,22 @@ const Separator = styled.View({
   marginLeft: 10
 })
 
-const Header = styled.Text({
+const Header = ({ children, ...rest }) => {
+  const theme = useTheme()
+  return (
+    <HeaderText {...rest} theme={theme}>{children}</HeaderText>
+  )
+}
+
+const HeaderText = styled.Text(({ theme }) => ({
   color: 'white',
-  backgroundColor: 'black',
+  backgroundColor: theme === 'light' ? 'black' : '#1a1a1a',
   fontSize: 16,
   paddingTop: 10,
   paddingBottom: 10,
   paddingLeft: 10,
   paddingRight: 10
-})
+}))
 
 const AddressBook = ({ navigation }) => {
   const identityManager = useRef(undefined)

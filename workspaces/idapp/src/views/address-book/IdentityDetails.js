@@ -1,9 +1,10 @@
 import React, { useCallback, useRef } from 'react'
+import { Themed } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
 import QRCode from 'react-native-qrcode-svg'
-import { Button } from 'react-native'
+import { Button, View } from 'react-native'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
@@ -26,7 +27,7 @@ const SubContainer = styled.View({
   height: '80%'
 })
 
-const IdentityName = styled.Text({
+const IdentityName = styled(Themed.Text)({
   fontSize: 32,
   fontWeight: 'bold',
   marginBottom: 20
@@ -37,12 +38,31 @@ const Separator = styled.View(({ size }) => ({
   height: size
 }))
 
-const Did = styled.Text({
+const Did = styled(Themed.Text)({
   fontSize: 12,
   marginBottom: 20,
   flexGrow: 1,
   textAlign: 'center'
 })
+
+const QRCodeThemed = ({ value, size }) => {
+  return (
+    <View style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+      width: size + 10,
+      height: size + 10
+    }}
+    >
+      <QRCode
+        value={value}
+        size={150}
+      />
+    </View>
+  )
+}
 
 const IdentityDetails = ({ navigation }) => {
   const identityManager = useRef(undefined)
@@ -123,7 +143,7 @@ const IdentityDetails = ({ navigation }) => {
       <SubContainer>
         <IdentityName>{name}</IdentityName>
         <Did>{did}</Did>
-        <QRCode
+        <QRCodeThemed
           value={did}
           size={150}
         />
