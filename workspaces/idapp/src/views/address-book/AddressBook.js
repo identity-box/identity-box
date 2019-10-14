@@ -1,5 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react'
-import { SectionList } from 'react-native'
+import { SectionList, TouchableOpacity } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import styled from '@emotion/native'
 
@@ -82,18 +83,55 @@ const AddressBook = ({ navigation }) => {
   )
 }
 
-AddressBook.navigationOptions = {
-  title: 'Identities'
-  // headerRightContainerStyle: {
-  //   paddingRight: 10
-  // },
+const AddIdentityControl = ({ navigation }) => (
+  <TouchableOpacity
+    style={{
+      aspectRatio: 1,
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+    onPress={() => navigation.navigate('Settings')}
+  >
+    <MaterialCommunityIcons
+      name='account-plus-outline'
+      size={25}
+      color='#FF6699'
+    />
+  </TouchableOpacity>
+)
+
+AddressBook.navigationOptions = ({ navigation }) => ({
+  title: 'Identities',
+  headerRightContainerStyle: {
+    paddingRight: 10
+  },
+  headerRight: <AddIdentityControl navigation={navigation} />
+  // headerRight: (
+  //   <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+  //     <MaterialCommunityIcons
+  //       name='account-plus-outline'
+  //       size={25}
+  //       color='#FF6699'
+  //     />
+  //   </TouchableOpacity>
+  // )
+  // headerRight: (
+  //   <MaterialCommunityIcons
+  //     name='account-plus-outline'
+  //     size={25}
+  //     color='#FF6699'
+  //     onPress={() => navigation.navigate('Settings')}
+  //   />
+  // )
   // headerRight: (
   //   <Button
   //     color='#FF6699'
-  //     onPress={() => console.log('Add identity!')}
+  //     onPress={() => navigation.navigate('Settings')}
   //     title='Add'
   //   />
   // )
-}
+})
 
 export { AddressBook }
