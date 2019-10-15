@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, StatusBar } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 
 import { useTelepath } from 'src/telepath'
 import { IdentityManager } from 'src/identity'
@@ -9,7 +9,7 @@ import {
   Container,
   Welcome,
   Description
-} from 'src/views/identity/ui'
+} from './ui'
 
 const AppLoading = ({ navigation }) => {
   useTelepath({
@@ -43,7 +43,6 @@ const AppLoading = ({ navigation }) => {
         <Welcome>Welcome to Identity Box App!</Welcome>
         <ActivityIndicator />
         <Description style={{ marginTop: 10 }}>Initializing...</Description>
-        <StatusBar barStyle='default' />
       </Container>
     </PageContainer>
   )

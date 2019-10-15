@@ -3,7 +3,6 @@ import { Themed } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
-import QRCode from 'react-native-qrcode-svg'
 import { Button, View } from 'react-native'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
@@ -12,6 +11,8 @@ import { entropyToMnemonic } from 'src/crypto'
 
 import { useIdentity } from 'src/identity'
 import { useTelepath } from 'src/telepath'
+
+import { QRCodeThemed } from './ui'
 
 const Container = styled.View({
   flex: 1,
@@ -44,25 +45,6 @@ const Did = styled(Themed.Text)({
   flexGrow: 1,
   textAlign: 'center'
 })
-
-const QRCodeThemed = ({ value, size }) => {
-  return (
-    <View style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'white',
-      width: size + 10,
-      height: size + 10
-    }}
-    >
-      <QRCode
-        value={value}
-        size={150}
-      />
-    </View>
-  )
-}
 
 const IdentityDetails = ({ navigation }) => {
   const identityManager = useRef(undefined)

@@ -1,4 +1,5 @@
 import React from 'react'
+import { StatusBar } from 'react-native'
 import { Appearance, useColorScheme } from 'react-native-appearance'
 import { createSwitchNavigator, createAppContainer, ThemeColors } from 'react-navigation'
 import { ThemeProvider } from 'emotion-theming'
@@ -93,6 +94,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
 },
 {
   // initialRouteName: 'BackupNotFound'
+  // initialRouteName: 'BackupMnemonic'
   initialRouteName: 'AppLoading'
   // initialRouteName: 'RestoreFromBackup'
 }
@@ -106,12 +108,12 @@ Appearance.addChangeListener(({ colorScheme }) => {
 
 const Main = () => {
   const colorScheme = useColorScheme()
-  console.log('theme=', colorScheme)
   return (
     <ThemeProvider theme={{
       colorScheme
     }}
     >
+      <StatusBar barStyle='default' />
       <AppContainer theme={colorScheme} />
     </ThemeProvider>
   )

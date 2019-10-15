@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef } from 'react'
+import { useTheme } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import { Button } from 'react-native'
-import QRCode from 'react-native-qrcode-svg'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
@@ -10,13 +10,16 @@ import { entropyToMnemonic } from 'src/crypto'
 
 import { useTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
+
+import { ThemedButton } from 'src/theme'
 import {
   Container,
   SubContainer,
   Description,
   IdentityName,
   Did,
-  Row
+  Row,
+  QRCodeThemed
 } from './ui'
 
 const AddNewIdentity = ({ navigation }) => {
@@ -24,6 +27,7 @@ const AddNewIdentity = ({ navigation }) => {
   const telepathProvider = useRef(undefined)
   const [name, setName] = useState('')
   const [placeholderText, setPlaceholderText] = useState('name')
+  const theme = useTheme()
 
   const did = navigation.getParam('did', '')
 
@@ -110,22 +114,21 @@ const AddNewIdentity = ({ navigation }) => {
           onChangeText={setName}
           value={name}
         />
-        <QRCode
+        <QRCodeThemed
           value={did}
           size={150}
         />
         <Did>{did}</Did>
         <Row>
-          <Button
+          <ThemedButton
             title='Add'
-            color='#FF6699'
             disabled={!name}
             accessibilityLabel='add identity'
             onPress={addIdentity}
           />
           <Button
+            color={theme === 'light' ? 'black' : 'white'}
             title='Cancel'
-            color='black'
             accessibilityLabel='cancel adding identity'
             onPress={cancel}
           />

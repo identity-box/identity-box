@@ -29,13 +29,15 @@ const Description = styled(Themed.Text)({
   textAlign: 'center'
 })
 
-const IdentityName = styled.TextInput({
+const IdentityName = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
+  color: theme === 'light' ? 'black' : 'white',
   height: 40,
   marginTop: 30,
   marginBottom: 30,
   width: '100%',
+  fontSize: 24,
   textAlign: 'center'
-})
+}))
 
 export {
   PageContainer,

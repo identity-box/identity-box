@@ -1,13 +1,23 @@
 import React, { useState, useCallback, useRef } from 'react'
-import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Button, ActivityIndicator } from 'react-native'
+import { useTheme } from 'react-navigation'
+import { TypedArrays } from '@react-frontend-developer/buffers'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 
+import { ThemedButton } from 'src/theme'
 import { mnemonicToEntropy } from 'src/crypto'
 import { IdentityManager } from 'src/identity'
 import { useTelepath } from 'src/telepath'
-import { Container, Subcontainer, Header, Description, PassphraseMnemonic, PassphraseMnemonicContainer, Row } from './ui'
+import {
+  Container,
+  Subcontainer,
+  Header,
+  Description,
+  PassphraseMnemonic,
+  PassphraseMnemonicContainer,
+  Row
+} from './ui'
 
 const RestoreFromBackup = ({ navigation }) => {
   const [inProgress, setInProgress] = useState(false)
@@ -16,6 +26,7 @@ const RestoreFromBackup = ({ navigation }) => {
   const [mnemonic, setMnemonic] = useState(undefined)
   const backupKey = useRef(undefined)
   const telepathProvider = useRef(undefined)
+  const theme = useTheme()
 
   const restoreIdBox = async (telepathProvider, backupId) => {
     const message = {
@@ -124,7 +135,7 @@ const RestoreFromBackup = ({ navigation }) => {
         {!inProgress
           ? (
             <Row style={{ justifyContent: 'space-around' }}>
-              <Button
+              <ThemedButton
                 onPress={onRestore}
                 disabled={!passphraseValid}
                 title='Restore'

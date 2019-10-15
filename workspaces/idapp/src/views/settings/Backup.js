@@ -1,12 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { useTheme } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import { Button } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
+import { ThemeConstants } from 'src/theme'
 
 import { Wrapper, Header, Description, Row } from './ui'
 
 const Backup = ({ navigation }) => {
   const [backupEnabled, setBackupEnabled] = useState()
+  const theme = useTheme()
 
   const readBackupStatus = async () => {
     const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
@@ -44,6 +47,7 @@ const Backup = ({ navigation }) => {
               </Description>
               <Row>
                 <Button
+                  color={ThemeConstants[theme].accentColor}
                   onPress={onDisableBackup}
                   title='Disable...'
                   accessibilityLabel='Disable automatic backup...'
@@ -63,6 +67,7 @@ const Backup = ({ navigation }) => {
               </Description>
               <Row>
                 <Button
+                  color={ThemeConstants[theme].accentColor}
                   onPress={onEnableBackup}
                   title='Enable...'
                   accessibilityLabel='Enable automatic backup...'
