@@ -181,7 +181,6 @@ class IdService {
 
   handleCreateIdentity = async message => {
     const identity = await this.createIdentity(message.params[0])
-    this.respondWithIdentity(identity, message.params[1].from)
     const didDoc = createDIDDocument({
       ...identity,
       ...message.params[0]
@@ -195,6 +194,7 @@ class IdService {
       ipnsName,
       cid
     })
+    this.respondWithIdentity(identity, message.params[1].from)
   }
 
   handleGetDIDDocument = async message => {

@@ -1,24 +1,21 @@
 import { useEffect, useRef } from 'react'
 import { IdentityManager } from './IdentityManager'
 
-const useIdentity = ({ onReady, onPeerIdentitiesChanged } = {}) => {
+const useIdentity = ({
+  onReady,
+  onPeerIdentitiesChanged,
+  onOwnIdentitiesChanged,
+  currentIdentityChanged
+} = {}) => {
   const identityManager = useRef(undefined)
   const subscription = useRef(undefined)
 
   const addPeerIdentity = async ({ name, did }) => {
     await identityManager.current.addPeerIdentity({ name, did })
-    // onPeerIdentitiesChanged && onPeerIdentitiesChanged({
-    //   peerIdentities,
-    //   addedIdentity: { name, did }
-    // })
   }
 
   const deletePeerIdentity = async ({ name }) => {
     await identityManager.current.deletePeerIdentity({ name })
-    // onPeerIdentitiesChanged && onPeerIdentitiesChanged({
-    //   peerIdentities,
-    //   deletedIdentity: { name }
-    // })
   }
 
   const getIdentityManager = async () => {
@@ -26,6 +23,12 @@ const useIdentity = ({ onReady, onPeerIdentitiesChanged } = {}) => {
     subscription.current = identityManager.current.subscribe({
       onPeerIdentitiesChanged: params => {
         onPeerIdentitiesChanged && onPeerIdentitiesChanged(params)
+      },
+      onOwnIdentitiesChanged: params => {
+        onOwnIdentitiesChanged && onOwnIdentitiesChanged(params)
+      },
+      currentIdentityChanged: params => {
+        currentIdentityChanged && currentIdentityChanged(params)
       }
     })
     onReady && onReady(identityManager.current)

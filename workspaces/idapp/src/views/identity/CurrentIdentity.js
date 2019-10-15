@@ -88,6 +88,9 @@ const CurrentIdentity = ({ navigation }) => {
   useIdentity({
     onReady: identityManager => {
       setIdentity(identityManager.getCurrent())
+    },
+    currentIdentityChanged: ({ currentIdentity }) => {
+      setIdentity(currentIdentity)
     }
   })
 

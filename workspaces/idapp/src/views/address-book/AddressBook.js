@@ -51,6 +51,10 @@ const AddressBook = ({ navigation }) => {
     },
     onPeerIdentitiesChanged: ({ peerIdentities }) => {
       setPeerIdentities(peerIdentities)
+    },
+    onOwnIdentitiesChanged: ({ identities, identityNames }) => {
+      setIdentities(identities)
+      setIdentityNames(identityNames)
     }
   })
 
@@ -100,7 +104,7 @@ const AddIdentityControl = ({ navigation }) => (
       justifyContent: 'center',
       alignItems: 'center'
     }}
-    onPress={() => navigation.navigate('Settings')}
+    onPress={() => navigation.navigate('CreateNewIdentity')}
   >
     <MaterialCommunityIcons
       name='account-plus-outline'

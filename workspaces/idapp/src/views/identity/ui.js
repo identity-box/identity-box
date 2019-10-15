@@ -1,22 +1,24 @@
 import styled from '@emotion/native'
-import { Themed } from 'react-navigation'
+import { Themed, ThemeColors } from 'react-navigation'
 
-const PageContainer = styled.View({
+const PageContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
   flex: 1,
   display: 'flex',
   flexFlow: 'column',
   justifyContent: 'center',
-  alignItems: 'center'
-})
+  alignItems: 'center',
+  backgroundColor: ThemeColors[theme].body
+}))
 
-const Container = styled.View({
+const Container = styled.View(({ theme: { colorScheme: theme } }) => ({
   display: 'flex',
-  flexFlow: 'column',
+  flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
   height: '70%',
-  width: '80%'
-})
+  width: '80%',
+  backgroundColor: ThemeColors[theme].body
+}))
 
 const Welcome = styled(Themed.Text)({
   fontSize: 20,
@@ -39,10 +41,18 @@ const IdentityName = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
   textAlign: 'center'
 }))
 
+const Row = styled.View({
+  flexDirection: 'row',
+  width: '100%',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+})
+
 export {
   PageContainer,
   Container,
   Welcome,
   Description,
-  IdentityName
+  IdentityName,
+  Row
 }

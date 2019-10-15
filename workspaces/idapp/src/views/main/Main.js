@@ -6,9 +6,14 @@ import { ThemeProvider } from 'emotion-theming'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
-import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
+import { FirstIdentity, CurrentIdentity, CreateNewIdentity } from 'src/views/identity'
 import { Settings, BackupMnemonic, ConfirmFactoryReset, RestoreFromBackup, BackupNotFound } from 'src/views/settings'
-import { AddressBook, IdentityDetails, AddNewIdentity, SelectIdentity } from 'src/views/address-book'
+import {
+  AddressBook,
+  IdentityDetails,
+  AddNewIdentity,
+  SelectIdentity
+} from 'src/views/address-book'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
@@ -16,7 +21,8 @@ import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 // const DefaultAppStack = createStackNavigator({ CurrentIdentity }, { headerMode: 'none' })
 const AddressBookStack = createStackNavigator({
   AddressBook,
-  IdentityDetails
+  IdentityDetails,
+  CreateNewIdentity
 }, {
   defaultNavigationOptions: {
     headerTintColor: '#FF6699'
@@ -95,6 +101,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
 {
   // initialRouteName: 'BackupNotFound'
   // initialRouteName: 'BackupMnemonic'
+  // initialRouteName: 'CreateNewIdentity'
   initialRouteName: 'AppLoading'
   // initialRouteName: 'RestoreFromBackup'
 }

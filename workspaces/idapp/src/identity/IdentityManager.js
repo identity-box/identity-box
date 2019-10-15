@@ -62,6 +62,10 @@ class IdentityManager {
     }
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+    this.notify('onOwnIdentitiesChanged', {
+      identities: this.identities,
+      identityNames: this.identityNames
+    })
   }
 
   createBackupKey = async () => {
@@ -184,6 +188,9 @@ class IdentityManager {
   setCurrent = async name => {
     this.current = this.identities[name]
     await AsyncStorage.setItem('selectedIdentityName', name)
+    this.notify('currentIdentityChanged', {
+      currentIdentity: this.current
+    })
   }
 
   getCurrent = () => {
