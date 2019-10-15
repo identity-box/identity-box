@@ -3,7 +3,7 @@ import { Themed } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
-import { Button, View } from 'react-native'
+import { Button } from 'react-native'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 

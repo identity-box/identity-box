@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
-import { useTheme } from 'react-navigation'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
@@ -26,7 +25,6 @@ const RestoreFromBackup = ({ navigation }) => {
   const [mnemonic, setMnemonic] = useState(undefined)
   const backupKey = useRef(undefined)
   const telepathProvider = useRef(undefined)
-  const theme = useTheme()
 
   const restoreIdBox = async (telepathProvider, backupId) => {
     const message = {
