@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { Button, View, StyleSheet } from 'react-native'
+import { Button, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
@@ -15,7 +15,7 @@ import {
   Container,
   Description,
   Welcome
-} from 'src/views/identity/ui'
+} from './ui'
 
 const CurrentIdentity = ({ navigation }) => {
   const [identity, setIdentity] = useState({ name: '', did: '' })
@@ -180,13 +180,28 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }, [])
 
+  const switchIdentity = useCallback(() => {
+    console.log('switching identity')
+    navigation.navigate('SwitchIdentity')
+  }, [])
+
   return (
     <PageContainer>
       <Container>
-        <Welcome>{identity.name}</Welcome>
-        <Description style={{ flexGrow: 1 }}>
-          {identity.did}
-        </Description>
+        <View style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexGrow: 1
+        }}
+        >
+          <TouchableOpacity onPress={switchIdentity} activeOpacity={theme === 'light' ? 0.2 : 0.5}>
+            <Welcome>{identity.name}</Welcome>
+            <Description>
+              {identity.did}
+            </Description>
+          </TouchableOpacity>
+        </View>
         {scanning &&
           <View style={{
             justifyContent: 'center',
@@ -200,14 +215,14 @@ const CurrentIdentity = ({ navigation }) => {
               style={StyleSheet.absoluteFillObject}
             />
           </View>}
-        <Button
-          title={scanning ? 'Cancel' : 'Scan...'}
-          color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}
-          disabled={!cameraEnabled}
-          accessibilityLabel='Scan QR-Code'
-          onPress={scanning ? cancel : scanQRCode}
-        />
       </Container>
+      <Button
+        title={scanning ? 'Cancel' : 'Scan...'}
+        color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}
+        disabled={!cameraEnabled}
+        accessibilityLabel='Scan QR-Code'
+        onPress={scanning ? cancel : scanQRCode}
+      />
     </PageContainer>
   )
 }

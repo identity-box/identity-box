@@ -1,14 +1,7 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Themed } from 'react-navigation'
 import styled from '@emotion/native'
-
-const Touchable = styled.TouchableOpacity({
-  paddingTop: 10,
-  paddingBottom: 10,
-  paddingLeft: 10,
-  paddingRight: 10
-})
 
 const TouchableHighlight = styled.TouchableHighlight({
   paddingTop: 10,
@@ -24,18 +17,28 @@ const Container = styled.View({
   paddingRight: 10
 })
 
-const IdentityCell = ({ children, onSelect }) => {
+const IdentityCell = ({ children, onSelect, size = 16, textAlign = 'left', backgroundColor = 'transparent' }) => {
   return (
-    <Touchable
+    <TouchableOpacity
       activeOpacity={0.6}
       onPress={_ => {
         onSelect && onSelect(children)
       }}
     >
-      <View>
-        <Themed.Text>{children}</Themed.Text>
+      <View style={{
+        padding: 10,
+        backgroundColor
+      }}
+      >
+        <Themed.Text style={{
+          fontSize: size,
+          textAlign
+        }}
+        >
+          {children}
+        </Themed.Text>
       </View>
-    </Touchable>
+    </TouchableOpacity>
   )
 }
 

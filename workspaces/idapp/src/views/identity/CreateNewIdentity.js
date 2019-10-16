@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { ActivityIndicator, Button } from 'react-native'
+import { StackActions, NavigationActions } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
@@ -74,6 +75,14 @@ const CreateNewIdentity = ({ navigation }) => {
     }
   }
 
+  const goHomeAndResetNavigation = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'MainAppStack' })]
+    })
+    navigation.dispatch(resetAction)
+  }
+
   const persistIdentity = async ({ did, name }) => {
     try {
       const identity = {
@@ -91,9 +100,8 @@ const CreateNewIdentity = ({ navigation }) => {
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
         writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
-      } else {
-        navigation.navigate('CurrentIdentity')
       }
+      goHomeAndResetNavigation()
     } catch (e) {
       console.error(e)
     }

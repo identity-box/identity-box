@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react'
+import Constants from 'expo-constants'
 import { SectionList, Button } from 'react-native'
 import styled from '@emotion/native'
 
@@ -103,7 +104,7 @@ const SelectIdentity = ({ navigation }) => {
 
   return (
     <Container>
-      <MrFiller height={32} color='black' />
+      <MrFiller height={Constants.statusBarHeight} color='black' />
       <SectionList
         sections={[
           { title: 'Your identities', data: identityNames.length > 0 ? identityNames : ['No identities yet!'] },

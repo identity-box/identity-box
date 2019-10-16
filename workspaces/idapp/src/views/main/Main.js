@@ -12,13 +12,26 @@ import {
   AddressBook,
   IdentityDetails,
   AddNewIdentity,
-  SelectIdentity
+  SelectIdentity,
+  SwitchIdentity
 } from 'src/views/address-book'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 
 // const DefaultAppStack = createStackNavigator({ CurrentIdentity }, { headerMode: 'none' })
+const CurrentIdentityStack = createStackNavigator({
+  CurrentIdentity,
+  SwitchIdentity
+}, {
+  headerMode: 'none',
+  mode: 'modal'
+})
+
+CurrentIdentityStack.navigationOptions = {
+  tabBarLabel: 'Identity'
+}
+
 const AddressBookStack = createStackNavigator({
   AddressBook,
   IdentityDetails,
@@ -47,7 +60,7 @@ SettingsStack.navigationOptions = {
 }
 
 const MainAppStack = createBottomTabNavigator({
-  CurrentIdentity,
+  CurrentIdentityStack,
   AddressBookStack,
   SettingsStack
 }, {
@@ -56,7 +69,7 @@ const MainAppStack = createBottomTabNavigator({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state
       let iconName
-      if (routeName === 'CurrentIdentity') {
+      if (routeName === 'CurrentIdentityStack') {
         iconName = 'perm-identity'
         return <MaterialIcons name={iconName} size={25} color={tintColor} />
       } else if (routeName === 'AddressBookStack') {
