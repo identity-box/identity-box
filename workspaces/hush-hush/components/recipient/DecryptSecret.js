@@ -6,7 +6,7 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 import { FadingValueBox } from '../animations'
 import { Blue, Green, InfoBox, Centered } from '../ui'
 
-const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey }) => {
+const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey, didRecipient }) => {
   const decryptSecret = async () => {
     const encryptedContentBase64 = encryptedSecret.encryptedSymmetricKey
     const nonceBase64 = encryptedSecret.boxNonce
@@ -16,7 +16,8 @@ const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey 
       params: [{
         encryptedContentBase64,
         nonceBase64,
-        theirPublicKeyBase64: theirPublicKey
+        theirPublicKeyBase64: theirPublicKey,
+        didRecipient
       }]
     }
     try {
@@ -39,6 +40,12 @@ const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey 
           const nonce = base64url.toBuffer(encryptedSecret.secretboxNonce)
           const secret = TypedArrays.uint8Array2string(nacl.secretbox.open(box, nonce, key))
           next({ secret })
+        }
+      } else if (method === 'decrypt_content_error' && params) {
+        if (params.length > 0) {
+          const { errorID } = params[0]
+          console.log('errorID=', errorID)
+          next({ errorID })
         }
       }
     }, error => {

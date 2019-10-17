@@ -185,6 +185,15 @@ class IdentityManager {
     this.subscriptions.splice(subscriptionId, 1)
   }
 
+  fromDID = did => {
+    const identities = Object.values(this.identities).filter(identity => {
+      if (identity.did === did) {
+        return identity
+      }
+    })
+    return identities.length === 1 ? identities[0] : undefined
+  }
+
   setCurrent = async name => {
     this.current = this.identities[name]
     await AsyncStorage.setItem('selectedIdentityName', name)
