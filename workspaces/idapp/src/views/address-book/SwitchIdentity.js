@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react'
+import { Button } from 'react-native'
 import { useTheme } from 'react-navigation'
 import Constants from 'expo-constants'
 import styled from '@emotion/native'
@@ -27,6 +28,11 @@ const SwitchIdentity = ({ navigation }) => {
     navigation.navigate('CurrentIdentity')
   }, [])
 
+  const onCancel = useCallback(() => {
+    console.log('cancel')
+    navigation.navigate('CurrentIdentity')
+  }, [])
+
   return (
     <Container style={{
       backgroundColor: theme === 'light' ? 'white' : '#111'
@@ -39,6 +45,14 @@ const SwitchIdentity = ({ navigation }) => {
         onSelect={onSelect}
         width='90%'
       />
+      <MrSpacer space={20} />
+      <Button
+        title='Cancel'
+        color={theme === 'light' ? 'black' : 'white'}
+        accessibilityLabel='cancel switching identity'
+        onPress={onCancel}
+      />
+      <MrSpacer space={20} />
     </Container>
   )
 }
