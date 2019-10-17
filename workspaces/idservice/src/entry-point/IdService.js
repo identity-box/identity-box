@@ -14,7 +14,8 @@ const supportedMessages = [
   'reset',
   'backup',
   'has-backup',
-  'restore'
+  'restore',
+  'delete'
 ]
 
 class IdService {
@@ -224,6 +225,12 @@ class IdService {
     this.respond('reset-response', message.params[1].from)
   }
 
+  handleDelete = async message => {
+    const { identityName } = message.params[0]
+    await this.identityProvider.deleteIdentity(identityName)
+    this.respond('delete-response', message.params[1].from)
+  }
+
   handleBackup = async message => {
     await this.identityProvider.backup(message.params[0])
     this.respond('backup-response', message.params[1].from)
@@ -266,6 +273,9 @@ class IdService {
             break
           case 'restore':
             await this.handleRestore(message)
+            break
+          case 'delete':
+            await this.handleDelete(message)
             break
         }
       } catch (e) {

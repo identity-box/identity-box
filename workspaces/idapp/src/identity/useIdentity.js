@@ -18,6 +18,10 @@ const useIdentity = ({
     await identityManager.current.deletePeerIdentity({ name })
   }
 
+  const deleteOwnIdentity = async ({ name }) => {
+    await identityManager.current.deleteIdentity({ name })
+  }
+
   const getIdentityManager = async () => {
     identityManager.current = await IdentityManager.instance()
     subscription.current = identityManager.current.subscribe({
@@ -46,7 +50,8 @@ const useIdentity = ({
   return {
     identityManager: identityManager.current,
     addPeerIdentity,
-    deletePeerIdentity
+    deletePeerIdentity,
+    deleteOwnIdentity
   }
 }
 

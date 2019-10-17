@@ -63,9 +63,33 @@ class IdentityManager {
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
     this.notify('onOwnIdentitiesChanged', {
+      currentIdentity: this.current,
       identities: this.identities,
       identityNames: this.identityNames
     })
+  }
+
+  deleteIdentity = async ({ name }) => {
+    if (this.identityNames.includes(name)) {
+      const currentIdentityName = this.current.name
+      const key = base64url.encode(name)
+      await SecureStore.deleteItemAsync(key)
+      delete this.identities[name]
+      this.identityNames = this.identityNames.filter(idName => idName !== name)
+      await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+      if (currentIdentityName === name) {
+        if (this.identityNames.length > 0) {
+          this.setCurrent(this.identityNames[0])
+        } else {
+          this.current = undefined
+        }
+      }
+      this.notify('onOwnIdentitiesChanged', {
+        currentIdentity: this.current,
+        identities: this.identities,
+        identityNames: this.identityNames
+      })
+    }
   }
 
   createBackupKey = async () => {
@@ -239,7 +263,7 @@ class IdentityManager {
     const currentName = await AsyncStorage.getItem('selectedIdentityName')
 
     if (!currentName) {
-      this.current = this.identities[Object.keys(this.identities)[0]]
+      this.current = this.identities[this.identityNames[0]]
     } else {
       this.current = this.identities[currentName]
     }

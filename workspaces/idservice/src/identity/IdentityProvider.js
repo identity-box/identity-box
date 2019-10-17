@@ -75,6 +75,17 @@ class IdentityProvider {
     // }))
   }
 
+  deleteIdentity = async name => {
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => k.name === name)
+    if (keys.length === 1) {
+      const { id: ipnsName } = keys[0]
+      console.log(`deleting key ${name} with IPNS name ${ipnsName}`)
+      await IPNSFirebase.deleteIPNSRecord({ ipnsName })
+      await this.ipfs.key.rm(name)
+    }
+  }
+
   getKeyPath = name => {
     return path.join(process.env.IPFS_PATH, 'keystore', name)
   }

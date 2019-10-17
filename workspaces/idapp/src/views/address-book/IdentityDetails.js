@@ -12,7 +12,7 @@ import { entropyToMnemonic } from 'src/crypto'
 import { useIdentity } from 'src/identity'
 import { useTelepath } from 'src/telepath'
 
-import { QRCodeThemed } from './ui'
+import { QRCodeThemed, Description } from './ui'
 
 const Container = styled.View({
   flex: 1,
@@ -53,34 +53,47 @@ const IdentityDetails = ({ navigation }) => {
   const did = navigation.getParam('did', '')
   const isOwn = navigation.getParam('isOwn', false)
   const [inProgress, setInProgress] = useState(false)
+  const [identityManagerReady, setIdentityManagerReady] = useState(false)
 
-  const backupIdFromBackupKey = backupKey => {
+  const backupIdFromBackupKey = useCallback(backupKey => {
     const mnemonic = entropyToMnemonic(backupKey)
     const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic, 'utf8')
     return base64url.encode(nacl.hash(mnemonicUint8Array))
-  }
+  }, [])
 
-  const { deletePeerIdentity } = useIdentity({
+  const doBackup = useCallback(async () => {
+    const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
+    if (backupEnabled) {
+      const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
+      const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
+      const backupId = backupIdFromBackupKey(backupKey)
+      writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
+    } else {
+      navigation.navigate('AddressBook')
+    }
+  }, [])
+
+  const { deletePeerIdentity, deleteOwnIdentity } = useIdentity({
     onReady: idManager => {
       identityManager.current = idManager
+      setIdentityManagerReady(true)
     },
-    onPeerIdentitiesChanged: async () => {
-      const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
-      if (backupEnabled) {
-        const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
-        const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
-        const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
-      } else {
-        navigation.navigate('AddressBook')
-      }
+    onPeerIdentitiesChanged: () => {
+      doBackup()
+    },
+    onOwnIdentitiesChanged: () => {
+      doBackup()
     }
   })
 
   const deleteIdentity = useCallback(() => {
-    console.log(`deleting peer identity with name: ${name}`)
+    console.log(`deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`)
     setInProgress(true)
-    deletePeerIdentity({ name })
+    if (isOwn) {
+      deleteIdentityOnIdBox(telepathProvider.current, name)
+    } else {
+      deletePeerIdentity({ name })
+    }
   }, [])
 
   const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
@@ -104,6 +117,25 @@ const IdentityDetails = ({ navigation }) => {
     }
   }
 
+  const deleteIdentityOnIdBox = async (telepathProvider, name) => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'delete',
+      params: [{
+        identityName: name
+      }, {
+        from: telepathProvider.clientId
+      }]
+    }
+    try {
+      await telepathProvider.emit(message, {
+        to: telepathProvider.servicePointId
+      })
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   useTelepath({
     name: 'idbox',
     onTelepathReady: ({ telepathProvider: tp }) => {
@@ -112,17 +144,50 @@ const IdentityDetails = ({ navigation }) => {
     onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
-        setInProgress(false)
         navigation.navigate('AddressBook')
+        // if (identityManager.current.hasIdentities()) {
+        //   navigation.navigate('AddressBook')
+        // } else {
+        //   navigation.navigate('FirstIdentity')
+        // }
+        // setInProgress(false)
+      } else if (message.method === 'delete-response') {
+        deleteOwnIdentity({ name })
       }
     },
     onError: async error => {
       console.log('error: ', error)
-      setInProgress(false)
       await SecureStore.deleteItemAsync('backupEnabled')
       navigation.navigate('AddressBook')
+      // setInProgress(false)
+      // setTimeout(() => {
+      //   setInProgress(false)
+      // }, 500)
     }
   })
+
+  const renderButtonIfAppropriate = useCallback(() => {
+    if (inProgress) {
+      return <ActivityIndicator style={{ height: 38 }} />
+    } else {
+      if (!isOwn || identityManager.current.identityNames.length > 1) {
+        return (
+          <Button
+            title='Delete this identity'
+            color='red'
+            accessibilityLabel='delete identity'
+            onPress={deleteIdentity}
+          />
+        )
+      } else {
+        return (
+          <Description>
+            This is your only identity. You can't delete it.
+          </Description>
+        )
+      }
+    }
+  }, [inProgress, identityManager.current])
 
   return (
     <Container>
@@ -134,15 +199,7 @@ const IdentityDetails = ({ navigation }) => {
           size={150}
         />
         <Separator size={40} />
-        {inProgress
-          ? <ActivityIndicator style={{ height: 38 }} />
-          : !isOwn &&
-            <Button
-              title='Delete this identity'
-              color='red'
-              accessibilityLabel='delete identity'
-              onPress={deleteIdentity}
-            />}
+        {identityManagerReady && renderButtonIfAppropriate()}
       </SubContainer>
     </Container>
   )
