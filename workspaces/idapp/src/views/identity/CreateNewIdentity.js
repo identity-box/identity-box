@@ -10,6 +10,7 @@ import { ThemedButton } from 'src/theme'
 import { randomBytes, entropyToMnemonic } from 'src/crypto'
 import { useTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
+import { MrSpacer } from 'src/ui'
 import { createIdentity } from './createIdentity'
 
 import {
@@ -27,6 +28,7 @@ const CreateNewIdentity = ({ navigation }) => {
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
+  const [nameAlreadyExists, setNameAlreadyExists] = useState(false)
   const [inProgress, setInProgress] = useState(false)
 
   useTelepath({
@@ -140,11 +142,20 @@ const CreateNewIdentity = ({ navigation }) => {
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
       telepathChannel: telepathProvider.current.channel,
-      name,
+      name: name.trim(),
       publicEncryptionKey,
       publicSigningKey
     })
   }, [name])
+
+  const onNameChanged = useCallback(name => {
+    if (identityManager.current.identityNames.includes(name.trim())) {
+      setNameAlreadyExists(true)
+    } else {
+      setNameAlreadyExists(false)
+    }
+    setName(name)
+  })
 
   const onCancel = useCallback(() => {
     navigation.navigate('AddressBook')
@@ -163,14 +174,17 @@ const CreateNewIdentity = ({ navigation }) => {
         </Description>
         <IdentityName
           placeholder='Identity name...'
-          onChangeText={setName}
+          onChangeText={onNameChanged}
           value={name}
         />
+        {nameAlreadyExists
+          ? <Description style={{ color: 'red', marginBottom: 10 }}>You already have identity with that name...</Description>
+          : <MrSpacer space={25} />}
         <Row style={{ justifyContent: 'space-around' }}>
           <ThemedButton
             onPress={onCreateIdentity}
             title='Create...'
-            disabled={name.length === 0}
+            disabled={name.length === 0 || nameAlreadyExists}
             accessibilityLabel='Create an identity...'
           />
           <Button

@@ -1,9 +1,9 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import { Themed } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
-import { Button } from 'react-native'
+import { Button, ActivityIndicator } from 'react-native'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
@@ -24,7 +24,7 @@ const SubContainer = styled.View({
   flexFlow: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '80%',
+  width: '90%',
   height: '80%'
 })
 
@@ -41,9 +41,9 @@ const Separator = styled.View(({ size }) => ({
 
 const Did = styled(Themed.Text)({
   fontSize: 12,
-  marginBottom: 20,
-  flexGrow: 1,
-  textAlign: 'center'
+  marginBottom: 50,
+  textAlign: 'center',
+  flexGrow: 1
 })
 
 const IdentityDetails = ({ navigation }) => {
@@ -52,6 +52,7 @@ const IdentityDetails = ({ navigation }) => {
   const name = navigation.getParam('name', '')
   const did = navigation.getParam('did', '')
   const isOwn = navigation.getParam('isOwn', false)
+  const [inProgress, setInProgress] = useState(false)
 
   const backupIdFromBackupKey = backupKey => {
     const mnemonic = entropyToMnemonic(backupKey)
@@ -78,6 +79,7 @@ const IdentityDetails = ({ navigation }) => {
 
   const deleteIdentity = useCallback(() => {
     console.log(`deleting peer identity with name: ${name}`)
+    setInProgress(true)
     deletePeerIdentity({ name })
   }, [])
 
@@ -110,11 +112,13 @@ const IdentityDetails = ({ navigation }) => {
     onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
+        setInProgress(false)
         navigation.navigate('AddressBook')
       }
     },
     onError: async error => {
       console.log('error: ', error)
+      setInProgress(false)
       await SecureStore.deleteItemAsync('backupEnabled')
       navigation.navigate('AddressBook')
     }
@@ -129,16 +133,16 @@ const IdentityDetails = ({ navigation }) => {
           value={did}
           size={150}
         />
-        {!isOwn &&
-          <>
-            <Separator size={50} />
+        <Separator size={40} />
+        {inProgress
+          ? <ActivityIndicator style={{ height: 38 }} />
+          : !isOwn &&
             <Button
               title='Delete this identity'
               color='red'
               accessibilityLabel='delete identity'
               onPress={deleteIdentity}
-            />
-          </>}
+            />}
       </SubContainer>
     </Container>
   )
