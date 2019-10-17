@@ -1,42 +1,27 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react'
 import Constants from 'expo-constants'
-import { SectionList, Button } from 'react-native'
+import { Button } from 'react-native'
+import { useTheme } from 'react-navigation'
 import styled from '@emotion/native'
 
 import { useIdentity } from 'src/identity'
 import { useTelepath } from 'src/telepath'
+import { MrSpacer } from 'src/ui'
 
-import { HighlightedIdentityCell, EmptyIdentityCell } from './IdentityCell'
+import { AllIdentities } from './AllIdentities'
 
 const Container = styled.View({
   flex: 1
 })
 
-const Separator = styled.View({
-  borderBottomWidth: 1,
-  borderBottomColor: '#aaa',
-  marginLeft: 10
-})
-
-const MrSpacer = styled.View(({ space }) => ({
-  width: 1,
-  height: space
-}))
-
-const MrFiller = styled.View(({ height, color }) => ({
+const SubContainer = styled.View({
+  flexGrow: 1,
+  flexShrink: 1,
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
   width: '100%',
-  height,
-  backgroundColor: color
-}))
-
-const Header = styled.Text({
-  color: 'white',
-  backgroundColor: 'black',
-  fontSize: 16,
-  paddingTop: 10,
-  paddingBottom: 10,
-  paddingLeft: 10,
-  paddingRight: 10
+  paddingTop: 20
 })
 
 const SelectIdentity = ({ navigation }) => {
@@ -45,6 +30,7 @@ const SelectIdentity = ({ navigation }) => {
   const [identities, setIdentities] = useState({})
   const [peerIdentities, setPeerIdentities] = useState({})
   const [telepathProvider, setTelepathProvider] = useState(undefined)
+  const theme = useTheme()
 
   const telepathChannelName = useMemo(() => navigation.getParam('name', undefined), [])
 
@@ -82,20 +68,24 @@ const SelectIdentity = ({ navigation }) => {
     }
   }
 
-  const onSelect = useCallback(async (item, section) => {
-    let identity
-    if (section.title === 'Your identities') {
-      const id = identities[item]
-      identity = { name: id.name, did: id.did }
-    } else {
-      identity = { name: item, did: peerIdentities[item] }
-    }
+  const onSelectPeerIdentity = useCallback(async item => {
+    const identity = { name: item, did: peerIdentities[item] }
     console.log('selected identity:', identity)
     if (telepathProvider) {
       await sendIdentity(identity)
       navigation.navigate('CurrentIdentity')
     }
-  }, [identities, peerIdentities, telepathProvider])
+  }, [peerIdentities, telepathProvider])
+
+  const onSelectOwnIdentity = useCallback(async item => {
+    const id = identities[item]
+    const identity = { name: id.name, did: id.did, isOwn: true }
+    console.log('selected identity:', identity)
+    if (telepathProvider) {
+      await sendIdentity(identity)
+      navigation.navigate('CurrentIdentity')
+    }
+  }, [identities, telepathProvider])
 
   const onCancel = useCallback(() => {
     console.log('cancel')
@@ -104,31 +94,19 @@ const SelectIdentity = ({ navigation }) => {
 
   return (
     <Container>
-      <MrFiller height={Constants.statusBarHeight} color='black' />
-      <SectionList
-        sections={[
-          { title: 'Your identities', data: identityNames.length > 0 ? identityNames : ['No identities yet!'] },
-          { title: 'Peer identities', data: Object.keys(peerIdentities).length > 0 ? Object.keys(peerIdentities) : ['No identities yet!'] }
-        ]}
-        renderItem={({ item, section }) => {
-          if (item === 'No identities yet!') {
-            return <EmptyIdentityCell>{item}</EmptyIdentityCell>
-          } else {
-            return <HighlightedIdentityCell onSelect={item => onSelect(item, section)}>{item}</HighlightedIdentityCell>
-          }
-        }}
-        renderSectionHeader={({ section }) => (
-          <Header>{section.title}</Header>
-        )}
-        keyExtractor={(item, index) => index}
-        ItemSeparatorComponent={() => (
-          <Separator />
-        )}
-      />
+      <MrSpacer space={Constants.statusBarHeight} />
+      <SubContainer>
+        <AllIdentities
+          identityNames={identityNames}
+          peerIdentities={peerIdentities}
+          onSelectPeerIdentity={onSelectPeerIdentity}
+          onSelectOwnIdentity={onSelectOwnIdentity}
+        />
+      </SubContainer>
       <MrSpacer space={20} />
       <Button
         title='Cancel'
-        color='black'
+        color={theme === 'light' ? 'black' : 'white'}
         accessibilityLabel='cancel selecting identity'
         onPress={onCancel}
       />

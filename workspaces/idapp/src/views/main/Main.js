@@ -95,6 +95,7 @@ const DefaultAppStack = createStackNavigator({
   AddNewIdentity,
   SelectIdentity
 }, {
+  // initialRouteName: 'SelectIdentity',
   headerMode: 'none',
   mode: 'modal'
 })
@@ -116,6 +117,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   // initialRouteName: 'BackupMnemonic'
   // initialRouteName: 'CreateNewIdentity'
   initialRouteName: 'AppLoading'
+  // initialRouteName: 'DefaultApp'
   // initialRouteName: 'RestoreFromBackup'
 }
 ))

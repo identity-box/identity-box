@@ -6,9 +6,7 @@ import QRCode from 'react-native-qrcode-svg'
 import { ThemeConstants } from 'src/theme'
 
 const Container = styled.View({
-  flex: 1,
-  alignItems: 'center',
-  justifyContent: 'center'
+  flex: 1
 })
 
 const SubContainer = styled.View({
@@ -77,6 +75,11 @@ const QRCodeThemed = ({ value, size }) => {
   )
 }
 
+const ListContainer = styled.View({
+  width: '100%',
+  height: '50%'
+})
+
 export {
   Container,
   SubContainer,
@@ -85,5 +88,6 @@ export {
   IdentityName,
   Did,
   Row,
-  QRCodeThemed
+  QRCodeThemed,
+  ListContainer
 }
