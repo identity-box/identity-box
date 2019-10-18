@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useMemo } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
 import { useTheme } from 'react-navigation'
 import base64url from 'base64url'
@@ -73,11 +73,12 @@ const FirstIdentity = ({ navigation }) => {
     }
   })
 
-  const persistIdentity = async ({ did, name }) => {
+  const persistIdentity = async ({ did, name: keyName }) => {
     try {
       const identity = {
         did,
         name,
+        keyName,
         encryptionKeyPair: encryptionKeyPair.current,
         signingKeyPair: signingKeyPair.current
       }
@@ -109,19 +110,26 @@ const FirstIdentity = ({ navigation }) => {
     encryptionKeyPair.current = nacl.box.keyPair.fromSecretKey(secretKey)
   }
 
+  const createRandomIdentityKeyName = async () => {
+    const randomValue = await randomBytes(10)
+    const timestamp = Date.now()
+    return `${timestamp}${base64url.encode(randomValue)}`
+  }
+
   const onCreateIdentity = useCallback(async () => {
     setInProgress(true)
     await createSigningKeyPair()
     await createEncryptionKeyPair()
+    const keyName = await createRandomIdentityKeyName()
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
       telepathChannel: telepathProvider.current.channel,
-      name,
+      keyName,
       publicEncryptionKey,
       publicSigningKey
     })
-  }, [name])
+  }, [])
 
   const onRestoreFromBackup = () => {
     navigation.navigate('RestoreFromBackup')

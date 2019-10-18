@@ -133,6 +133,7 @@ class IdentityProvider {
   }
 
   createBackupFolders = backupId => {
+    fs.rmdirSync(path.join(process.env.IDBOX_BACKUP, backupId), { recursive: true })
     fs.mkdirSync(this.getBackupFolderPath(backupId), { recursive: true, mode: 0o755 })
   }
 

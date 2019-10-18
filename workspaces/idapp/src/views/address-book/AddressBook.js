@@ -49,7 +49,7 @@ const AddressBook = ({ navigation }) => {
 
   const onSelectOwnIdentity = useCallback(item => {
     const id = identities[item]
-    const identity = { name: id.name, did: id.did, isOwn: true }
+    const identity = { name: id.name, did: id.did, keyName: id.keyName, isOwn: true }
     navigation.navigate('IdentityDetails', identity)
   }, [identities])
 

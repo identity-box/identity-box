@@ -20,6 +20,10 @@ class IdentityManager {
     return Object.keys(this.peerIdentities)
   }
 
+  get keyNames () {
+    return Object.values(this.identities).map(id => id.keyName || id.name)
+  }
+
   current
 
   static instance = async () => {
@@ -35,6 +39,7 @@ class IdentityManager {
   addIdentity = async ({
     did,
     name,
+    keyName,
     encryptionKeyPair,
     signingKeyPair
   }) => {
@@ -50,12 +55,14 @@ class IdentityManager {
     const value = base64url.encode(JSON.stringify({
       did,
       name,
+      keyName,
       encryptionKey,
       signingKey
     }))
     await SecureStore.setItemAsync(key, value)
     this.identities[name] = {
       name,
+      keyName,
       did,
       encryptionKey: encryptionKeyPair,
       signingKey: signingKeyPair
@@ -191,22 +198,27 @@ class IdentityManager {
   }
 
   notify = (observerName, params) => {
-    this.subscriptions.forEach(s => {
+    this.subscriptions.filter(s => s !== 'free').forEach(s => {
       s[observerName] && s[observerName](params)
     })
   }
 
   subscribe = subscription => {
-    this.subscriptions = [
-      ...this.subscriptions,
-      subscription
-    ]
-
-    return this.subscriptions.length - 1
+    const firstFreePosition = this.subscriptions.indexOf('free')
+    if (firstFreePosition === -1) {
+      this.subscriptions = [
+        ...this.subscriptions,
+        subscription
+      ]
+      return this.subscriptions.length - 1
+    } else {
+      this.subscriptions[firstFreePosition] = subscription
+      return firstFreePosition
+    }
   }
 
   unsubscribe = subscriptionId => {
-    this.subscriptions.splice(subscriptionId, 1)
+    this.subscriptions[subscriptionId] = 'free'
   }
 
   fromDID = did => {
@@ -244,9 +256,10 @@ class IdentityManager {
     }))
 
     this.identities = this.identities.reduce((acc, identity) => {
-      const { did, name, encryptionKey, signingKey } = identity
+      const { did, name, encryptionKey, signingKey, keyName } = identity
       acc[name] = {
         name,
+        keyName,
         did,
         encryptionKey: {
           publicKey: Buffers.copyToUint8Array(base64url.toBuffer(encryptionKey.publicKeyBase64)),

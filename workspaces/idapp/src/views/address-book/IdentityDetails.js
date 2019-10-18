@@ -50,6 +50,7 @@ const IdentityDetails = ({ navigation }) => {
   const identityManager = useRef(undefined)
   const telepathProvider = useRef(undefined)
   const name = navigation.getParam('name', '')
+  const keyName = navigation.getParam('keyName', '')
   const did = navigation.getParam('did', '')
   const isOwn = navigation.getParam('isOwn', false)
   const [inProgress, setInProgress] = useState(false)
@@ -67,7 +68,7 @@ const IdentityDetails = ({ navigation }) => {
       const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
       const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
       const backupId = backupIdFromBackupKey(backupKey)
-      writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
+      writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
     } else {
       navigation.navigate('AddressBook')
     }
@@ -82,6 +83,7 @@ const IdentityDetails = ({ navigation }) => {
       doBackup()
     },
     onOwnIdentitiesChanged: () => {
+      console.log('IdentityDetails: onOwnIdentitiesChanged')
       doBackup()
     }
   })
@@ -90,7 +92,7 @@ const IdentityDetails = ({ navigation }) => {
     console.log(`deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`)
     setInProgress(true)
     if (isOwn) {
-      deleteIdentityOnIdBox(telepathProvider.current, name)
+      deleteIdentityOnIdBox(telepathProvider.current, keyName)
     } else {
       deletePeerIdentity({ name })
     }
@@ -144,13 +146,10 @@ const IdentityDetails = ({ navigation }) => {
     onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
-        navigation.navigate('AddressBook')
-        // if (identityManager.current.hasIdentities()) {
-        //   navigation.navigate('AddressBook')
-        // } else {
-        //   navigation.navigate('FirstIdentity')
-        // }
-        // setInProgress(false)
+        setTimeout(() => {
+          console.log('Will navigate to AddressBook')
+          navigation.navigate('AddressBook')
+        }, 500)
       } else if (message.method === 'delete-response') {
         deleteOwnIdentity({ name })
       }
@@ -159,10 +158,6 @@ const IdentityDetails = ({ navigation }) => {
       console.log('error: ', error)
       await SecureStore.deleteItemAsync('backupEnabled')
       navigation.navigate('AddressBook')
-      // setInProgress(false)
-      // setTimeout(() => {
-      //   setInProgress(false)
-      // }, 500)
     }
   })
 

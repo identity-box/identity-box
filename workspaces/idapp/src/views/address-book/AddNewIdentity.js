@@ -49,7 +49,7 @@ const AddNewIdentity = ({ navigation }) => {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
+        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
       } else {
         setInProgress(false)
         navigation.navigate('CurrentIdentity')

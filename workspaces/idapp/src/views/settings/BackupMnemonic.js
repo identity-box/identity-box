@@ -55,7 +55,7 @@ const BackupMnemonic = ({ navigation }) => {
       setMnemonic(mnemonic)
       Clipboard.setString(mnemonic)
       console.log('encryptedBackup=', encryptedBackup)
-      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId, identityManager.identityNames)
+      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId, identityManager.keyNames)
     },
     onMessage: async message => {
       console.log('received message: ', message)

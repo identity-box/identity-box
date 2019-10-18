@@ -28,6 +28,7 @@ const CreateNewIdentity = ({ navigation }) => {
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
+  const nameRef = useRef(undefined)
   const [nameAlreadyExists, setNameAlreadyExists] = useState(false)
   const [inProgress, setInProgress] = useState(false)
 
@@ -85,11 +86,13 @@ const CreateNewIdentity = ({ navigation }) => {
     navigation.dispatch(resetAction)
   }
 
-  const persistIdentity = async ({ did, name }) => {
+  const persistIdentity = async ({ did, name: keyName }) => {
     try {
+      const name = nameRef.current
       const identity = {
         did,
         name,
+        keyName,
         encryptionKeyPair: encryptionKeyPair.current,
         signingKeyPair: signingKeyPair.current
       }
@@ -101,7 +104,7 @@ const CreateNewIdentity = ({ navigation }) => {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
+        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
       }
       goHomeAndResetNavigation()
     } catch (e) {
@@ -134,15 +137,24 @@ const CreateNewIdentity = ({ navigation }) => {
     encryptionKeyPair.current = nacl.box.keyPair.fromSecretKey(secretKey)
   }
 
+  const createRandomIdentityKeyName = async () => {
+    const randomValue = await randomBytes(10)
+    const timestamp = Date.now()
+    return `${timestamp}${base64url.encode(randomValue)}`
+  }
+
   const onCreateIdentity = useCallback(async () => {
     setInProgress(true)
     await createSigningKeyPair()
     await createEncryptionKeyPair()
+
+    nameRef.current = name.trim()
+    const keyName = await createRandomIdentityKeyName()
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
       telepathChannel: telepathProvider.current.channel,
-      name: name.trim(),
+      keyName,
       publicEncryptionKey,
       publicSigningKey
     })
