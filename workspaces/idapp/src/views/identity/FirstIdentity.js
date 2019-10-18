@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
 import { useTheme } from 'react-navigation'
 import base64url from 'base64url'

@@ -103,8 +103,8 @@ describe('Telepath', () => {
       beforeEach(async () => {
         onMessage = jest.fn()
         onError = jest.fn()
-        channel.subscribe(onMessage, onError)
-        subscription = await channel.connect()
+        subscription = channel.subscribe(onMessage, onError)
+        await channel.connect()
       })
 
       it('can subscribe for messages', () => {
