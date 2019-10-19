@@ -15,7 +15,8 @@ const supportedMessages = [
   'backup',
   'has-backup',
   'restore',
-  'delete'
+  'delete',
+  'migrate'
 ]
 
 class IdService {
@@ -246,6 +247,11 @@ class IdService {
     this.respond('restore-response', message.params[1].from, [{ encryptedBackup }])
   }
 
+  handleMigrate = async message => {
+    await this.identityProvider.migrate(message.params[0])
+    // this.respond('migrate-response', message.params[1].from)
+  }
+
   processMessage = async message => {
     if (this.messageSupported(message)) {
       try {
@@ -276,6 +282,9 @@ class IdService {
             break
           case 'delete':
             await this.handleDelete(message)
+            break
+          case 'migrate':
+            await this.handleMigrate(message)
             break
         }
       } catch (e) {

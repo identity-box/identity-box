@@ -146,10 +146,8 @@ const IdentityDetails = ({ navigation }) => {
     onMessage: message => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
-        setTimeout(() => {
-          console.log('Will navigate to AddressBook')
-          navigation.navigate('AddressBook')
-        }, 500)
+        console.log('Will navigate to AddressBook')
+        navigation.navigate('AddressBook')
       } else if (message.method === 'delete-response') {
         deleteOwnIdentity({ name })
       }

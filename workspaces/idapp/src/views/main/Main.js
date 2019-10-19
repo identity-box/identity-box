@@ -15,6 +15,7 @@ import {
   SelectIdentity,
   SwitchIdentity
 } from 'src/views/address-book'
+import { IdBoxKeyNaming } from 'src/views/migrations'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
@@ -110,7 +111,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   BackupMnemonic,
   ConfirmFactoryReset,
   RestoreFromBackup,
-  BackupNotFound
+  BackupNotFound,
+  IdBoxKeyNaming
 },
 {
   // initialRouteName: 'BackupNotFound'

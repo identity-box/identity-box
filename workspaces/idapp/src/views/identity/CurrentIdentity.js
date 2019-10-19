@@ -164,12 +164,6 @@ const CurrentIdentity = ({ navigation }) => {
     enableCamera()
   }, [])
 
-  useEffect(() => {
-    if (!identity.keyName) {
-      console.log('Need to upgrade identities...')
-    }
-  }, [identity])
-
   const addNewIdentity = ({ did }) => {
     navigation.navigate('AddNewIdentity', { did })
   }

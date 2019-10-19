@@ -20,11 +20,16 @@ const AppLoading = ({ navigation }) => {
     },
     onTelepathReady: async () => {
       const identityManager = await IdentityManager.instance()
+
       if (identityManager.hasIdentities()) {
         console.log('has identities')
-        setTimeout(() => {
+        const identity = identityManager.getCurrent()
+        if (!identity.keyName) {
+          console.log('Need to upgrade identities...')
+          navigation.navigate('IdBoxKeyNaming')
+        } else {
           navigation.navigate('CurrentIdentity')
-        }, 0)
+        }
       } else {
         console.log('does not have any identities yet')
         setTimeout(() => {

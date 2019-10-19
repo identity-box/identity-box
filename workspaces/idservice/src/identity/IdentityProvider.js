@@ -203,6 +203,20 @@ class IdentityProvider {
       return 'not found'
     }
   }
+
+  migrateKeyNames = async migrationData => {
+    console.log('migrationData=', migrationData)
+  }
+
+  migrate = async ({ migration }) => {
+    switch (migration.migrationType) {
+      case 'KEY-NAMING':
+        await this.migrateKeyNames(migration.migrationData)
+        break
+      default:
+        console.log('unknown migration - ignoring!')
+    }
+  }
 }
 
 export { IdentityProvider }
