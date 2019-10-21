@@ -1,17 +1,20 @@
 import React, { useState, useCallback } from 'react'
 import * as SecureStore from 'expo-secure-store'
-import { Text, Button, Clipboard } from 'react-native'
+import { Button, Clipboard } from 'react-native'
+import { Themed, useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 
 import { IdentityManager } from 'src/identity'
 import { useTelepath } from 'src/telepath'
-import { Container, Subcontainer, Description } from './ui'
+import { Container, Subcontainer, Description, MnemonicText } from './ui'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import base64url from 'base64url'
+import { ThemeConstants } from 'src/theme'
 
 const BackupMnemonic = ({ navigation }) => {
   const [mnemonic, setMnemonic] = useState(undefined)
   const [backupReady, setBackupReady] = useState(false)
+  const theme = useTheme()
 
   const onDismiss = useCallback(() => {
     navigation.navigate('Settings')
@@ -52,7 +55,7 @@ const BackupMnemonic = ({ navigation }) => {
       setMnemonic(mnemonic)
       Clipboard.setString(mnemonic)
       console.log('encryptedBackup=', encryptedBackup)
-      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId, identityManager.identityNames)
+      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId, identityManager.keyNames)
     },
     onMessage: async message => {
       console.log('received message: ', message)
@@ -84,15 +87,16 @@ const BackupMnemonic = ({ navigation }) => {
                   Keep your passphrase off-line and safe. We will not be
                   able to restore it for you if you loose it.
                 </Description>
-                <Text style={{ textAlign: 'center', marginBottom: 50 }}>{mnemonic}</Text>
+                <MnemonicText>{mnemonic}</MnemonicText>
                 <Button
+                  color={ThemeConstants[theme].accentColor}
                   onPress={onDismiss}
                   title='Got it'
                   accessibilityLabel='Got it'
                 />
               </>
             )
-            : <Text style={{ textAlign: 'center', marginBottom: 50 }}>Enabling backup...</Text>
+            : <Themed.Text style={{ textAlign: 'center', marginBottom: 50 }}>Enabling backup...</Themed.Text>
         }
       </Subcontainer>
     </Container>

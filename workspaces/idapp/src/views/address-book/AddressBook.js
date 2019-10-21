@@ -1,30 +1,22 @@
 import React, { useRef, useState, useCallback } from 'react'
-import { SectionList } from 'react-native'
+import { useTheme } from 'react-navigation'
 
 import styled from '@emotion/native'
 
 import { useIdentity } from 'src/identity'
+import { AllIdentities } from './AllIdentities'
+// import { ListWithHeader } from 'src/ui'
 
-import { IdentityCell, EmptyIdentityCell } from './IdentityCell'
+// import { ListContainer } from './ui'
+import { AddIdentityButton } from './AddIdentityButton'
 
 const Container = styled.View({
-  flex: 1
-})
-
-const Separator = styled.View({
-  borderBottomWidth: 1,
-  borderBottomColor: '#aaa',
-  marginLeft: 10
-})
-
-const Header = styled.Text({
-  color: 'white',
-  backgroundColor: 'black',
-  fontSize: 16,
-  paddingTop: 10,
-  paddingBottom: 10,
-  paddingLeft: 10,
-  paddingRight: 10
+  flex: 1,
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  paddingTop: 20
 })
 
 const AddressBook = ({ navigation }) => {
@@ -32,6 +24,7 @@ const AddressBook = ({ navigation }) => {
   const [identityNames, setIdentityNames] = useState([])
   const [identities, setIdentities] = useState({})
   const [peerIdentities, setPeerIdentities] = useState({})
+  const theme = useTheme()
 
   useIdentity({
     onReady: idManager => {
@@ -42,58 +35,45 @@ const AddressBook = ({ navigation }) => {
     },
     onPeerIdentitiesChanged: ({ peerIdentities }) => {
       setPeerIdentities(peerIdentities)
+    },
+    onOwnIdentitiesChanged: ({ identities, identityNames }) => {
+      setIdentities(identities)
+      setIdentityNames(identityNames)
     }
   })
 
-  const onSelect = useCallback((item, section) => {
-    let identity
-    if (section.title === 'Your identities') {
-      const id = identities[item]
-      identity = { name: id.name, did: id.did, isOwn: true }
-    } else {
-      identity = { name: item, did: peerIdentities[item] }
-    }
+  const onSelectPeerIdentity = useCallback((item) => {
+    const identity = { name: item, did: peerIdentities[item] }
     navigation.navigate('IdentityDetails', identity)
-  }, [identities, peerIdentities])
+  }, [peerIdentities])
+
+  const onSelectOwnIdentity = useCallback(item => {
+    const id = identities[item]
+    const identity = { name: id.name, did: id.did, keyName: id.keyName, isOwn: true }
+    navigation.navigate('IdentityDetails', identity)
+  }, [identities])
 
   return (
-    <Container>
-      <SectionList
-        sections={[
-          { title: 'Your identities', data: identityNames.length > 0 ? identityNames : ['No identities yet!'] },
-          { title: 'Peer identities', data: Object.keys(peerIdentities).length > 0 ? Object.keys(peerIdentities) : ['No identities yet!'] }
-        ]}
-        renderItem={({ item, section }) => {
-          if (item === 'No identities yet!') {
-            return <EmptyIdentityCell>{item}</EmptyIdentityCell>
-          } else {
-            return <IdentityCell onSelect={item => onSelect(item, section)}>{item}</IdentityCell>
-          }
-        }}
-        renderSectionHeader={({ section }) => (
-          <Header>{section.title}</Header>
-        )}
-        keyExtractor={(item, index) => index}
-        ItemSeparatorComponent={() => (
-          <Separator />
-        )}
+    <Container style={{
+      backgroundColor: theme === 'light' ? 'white' : '#111'
+    }}
+    >
+      <AllIdentities
+        identityNames={identityNames}
+        peerIdentities={peerIdentities}
+        onSelectPeerIdentity={onSelectPeerIdentity}
+        onSelectOwnIdentity={onSelectOwnIdentity}
       />
     </Container>
   )
 }
 
-AddressBook.navigationOptions = {
-  title: 'Identities'
-  // headerRightContainerStyle: {
-  //   paddingRight: 10
-  // },
-  // headerRight: (
-  //   <Button
-  //     color='#FF6699'
-  //     onPress={() => console.log('Add identity!')}
-  //     title='Add'
-  //   />
-  // )
-}
+AddressBook.navigationOptions = ({ navigation }) => ({
+  title: 'Identities',
+  headerRightContainerStyle: {
+    paddingRight: 10
+  },
+  headerRight: <AddIdentityButton navigation={navigation} />
+})
 
 export { AddressBook }

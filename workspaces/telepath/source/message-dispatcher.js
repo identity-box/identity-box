@@ -1,32 +1,34 @@
 class MessageDispatcher {
-  messageHandlers = []
-
-  errorHandlers = []
+  subscriptions = []
 
   addSubscription = (onMessage, onError) => {
-    this.messageHandlers.push(onMessage)
-    if (onError) {
-      this.errorHandlers.push(onError)
+    const firstFreePosition = this.subscriptions.indexOf('free')
+    const newSubscription = { onMessage, onError: onError || (() => {}) }
+    if (firstFreePosition === -1) {
+      this.subscriptions = [
+        ...this.subscriptions,
+        newSubscription
+      ]
+      return this.subscriptions.length - 1
     } else {
-      this.errorHandlers.push(null)
+      this.subscriptions[firstFreePosition] = newSubscription
+      return firstFreePosition
     }
-    return this.messageHandlers.length - 1
   }
 
-  removeSubscription = subscription => {
-    this.messageHandlers.splice(subscription, 1)
-    this.errorHandlers.splice(subscription, 1)
+  removeSubscription = subscriptionId => {
+    this.subscriptions[subscriptionId] = 'free'
   }
 
   onMessage = message => {
-    this.messageHandlers.forEach(handler => handler(message))
+    this.subscriptions.filter(s => s !== 'free').forEach(s => {
+      s.onMessage(message)
+    })
   }
 
   onError = error => {
-    this.errorHandlers.forEach(handler => {
-      if (handler) {
-        handler(error)
-      }
+    this.subscriptions.filter(s => s !== 'free').forEach(s => {
+      s.onError(error)
     })
   }
 }

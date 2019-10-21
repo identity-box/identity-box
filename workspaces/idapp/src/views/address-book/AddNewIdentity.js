@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef } from 'react'
+import { useTheme } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
-import { Button } from 'react-native'
-import QRCode from 'react-native-qrcode-svg'
+import { Button, ActivityIndicator } from 'react-native'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
@@ -10,20 +10,26 @@ import { entropyToMnemonic } from 'src/crypto'
 
 import { useTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
+import { MrSpacer } from 'src/ui'
+import { ThemedButton } from 'src/theme'
 import {
   Container,
   SubContainer,
   Description,
   IdentityName,
   Did,
-  Row
+  Row,
+  QRCodeThemed
 } from './ui'
 
 const AddNewIdentity = ({ navigation }) => {
   const identityManager = useRef(undefined)
   const telepathProvider = useRef(undefined)
   const [name, setName] = useState('')
+  const [nameAlreadyExists, setNameAlreadyExists] = useState(false)
   const [placeholderText, setPlaceholderText] = useState('name')
+  const [inProgress, setInProgress] = useState(false)
+  const theme = useTheme()
 
   const did = navigation.getParam('did', '')
 
@@ -43,16 +49,27 @@ const AddNewIdentity = ({ navigation }) => {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.identityNames)
+        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
       } else {
+        setInProgress(false)
         navigation.navigate('CurrentIdentity')
       }
     }
   })
 
+  const onNameChanged = useCallback(name => {
+    if (Object.keys(identityManager.current.peerIdentities).includes(name.trim())) {
+      setNameAlreadyExists(true)
+    } else {
+      setNameAlreadyExists(false)
+    }
+    setName(name)
+  })
+
   const addIdentity = useCallback(() => {
     console.log('add identity')
-    addPeerIdentity({ name, did })
+    setInProgress(true)
+    addPeerIdentity({ name: name.trim(), did })
   }, [name, did])
 
   const cancel = useCallback(() => {
@@ -88,12 +105,14 @@ const AddNewIdentity = ({ navigation }) => {
     },
     onMessage: message => {
       console.log('received message: ', message)
+      setInProgress(false)
       if (message.method === 'backup-response') {
         navigation.navigate('CurrentIdentity')
       }
     },
     onError: async error => {
       console.log('error: ', error)
+      setInProgress(false)
       await SecureStore.deleteItemAsync('backupEnabled')
       navigation.navigate('CurrentIdentity')
     }
@@ -107,29 +126,35 @@ const AddNewIdentity = ({ navigation }) => {
           placeholder={placeholderText}
           onFocus={() => setPlaceholderText('')}
           onBlur={() => setPlaceholderText('name')}
-          onChangeText={setName}
+          onChangeText={onNameChanged}
           value={name}
         />
-        <QRCode
+        {nameAlreadyExists
+          ? <Description style={{ color: 'red', marginBottom: 10 }}>You already have peer identity with that name...</Description>
+          : <MrSpacer space={39.5} />}
+        <QRCodeThemed
           value={did}
           size={150}
         />
         <Did>{did}</Did>
-        <Row>
-          <Button
-            title='Add'
-            color='#FF6699'
-            disabled={!name}
-            accessibilityLabel='add identity'
-            onPress={addIdentity}
-          />
-          <Button
-            title='Cancel'
-            color='black'
-            accessibilityLabel='cancel adding identity'
-            onPress={cancel}
-          />
-        </Row>
+        {inProgress
+          ? <ActivityIndicator />
+          : (
+            <Row>
+              <ThemedButton
+                title='Add'
+                disabled={!name || nameAlreadyExists}
+                accessibilityLabel='add identity'
+                onPress={addIdentity}
+              />
+              <Button
+                color={theme === 'light' ? 'black' : 'white'}
+                title='Cancel'
+                accessibilityLabel='cancel adding identity'
+                onPress={cancel}
+              />
+            </Row>
+          )}
       </SubContainer>
     </Container>
   )

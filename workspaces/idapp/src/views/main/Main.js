@@ -1,19 +1,42 @@
 import React from 'react'
-import { createSwitchNavigator, createAppContainer } from 'react-navigation'
+import { StatusBar } from 'react-native'
+import { Appearance, useColorScheme } from 'react-native-appearance'
+import { createSwitchNavigator, createAppContainer, ThemeColors } from 'react-navigation'
+import { ThemeProvider } from 'emotion-theming'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
-import { FirstIdentity, CurrentIdentity } from 'src/views/identity'
+import { FirstIdentity, CurrentIdentity, CreateNewIdentity } from 'src/views/identity'
 import { Settings, BackupMnemonic, ConfirmFactoryReset, RestoreFromBackup, BackupNotFound } from 'src/views/settings'
-import { AddressBook, IdentityDetails, AddNewIdentity, SelectIdentity } from 'src/views/address-book'
+import {
+  AddressBook,
+  IdentityDetails,
+  AddNewIdentity,
+  SelectIdentity,
+  SwitchIdentity
+} from 'src/views/address-book'
+import { IdBoxKeyNaming } from 'src/views/migrations'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 
 // const DefaultAppStack = createStackNavigator({ CurrentIdentity }, { headerMode: 'none' })
+const CurrentIdentityStack = createStackNavigator({
+  CurrentIdentity,
+  SwitchIdentity
+}, {
+  headerMode: 'none',
+  mode: 'modal'
+})
+
+CurrentIdentityStack.navigationOptions = {
+  tabBarLabel: 'Identity'
+}
+
 const AddressBookStack = createStackNavigator({
   AddressBook,
-  IdentityDetails
+  IdentityDetails,
+  CreateNewIdentity
 }, {
   defaultNavigationOptions: {
     headerTintColor: '#FF6699'
@@ -38,16 +61,16 @@ SettingsStack.navigationOptions = {
 }
 
 const MainAppStack = createBottomTabNavigator({
-  CurrentIdentity,
+  CurrentIdentityStack,
   AddressBookStack,
   SettingsStack
 }, {
   // initialRouteName: 'AddressBookStack',
-  defaultNavigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({ navigation, theme }) => ({
     tabBarIcon: ({ focused, horizontal, tintColor }) => {
       const { routeName } = navigation.state
       let iconName
-      if (routeName === 'CurrentIdentity') {
+      if (routeName === 'CurrentIdentityStack') {
         iconName = 'perm-identity'
         return <MaterialIcons name={iconName} size={25} color={tintColor} />
       } else if (routeName === 'AddressBookStack') {
@@ -62,7 +85,7 @@ const MainAppStack = createBottomTabNavigator({
       activeTintColor: '#FF6699',
       inactiveTintColor: 'gray',
       style: {
-        backgroundColor: 'black'
+        backgroundColor: theme === 'light' ? 'black' : ThemeColors.dark.header
       }
     }
   })
@@ -73,6 +96,7 @@ const DefaultAppStack = createStackNavigator({
   AddNewIdentity,
   SelectIdentity
 }, {
+  // initialRouteName: 'SelectIdentity',
   headerMode: 'none',
   mode: 'modal'
 })
@@ -87,18 +111,35 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   BackupMnemonic,
   ConfirmFactoryReset,
   RestoreFromBackup,
-  BackupNotFound
+  BackupNotFound,
+  IdBoxKeyNaming
 },
 {
   // initialRouteName: 'BackupNotFound'
+  // initialRouteName: 'BackupMnemonic'
+  // initialRouteName: 'CreateNewIdentity'
   initialRouteName: 'AppLoading'
+  // initialRouteName: 'DefaultApp'
   // initialRouteName: 'RestoreFromBackup'
 }
 ))
 
+Appearance.getColorScheme()
+
+Appearance.addChangeListener(({ colorScheme }) => {
+  console.log('current color scheme:', colorScheme)
+})
+
 const Main = () => {
+  const colorScheme = useColorScheme()
   return (
-    <AppContainer />
+    <ThemeProvider theme={{
+      colorScheme
+    }}
+    >
+      <StatusBar barStyle='default' />
+      <AppContainer theme={colorScheme} />
+    </ThemeProvider>
   )
 }
 

@@ -14,7 +14,9 @@ const supportedMessages = [
   'reset',
   'backup',
   'has-backup',
-  'restore'
+  'restore',
+  'delete',
+  'migrate'
 ]
 
 class IdService {
@@ -181,7 +183,6 @@ class IdService {
 
   handleCreateIdentity = async message => {
     const identity = await this.createIdentity(message.params[0])
-    this.respondWithIdentity(identity, message.params[1].from)
     const didDoc = createDIDDocument({
       ...identity,
       ...message.params[0]
@@ -195,6 +196,7 @@ class IdService {
       ipnsName,
       cid
     })
+    this.respondWithIdentity(identity, message.params[1].from)
   }
 
   handleGetDIDDocument = async message => {
@@ -224,6 +226,12 @@ class IdService {
     this.respond('reset-response', message.params[1].from)
   }
 
+  handleDelete = async message => {
+    const { identityName } = message.params[0]
+    await this.identityProvider.deleteIdentity(identityName)
+    this.respond('delete-response', message.params[1].from)
+  }
+
   handleBackup = async message => {
     await this.identityProvider.backup(message.params[0])
     this.respond('backup-response', message.params[1].from)
@@ -237,6 +245,11 @@ class IdService {
   handleRestore = async message => {
     const encryptedBackup = await this.identityProvider.restore(message.params[0])
     this.respond('restore-response', message.params[1].from, [{ encryptedBackup }])
+  }
+
+  handleMigrate = async message => {
+    await this.identityProvider.migrate(message.params[0])
+    this.respond('migrate-response', message.params[1].from)
   }
 
   processMessage = async message => {
@@ -266,6 +279,12 @@ class IdService {
             break
           case 'restore':
             await this.handleRestore(message)
+            break
+          case 'delete':
+            await this.handleDelete(message)
+            break
+          case 'migrate':
+            await this.handleMigrate(message)
             break
         }
       } catch (e) {

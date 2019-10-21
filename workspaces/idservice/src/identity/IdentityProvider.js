@@ -75,6 +75,17 @@ class IdentityProvider {
     // }))
   }
 
+  deleteIdentity = async name => {
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => k.name === name)
+    if (keys.length === 1) {
+      const { id: ipnsName } = keys[0]
+      console.log(`deleting key ${name} with IPNS name ${ipnsName}`)
+      await IPNSFirebase.deleteIPNSRecord({ ipnsName })
+      await this.ipfs.key.rm(name)
+    }
+  }
+
   getKeyPath = name => {
     return path.join(process.env.IPFS_PATH, 'keystore', name)
   }
@@ -122,6 +133,7 @@ class IdentityProvider {
   }
 
   createBackupFolders = backupId => {
+    fs.rmdirSync(path.join(process.env.IDBOX_BACKUP, backupId), { recursive: true })
     fs.mkdirSync(this.getBackupFolderPath(backupId), { recursive: true, mode: 0o755 })
   }
 
@@ -189,6 +201,23 @@ class IdentityProvider {
       return encryptedBackup
     } else {
       return 'not found'
+    }
+  }
+
+  migrateKeyNames = async migrationData => {
+    console.log('migrationData=', migrationData)
+    await Promise.all(migrationData.map(async ({ oldName, newName }) => {
+      await this.ipfs.key.rename(oldName, newName)
+    }))
+  }
+
+  migrate = async ({ migration }) => {
+    switch (migration.migrationType) {
+      case 'KEY-NAMING':
+        await this.migrateKeyNames(migration.migrationData)
+        break
+      default:
+        console.log('unknown migration - ignoring!')
     }
   }
 }

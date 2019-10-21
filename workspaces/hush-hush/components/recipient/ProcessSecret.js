@@ -7,6 +7,7 @@ import { SenderPublicKey } from './SenderPublicKey'
 import { ConnectIdApp } from './ConnectIdApp'
 import { DecryptSecret } from './DecryptSecret'
 import { PresentSecret } from './PresentSecret'
+import { PresentError } from './PresentError'
 
 const Stages = Object.freeze({
   Start: Symbol('start'),
@@ -14,7 +15,8 @@ const Stages = Object.freeze({
   SenderPublicKey: Symbol('senderPublicEncryptionKey'),
   ConnectIdApp: Symbol('connectIdApp'),
   DecryptSecret: Symbol('decryptSecret'),
-  PresentSecret: Symbol('presentSecret')
+  PresentSecret: Symbol('presentSecret'),
+  PresentError: Symbol('presentError')
 })
 
 const ProcessSecret = ({ senderTagBase64 }) => {
@@ -26,6 +28,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
   const [telepathChannel, setTelepathChannel] = useState(undefined)
   const [secret, setSecret] = useState(undefined)
+  const [errorID, setErrorID] = useState(undefined)
 
   const processLink = () => {
     const [cidEncryptedSecret, didRecipient, didSender] = base64url.decode(senderTagBase64).split('.')
@@ -101,12 +104,20 @@ const ProcessSecret = ({ senderTagBase64 }) => {
         encryptedSecret={encryptedSecret}
         didRecipient={didRecipient}
         theirPublicKey={publicEncryptionKey}
-        next={({ secret }) => {
-          console.log('secret=', secret)
-          setSecret(secret)
-          setTimeout(() => {
-            setWorkflow(Stages.PresentSecret)
-          }, 2000)
+        next={({ secret, errorID }) => {
+          if (errorID) {
+            console.log('errorID=', errorID)
+            setErrorID(errorID)
+            setTimeout(() => {
+              setWorkflow(Stages.PresentError)
+            }, 2000)
+          } else {
+            console.log('secret=', secret)
+            setSecret(secret)
+            setTimeout(() => {
+              setWorkflow(Stages.PresentSecret)
+            }, 2000)
+          }
         }}
       />
     )
@@ -117,6 +128,12 @@ const ProcessSecret = ({ senderTagBase64 }) => {
       <PresentSecret secret={secret} />
     )
   }, [secret])
+
+  const renderPresentError = useCallback(() => {
+    return (
+      <PresentError errorID={errorID} />
+    )
+  }, [errorID])
 
   switch (workflow) {
     case Stages.Start:
@@ -131,6 +148,8 @@ const ProcessSecret = ({ senderTagBase64 }) => {
       return renderDecryptSecret()
     case Stages.PresentSecret:
       return renderPresentSecret()
+    case Stages.PresentError:
+      return renderPresentError()
     default:
       return null
   }

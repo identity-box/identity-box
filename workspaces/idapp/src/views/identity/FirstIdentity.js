@@ -1,8 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react'
+import { Button, ActivityIndicator } from 'react-native'
+import { useTheme } from 'react-navigation'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
-import { Button, ActivityIndicator } from 'react-native'
 
+import { ThemeConstants, ThemedButton } from 'src/theme'
 import { randomBytes } from 'src/crypto'
 import { useTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
@@ -25,6 +27,7 @@ const FirstIdentity = ({ navigation }) => {
   const [name, setName] = useState('')
   const [inProgress, setInProgress] = useState(false)
   const [backupAvailable, setBackupAvailable] = useState(false)
+  const theme = useTheme()
 
   const checkForBackup = async telepathProvider => {
     const message = {
@@ -70,11 +73,12 @@ const FirstIdentity = ({ navigation }) => {
     }
   })
 
-  const persistIdentity = async ({ did, name }) => {
+  const persistIdentity = async ({ did, name: keyName }) => {
     try {
       const identity = {
         did,
         name,
+        keyName,
         encryptionKeyPair: encryptionKeyPair.current,
         signingKeyPair: signingKeyPair.current
       }
@@ -106,19 +110,26 @@ const FirstIdentity = ({ navigation }) => {
     encryptionKeyPair.current = nacl.box.keyPair.fromSecretKey(secretKey)
   }
 
+  const createRandomIdentityKeyName = async () => {
+    const randomValue = await randomBytes(10)
+    const timestamp = Date.now()
+    return `${timestamp}${base64url.encode(randomValue)}`
+  }
+
   const onCreateIdentity = useCallback(async () => {
     setInProgress(true)
     await createSigningKeyPair()
     await createEncryptionKeyPair()
+    const keyName = await createRandomIdentityKeyName()
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
       telepathChannel: telepathProvider.current.channel,
-      name,
+      keyName,
       publicEncryptionKey,
       publicSigningKey
     })
-  }, [name])
+  }, [])
 
   const onRestoreFromBackup = () => {
     navigation.navigate('RestoreFromBackup')
@@ -132,17 +143,14 @@ const FirstIdentity = ({ navigation }) => {
       >
         <Welcome>Create your first identity</Welcome>
         <Description>
-          Give your identity an easy to remember name.
-        </Description>
-        <Description>
-          This name will not be shared.
+          Give your identity an easy to remember name. This name will not be shared.
         </Description>
         <IdentityName
-          placeholder='Some easy to remember name here...'
+          placeholder='Identity name...'
           onChangeText={setName}
           value={name}
         />
-        <Button
+        <ThemedButton
           onPress={onCreateIdentity}
           title='Create...'
           disabled={name.length === 0}
@@ -158,6 +166,7 @@ const FirstIdentity = ({ navigation }) => {
               >- OR -
               </Description>
               <Button
+                color={ThemeConstants[theme].accentColor}
                 onPress={onRestoreFromBackup}
                 title='Restore from backup...'
                 accessibilityLabel='Restore identities from backup'

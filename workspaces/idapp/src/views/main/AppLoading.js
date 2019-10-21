@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, StatusBar } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 
 import { useTelepath } from 'src/telepath'
 import { IdentityManager } from 'src/identity'
@@ -9,7 +9,7 @@ import {
   Container,
   Welcome,
   Description
-} from 'src/views/identity/ui'
+} from './ui'
 
 const AppLoading = ({ navigation }) => {
   useTelepath({
@@ -20,11 +20,16 @@ const AppLoading = ({ navigation }) => {
     },
     onTelepathReady: async () => {
       const identityManager = await IdentityManager.instance()
+
       if (identityManager.hasIdentities()) {
         console.log('has identities')
-        setTimeout(() => {
+        const identity = identityManager.getCurrent()
+        if (!identity.keyName) {
+          console.log('Need to upgrade identities...')
+          navigation.navigate('IdBoxKeyNaming')
+        } else {
           navigation.navigate('CurrentIdentity')
-        }, 0)
+        }
       } else {
         console.log('does not have any identities yet')
         setTimeout(() => {
@@ -43,7 +48,6 @@ const AppLoading = ({ navigation }) => {
         <Welcome>Welcome to Identity Box App!</Welcome>
         <ActivityIndicator />
         <Description style={{ marginTop: 10 }}>Initializing...</Description>
-        <StatusBar barStyle='default' />
       </Container>
     </PageContainer>
   )

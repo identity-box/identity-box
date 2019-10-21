@@ -20,6 +20,10 @@ class IdentityManager {
     return Object.keys(this.peerIdentities)
   }
 
+  get keyNames () {
+    return Object.values(this.identities).map(id => id.keyName || id.name)
+  }
+
   current
 
   static instance = async () => {
@@ -32,36 +36,80 @@ class IdentityManager {
     return _instance
   }
 
-  addIdentity = async ({
-    did,
-    name,
-    encryptionKeyPair,
-    signingKeyPair
-  }) => {
-    const encryptionKey = {
-      publicKeyBase64: base64url.encode(encryptionKeyPair.publicKey),
-      secretKeyBase64: base64url.encode(encryptionKeyPair.secretKey)
+  writeIdentityToSecureStore = async identity => {
+    const { name, encryptionKey, signingKey } = identity
+    const encryptionKeyBase64 = {
+      publicKeyBase64: base64url.encode(encryptionKey.publicKey),
+      secretKeyBase64: base64url.encode(encryptionKey.secretKey)
     }
-    const signingKey = {
-      publicKeyBase64: base64url.encode(signingKeyPair.publicKey),
-      secretKeyBase64: base64url.encode(signingKeyPair.secretKey)
+    const signingKeyBase64 = {
+      publicKeyBase64: base64url.encode(signingKey.publicKey),
+      secretKeyBase64: base64url.encode(signingKey.secretKey)
     }
     const key = base64url.encode(name)
     const value = base64url.encode(JSON.stringify({
-      did,
-      name,
-      encryptionKey,
-      signingKey
+      ...identity,
+      encryptionKey: encryptionKeyBase64,
+      signingKey: signingKeyBase64
     }))
     await SecureStore.setItemAsync(key, value)
-    this.identities[name] = {
+  }
+
+  addIdentity = async ({
+    did,
+    name,
+    keyName,
+    encryptionKeyPair: encryptionKey,
+    signingKeyPair: signingKey
+  }) => {
+    const identity = {
       name,
+      keyName,
       did,
-      encryptionKey: encryptionKeyPair,
-      signingKey: signingKeyPair
+      encryptionKey,
+      signingKey
     }
+    this.identities[name] = identity
+    await this.writeIdentityToSecureStore(identity)
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+    this.notify('onOwnIdentitiesChanged', {
+      currentIdentity: this.current,
+      identities: this.identities,
+      identityNames: this.identityNames
+    })
+  }
+
+  migrateIdentityNames = async migrationData => {
+    migrationData.forEach(({ oldName, newName }) => {
+      this.identities[oldName].keyName = newName
+    })
+    await Promise.all(Object.values(this.identities).map(async identity => {
+      await this.writeIdentityToSecureStore(identity)
+    }))
+  }
+
+  deleteIdentity = async ({ name }) => {
+    if (this.identityNames.includes(name)) {
+      const currentIdentityName = this.current.name
+      const key = base64url.encode(name)
+      await SecureStore.deleteItemAsync(key)
+      delete this.identities[name]
+      this.identityNames = this.identityNames.filter(idName => idName !== name)
+      await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
+      if (currentIdentityName === name) {
+        if (this.identityNames.length > 0) {
+          this.setCurrent(this.identityNames[0])
+        } else {
+          this.current = undefined
+        }
+      }
+      this.notify('onOwnIdentitiesChanged', {
+        currentIdentity: this.current,
+        identities: this.identities,
+        identityNames: this.identityNames
+      })
+    }
   }
 
   createBackupKey = async () => {
@@ -163,27 +211,44 @@ class IdentityManager {
   }
 
   notify = (observerName, params) => {
-    this.subscriptions.forEach(s => {
+    this.subscriptions.filter(s => s !== 'free').forEach(s => {
       s[observerName] && s[observerName](params)
     })
   }
 
   subscribe = subscription => {
-    this.subscriptions = [
-      ...this.subscriptions,
-      subscription
-    ]
-
-    return this.subscriptions.length - 1
+    const firstFreePosition = this.subscriptions.indexOf('free')
+    if (firstFreePosition === -1) {
+      this.subscriptions = [
+        ...this.subscriptions,
+        subscription
+      ]
+      return this.subscriptions.length - 1
+    } else {
+      this.subscriptions[firstFreePosition] = subscription
+      return firstFreePosition
+    }
   }
 
   unsubscribe = subscriptionId => {
-    this.subscriptions.splice(subscriptionId, 1)
+    this.subscriptions[subscriptionId] = 'free'
+  }
+
+  fromDID = did => {
+    const identities = Object.values(this.identities).filter(identity => {
+      if (identity.did === did) {
+        return identity
+      }
+    })
+    return identities.length === 1 ? identities[0] : undefined
   }
 
   setCurrent = async name => {
     this.current = this.identities[name]
     await AsyncStorage.setItem('selectedIdentityName', name)
+    this.notify('currentIdentityChanged', {
+      currentIdentity: this.current
+    })
   }
 
   getCurrent = () => {
@@ -204,9 +269,10 @@ class IdentityManager {
     }))
 
     this.identities = this.identities.reduce((acc, identity) => {
-      const { did, name, encryptionKey, signingKey } = identity
+      const { did, name, encryptionKey, signingKey, keyName } = identity
       acc[name] = {
         name,
+        keyName,
         did,
         encryptionKey: {
           publicKey: Buffers.copyToUint8Array(base64url.toBuffer(encryptionKey.publicKeyBase64)),
@@ -223,7 +289,7 @@ class IdentityManager {
     const currentName = await AsyncStorage.getItem('selectedIdentityName')
 
     if (!currentName) {
-      this.current = this.identities[Object.keys(this.identities)[0]]
+      this.current = this.identities[this.identityNames[0]]
     } else {
       this.current = this.identities[currentName]
     }

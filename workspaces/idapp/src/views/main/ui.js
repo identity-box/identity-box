@@ -4,7 +4,7 @@ import { Themed, ThemeColors } from 'react-navigation'
 const PageContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
   flex: 1,
   display: 'flex',
-  flexDirection: 'column',
+  flexFlow: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: ThemeColors[theme].body
@@ -31,28 +31,9 @@ const Description = styled(Themed.Text)({
   textAlign: 'center'
 })
 
-const IdentityName = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
-  color: theme === 'light' ? 'black' : 'white',
-  height: 40,
-  marginTop: 30,
-  marginBottom: 30,
-  width: '100%',
-  fontSize: 24,
-  textAlign: 'center'
-}))
-
-const Row = styled.View({
-  flexDirection: 'row',
-  width: '100%',
-  justifyContent: 'space-between',
-  alignItems: 'center'
-})
-
 export {
   PageContainer,
   Container,
   Welcome,
-  Description,
-  IdentityName,
-  Row
+  Description
 }

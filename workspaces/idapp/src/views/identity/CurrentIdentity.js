@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { Button, View, StyleSheet } from 'react-native'
+import { Button, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 import * as Permissions from 'expo-permissions'
@@ -14,7 +15,7 @@ import {
   Container,
   Description,
   Welcome
-} from 'src/views/identity/ui'
+} from './ui'
 
 const CurrentIdentity = ({ navigation }) => {
   const [identity, setIdentity] = useState({ name: '', did: '' })
@@ -22,7 +23,9 @@ const CurrentIdentity = ({ navigation }) => {
   const [scanning, setScanning] = useState(false)
   const [channelDescription, setChannelDescription] = useState({})
   const [cameraSize, setCameraSize] = useState(200)
+  const identityManager = useRef(undefined)
   const telepathProvider = useRef(undefined)
+  const theme = useTheme()
 
   const enableCamera = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA)
@@ -70,6 +73,21 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }
 
+  const sendErrorMessage = async errorID => {
+    const message = {
+      jsonrpc: '2.0',
+      method: 'decrypt_content_error',
+      params: [{
+        errorID
+      }]
+    }
+    try {
+      await telepathProvider.current.emit(message)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
   const sendCurrentIdentity = async currentDid => {
     const message = {
       jsonrpc: '2.0',
@@ -84,8 +102,12 @@ const CurrentIdentity = ({ navigation }) => {
   }
 
   useIdentity({
-    onReady: identityManager => {
-      setIdentity(identityManager.getCurrent())
+    onReady: idManager => {
+      setIdentity(idManager.getCurrent())
+      identityManager.current = idManager
+    },
+    currentIdentityChanged: ({ currentIdentity }) => {
+      setIdentity(currentIdentity)
     }
   })
 
@@ -109,18 +131,23 @@ const CurrentIdentity = ({ navigation }) => {
           nonce: base64url.encode(nonce)
         })
       } else if (message.method === 'decrypt-content' && message.params.length > 0) {
-        const { encryptedContentBase64, nonceBase64, theirPublicKeyBase64 } = message.params[0]
+        const { encryptedContentBase64, nonceBase64, theirPublicKeyBase64, didRecipient } = message.params[0]
         const box = base64url.toBuffer(encryptedContentBase64)
         const nonce = base64url.toBuffer(nonceBase64)
         const theirPublicKey = base64url.toBuffer(theirPublicKeyBase64)
-        const mySecretKey = identity.encryptionKey.secretKey
-        console.log('box=', box)
-        console.log('nonce=', nonce)
-        console.log('theirPublicKey=', theirPublicKey)
-        console.log('mySecretKey=', mySecretKey)
-        const decryptedContent = nacl.box.open(box, nonce, theirPublicKey, mySecretKey)
-        console.log('decryptedContent=', decryptedContent)
-        sendDecryptedContent(base64url.encode(decryptedContent))
+        const myIdentity = identityManager.current.fromDID(didRecipient)
+        if (myIdentity) {
+          const mySecretKey = myIdentity.encryptionKey.secretKey
+          console.log('box=', box)
+          console.log('nonce=', nonce)
+          console.log('theirPublicKey=', theirPublicKey)
+          console.log('mySecretKey=', mySecretKey)
+          const decryptedContent = nacl.box.open(box, nonce, theirPublicKey, mySecretKey)
+          console.log('decryptedContent=', decryptedContent)
+          sendDecryptedContent(base64url.encode(decryptedContent))
+        } else {
+          sendErrorMessage('NO-MATCHING-IDENTITY-FOUND')
+        }
       }
     },
     onError: error => {
@@ -175,13 +202,28 @@ const CurrentIdentity = ({ navigation }) => {
     }
   }, [])
 
+  const switchIdentity = useCallback(() => {
+    console.log('switching identity')
+    navigation.navigate('SwitchIdentity')
+  }, [])
+
   return (
     <PageContainer>
       <Container>
-        <Welcome>{identity.name}</Welcome>
-        <Description style={{ flexGrow: 1 }}>
-          {identity.did}
-        </Description>
+        <View style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          flexGrow: 1
+        }}
+        >
+          <TouchableOpacity onPress={switchIdentity} activeOpacity={theme === 'light' ? 0.2 : 0.5}>
+            <Welcome>{identity.name}</Welcome>
+            <Description>
+              {identity.did}
+            </Description>
+          </TouchableOpacity>
+        </View>
         {scanning &&
           <View style={{
             justifyContent: 'center',
@@ -195,14 +237,14 @@ const CurrentIdentity = ({ navigation }) => {
               style={StyleSheet.absoluteFillObject}
             />
           </View>}
-        <Button
-          title={scanning ? 'Cancel' : 'Scan...'}
-          color={scanning ? 'black' : '#FF6699'}
-          disabled={!cameraEnabled}
-          accessibilityLabel='Scan QR-Code'
-          onPress={scanning ? cancel : scanQRCode}
-        />
       </Container>
+      <Button
+        title={scanning ? 'Cancel' : 'Scan...'}
+        color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}
+        disabled={!cameraEnabled}
+        accessibilityLabel='Scan QR-Code'
+        onPress={scanning ? cancel : scanQRCode}
+      />
     </PageContainer>
   )
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { AppearanceProvider } from 'react-native-appearance'
 import { Main } from 'src/views/main'
 import { YellowBox } from 'react-native'
 import { Buffer } from 'buffer/'
@@ -10,7 +11,9 @@ YellowBox.ignoreWarnings([
 window.Buffer = Buffer
 
 const App = () => (
-  <Main />
+  <AppearanceProvider>
+    <Main />
+  </AppearanceProvider>
 )
 
 export default App
