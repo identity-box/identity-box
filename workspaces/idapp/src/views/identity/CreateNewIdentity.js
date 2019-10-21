@@ -98,7 +98,6 @@ const CreateNewIdentity = ({ navigation }) => {
       }
       await identityManager.current.addIdentity(identity)
       await identityManager.current.setCurrent(name)
-      setInProgress(false)
       const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
       if (backupEnabled) {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
@@ -192,20 +191,21 @@ const CreateNewIdentity = ({ navigation }) => {
         {nameAlreadyExists
           ? <Description style={{ color: 'red', marginBottom: 10 }}>You already have identity with that name...</Description>
           : <MrSpacer space={25} />}
-        <Row style={{ justifyContent: 'space-around' }}>
-          <ThemedButton
-            onPress={onCreateIdentity}
-            title='Create...'
-            disabled={name.length === 0 || nameAlreadyExists}
-            accessibilityLabel='Create an identity...'
-          />
-          <Button
-            onPress={onCancel}
-            title='Cancel'
-            accessibilityLabel='Cancel'
-          />
-        </Row>
-        {inProgress && <ActivityIndicator />}
+        {inProgress ? <ActivityIndicator /> : (
+          <Row style={{ justifyContent: 'space-around' }}>
+            <ThemedButton
+              onPress={onCreateIdentity}
+              title='Create...'
+              disabled={name.length === 0 || nameAlreadyExists}
+              accessibilityLabel='Create an identity...'
+            />
+            <Button
+              onPress={onCancel}
+              title='Cancel'
+              accessibilityLabel='Cancel'
+            />
+          </Row>
+        )}
       </Container>
     </PageContainer>
   )

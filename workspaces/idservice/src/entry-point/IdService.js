@@ -249,7 +249,7 @@ class IdService {
 
   handleMigrate = async message => {
     await this.identityProvider.migrate(message.params[0])
-    // this.respond('migrate-response', message.params[1].from)
+    this.respond('migrate-response', message.params[1].from)
   }
 
   processMessage = async message => {

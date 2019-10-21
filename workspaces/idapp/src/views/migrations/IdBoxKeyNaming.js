@@ -39,7 +39,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
     onMessage: async message => {
       console.log('received message: ', message)
       if (message.method === 'migrate-response') {
-        await identityManager.current.migrateIdentityNames(migration.current)
+        await identityManager.current.migrateIdentityNames(migration.current.migrationData)
         doBackup()
       } else if (message.method === 'backup-response') {
         navigation.navigate('AppLoading')
@@ -118,7 +118,8 @@ const IdBoxKeyNaming = ({ navigation }) => {
     const migrationData = await Promise.all(identityNames.map(async name => {
       const keyName = await createRandomIdentityKeyName()
       return {
-        [name]: keyName
+        oldName: name,
+        newName: keyName
       }
     }))
 

@@ -206,6 +206,9 @@ class IdentityProvider {
 
   migrateKeyNames = async migrationData => {
     console.log('migrationData=', migrationData)
+    await Promise.all(migrationData.map(async ({ oldName, newName }) => {
+      await this.ipfs.key.rename(oldName, newName)
+    }))
   }
 
   migrate = async ({ migration }) => {

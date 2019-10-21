@@ -54,7 +54,7 @@ const ConfirmFactoryReset = ({ navigation }) => {
 
   const onPerformReset = useCallback(async () => {
     console.log('will perform factory reset now...')
-    const identityNames = identityManager.identityNames
+    const identityNames = identityManager.keyNames
     await identityManager.reset()
     resetIdBox(telepathProvider, identityNames)
   }, [identityManager, telepathProvider])

@@ -36,37 +36,41 @@ class IdentityManager {
     return _instance
   }
 
+  writeIdentityToSecureStore = async identity => {
+    const { name, encryptionKey, signingKey } = identity
+    const encryptionKeyBase64 = {
+      publicKeyBase64: base64url.encode(encryptionKey.publicKey),
+      secretKeyBase64: base64url.encode(encryptionKey.secretKey)
+    }
+    const signingKeyBase64 = {
+      publicKeyBase64: base64url.encode(signingKey.publicKey),
+      secretKeyBase64: base64url.encode(signingKey.secretKey)
+    }
+    const key = base64url.encode(name)
+    const value = base64url.encode(JSON.stringify({
+      ...identity,
+      encryptionKey: encryptionKeyBase64,
+      signingKey: signingKeyBase64
+    }))
+    await SecureStore.setItemAsync(key, value)
+  }
+
   addIdentity = async ({
     did,
     name,
     keyName,
-    encryptionKeyPair,
-    signingKeyPair
+    encryptionKeyPair: encryptionKey,
+    signingKeyPair: signingKey
   }) => {
-    const encryptionKey = {
-      publicKeyBase64: base64url.encode(encryptionKeyPair.publicKey),
-      secretKeyBase64: base64url.encode(encryptionKeyPair.secretKey)
-    }
-    const signingKey = {
-      publicKeyBase64: base64url.encode(signingKeyPair.publicKey),
-      secretKeyBase64: base64url.encode(signingKeyPair.secretKey)
-    }
-    const key = base64url.encode(name)
-    const value = base64url.encode(JSON.stringify({
-      did,
+    const identity = {
       name,
       keyName,
+      did,
       encryptionKey,
       signingKey
-    }))
-    await SecureStore.setItemAsync(key, value)
-    this.identities[name] = {
-      name,
-      keyName,
-      did,
-      encryptionKey: encryptionKeyPair,
-      signingKey: signingKeyPair
     }
+    this.identities[name] = identity
+    await this.writeIdentityToSecureStore(identity)
     this.identityNames = [...this.identityNames, name]
     await AsyncStorage.setItem('identityNames', JSON.stringify(this.identityNames))
     this.notify('onOwnIdentitiesChanged', {
@@ -74,6 +78,15 @@ class IdentityManager {
       identities: this.identities,
       identityNames: this.identityNames
     })
+  }
+
+  migrateIdentityNames = async migrationData => {
+    migrationData.forEach(({ oldName, newName }) => {
+      this.identities[oldName].keyName = newName
+    })
+    await Promise.all(Object.values(this.identities).map(async identity => {
+      await this.writeIdentityToSecureStore(identity)
+    }))
   }
 
   deleteIdentity = async ({ name }) => {
