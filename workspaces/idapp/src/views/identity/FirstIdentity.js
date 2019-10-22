@@ -25,6 +25,7 @@ const FirstIdentity = ({ navigation }) => {
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
+  const nameRef = useRef(undefined)
   const [inProgress, setInProgress] = useState(false)
   const [backupAvailable, setBackupAvailable] = useState(false)
   const theme = useTheme()
@@ -75,6 +76,7 @@ const FirstIdentity = ({ navigation }) => {
 
   const persistIdentity = async ({ did, name: keyName }) => {
     try {
+      const name = nameRef.current
       const identity = {
         did,
         name,
@@ -120,6 +122,8 @@ const FirstIdentity = ({ navigation }) => {
     setInProgress(true)
     await createSigningKeyPair()
     await createEncryptionKeyPair()
+
+    nameRef.current = name.trim()
     const keyName = await createRandomIdentityKeyName()
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
@@ -129,7 +133,7 @@ const FirstIdentity = ({ navigation }) => {
       publicEncryptionKey,
       publicSigningKey
     })
-  }, [])
+  }, [name])
 
   const onRestoreFromBackup = () => {
     navigation.navigate('RestoreFromBackup')
