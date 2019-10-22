@@ -40,7 +40,7 @@ Backup options are available in the _Settings_ tab:
 <a name="figure-1"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Settings" src="images/Settings.png" />
+  <img alt="Settings" src="assets/AutomaticBackups-assets/Settings.png" />
 </div>
 <p class="figure-title"><b>Figure 1</b> Settings tab</p>
 </div>
@@ -50,7 +50,7 @@ Here, you can enable automatic backups and after short while the backup will be 
 <a name="figure-2"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Passphrase mnemonic" src="images/Mnemonic.png" />
+  <img alt="Passphrase mnemonic" src="assets/AutomaticBackups-assets/Mnemonic.png" />
 </div>
 <p class="figure-title"><b>Figure 2</b> Passphrase mnemonic</p>
 </div>
@@ -60,7 +60,7 @@ To, test your new backup, you can now perform the factory reset:
 <a name="figure-3"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Factory Reset" src="images/Reset.png" />
+  <img alt="Factory Reset" src="assets/AutomaticBackups-assets/Reset.png" />
 </div>
 <p class="figure-title"><b>Figure 3</b> Factory reset</p>
 </div>
@@ -70,7 +70,7 @@ after which, you will need re-establish the connection with your Identity Box, b
 <a name="figure-4"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Scan Identity Box QRCode" src="images/ScanIdBox.png" />
+  <img alt="Scan Identity Box QRCode" src="assets/AutomaticBackups-assets/ScanIdBox.png" />
 </div>
 <p class="figure-title"><b>Figure 4</b> Scan Identity Box QRCode</p>
 </div>
@@ -80,7 +80,7 @@ After connecting to your Identity Box, the app will check if any backups are ava
 <a name="figure-5"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Restore from backup" src="images/RestoreFromBackup.png" />
+  <img alt="Restore from backup" src="assets/AutomaticBackups-assets/RestoreFromBackup.png" />
 </div>
 <p class="figure-title"><b>Figure 5</b> Restore from backup</p>
 </div>
@@ -90,7 +90,7 @@ After selecting _Restore from backup..._ you will be asked to enter your passphr
 <a name="figure-6"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Enter passphrase mnemonic" src="images/EnterMnemonic.png" />
+  <img alt="Enter passphrase mnemonic" src="assets/AutomaticBackups-assets/EnterMnemonic.png" />
 </div>
 <p class="figure-title"><b>Figure 6</b> Enter passphrase mnemonic</p>
 </div>
@@ -100,7 +100,7 @@ You confirm with _Done_ button on the keyboard. The integrity of your mnemonic w
 <a name="figure-7"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Passphrase mnemonic correct" src="images/MnemonicCorrect.png" />
+  <img alt="Passphrase mnemonic correct" src="assets/AutomaticBackups-assets/MnemonicCorrect.png" />
 </div>
 <p class="figure-title"><b>Figure 7</b> Passphrase mnemonic correct</p>
 </div>
@@ -110,7 +110,7 @@ If the integrity check fails for any reason, you will receive feedback and oppor
 <a name="figure-8"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Passphrase mnemonic incorrect" src="images/MnemonicIncorrect.png" />
+  <img alt="Passphrase mnemonic incorrect" src="assets/AutomaticBackups-assets/MnemonicIncorrect.png" />
 </div>
 <p class="figure-title"><b>Figure 8</b> Passphrase mnemonic incorrect</p>
 </div>
@@ -120,7 +120,7 @@ Notice that the fact that the integrity of the mnemonic has been confirmed does 
 <a name="figure-9"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="No backup for the given passphrase mnemonic" src="images/SomethingWrong.png" />
+  <img alt="No backup for the given passphrase mnemonic" src="assets/AutomaticBackups-assets/SomethingWrong.png" />
 </div>
 <p class="figure-title"><b>Figure 9</b> No backup available for the given passphrase mnemonic</p>
 </div>
@@ -130,7 +130,7 @@ On the other hand, when there is a backup on your Identity Box that corresponds 
 <a name="figure-10"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
-  <img alt="Restoring successful" src="images/RestoringSuccess.png" />
+  <img alt="Restoring successful" src="assets/AutomaticBackups-assets/RestoringSuccess.png" />
 </div>
 <p class="figure-title"><b>Figure 10</b> Restoring from backup successful</p>
 </div>

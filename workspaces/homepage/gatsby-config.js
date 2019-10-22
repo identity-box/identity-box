@@ -11,7 +11,7 @@ module.exports = {
         ignore: [
           '**/.git/**',
           '**/coverage/**',
-          '**/assets/**',
+          'workspaces/assets/**',
           '**/node_modules/**',
           '**/.cache/**',
           '**/public/**',
