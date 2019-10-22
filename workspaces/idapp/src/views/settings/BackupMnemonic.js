@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import * as SecureStore from 'expo-secure-store'
-import { Button, Clipboard } from 'react-native'
-import { Themed, useTheme } from 'react-navigation'
+import { Button, Clipboard, ActivityIndicator } from 'react-native'
+import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 
 import { IdentityManager } from 'src/identity'
@@ -96,7 +96,14 @@ const BackupMnemonic = ({ navigation }) => {
                 />
               </>
             )
-            : <Themed.Text style={{ textAlign: 'center', marginBottom: 50 }}>Enabling backup...</Themed.Text>
+            : (
+              <>
+                <Description>
+                  Enabling backup...
+                </Description>
+                <ActivityIndicator />
+              </>
+            )
         }
       </Subcontainer>
     </Container>
