@@ -61,7 +61,7 @@ const Box3Content2 = ({ data }) => (
         }
       }}
       >
-      Our Identity Box embraces the concept of Self-Sofereign Identity -
+      Our Identity Box embraces the concept of Self-Sovereign Identity -
       digital identity that you own and fully control.
       </TextBox>
     </FlatBox>
