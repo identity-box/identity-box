@@ -13,6 +13,8 @@ node_modules
 
 workspaces/assets
 
+!tools/**
+
 !workspaces/hush-hush/components/**
 !workspaces/hush-hush/pages/**
 !workspaces/hush-hush/babel.config.js
