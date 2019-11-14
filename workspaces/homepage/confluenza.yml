@@ -1,0 +1,14 @@
+- title: 'Identity Box'
+  tag: 'user'
+
+- title: 'Developers'
+  tag: 'developer'
+
+- title: 'Early Adopters'
+  tag: 'beta'
+
+- title: 'Components'
+  tag: 'component'
+
+- title: 'Services'
+  tag: 'service'
