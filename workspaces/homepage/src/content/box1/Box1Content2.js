@@ -14,7 +14,7 @@ const Box1Content2 = ({ data }) => (
             financial institutions, and corporations. We do not have control over these
             data and our access to them is limited. Every institution storing the data
             has not only its own policies, but also uses proprietary technologies to
-            access the data. These data silos make interoperbility hard and give
+            access the data. These data silos make interoperability hard and give
             institutions almost complete freedom to use the data without consenting the user.
             </TextBox>
             <Img2 src={getImage(data, 'CurrentSituation')} />
