@@ -1,7 +1,7 @@
 {
   "version": 2,
   "public": false,
-  "name": "Identity Box",
+  "name": "identity-box",
   "builds": [
     { "src": "workspaces/hush-hush/package.json", "use": "@now/next" },
     { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
@@ -21,7 +21,9 @@
       "src": "(?!/workspaces/hush-hush)(.*)",
       "dest": "/workspaces/homepage$1",
       "continue": true
-    }
+    },
+    { "handle": "filesystem" },
+    { "src": "(?!/workspaces/hush-hush)(.*)", "dest": "/workspaces/homepage/404", "continue": true }
   ],
   "scope": "identity-box"
 }
