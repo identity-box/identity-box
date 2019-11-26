@@ -8,13 +8,12 @@ import { Box1, Box2, Box3 } from 'src/content'
 
 import { BodyFrame } from 'src/components/ui-blocks'
 
-const useUnusualReloader = location => {
+const useUnusualReloader = (location, onReady) => {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
-      setReady(true)
-    }, 300)
+    setReady(true)
+    onReady && onReady()
   }, [])
 
   return ready
@@ -23,7 +22,13 @@ const useUnusualReloader = location => {
 const Home = ({ data, location }) => {
   console.log('                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future \n ')
 
-  const pageReady = useUnusualReloader(location)
+  const pageReady = useUnusualReloader(location, () => {
+    setTimeout(() => {
+      setVisibility('visible')
+    }, 100)
+  })
+
+  const [visibility, setVisibility] = useState('hidden')
 
   if (!pageReady) {
     return null
@@ -36,7 +41,7 @@ const Home = ({ data, location }) => {
         <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' rel='stylesheet' />
       </Helmet>
       <Header />
-      <BodyFrame>
+      <BodyFrame css={{ visibility }}>
         <IntroPanel data={data} />
         <Box1 data={data} />
         <Box2 data={data} />
