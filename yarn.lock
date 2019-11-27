@@ -1064,10 +1064,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@confluenza/confluenza@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@confluenza/confluenza/-/confluenza-1.0.10.tgz#011f6c8a882a8b740fd66daabfc3d5ad358c50af"
-  integrity sha512-9Y8YXRw1LVCIHizfetdmN0VohS4e9CD4bRVa8C9A98XNfBTJ18so4+PCUQs7hU+Ez+HkBWb27kKjhUmRSQYHlg==
+"@confluenza/confluenza@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@confluenza/confluenza/-/confluenza-1.0.12.tgz#01cef62da7e7c4aace85788fc290fa894114dcde"
+  integrity sha512-esFzGmHIIHCMf6q2LK+b2BTr1rJv5TQO4XSMzEwXIYUUMy5KpQ4ix4zK4lGP9priuOKKBJGFjNVy4cJH8QBiCQ==
   dependencies:
     "@emotion/core" "^10.0.15"
     "@emotion/styled" "^10.0.15"
@@ -1076,12 +1076,12 @@
     typography "^0.16.19"
     typography-theme-moraga "^0.16.19"
 
-"@confluenza/gatsby-theme-confluenza@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@confluenza/gatsby-theme-confluenza/-/gatsby-theme-confluenza-1.0.10.tgz#66f16cbeef0d7e5fd5af5c5d3c092ea33ac2d48f"
-  integrity sha512-y7CqjJzCA5QYN9eJOWzR8wrwm7kUvCvT/gA/PNUCmFQhVwNpW4gYoOn+VVMFDm1IKAO1pqr41KGuM14Mxu8eFg==
+"@confluenza/gatsby-theme-confluenza@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@confluenza/gatsby-theme-confluenza/-/gatsby-theme-confluenza-1.0.12.tgz#d84d8a8305288c019a3bc6fe75bc183fee22b106"
+  integrity sha512-znM4h/0nBvgqhicSfuYArhPIZT/lbN4ln+2fYj3kjgtdkHdJdjKuzwkjhqhSaBlzsd1oqeOD66RbnTUZn6qGfQ==
   dependencies:
-    "@confluenza/confluenza" "^1.0.10"
+    "@confluenza/confluenza" "^1.0.12"
     "@emotion/core" "^10.0.15"
     "@emotion/styled" "^10.0.15"
     "@react-frontend-developer/css-grid-helper" "^1.0.22"
