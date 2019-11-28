@@ -26,7 +26,7 @@ Let's take a look how distributed storage infrastructure may change the way we d
 
 As already mentioned above, in the data storage playground, the dominating role is played by big data storage providers, like Amazon, Google, or Dropbox, to name a few most prominent. Lots of **our** data is also stored by the state, healthcare organizations, financial institutions, and corporations in general. In many cases, the owner of the data does not have any control of data, often not even being able to access it. All the world data are either kept by institutions that we do not trust, or sparingly distributed over very few data centers. [Figure 1](#figure-1) depicts the current situation:
 
-<a name="figure-1"></a> 
+<a id="figure-1"></a> 
 <div class="flex-wrap">
 <div class="bordered-content">
   <img alt="Current Situation" src="images/CurrentSituation.png"/>
@@ -40,7 +40,7 @@ The current situation has one more disadvantage. Every institution storing the d
 
 A more intuitive arrangement would be to store the data by the data owner - the user -  as presented in [Figure 2](#figure-2).
 
-<a name="figure-2"></a> 
+<a id="figure-2"></a> 
 <div class="flex-wrap">
 <div class="bordered-content">
   <img alt="User in control" src="images/DesiredSituation.png"/>
@@ -52,7 +52,7 @@ Here, we see that the user is in control, but we may also immediately realize a 
 
 A final proposal would be that all users, but also institutions, some of them storing the data on behalf of users, all participate in one overlay P2P network ([Figure 3](#figure-3)).
 
-<a name="figure-3"></a> 
+<a id="figure-3"></a> 
 <div class="flex-wrap">
 <div class="bordered-content">
   <img alt="P2P Network" src="images/OverlayNetwork.png"/>
