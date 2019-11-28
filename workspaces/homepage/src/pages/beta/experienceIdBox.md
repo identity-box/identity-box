@@ -12,7 +12,7 @@ For this purpose, specially for our early adopters, we created a *virtual* Ident
 
 When you start your IdentityBox app for the first time, you will be asked to scan your Identity Box's QRCode in order to establish a one-to-one connection between your Identity Box app and your Identity Box:
 
-<a name="figure-1"></a> 
+<a id="figure-1"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Scan IdentityBox QRCode" src="assets/ExperienceIdBox-assets/ConnectToIdBox.png" />
@@ -22,7 +22,7 @@ When you start your IdentityBox app for the first time, you will be asked to sca
 
 Here, we want you to use our virtual Identity Box by scanning the following QRCode:
 
-<a name="figure-2"></a> 
+<a id="figure-2"></a> 
 <div class="flex-wrap">
 <div style="width: 300px;">
   <img alt="Virtual IdentityBox QRCode" src="assets/ExperienceIdBox-assets/QRCodeStockholm.png" />
@@ -32,7 +32,7 @@ Here, we want you to use our virtual Identity Box by scanning the following QRCo
 
 After scanning this QRCode, you will be able to create your first identity. Identity App allows for multiple identities, here you create your very first one:
 
-<a name="figure-3"></a> 
+<a id="figure-3"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Create First Identity" src="assets/ExperienceIdBox-assets/CreateFirstIdentity.png"/>
@@ -47,7 +47,7 @@ Enter your first identity name and tap _Create_.
 
 After your first identity is successfully created, you will see the following screen (here I used the name *Zygfryd*):
 
-<a name="figure-4"></a> 
+<a id="figure-4"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Current Identity View" src="assets/ExperienceIdBox-assets/Zygfryd.png"/>
@@ -57,7 +57,7 @@ After your first identity is successfully created, you will see the following sc
 
 You can now also open *Address Book* tab, to see your own, and your peer identities:
 
-<a name="figure-5"></a> 
+<a id="figure-5"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Address Book" src="assets/ExperienceIdBox-assets/AddressBook.png"/>
@@ -70,7 +70,7 @@ identity with your peers by letting them scan the QRCode visible in the Identity
 
 You add peer identities to your address book by scanning the QRCode of your peer from the Identity tab and then by adding a descriptive name for your new *contact* - this new name never leaves your mobile.
 
-<a name="figure-6"></a> 
+<a id="figure-6"></a> 
 <div class="scrollable flex-wrap responsive">
 <div class="bordered-content-600">
   <img alt="Adding Peer Identity" src="assets/ExperienceIdBox-assets/NewPeerIdentity.png"/>
@@ -82,7 +82,7 @@ You add peer identities to your address book by scanning the QRCode of your peer
 
 In order to create another identity (i.e. your own identity) tap on the _Create New Identity_ icon in the top-right part of the navigation bar in the _Address Book_ tab:
 
-<a name="figure-7"></a> 
+<a id="figure-7"></a> 
 <div class="scrollable flex-wrap responsive">
 <div class="bordered-content-600">
   <img alt="Creating a new Identity" src="assets/ExperienceIdBox-assets/CreateNewIdentity.png"/>
@@ -94,7 +94,7 @@ In order to create another identity (i.e. your own identity) tap on the _Create 
 
 Finally, you can also delete identity by first tapping on the given identity in the _Address Book_ tab and then by tapping on _Delete this identity_ button. This works the same way for both you own identities and you peer identities, except that when you delete your own identity, it is also removed from your identity box.
 
-<a name="figure-8"></a> 
+<a id="figure-8"></a> 
 <div class="scrollable flex-wrap responsive">
 <div class="bordered-content-600">
   <img alt="Identity Details and deleting identities" src="assets/ExperienceIdBox-assets/IdentityDetails.png"/>

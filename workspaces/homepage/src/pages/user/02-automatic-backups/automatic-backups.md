@@ -37,7 +37,7 @@ After you enable backups, we will create a new backup every time you add or remo
 
 Backup options are available in the _Settings_ tab:
 
-<a name="figure-1"></a> 
+<a id="figure-1"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Settings" src="assets/AutomaticBackups-assets/Settings.png" />
@@ -47,7 +47,7 @@ Backup options are available in the _Settings_ tab:
 
 Here, you can enable automatic backups and after short while the backup will be created, stored on your Identity Box, and the passphrase mnemonic will be presented to you:
 
-<a name="figure-2"></a> 
+<a id="figure-2"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Passphrase mnemonic" src="assets/AutomaticBackups-assets/Mnemonic.png" />
@@ -57,7 +57,7 @@ Here, you can enable automatic backups and after short while the backup will be 
 
 To, test your new backup, you can now perform the factory reset:
 
-<a name="figure-3"></a> 
+<a id="figure-3"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Factory Reset" src="assets/AutomaticBackups-assets/Reset.png" />
@@ -67,7 +67,7 @@ To, test your new backup, you can now perform the factory reset:
 
 after which, you will need re-establish the connection with your Identity Box, by scanning its QRCode again:
 
-<a name="figure-4"></a> 
+<a id="figure-4"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Scan Identity Box QRCode" src="assets/AutomaticBackups-assets/ScanIdBox.png" />
@@ -77,7 +77,7 @@ after which, you will need re-establish the connection with your Identity Box, b
 
 After connecting to your Identity Box, the app will check if any backups are available on it, and - if so - it will give you an option to _Restore from backup..._:
 
-<a name="figure-5"></a> 
+<a id="figure-5"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Restore from backup" src="assets/AutomaticBackups-assets/RestoreFromBackup.png" />
@@ -87,7 +87,7 @@ After connecting to your Identity Box, the app will check if any backups are ava
 
 After selecting _Restore from backup..._ you will be asked to enter your passphrase mnemonic (the same you safely recorded in the previous step):
 
-<a name="figure-6"></a> 
+<a id="figure-6"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Enter passphrase mnemonic" src="assets/AutomaticBackups-assets/EnterMnemonic.png" />
@@ -97,7 +97,7 @@ After selecting _Restore from backup..._ you will be asked to enter your passphr
 
 You confirm with _Done_ button on the keyboard. The integrity of your mnemonic will be checked by the app, and if the mnemonic appears to be correct, the _Restore_ button will be enabled.
 
-<a name="figure-7"></a> 
+<a id="figure-7"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Passphrase mnemonic correct" src="assets/AutomaticBackups-assets/MnemonicCorrect.png" />
@@ -107,7 +107,7 @@ You confirm with _Done_ button on the keyboard. The integrity of your mnemonic w
 
 If the integrity check fails for any reason, you will receive feedback and opportunity to correct the mnemonic before you can proceed:
 
-<a name="figure-8"></a> 
+<a id="figure-8"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Passphrase mnemonic incorrect" src="assets/AutomaticBackups-assets/MnemonicIncorrect.png" />
@@ -117,7 +117,7 @@ If the integrity check fails for any reason, you will receive feedback and oppor
 
 Notice that the fact that the integrity of the mnemonic has been confirmed does not mean that the backup kept on your Identity Box corresponds to this mnemonic - this will be checked just after you tap on _Restore_. If the backup found on the device does not match your passphrase mnemonic, it will be communicated to the user:
 
-<a name="figure-9"></a> 
+<a id="figure-9"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="No backup for the given passphrase mnemonic" src="assets/AutomaticBackups-assets/SomethingWrong.png" />
@@ -127,7 +127,7 @@ Notice that the fact that the integrity of the mnemonic has been confirmed does 
 
 On the other hand, when there is a backup on your Identity Box that corresponds to the passphrase mnemonic you entered, your address book will be correctly restored:
 
-<a name="figure-10"></a> 
+<a id="figure-10"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
   <img alt="Restoring successful" src="assets/AutomaticBackups-assets/RestoringSuccess.png" />
