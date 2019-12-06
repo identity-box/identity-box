@@ -1,6 +1,6 @@
 {
   "name": "idapp",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "main": "__generated__/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.17",
     "@emotion/native": "^10.0.14",
-    "@identity-box/telepath": "^0.1.20",
+    "@identity-box/telepath": "^0.1.21",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "buffer": "^5.4.2",

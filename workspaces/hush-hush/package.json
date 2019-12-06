@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "hush-hush",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "Hush Hush secret sharing web app",
   "author": "Marcin Czenko",
   "license": "MIT",
