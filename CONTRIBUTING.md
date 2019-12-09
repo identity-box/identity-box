@@ -109,7 +109,7 @@ option in any of the babel commands in the `tools/build.js` top-level
 script.
 
 
-So to summarize, we have a top-level `babel.config.js` and then for each package that we intend to publish to npm registry or which needs a custom babel configuration we have `babel.config.js`.
+So to summarize, we have a top-level `babel.config.js` and then for each package that we intend to publish to npm registry or which needs a custom babel configuration we have a `babel.config.js` file in the corresponding workspace directory.
 
 > Please notice that we run tests from the top-running of the tests is nicely handled by the top-level `babel.config.js`.
 
