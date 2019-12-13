@@ -5,6 +5,7 @@ node_modules
 
 *.*
 !*.md
+!*.mdx
 .DS_Store
 !/package.json
 !/yarn.lock
