@@ -19,17 +19,17 @@
   ],
   "dependencies": {
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
-    "qrcode.react": "^0.9.3",
+    "qrcode.react": "^1.0.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^0.88.2"
   },
   "peerDependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "@testing-library/react": "^9.1.4",
-    "jest-canvas-mock": "^2.1.1"
+    "@testing-library/react": "^9.4.0",
+    "jest-canvas-mock": "^2.2.0"
   },
   "publishConfig": {
     "access": "public"

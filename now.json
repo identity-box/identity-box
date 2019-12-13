@@ -8,22 +8,36 @@
   ],
   "routes": [
     {
+      "src": "/hush-hush/",
+      "dest": "/workspaces/hush-hush/",
+      "continue": true
+    },
+    {
+      "src": "/hush-hush",
+      "dest": "/workspaces/hush-hush/",
+      "continue": true
+    },
+    {
+      "src": "/hush-hush/secret/",
+      "dest": "/workspaces/hush-hush/secret",
+      "continue": true
+    },
+    {
       "src": "/hush-hush(.*)",
       "dest": "/workspaces/hush-hush$1",
       "continue": true
     },
     {
-      "src": "/workspaces/hush-hush/secret/",
-      "dest": "/workspaces/hush-hush/secret",
-      "continue": true
-    },
-    {
-      "src": "(?!/workspaces/hush-hush)(.*)",
+      "src": "(?!/?workspaces/hush-hush)(.*)",
       "dest": "/workspaces/homepage$1",
       "continue": true
     },
     { "handle": "filesystem" },
-    { "src": "(?!/workspaces/hush-hush)(.*)", "dest": "/workspaces/homepage/404", "continue": true }
+    {
+      "src": "(?!/?workspaces/hush-hush)(.*)",
+      "dest": "/workspaces/homepage/404",
+      "continue": true
+    }
   ],
   "scope": "identity-box"
 }

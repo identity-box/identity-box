@@ -6,17 +6,17 @@
   "author": "Marcin Czenko",
   "license": "MIT",
   "dependencies": {
-    "@emotion/core": "^10.0.17",
-    "@emotion/styled": "^10.0.17",
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
     "@identity-box/idbox-react-ui": "^0.1.18",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "base64url": "^3.0.1",
-    "next": "^9.0.5",
+    "next": "^9.1.5",
     "prop-types": "^15.7.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.0",
+    "semantic-ui-react": "^0.88.2",
     "tweetnacl": "^1.0.1"
   },
   "scripts": {
@@ -26,14 +26,14 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@emotion/babel-preset-css-prop": "^10.0.17",
-    "@testing-library/jest-dom": "^4.1.0",
-    "@testing-library/react": "^9.1.4",
+    "@emotion/babel-preset-css-prop": "^10.0.23",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
     "@zeit/next-css": "^1.0.1",
-    "file-loader": "^4.2.0",
-    "jest-emotion": "^10.0.17",
-    "react-test-renderer": "^16.9.0",
-    "url-loader": "^2.1.0",
-    "webpack": "^4.39.3"
+    "file-loader": "^5.0.2",
+    "jest-emotion": "^10.0.26",
+    "react-test-renderer": "^16.12.0",
+    "url-loader": "^3.0.0",
+    "webpack": "^4.41.2"
   }
 }
