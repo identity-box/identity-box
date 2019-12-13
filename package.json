@@ -7,12 +7,12 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-react": "^7.7.4",
-    "babel-eslint": "10.0.3",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
     "lerna": "^3.19.0",
     "pm2": "^4.2.1",
-    "standard": "14.3.1"
+    "standard": "^14.3.1"
   },
   "workspaces": {
     "packages": [
@@ -23,7 +23,7 @@
     "setup:dev": "yarn && yarn build",
     "test": "yarn lint && yarn jest --colors",
     "test:watch": "yarn jest --watch --colors",
-    "lint": "yarn standard",
+    "lint": "yarn standard --verbose",
     "lint:fix": "yarn standard --fix --verbose",
     "build": "yarn lerna run build --scope @identity-box/**"
   },
@@ -37,7 +37,8 @@
       "**/lib/**",
       "**/es/**",
       "workspaces/idapp/__generated__/**",
-      "workspaces/idservice/index.js"
+      "workspaces/idservice/index.js",
+      "tools/build.js"
     ],
     "envs": [
       "es6",
