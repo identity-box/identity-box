@@ -1147,10 +1147,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@confluenza/confluenza@^1.0.16":
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/@confluenza/confluenza/-/confluenza-1.0.16.tgz#7c4bcd7eb23d90f4cd64ddd9875ba61d7cb043a2"
-  integrity sha512-hKzlbGhn5nk0eksHBOrDbQQlPnOIpNNbim6Jak0S30Az3x4j3xqQzkPfjdpYmopfnAZwCUy/cMEl4ZFkdONxvg==
+"@confluenza/confluenza@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@confluenza/confluenza/-/confluenza-1.0.17.tgz#57bdfd18f046f93effff9af094d66be2bc59dbd9"
+  integrity sha512-MGQz53lkHAaOGhC4ULycdnQwpe+KgSlpYRP78n6twwZFRhRq2fett18aswlHFkFTlM8D/BCj49mOSsmJ9a7Ogg==
   dependencies:
     "@emotion/core" "^10.0.15"
     "@emotion/styled" "^10.0.15"
@@ -1159,12 +1159,12 @@
     typography "^0.16.19"
     typography-theme-moraga "^0.16.19"
 
-"@confluenza/gatsby-theme-confluenza@^1.0.16":
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/@confluenza/gatsby-theme-confluenza/-/gatsby-theme-confluenza-1.0.16.tgz#e7c53c86d0b20cb174edb6b59da945f9cfcdd2de"
-  integrity sha512-xWNKKK91Dn1DIVJFUCYDo8Lb80LLyjnduIEP3H6YcjApti7F8weDB1fkryhuF6Bf2NX7UuONbkljYFIF1RmA7A==
+"@confluenza/gatsby-theme-confluenza@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@confluenza/gatsby-theme-confluenza/-/gatsby-theme-confluenza-1.0.17.tgz#1e9215ba53bcb39fbe847453e4b5e9e4efc8450b"
+  integrity sha512-K5gU1lOU+WHOLurPGXzvOGjjKBUYdWsSK+QQljRYIFMR5ixzdmmPm0s+dZDag4XRYME2SFUajh3ZaYdLm0qsRA==
   dependencies:
-    "@confluenza/confluenza" "^1.0.16"
+    "@confluenza/confluenza" "^1.0.17"
     "@emotion/core" "^10.0.15"
     "@emotion/styled" "^10.0.15"
     "@mdx-js/mdx" "^1.5.1"
@@ -1174,7 +1174,6 @@
     gatsby-plugin-emotion "^4.1.18"
     gatsby-plugin-layout "^1.1.18"
     gatsby-plugin-mdx "^1.0.62"
-    gatsby-plugin-page-creator "^2.1.36"
     gatsby-plugin-react-helmet "^3.1.18"
     gatsby-plugin-sharp "^2.3.7"
     gatsby-plugin-typography "^2.3.20"
@@ -15305,10 +15304,10 @@ normalize-url@^4.1.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-4.5.0.tgz#453354087e6ca96957bd8f5baf753f5982142129"
   integrity sha512-2s47yzUxdexf1OhyRi4Em83iQk0aPvwTddtFz4hnSSw9dCEsLEGf6SwIO8ss/19S9iBb5sJaOuTvTGDeZI00BQ==
 
-now@^16.6.3:
-  version "16.6.3"
-  resolved "https://registry.yarnpkg.com/now/-/now-16.6.3.tgz#00a940223bcac7de0a0d892ad07b9dbdf44cf5e8"
-  integrity sha512-bNAaQUL+ggTfpzsO6WxqCvEAz8sbm/2mI2OxJIsVq+v4cRPpH09z8+4EQeP6cfWll2ospH1UFxW2wF+9EaEFKA==
+now@^16.7.0:
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/now/-/now-16.7.0.tgz#4a1f1588410e7cbe9ca8d2c3fdcdc61e7116e8cc"
+  integrity sha512-YUMFYphAxcLE441/o2h55QgtXerF3M0GlQgy7ihJhPcz6OsllCqGgxaN5/XgnAJOlgKCW84HxSB8ZzCY55H4lQ==
 
 npm-bundled@^1.0.1:
   version "1.1.1"

@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "mockdate": "^2.0.5",
-    "now": "^16.6.3",
+    "now": "^16.7.0",
     "supertest": "^4.0.2"
   },
   "dependencies": {
