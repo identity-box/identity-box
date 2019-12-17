@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 
@@ -14,7 +14,7 @@ const useUnusualReloader = (location, onReady) => {
   useEffect(() => {
     setReady(true)
     onReady && onReady()
-  }, [])
+  }, [onReady])
 
   return ready
 }
@@ -22,11 +22,13 @@ const useUnusualReloader = (location, onReady) => {
 const Home = ({ data, location }) => {
   console.log('                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future \n ')
 
-  const pageReady = useUnusualReloader(location, () => {
+  const onReady = useCallback(() => {
     setTimeout(() => {
       setVisibility('visible')
     }, 100)
-  })
+  }, [])
+
+  const pageReady = useUnusualReloader(location, onReady)
 
   const [visibility, setVisibility] = useState('hidden')
 
