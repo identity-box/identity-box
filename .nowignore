@@ -8,6 +8,7 @@ node_modules
 !*.mdx
 .DS_Store
 !/package.json
+!/now.json
 !/yarn.lock
 !/babel.config.js
 !/lerna.json
