@@ -11,7 +11,7 @@
     "test": "node_modules/.bin/jest",
     "postinstall": "expo-yarn-workspaces postinstall",
     "env:dev:local-qs": "expo-env --env=development-lqs",
-    "env:dev:marcin": "expo-env --env=development-marcin",
+    "env:dev:idbox": "expo-env --env=development-idbox",
     "env:prod": "expo-env --env=production"
   },
   "dependencies": {
