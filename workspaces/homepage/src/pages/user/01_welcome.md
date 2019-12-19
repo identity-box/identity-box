@@ -34,9 +34,9 @@ As already mentioned above, in the data storage playground, the dominating role 
 <p class="figure-title"><b>Figure 1</b> Current Situation</p>
 </div>
 
-In order to access the data that the user owns, the user needs to individually query every data depositary. Removing the data is often hard if not impossible. The user if a de-facto hostage of the data depositary.
+In order to access the data that the user owns, the user needs to individually query every data depositary. Removing the data is often hard if not impossible. The user is a de-facto hostage of the data depositary.
 
-The current situation has one more disadvantage. Every institution storing the data has not only its own policies, but also uses proprietary technologies to access the data. And so not only the user, but also any other involved party wanting to access the user's data at organization *X* needs to resort to specific technology on a case-by-case basis. For the user, often the least equipped from the whole constellation, it means learning to use and maintain a number of applications - one per organization in the worst case scenario. Each organization in [Figure 1](#figure-1) will also apply its own access control policies and authentication technologies, which puts even more burden on the user. 
+The current situation has one more disadvantage. Every institution storing the data has not only its own policies, but also uses proprietary technologies to access the data. It means that not only the user, but also any other involved party wanting to access the user's data at organization *X* needs to resort to specific technology on a case-by-case basis. For the user, often the least equipped from the whole constellation, it means learning to use and maintain a number of applications - one per organization in the worst case scenario. Each organization in [Figure 1](#figure-1) will also apply its own access control policies and authentication technologies, which puts even more burden on the user. 
 
 A more intuitive arrangement would be to store the data by the data owner - the user -  as presented in [Figure 2](#figure-2).
 
@@ -76,9 +76,9 @@ In the heart of self-sovereign identity we have [Decentralized Identifiers (DIDs
 
 Let's take the following example. Alice wants to exchange some confidential information (a file) with Bob. Technically, the solution is simple: Alice encrypts the file using Bob's public key, and additionally signs the encrypted content using her private key. Bob then uses Alice's public key to verify the signature and then decrypts the file with his private key. This process works smoothly as long as Alice and Bob have each other's public keys. Moreover, users need to build trust between them: Alice need to trust that the public key that she thinks belongs to Bob, actually does. This is what we call a *web of trust* - a concept used in PGP, GnuPG, and other OpenPGP-compatible systems to establish the authenticity of the binding between a public key and its owner. The problem of key distribution is hard on its own, but we believe that Decentralized Identifiers will make it easier to deal with.
 
-Each DID resolves to a DID Document that describe where and how the corresponding DID can be used. This is how Alice, knowing Bob's DID, can learn Bob's public key.
+Each DID resolves to a DID Document that describes where and how the corresponding DID can be used. This is how Alice, knowing Bob's DID, can learn Bob's public key.
 
-How a DID resolves to a DID document is described in the so-called *DID method*, which defines how a specific DID scheme can be implemented on a specific technology. A [DID Method registry](https://w3c-ccg.github.io/did-method-registry/#the-registry) lists all the registered DID methods.
+How a DID resolves to a DID document is described in the so-called *DID method*, which defines how a specific DID scheme can be implemented using a specific technology. A [DID Method registry](https://w3c-ccg.github.io/did-method-registry/#the-registry) lists all the registered DID methods.
 
 The DID method is referenced in the DID itself: a DID is a string starting with `did:`, followed by the *method* string, and the method specific identifier itself. This way DID remains self-descriptive.
 
@@ -86,23 +86,23 @@ Most DID methods require a distributed ledger technology (DLT) or other decentra
 
 In the DID method for Ethereum, a method specific identifier is created by prepending `did:ethr:` to a valid Ethereum address. A big advantage of this DID method is that such DID can be created completely off-line. Resolving a DID reduces to basically calling a `resolve` smart contract function providing a DID as an argument. The did resolver takes the Ethereum address, checks for the current owner, looks at contract events then builds and returns the resulting DID document.
 
-A disadvantage of a DID based on Ethereum is that it needs Ethereum. We would prefer that identity is integral part of the underlying P2P network, not an addition build on top of it. Security and privacy as a default, not a fancy optional.
+A disadvantage of a DID based on Ethereum is that it needs Ethereum. We would prefer that identity is an integral part of the underlying P2P network, not an addition build on top of it. Security and privacy as a default, not a fancy optional.
 
 ## DIDs for IPFS
 
-The DID method for Interplanetary Identifiers is based on [IPLD](https://ipld.io) - the data model of the content-addressable web that brings interoperability between different content-addressable protocols. IPLD is used in [IPFS](https://ipfs.io) to structure and link all the data chunks/objects. In simple terms, IPFS is a content addressable distributed storage, where the physical location of the stored content depends on the content itself.
+The DID method for Interplanetary Identifiers is based on [IPLD](https://ipld.io) - the data model of the content-addressable web that brings interoperability between different content-addressable protocols. IPLD is used in [IPFS](https://ipfs.io) - Interplanetary File System - to structure and link all the data chunks/objects. In simple terms, IPFS is a content addressable distributed storage, where the physical location of the stored content depends on the content itself.
 
 Because IPFS is a content addressable distributed network, it features a resolver built-in, which together with [IPNS](https://docs.ipfs.io/guides/concepts/ipns/) - Interplanetary Name System - makes IPFS a powerful foundation to provide a global uniform infrastructure for identity and storage.
 
-Creating a DID in IPFS starts with creating an initial version of a DID document - for instance one listing a public key of the DID subject. This DID document is then added to the network and the resulting content identifier (called a CID - a hash with some metadata) is given back to the user. As already mentioned above, any update to this DID document will result in a new CID. A CID therefore cannot directly be used as a DID. What we need a binding between the DID and the most recent version of the corresponding DID document. This is what *IPNS* - Interplanetary Name System - is for. IPNS provides a record that binds an IPNS name with the given CID. The process of creating an IPNS name is called *publishing*. The IPNS name has limited lifetime and needs to be renewed before it becomes invalid. These helps keeping IPFS clean from obsolete and unused names.
+Creating a DID in IPFS starts with creating an initial version of a DID document - for instance one listing a public key of the DID subject. This DID document is then added to the network and the resulting content identifier (called a CID - a hash with some metadata) is given back to the user. As already mentioned above, any update to this DID document will result in a new CID. A CID therefore cannot directly be used as a DID. What we need is a binding between the DID and the most recent version of the corresponding DID document. This is what *IPNS* - Interplanetary Name System - is for. IPNS provides a record that binds an IPNS name with the given CID. The process of creating an IPNS name is called *publishing*. The IPNS name has limited lifetime and needs to be renewed before it becomes invalid. These helps keeping IPFS clean from obsolete and unused names.
 
 What is an IPNS name under the hood? An IPNS name is hash of a public key belonging to an IPFS node. Each IPNS node has an associated key-pair. When publishing a name, the hash of the node's public key is used as an IPNS name. The owner of the node can create additional key-pairs in order to publish more IPNS names.
 
-IPNS name therefore becomes an DID on IPFS. Every time the user updates the corresponding DID document, the document needs to be republished under the same IPNS name, so that the IPNS name points to the most recent version of the DID document.
+An IPNS name therefore becomes a DID on IPFS. Every time the user updates the corresponding DID document, the document needs to be republished under the same IPNS name, so that the IPNS name points to the most recent version of the DID document.
 
 As we see, everything we need to create and to maintain a DID is already part of the underlying infrastructure - IPFS P2P network - which in our vision can result in a much more scalable and uniform approach to global identity system than DID based on the Ethereum method. What makes IPFS even more suitable is that it is based on IPLD, which makes the concept of addressable web scaling well across different domains - for instance, a DID document can easily refer to an Ethereum transaction hash or to a git commit.
 
-## Introducing IdBox
+## Introducing Identity Box
 
 In order to take advantage of the distributed internet of the future, each participating user needs to own an IPFS node extended with self-sovereign identity and potentially other user-tailored services.
 
@@ -112,7 +112,7 @@ The IdBox is a physical device that the user connects to his personal home netwo
 
 It is crucial that more and more users own a physical IPFS node. Only the owner of a node can add content and publish names - which means that only an owner of an IPFS node can create an IPFS-based DID.
 
-Creating an IPFS is not technically challenging - one can even create one within a browser, even on a mobile device. Such node is perfect to interact with IPFS network, but may not be sufficient to guarantee continuous availability of the stored content and so also of the created DIDs. Using so called pinning-services is not really an alternative - as one cannot guarantee required features, like publishing names. Finally, for the success of the IPFS network, it needs more and more physical nodes - not the nodes running on global cloud providers' infrastructure like Amazon or Google.
+Creating an IPFS node is not technically challenging - one can even create one within a browser, even on a mobile device. Such node is perfect to interact with IPFS network, but may not be sufficient to guarantee continuous availability of the stored content and so also of the created DIDs. Using so called pinning-services is not really an alternative - as one cannot guarantee required features, like publishing names. Finally, for the success of the IPFS network, it needs more and more physical nodes - not the nodes running on global cloud providers' infrastructure like Amazon or Google.
 
 ### Technology behind IPFS
 
