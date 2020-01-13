@@ -4,12 +4,7 @@ module.exports = {
     editBaseUrl: 'https://github.com/identity-box/identity-box/blob/master'
   },
   plugins: [
-    {
-      resolve: '@confluenza/gatsby-theme-confluenza',
-      options: {
-        mdx: false
-      }
-    },
+    '@confluenza/gatsby-theme-confluenza',
     'gatsby-plugin-emotion',
     'gatsby-plugin-catch-links',
     'gatsby-plugin-root-import'

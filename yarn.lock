@@ -1159,10 +1159,10 @@
     typography "^0.16.19"
     typography-theme-moraga "^0.16.19"
 
-"@confluenza/gatsby-theme-confluenza@^1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@confluenza/gatsby-theme-confluenza/-/gatsby-theme-confluenza-1.0.17.tgz#1e9215ba53bcb39fbe847453e4b5e9e4efc8450b"
-  integrity sha512-K5gU1lOU+WHOLurPGXzvOGjjKBUYdWsSK+QQljRYIFMR5ixzdmmPm0s+dZDag4XRYME2SFUajh3ZaYdLm0qsRA==
+"@confluenza/gatsby-theme-confluenza@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@confluenza/gatsby-theme-confluenza/-/gatsby-theme-confluenza-1.0.18.tgz#897154a0a33af2097470143cfec1be058bcda2df"
+  integrity sha512-rrNy0Ifi72Y1fUtuBGEWGX3i5ffjseCvUpVO6D+35aYvDbHdLVnIZ9N12ZlzyIaLcQpqwJqR39WouXLGJaDFwA==
   dependencies:
     "@confluenza/confluenza" "^1.0.17"
     "@emotion/core" "^10.0.15"
