@@ -96,6 +96,7 @@ class MultiTelepathConfiguration {
     if (id === null || key === null || appName === null || clientId === null) {
       const configuration = this.readConfigurationFromEnvironment()
       if (configuration) {
+        configuration.clientId = this.createClientId()
         this.remember(this.name, configuration)
         return {
           id: this.id,
