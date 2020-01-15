@@ -25,6 +25,7 @@ workspaces/assets
 
 !workspaces/homepage/src/**
 !workspaces/homepage/gatsby-config.js
+!workspaces/homepage/gatsby-node.js
 !workspaces/homepage/confluenza.yml
 !workspaces/homepage/package.json
 
