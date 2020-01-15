@@ -14,7 +14,7 @@ module.exports = withCSS({
         key: '@hush_hush_telepath_idbox_key',
         appName: '@hush_hush_telepath_idbox_appname',
         clientId: '@hush_hush_telepath_idbox_clientid',
-        servicePointId: '@hush_hush_telepath_servicepointid'
+        servicePointId: '@hush_hush_telepath_idbox_servicepointid'
       }
     }
   },
