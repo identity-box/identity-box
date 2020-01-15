@@ -3,23 +3,6 @@ const webpack = require('webpack')
 
 module.exports = withCSS({
   target: 'serverless',
-  build: {
-    env: {
-      serviceUrl: {
-        development: 'http://localhost:3000',
-        production: 'https://idbox-queue.now.sh'
-      },
-      telepath: {
-        idbox: {
-          id: '@hush_hush_telepath_idbox_id',
-          key: '@hush_hush_telepath_idbox_key',
-          appName: '@hush_hush_telepath_idbox_appname',
-          clientId: '@hush_hush_telepath_idbox_clientid',
-          servicePointId: '@hush_hush_telepath_idbox_servicepointid'
-        }
-      }
-    }
-  },
   assetPrefix: '/hush-hush',
   webpack (config) {
     config.module.rules.push({
