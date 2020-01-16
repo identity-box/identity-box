@@ -6,6 +6,14 @@
     { "src": "workspaces/hush-hush/package.json", "use": "@now/next" },
     { "src": "workspaces/homepage/package.json", "use": "@now/static-build", "config": {"distDir": "public"} }
   ],
+  "build": {
+    "env": {
+      "hush_hush_telepath_idbox_id": "@hush_hush_telepath_idbox_id",
+      "hush_hush_telepath_idbox_key": "@hush_hush_telepath_idbox_key",
+      "hush_hush_telepath_idbox_appname": "@hush_hush_telepath_idbox_appname",
+      "hush_hush_telepath_idbox_servicepointid": "@hush_hush_telepath_idbox_servicepointid"
+    }
+  },
   "routes": [
     {
       "src": "/hush-hush/",

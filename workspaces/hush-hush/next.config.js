@@ -10,11 +10,10 @@ module.exports = withCSS({
     },
     telepath: {
       idbox: {
-        id: 'ZGmDmEIVfPXkxrOnyycpi51W',
-        key: 'lcsys9Ufp24A5htwW0O9T75ILPK8I0LOkEX1kCyswbE',
-        appName: 'SHVzaEh1c2g',
-        clientId: 'Q8TLfEGzhZ1NDWcp',
-        servicePointId: 'PYkElCKv08o'
+        id: process.env.hush_hush_telepath_idbox_id,
+        key: process.env.hush_hush_telepath_idbox_key,
+        appName: process.env.hush_hush_telepath_idbox_appname,
+        servicePointId: process.env.hush_hush_telepath_idbox_servicepointid
       }
     }
   },
