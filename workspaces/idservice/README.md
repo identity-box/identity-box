@@ -27,9 +27,6 @@ This is the file where your telepath configuration is kept. The included `telepa
 can be used for development (either locally or on your idbox), but should be removed before
 launching the actual service so that a fresh telepath configuration is created.
 
-The channel provided in the provided `telepath.config` matches the `idapp` configuration in
-`workspaces/idapp/development-lqs.config`.
-
 ## Required environment variables
 
 IdService assume some environment variables to be set.
@@ -76,7 +73,7 @@ you own local queuing service.
 
 To directly run the service, use:
 
-```
+```bash
 ./node_modules/.bin/idservice
 ```
 
