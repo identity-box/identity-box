@@ -316,3 +316,33 @@ $ yarn add @identity-box/idservice
 $ yarn setup
 ```
 
+We start Identity Service with pm2:
+
+```bash
+$ cd ~/idbox/idservice
+$ pm2 start ecosystem.config.js
+```
+
+To make pm2 running as daemon:
+
+```bash
+$ pm2 startup
+# this will give you a command that you have to copy and paste in the terminal and execute it, something like:
+[PM2] Init System found: systemd
+[PM2] To setup the Startup Script, copy/paste the following command:
+sudo env PATH=$PATH:/home/pi/.nvm/versions/node/v12.14.1/bin /home/pi/.config/yarn/global/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+```
+
+Finally to freeze a process list on reboot run:
+
+```bash
+$ pm2 save
+```
+
+You can remove startup script at any time by running:
+
+```bash
+$ pm2 unstartup systemd
+```
+
+The box should be ready to use.
