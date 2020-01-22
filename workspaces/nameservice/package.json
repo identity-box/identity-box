@@ -1,0 +1,44 @@
+{
+  "name": "@identity-box/nameservice",
+  "private": false,
+  "version": "0.1.23",
+  "description": "IdBox name service to handle name resolution requests in a fully distributed way",
+  "bin": {
+    "idservice": "./index.js",
+    "idservice-cjs": "./index-cjs.js",
+    "setup": "./setup.sh"
+  },
+  "files": [
+    "src",
+    "ecosystem.config.js",
+    "index.js",
+    "index-cjs.js",
+    "setup.sh"
+  ],
+  "keywords": [
+    "ipfs",
+    "ipns",
+    "ipid",
+    "DID",
+    "DID Document"
+  ],
+  "author": "Marcin Czenko",
+  "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "@react-frontend-developer/buffers": "^1.0.21",
+    "base64url": "^3.0.1",
+    "esm": "^3.2.25",
+    "glob": "^7.1.6",
+    "ipfs-http-client": "^41.0.0",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "libp2p-crypto": "^0.17.1",
+    "tweetnacl": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
