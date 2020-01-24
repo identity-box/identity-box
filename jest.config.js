@@ -9,6 +9,10 @@ module.exports = {
       testEnvironment: 'node'
     },
     {
+      rootDir: 'workspaces/nameservice',
+      testEnvironment: 'node'
+    },
+    {
       testMatch: ['<rootDir>/dummy']
     }
   ],

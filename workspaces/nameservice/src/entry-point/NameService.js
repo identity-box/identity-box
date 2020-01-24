@@ -1,34 +1,52 @@
-import Koa from 'koa'
-import koaBody from 'koa-body'
+import path from 'path'
 import ipfsClient from 'ipfs-http-client'
+import { StateSerializer } from '../services'
+
+const PUBLISH_INTERVAL = 10000
 
 class NameService {
-  app = new Koa()
   ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
+  serializer
   interval
-  identities = {}
+  identities
 
-  start = () => {
-    this.app.use(koaBody())
-    this.app.use(async ctx => {
-      ctx.accepts('application/json')
-      const response = await this.processMessage(ctx.request.body)
-      ctx.response.body = response
+  constructor () {
+    this.serializer = new StateSerializer(path.resolve(process.cwd(), 'Identities.json'))
+    this.identities = this.serializer.read()
+    if (Object.keys(this.identities).length > 0) {
+      this.interval = setInterval(this.publishHandler, PUBLISH_INTERVAL)
+    }
+  }
+
+  reset = () => {
+    this.interval && clearInterval()
+    this.interval = undefined
+    this.identities = {}
+  }
+
+  publishHandler = async () => {
+    const promises = Object.entries(this.identities).map(e => {
+      const [topic, cid] = e
+      console.log(`Publishing ${cid} on topic ${topic}`, Date.now())
+      const msg = Buffer.from(cid)
+      return this.ipfs.pubsub.publish(topic, msg)
     })
-
-    this.app.listen(3100)
+    await Promise.all(promises)
+    // for (const [topic, cid] of Object.entries(this.identities)) {
+    //   console.log(`Publishing ${cid} on topic ${topic}`, Date.now())
+    //   const msg = Buffer.from(cid)
+    //   await this.ipfs.pubsub.publish(topic, msg)
+    // }
   }
 
   handlePublishName = async ({ ipnsName, cid }) => {
+    if (this.identities[ipnsName] && this.identities[ipnsName] === cid) {
+      return { ipnsName, cid, info: 'name already exists' }
+    }
     this.identities[ipnsName] = cid
+    this.serializer.write(this.identities)
     if (this.interval === undefined) {
-      this.interval = setInterval(async () => {
-        for (const [topic, cid] of Object.entries(this.identities)) {
-          console.log(`Publishing ${cid} on topic ${topic}`, Date.now())
-          const msg = Buffer.from(cid)
-          await this.ipfs.pubsub.publish(topic, msg)
-        }
-      }, 2000)
+      this.interval = setInterval(this.publishHandler, PUBLISH_INTERVAL)
     }
     return { ipnsName, cid }
   }
@@ -37,6 +55,7 @@ class NameService {
     if (this.identities[ipnsName]) {
       delete this.identities[ipnsName]
     }
+    this.serializer.write(this.identities)
     if (Object.keys(this.identities).length === 0 && this.interval) {
       clearInterval(this.interval)
       this.interval = undefined
@@ -70,6 +89,8 @@ class NameService {
           return this.handleUnpublishName(message)
         case 'resolve-name':
           return this.handleResolveName(message)
+        default:
+          return { status: 'error', message: 'unknown-method' }
       }
     } catch (e) {
       console.error(e.message)

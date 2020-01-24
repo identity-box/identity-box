@@ -40,5 +40,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "supertest": "^4.0.2"
   }
 }
