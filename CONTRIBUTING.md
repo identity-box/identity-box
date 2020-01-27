@@ -11,6 +11,7 @@ local environment:
 
 ```bash
 » yarn install
+» yarn setup:dev
 » yarn test
 » (cd workspaces/homepage && yarn develop)
 # or to get everything like in production
