@@ -42,6 +42,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "supertest": "^4.0.2"
   }
 }
