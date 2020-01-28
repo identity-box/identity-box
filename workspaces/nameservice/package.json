@@ -1,11 +1,11 @@
 {
-  "name": "@identity-box/idservice",
+  "name": "@identity-box/nameservice",
   "private": false,
   "version": "0.1.23",
-  "description": "IdBox identity service to handle identity requests via Telepath",
+  "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": {
-    "idservice": "./index.js",
-    "idservice-cjs": "./index-cjs.js",
+    "nameservice": "./index.js",
+    "nameservice-cjs": "./index-cjs.js",
     "setup": "./setup.sh"
   },
   "files": [
@@ -20,8 +20,7 @@
     "ipns",
     "ipid",
     "DID",
-    "Cogito",
-    "Telepath"
+    "DID Document"
   ],
   "author": "Marcin Czenko",
   "license": "ISC",
@@ -29,20 +28,21 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@identity-box/telepath": "^0.1.23",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "commander": "^4.1.0",
     "esm": "^3.2.25",
-    "firebase-admin": "^8.8.0",
     "glob": "^7.1.6",
-    "got": "^10.3.0",
     "ipfs-http-client": "^41.0.0",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
     "libp2p-crypto": "^0.17.1",
-    "qrcode-terminal": "^0.12.0",
     "tweetnacl": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "supertest": "^4.0.2"
   }
 }

@@ -1,0 +1,1 @@
+export { StateSerializer } from './StateSerializer'

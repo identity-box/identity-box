@@ -3,7 +3,7 @@ import path from 'path'
 import glob from 'glob'
 import crypto from 'libp2p-crypto'
 import ipfsClient from 'ipfs-http-client'
-import { IPNSFirebase } from '../services'
+import { IPNS } from '../services'
 
 class IdentityProvider {
   password = process.env.IDBOX_BACKUP_PASSWORD
@@ -71,7 +71,7 @@ class IdentityProvider {
     // await Promise.all(keys.map(async ({ id: ipnsName, name }) => {
     //   if (name === 'self') return
     //   console.log('deleting IPNS name: ', ipnsName)
-    //   await IPNSFirebase.deleteIPNSRecord({ ipnsName })
+    //   await IPNS.deleteIPNSRecord({ ipnsName })
     // }))
   }
 
@@ -81,7 +81,7 @@ class IdentityProvider {
     if (keys.length === 1) {
       const { id: ipnsName } = keys[0]
       console.log(`deleting key ${name} with IPNS name ${ipnsName}`)
-      await IPNSFirebase.deleteIPNSRecord({ ipnsName })
+      await IPNS.deleteIPNSRecord({ ipnsName })
       await this.ipfs.key.rm(name)
     }
   }
@@ -122,7 +122,7 @@ class IdentityProvider {
   }
 
   backupDIDDocument = async (ipnsName, backupId) => {
-    const cid = await IPNSFirebase.getCIDForIPNSName({ ipnsName })
+    const { cid } = await IPNS.getCIDForIPNSName({ ipnsName })
     const didDocument = await this.readFromIPFS(cid)
     fs.writeFileSync(this.getDIDDocumentPath(backupId, ipnsName), JSON.stringify(didDocument), { mode: 0o644 })
   }
@@ -171,7 +171,7 @@ class IdentityProvider {
       const cid = await this.writeToIPFS(didDoc)
       console.log(`restoring DIDDocument with IPNS name ${ipnsName} and CID ${cid}`)
       await this.pin(cid)
-      await IPNSFirebase.setIPNSRecord({
+      await IPNS.setIPNSRecord({
         ipnsName,
         cid
       })
