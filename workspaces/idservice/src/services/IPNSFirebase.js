@@ -36,7 +36,7 @@ class IPNSFirebase {
       return undefined
     }
     const cid = doc.data().cid
-    return cid
+    return { ipnsName, cid }
   }
 
   static deleteIPNSRecord = async ({

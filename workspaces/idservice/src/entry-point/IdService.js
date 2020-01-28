@@ -2,7 +2,7 @@ import path from 'path'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
-import { IPNSFirebase } from '../services'
+import { IPNS } from '../services'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
@@ -27,7 +27,7 @@ class IdService {
   subscription
 
   start = async () => {
-    IPNSFirebase.connect()
+    IPNS.connect()
     this.identityProvider = new IdentityProvider()
     this.telepath = await this.getTelepath()
     await this.telepath.connect()
@@ -192,7 +192,7 @@ class IdService {
     console.log('cid:', cid)
     const ipnsName = this.identityProvider.ipnsNameFromDID(identity.did)
     console.log('ipns name:', ipnsName)
-    await IPNSFirebase.setIPNSRecord({
+    await IPNS.setIPNSRecord({
       ipnsName,
       cid
     })
@@ -202,7 +202,7 @@ class IdService {
   handleGetDIDDocument = async message => {
     const { did } = message.params[0]
     const ipnsName = this.identityProvider.ipnsNameFromDID(did)
-    const cid = await IPNSFirebase.getCIDForIPNSName({ ipnsName })
+    const { cid } = await IPNS.getCIDForIPNSName({ ipnsName })
     const didDocument = await this.identityProvider.readFromIPFS(cid)
     this.respondWithDIDDocument(didDocument, message.params[1].from)
   }

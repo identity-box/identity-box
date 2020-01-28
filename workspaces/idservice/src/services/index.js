@@ -1,1 +1,1 @@
-export { IPNSFirebase } from './IPNSFirebase'
+export { IPNS } from './IPNS'
