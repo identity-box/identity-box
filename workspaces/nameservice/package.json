@@ -4,8 +4,8 @@
   "version": "0.1.23",
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": {
-    "idservice": "./index.js",
-    "idservice-cjs": "./index-cjs.js",
+    "nameservice": "./index.js",
+    "nameservice-cjs": "./index-cjs.js",
     "setup": "./setup.sh"
   },
   "files": [
