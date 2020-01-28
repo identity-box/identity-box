@@ -54,6 +54,7 @@ class NameService {
   handleUnpublishName = async ({ ipnsName }) => {
     if (this.identities[ipnsName]) {
       delete this.identities[ipnsName]
+      await this.ipfs.pubsub.unsubscribe(ipnsName)
     }
     this.serializer.write(this.identities)
     if (Object.keys(this.identities).length === 0 && this.interval) {
@@ -65,13 +66,22 @@ class NameService {
 
   handleResolveName = async ({ ipnsName }) => {
     let resolveFunction
+    let rejectFunction
     const handler = msg => resolveFunction(msg.data.toString())
-    const promise = new Promise(resolve => {
+    const promise = new Promise((resolve, reject) => {
       resolveFunction = resolve
+      rejectFunction = reject
       this.ipfs.pubsub.subscribe(ipnsName, handler)
     })
     try {
+      const timeout = setTimeout(async () => {
+        await this.ipfs.pubsub.unsubscribe(ipnsName, handler)
+        rejectFunction(
+          new Error(`Could not resolve name: ${ipnsName}`)
+        )
+      }, 15000)
       const cid = await promise
+      clearTimeout(timeout)
       await this.ipfs.pubsub.unsubscribe(ipnsName, handler)
       return { ipnsName, cid }
     } catch (e) {
