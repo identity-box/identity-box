@@ -12,10 +12,17 @@ $ cd nameservice
 $ yarn add @identity-box/nameservice
 $ yarn setup
 ```
+## IPFS
+
+Make sure the IPFS daemon is running:
+
+```bash
+$ ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
+```
 
 ## Required environment variables
 
-IdService assume some environment variables to be set.
+Name Service assume some environment variables to be set.
 
 ### IPFS_PATH
 
@@ -29,12 +36,21 @@ To directly run the service, use:
 ./node_modules/.bin/nameservice
 ```
 
+All currently published identities are listed in the `Identities.json` file. This allows the Name Service to
+automatically restart publishing after the service has been restarted.
+
 ## With PM2
 
 You can take of advantage of pm2 to start an identity-box service. Make sure you have pm2 installed globally:
 
 ```bash
 $ yarn global add pm2
+```
+
+and ensure it is in `$PATH`:
+
+```bash
+export PATH=$PATH:/home/pi/.yarn/bin
 ```
 
 ### Start service
@@ -57,7 +73,7 @@ $ pm2 show nameservice
 
 ### Logs
 
-All:
+To show both stdout and stderr logs run:
 
 ```bash
 $ pm2 logs nameservice

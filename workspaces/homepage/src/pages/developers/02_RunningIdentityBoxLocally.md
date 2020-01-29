@@ -10,7 +10,8 @@ Identity Box ecosystem locally so that it is easier to test your changes.
 Our setup comprises of:
 
 1. A local IPFS node,
-2. Identity Box - one and the same for the users and the Hush-Hush service,
+2. Identity Box with two services: [Identity Service](/services/idservice) and [Name Service](/services/nameservice).
+We will use one and the same Identity Box for both the users and the Hush-Hush service,
 3. Hush-Hush frontend,
 4. Identity App running on an iPhone via Expo app.
 
@@ -67,35 +68,6 @@ $ yarn start-dev
 
 Queuing Service will listen at `localhost:3000`. Before starting a local instance of the Identity Service, we need to make a small digression.
 
-### IPNS
-
-Identity Service depends in IPNS. IPNS still needs some work to be more suitable for production and so, in the mean time, we are faking it using a centralized service. To fake IPNS we use a global register and we use Firebase for it (well - it is kind of nice - Identity Box is there to challenge the status quo but it uses it for our advantage till we are able to defeat it - isn't it symbolic?).
-
-So, sorry about it, but you need to create a Firebase account. Once you have it and you are logged in, create a new project and name it anyway you like. Then create a _Cloud Firestore_ (as opposite to the legacy _Realtime Database_) and thene create a collection named _ipns_. In the rules tab you can place something like this:
-
-```text
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
-    }
-  }
-}
-```
-
-This will basically prevent any public read/write access to the database and we will use _Admin SDK_ to access the _ipns_ collection.
-
-In the Firebase project settings, in the _Service accounts_ tab select _Generate new private key_, then confirm by clicking _Generate Key_. Securely store the JSON file containing the key.
-
-Now, add `GOOGLE_APPLICATION_CREDENTIALS` environment variable to your shell configuration file setting its value to the path to the generated JSON file:
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS=<absolute_path>
-```
-
-Your Firebase setup should now be ready for use. For more details please consult [Add the Firebase Admin SDK to Your Server](https://firebase.google.com/docs/admin/setup).
-
 ### Backups
 
 Identity Service provides functionality allowing creating identity backups and restoring from backups. For this to work, Identity Service assumes existence of two environment variables:
@@ -104,6 +76,26 @@ Identity Service provides functionality allowing creating identity backups and r
 2. `IDBOX_BACKUP_PASSWORD` holding the backup password.
 
 Please add these environment variables to your shell configuration file.
+
+### IPNS
+
+Identity Service depends in IPNS. IPNS still needs some work to be more suitable for production and so, in the mean time, we are experimenting.
+Our first approach was to use a centralized service to fake IPNS. In this first approach we used the enemy: Google's Firebase.
+In the current implementation though we are experimenting with using IPFS's native _pubsub_ functionality. This still deserves a separate topic,
+and we will publish more about it. For now, it is enough to say that we do not use Firebase at the very moment.
+
+> For time being, we still keep the related documentation below in the [appendix](#appendix---ipns-with-firebase).
+
+### Name Service
+
+In order to start a local instance of the Name Service, in a new terminal do:
+
+```bash
+$ cd workspaces/nameservice
+$ ./index.js
+```
+
+That's it.
 
 ### Identity Service
 
@@ -142,3 +134,30 @@ This will open a page in a browser, where you can find a QR Code (it should also
 Make sure that you have the _Expo_ app installed on your mobile, and then scan the QR Code directly from the Expo app or with the camera on your mobile - it should present you with an option to open the Expo app.
 
 The Identity App app should start and now you can follow the steps from [Experience Identity Box](/experience-identity-box) to test that your setup is working correctly.
+
+## Appendix - IPNS with Firebase
+
+First, you need to create a Firebase account. Once you have it and you are logged in, create a new project and name it anyway you like. Then create a _Cloud Firestore_ (as opposite to the legacy _Realtime Database_) and thene create a collection named _ipns_. In the rules tab you can place something like this:
+
+```text
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+```
+
+This will basically prevent any public read/write access to the database and we will use _Admin SDK_ to access the _ipns_ collection.
+
+In the Firebase project settings, in the _Service accounts_ tab select _Generate new private key_, then confirm by clicking _Generate Key_. Securely store the JSON file containing the key.
+
+Now, add `GOOGLE_APPLICATION_CREDENTIALS` environment variable to your shell configuration file setting its value to the path to the generated JSON file:
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=<absolute_path>
+```
+
+Your Firebase setup should now be ready for use. For more details please consult [Add the Firebase Admin SDK to Your Server](https://firebase.google.com/docs/admin/setup).

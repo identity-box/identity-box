@@ -61,15 +61,22 @@ This will install, initialize, and start IPFS. We need to alter configuration a 
 $ sudo systemctl stop ipfs-daemon.service
 ```
 
-The `ipfs-deamon.service` uses `/usr/local/bin/ipfs daemon --migrate` to start ipfs. You can change it using:
+The `ipfs-deamon.service` uses `/usr/local/bin/ipfs daemon --migrate` to start ipfs. For our Identity Box, we need
+a different startup command:
+
+```bash
+/usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
+```
+
+You can change it using:
 
 ```bash
 $ nano templates/ipfs-daemon.service.tpl
 ```
 
-Notice, however, that in order for the changes to take effect, you will need to stop the deamon and run installation script again: `./install v0.4.22`.
+Notice, however, that in order for the changes to take effect, you will need to stop the daemon and run installation script again: `./install v0.4.22`.
 
-We will leave the default for now, but what we need to change is the configuration of IPFS itself. IPFS configuration can be found in `~/.ipfs/config`. While the daemon is stopped, we can edit this file:
+We also need to change the configuration of our IPFS node. IPFS configuration can be found in `~/.ipfs/config`. While the daemon is stopped, we can edit this file:
 
 ```bash
 $ nano ~/.ipfs/config
@@ -166,7 +173,7 @@ Loaded: loaded (/lib/systemd/system/ipfs-daemon.service; enabled; vendor preset:
     Tasks: 14 (limit: 4915)
    Memory: 11.2M
    CGroup: /system.slice/ipfs-daemon.service
-           └─18796 /usr/local/bin/ipfs daemon --migrate
+           └─18796 /usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
 
 Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm listening on /ip4/127.0.0.1/tcp/4001
 Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm listening on /ip4/192.168.1.21/tcp/4001
@@ -261,51 +268,72 @@ Our virtual identity box also keeps the same kind of connection with other Ident
 consider creating a proper Identity Box service with more intelligence to keep connected
 what needs to be connected.
 
-## Identity Service
+## PM2
 
-As final step we install Identity Service. Currently, Identity Service is depending on Firebase as
-a temporary solution to IPNS resolution problems.
-
-Because it uses Admin access (just for simplicity) this means, that if you want to build your own
-Identity Box, you need to have Admin access to our Firebase Project.
-Obviously, we need to change that.
-
-To have Firebase working, we need to upload the `idbox-firebase.json` file to your Raspberry Pi.
-This file currently available to (trusted) contributors only and can be found on our Identity Box
-Keybase team share.
-
-Once you have the file on your Raspberry Pi, you need to add the following to `.bash_profile` file:
+We control Identity Box services using [pm2](https://pm2.keymetrics.io/):
 
 ```bash
-export GOOGLE_APPLICATION_CREDENTIALS=$HOME/idbox-firebase.json
+$ yarn global add pm2
 ```
 
-Please make sure that the path to the `idbox-firebase.json` file is correct.
+Please also add `/home/pi/.yarn/bin` to your `PATH`:
 
-And while you are there, please also add:
+```bash
+export PATH=$PATH:/home/pi/.yarn/bin
+```
+
+This way we can run `pm2` without `yarn`.
+
+In order to prevent that the logs grow without control, please add the `pm2-logrotate` module to pm2:
+
+```bash
+$ pm2 install pm2-logrotate
+$ pm2 set pm2-logrotate:workerInterval 300
+```
+
+The last command above sets the interval at which the logs will be checked to 5min.
+To learn more about pm2-logrotate, please consult https://www.npmjs.com/package/pm2-logrotate.
+
+## Name service
+
+To instal Name Service, please use the following commands:
+
+```bash
+$ mkdir nameservice
+$ cd nameservice
+$ yarn add @identity-box/nameservice
+$ yarn setup
+```
+
+After this start the Name Service using pm2:
+
+```bash
+$ cd ~/idbox/nameservice
+$ pm2 start ecosystem.config.js
+```
+
+## Identity Service
+
+As a final step we install Identity Service.
+
+> Until recently, we used Firebase as to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
+We currently experiment with using native IPFS _pubsub_ functionality to secure reliable and fast name resolution
+without resorting to external, centralized services. For the time being, as a reference, we keep the documentation
+on how to setup Firebase service in the [appendix](#appendix---ipns-with-firebase).
+The last version of `@identity-box/idservice` that uses Firebase is `0.1.23`.
+
+First please make sure the the following environment variables are defined:
 
 ```bash
 export IDBOX_BACKUP=$HOME/backups
 export IDBOX_BACKUP_PASSWORD=password
 ```
 
-Please make sure that the `backups` folder exists. It does not have to named `backups` - any name will do,
+Please ensure that the `backups` folder exists. It does not have to named `backups` - any name will do,
 as long as it is there and the `IDBOX_BACKUP` variable correctly points to it. You can also set
 `IDBOX_BACKUP_PASSWORD` to whatever value you want.
 
 > After changing the contents of `~/.bash_profile`, make sure you source it or re-login.
-
-A final step is to install `pm2`, which we will use to control all Identity Box services:
-
-```bash
-$ yarn global add pm2
-```
-
-It may also be a good moment to add `/home/pi/.yarn/bin` to your `PATH`:
-
-```bash
-export PATH=$PATH:/home/pi/.yarn/bin
-```
 
 This makes the environment ready to actually install the Identity Service:
 
@@ -322,6 +350,13 @@ We start Identity Service with pm2:
 $ cd ~/idbox/idservice
 $ pm2 start ecosystem.config.js
 ```
+
+At this point your Identity Box should be correctly set up and you can start experimenting with it.
+
+## Running services as a daemon
+
+> It seems there is a problem running pm2 services that depend on _esm_. We need to investigate. The instructions below are informative for now
+and unless you know what you do, please do not use them for now (start the services manually).
 
 To make pm2 running as daemon:
 
@@ -346,3 +381,27 @@ $ pm2 unstartup systemd
 ```
 
 The box should be ready to use.
+
+## Appendix - IPNS with Firebase
+
+Until recently, we used Firebase to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
+We currently experiment with using native IPFS _pubsub_ functionality to secure reliable and fast name resolution
+without resorting to external, centralized services.
+
+The last version of `@identity-box/idservice` that uses Firebase is `0.1.23`.
+
+Because it uses Admin access (just for simplicity) this means, that if you want to build your own
+Identity Box, you need to have Admin access to our Firebase Project.
+Obviously, we need to change that.
+
+To have Firebase working, we need to upload the `idbox-firebase.json` file to your Raspberry Pi.
+This file currently available to (trusted) contributors only and can be found on our Identity Box
+Keybase team share.
+
+Once you have the file on your Raspberry Pi, you need to add the following to `.bash_profile` file:
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=$HOME/idbox-firebase.json
+```
+
+Please make sure that the path to the `idbox-firebase.json` file is correct.

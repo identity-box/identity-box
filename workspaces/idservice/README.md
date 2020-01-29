@@ -18,7 +18,7 @@ $ yarn setup
 Make sure the IPFS daemon is running:
 
 ```bash
-ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment
+$ ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
 ```
 
 ## telepath.config
@@ -31,15 +31,6 @@ launching the actual service so that a fresh telepath configuration is created.
 
 IdService assume some environment variables to be set.
 
-### GOOGLE\_APPLICATION\_CREDENTIALS
-
-We use Firebase temporarily when waiting for IPNS to be more reliable.
-To have it working, you need to copy `idbox-firebase.json` (Keybase) to your system and then before starting the service make sure that the following variable is pointing to the full path to the above mentioned file. This will make idservice to use Firebase Admin SDK.
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS=<path to idbox-firebase.json>
-```
-
 ### IPFS_PATH
 
 `IPFS_PATH` needs to point to the IPFS data directory. On the local machine this is usually `$HOME/.ipfs`.
@@ -49,7 +40,6 @@ export GOOGLE_APPLICATION_CREDENTIALS=<path to idbox-firebase.json>
 For the automatic backups functionality, IdService requires two environment variables to be set: `IDBOX_BACKUP` holding the absolute path
 to the backup directory, and `IDBOX_BACKUP_PASSWORD` to hold the password to encrypt the idbox IPNS keys. Every key from `$IPFS_PATH/keystore` will
 have its corresponding `pem` file in `$IDBOX_BACKUP` directory. `$IDBOX_BACKUP` will also contain a `backup` file with all user's identities from the IdApp (encrypted).
-
 
 ## serviceUrl
 
@@ -85,6 +75,12 @@ You can take of advantage of pm2 to start an identity-box service. Make sure you
 $ yarn global add pm2
 ```
 
+and ensure it is in `$PATH`:
+
+```bash
+export PATH=$PATH:/home/pi/.yarn/bin
+```
+
 ### Start service
 
 ```bash
@@ -105,7 +101,7 @@ $ pm2 show idservice
 
 ### Logs
 
-All:
+To show both stdout and stderr logs run:
 
 ```bash
 $ pm2 logs idservice
