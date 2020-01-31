@@ -65,14 +65,17 @@ class IdentityProvider {
       console.log('deleting key: ', name)
       await this.ipfs.key.rm(name)
     }))
-    // lets keep IPNS association for now
-    // maybe we need to have a separate API to clean the IDBox completely
-    // including unpinning cids
-    // await Promise.all(keys.map(async ({ id: ipnsName, name }) => {
-    //   if (name === 'self') return
-    //   console.log('deleting IPNS name: ', ipnsName)
-    //   await IPNS.deleteIPNSRecord({ ipnsName })
-    // }))
+    // Currently we just unpublish the names but in the future we may decide
+    // to have an apart user action to remove "old" identities.
+    // When we deleteIPNS record, the corresponding identity will
+    // not be "resolvable" anymore. This may not alwys be intented as
+    // sometimes you may just reset your box, but you do not want
+    // your identities to become "unavailbale" in the meantime.
+    await Promise.all(keys.map(async ({ id: ipnsName, name }) => {
+      if (name === 'self') return
+      console.log('deleting IPNS name: ', ipnsName)
+      await IPNS.deleteIPNSRecord({ ipnsName })
+    }))
   }
 
   deleteIdentity = async name => {
