@@ -114,6 +114,15 @@ So to summarize, we have a top-level `babel.config.js` and then for each package
 
 > Please notice that we run tests from the top-running of the tests is nicely handled by the top-level `babel.config.js`.
 
+### Read more about babel
+
+In order to get a better grip on Babel 7 and how does it handle configuration files in version 7,
+please refer to the following documents:
+
+1. [Configure Babel](https://babeljs.io/docs/en/configuration)
+2. [Config Files](https://babeljs.io/docs/en/config-files)
+
+
 ## Staying in sync with upstream
 
 You can follow the steps described in [Syncing a
@@ -137,10 +146,57 @@ Please go through existing issues and pull requests to check if
 somebody else is already working on it, we use `someone working on it` 
 label to mark such issues.
 
-## Read more
+## Creating release
 
-In order to get a better grip on Babel 7 and how does it handle configuration files in version 7,
-please refer to the following documents:
+We define a release as a sequence of Pull Requests. When creating a pull request that
+should be part of a next release, we add one of the following labels to it:
 
-1. [Configure Babel](https://babeljs.io/docs/en/configuration)
-2. [Config Files](https://babeljs.io/docs/en/config-files)
+- PR: Breaking Change :bomb:,
+- PR: New Feature :rocket:,
+- PR: Enhancement :heart_eyes_cat:,
+- PR: Bug Fix :bug:,
+- PR: Documentation :book:
+
+Some discipline is required to make sure that a pull request is focused on one of the above
+mentioned categories. One can say that our releases are pull-request-oriented rather than commit oriented.
+This allows us to have enough information and structure while leaving a level of freedom. This is in contrast to so-called _conventional commits_, where each commit must adhere to a set of predefined formatting rules. We find this restriction an inconvenience.
+
+We use [lerna-changelog](https://www.npmjs.com/package/lerna-changelog) to have some level of automation, so that not everything needs to be done by hand. We describe the process of creating a release below.
+
+### Publishing packages
+
+Because we have consciously chosen to have one version for all our packages, it is important to run `lerna publish` with `--force-publish` option:
+
+```bash
+$ yarn lerna publish --force-publish
+```
+
+This will not only remove confusion among our users, but will also make releases easier to follow.
+
+### Updating CHANGELOG.md
+
+After packages are published and all relevant Pull Requests are merged to the master branch, we run:
+
+```bash
+$ yarn lerna-changelog --from=vx.y.z --to=vX.Y.Z
+```
+
+where `vx.y.z` refers to the release tag preceding the most recent tag `vX.Y.Z`. Foe example, if last release was tagged `v1.0.18` and the tag for the candidate release already merged and pushed to master is `v1.0.19`, then the command would be:
+
+```bash
+$ yarn lerna-changelog --from=v1.0.18 --to=v1.0.19
+```
+
+The output of this command should be then manually prepended to `CHANGELOG.md` and pushed to the master branch.
+
+### Draft a new release
+
+On github, use _Draft a new release_ using the output of the `lerna-changelog` command as the input.
+Adjust the fields so that the new release follows the structure of previous releases (unless a new formatting is desired).
+
+### Read more about releasing code
+
+- [lerna-changelog](https://github.com/lerna/lerna-changelog)
+- [using conventional commits with lerna](https://medium.com/angular-in-depth/release-management-in-angular-with-lerna-21b4ab417c59)
+- [semantic-release](https://semantic-release.gitbook.io/semantic-release/)
+- [semantic-release and monorepos discussion](https://github.com/semantic-release/semantic-release/issues/193)
