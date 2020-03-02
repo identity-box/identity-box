@@ -5,6 +5,7 @@ import { Box, Row } from 'src/components/ui-blocks'
 import Captions from 'file-loader!./IdentityBox-FOSDEM20-en.vtt'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import CaptionsPl from 'file-loader!./IdentityBox-FOSDEM20-pl.vtt'
+// eslint-disable-next-line import/no-webpack-loader-syntax
 import CaptionsRo from 'file-loader!./IdentityBox-FOSDEM20-ro.vtt'
 import VideoPoster from './video_poster.jpg'
 
