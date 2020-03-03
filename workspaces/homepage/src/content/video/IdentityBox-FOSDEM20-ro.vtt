@@ -8,7 +8,8 @@ Confidențialitatea începe cu ideea de identitate.
 
 00:13.000 --> 00:19.000
 Dar nu numai cu “identitatea”.
-De fapt, confidențialitatea începe cu ideea de identitate auto-guvernată, sau identitate guvernată de sine (engl. „self-sovereign identity”).
+De fapt, confidențialitatea începe cu ideea de identitate auto-guvernată, 
+sau identitate guvernată de sine (engl. „self-sovereign identity”).
 
 00:19.000 --> 00:22.000
 Cei prezenți aici știu, cel mai probabil, ce este identitatea auto-guvernată.
@@ -24,7 +25,7 @@ Asta înseamnă și că ea nu e deținută de vreun serviciu ca Google sau Githu
 
 00:36.000 --> 00:41.000
 Identitatea auto-guvernată are nevoie de o rețea decentralizată.
-[și acest slide va fi repetat de câteva ori astăzi]
+(și acest slide va fi repetat de câteva ori astăzi)
 
 00:41.000 --> 00:44.000
 Acest lucru nu e evident la prima vedere, dar devine mai ușor să ne dăm seama
@@ -54,7 +55,8 @@ un framework de management al identității pe care l-am creat în urmă cu apro
 și pe care l-am prezentat anul trecut aici la FOSDEM într-una din sesiunile-fulger.
 
 01:20.000 --> 01:28.000
-Și, după cum vă așteptați probabil, faptul că folosim o cheie publică pe post de identitate aduce după sine o serie de întrebări interesante:
+Și, după cum vă așteptați probabil, faptul că folosim o cheie publică pe post de identitate 
+aduce după sine o serie de întrebări interesante:
 
 01:28.000 --> 01:32.000
 Ce se întâmplă în cazul în care cheia publică devine compromisă?
@@ -82,10 +84,11 @@ Ceea ce știm că e o problemă grea în sine.
 Acum, membrii inițiativei „Rebooting web of trust”, împreună cu alți oameni,
 
 01:58.000 --> 02:03.000
-au venit cu propunerea unor identificatori decentralizați, DIDs (engl. ”Decentralized Identifiers”
+au venit cu propunerea unor identificatori decentralizați, DIDs (engl. ”Decentralized Identifiers”)
 
 02:11.000 --> 02:20.000
-Ei au introdus un „DID resolver” (descoperitor de identificatori decentralizati). Ce face acesta?
+Ei au introdus un „DID resolver” (descoperitor de identificatori decentralizati). 
+Ce face acesta?
 
 02:20.000 --> 02:25.000
 Dată fiind identitatea ta, care e, până la urmă, doar un șir de caractere,
@@ -139,7 +142,8 @@ ajungi în situația descrisă de imaginea:
 întrebi un fel de infrastructură să îți ofere informația cerută.
 
 03:28.000 --> 03:33.000
-Dar acum, uitându-ne la imaginea prezentată, aceasta ne amintește de o arhitectură centralizată.
+Dar acum, uitându-ne la imaginea prezentată, 
+aceasta ne amintește de o arhitectură centralizată.
 
 03:33.000 --> 03:37.000
 De fapt, resolver-ul ar putea fi implementat într-un mod pur centralizat.
@@ -163,13 +167,15 @@ nu am mai vorbi de-acum despre identitate auto-guvernată!
 Asta înseamnă că resolver-ul însuși trebuie construit pe o rețea decentralizată.
 
 04:03.000 --> 04:09.000
-De aceea am spus la începutul acestei prezentări că identitatea auto-guvernată are nevoie de o rețea decentralizată.
+De aceea am spus la începutul acestei prezentări că identitatea auto-guvernată 
+are nevoie de o rețea decentralizată.
 
 04:09.000 --> 04:13.000
 Și acum, care este problema cu rețelele decentralizate?
 
 04:13.000 --> 04:23.000
-De ce, chiar și astăzi, după atât de multe încercări, nu aveam o infrastructură unanim recunoscută, securizată, și stabilă?
+De ce, chiar și astăzi, după atât de multe încercări, 
+nu aveam o infrastructură unanim recunoscută, securizată, și stabilă?
 
 04:23.000 --> 04:28.000
 Unul din motive este că nu există noduri fizice.
@@ -178,13 +184,16 @@ Unul din motive este că nu există noduri fizice.
 Nu este suficient să pui 1000 de noduri într-un cloud ca și Amazon,
 
 04:32.000 --> 04:40.000
-și de asemenea nu este suficient ca un număr de entuziaști într-ale rețelelor să își ruleze nodurile pe laptop câteva ore pe săptămână.
+și de asemenea nu este suficient ca un număr de entuziaști într-ale rețelelor 
+să își ruleze nodurile pe laptop câteva ore pe săptămână.
 
 04:40.000 --> 04:46.000
-Nu așa funcționează. Chiar și IPFS promovează ideea că nodurile să fie stabile și să fie mereu accesibile.
+Nu așa funcționează. Chiar și IPFS promovează ideea că nodurile să fie stabile 
+și să fie mereu accesibile.
 
 04:46.000 --> 04:54.000
-De aceea, rețelele decentralizate au nevoie de noduri fizice care să fie disponibile, stabile și -posibil -  să fie accesibile mereu.
+De aceea, rețelele decentralizate au nevoie de noduri fizice care să fie disponibile, 
+stabile și -posibil -  să fie accesibile mereu.
 
 04:54.000 --> 04:57.000
 Am adus cu mine un astfel de nod fizic.
@@ -262,10 +271,11 @@ Voi scana acest QR Code cu aplicația mea Identity App.
 Și îi voi da numele “Mark”.
 
 07:03.000 --> 07:07.000
-Acum, în lista mea de identități, vedeți că am înregistrată și o identitate a altcuiva (“peer” identity).
+Acum, în lista mea de identități, vedeți că am înregistrată și o identitate a altcuiva ("peer identity").
 
 07:10.000 --> 07:14.000
-Vă oferim un serviciu simplu de transmisie a secretelor, pe care îl folosim pentru a demonstra folosirea identităților pe care tocmai le-am creat.
+Vă oferim un serviciu simplu de transmisie a secretelor, pe care îl folosim pentru a demonstra 
+folosirea identităților pe care tocmai le-am creat.
 
 07:14.000 --> 07:21.000
 Îmi cere să mă conectez prin scanarea acestui QR Code.
