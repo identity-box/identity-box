@@ -73,7 +73,7 @@ Sigur că nu!
 
 01:42.000 --> 01:47.000
 Cu alte cuvinte, trebuie să ai de-a face cu o rețea de chei, 
-la fel ca într-o rețea de încredere (web of trust)
+la fel ca într-un "web of trust" (o rețea de încredere)
 
 01:47.000 --> 01:50.000
 Ceea ce știm că e o problemă grea în sine.
@@ -130,7 +130,7 @@ Trebuie doar să întrebi resolver-ul, și acesta îți va spune:
 Pare că problema distribuirii cheilor este rezolvată!
 
 03:15.000 --> 03:20.000
-Cu alte cuvinte, în loc de a avea o rețea de chei ce formează o rețea de încredere (engl. web of trust) tipică,
+Cu alte cuvinte, în loc de a avea o rețea de chei ce formează un "web of trust" tipic,
 
 03:20.000 --> 03:23.000
 ajungi în situația descrisă de imaginea:
