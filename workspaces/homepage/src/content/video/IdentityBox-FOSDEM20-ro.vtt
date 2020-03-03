@@ -85,7 +85,7 @@ Acum, membrii inițiativei „Rebooting web of trust”, împreună cu alți oam
 au venit cu propunerea unor identificatori decentralizați, DIDs (engl. ”Decentralized Identifiers”
 
 02:11.000 --> 02:20.000
-Ei au introdus un „DID resolver”. Ce face acesta?
+Ei au introdus un „DID resolver” (descoperitor de identificatori decentralizati). Ce face acesta?
 
 02:20.000 --> 02:25.000
 Dată fiind identitatea ta, care e, până la urmă, doar un șir de caractere,
@@ -160,7 +160,7 @@ doar pe un serviciu centralizat,
 nu am mai vorbi de-acum despre identitate auto-guvernată!
 
 03:56.000 --> 04:03.000
-Asta înseamnă că descoperitorul (engl. resolver-ul) însuși trebuie construit pe o rețea decentralizată.
+Asta înseamnă că resolver-ul însuși trebuie construit pe o rețea decentralizată.
 
 04:03.000 --> 04:09.000
 De aceea am spus la începutul acestei prezentări că identitatea auto-guvernată are nevoie de o rețea decentralizată.
