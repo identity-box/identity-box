@@ -4,6 +4,7 @@ module.exports = {
     'workspaces/queuing-service',
     'workspaces/telepath',
     'workspaces/idbox-react-ui',
+    'workspaces/utils',
     {
       rootDir: 'workspaces/idservice',
       testEnvironment: 'node'

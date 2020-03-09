@@ -1,0 +1,32 @@
+{
+  "name": "@identity-box/utils",
+  "private": false,
+  "version": "0.1.25",
+  "description": "Common utils for building Identity Box services",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "source",
+    "lib",
+    "es"
+  ],
+  "keywords": [
+    "identity-bix",
+    "utils"
+  ],
+  "author": "Marcin Czenko",
+  "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1"
+  },
+  "scripts": {
+    "build": "node ./tools/build.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

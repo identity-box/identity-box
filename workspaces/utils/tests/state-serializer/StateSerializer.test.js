@@ -1,4 +1,4 @@
-import { StateSerializer } from '../../src/services'
+import { StateSerializer } from '../../source/state-serializer'
 import fs from 'fs'
 
 jest.mock('fs')

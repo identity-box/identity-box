@@ -155,7 +155,8 @@ should be part of a next release, we add one of the following labels to it:
 - PR: New Feature :rocket:,
 - PR: Enhancement :heart_eyes_cat:,
 - PR: Bug Fix :bug:,
-- PR: Documentation :book:
+- PR: Documentation :book:,
+- PR: Refactoring :hammer:
 
 Some discipline is required to make sure that a pull request is focused on one of the above
 mentioned categories. One can say that our releases are pull-request-oriented rather than commit oriented.
