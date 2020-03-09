@@ -12,7 +12,7 @@
     "url": "https://github.com/marcinczenko/identity-box.git"
   },
   "dependencies": {
-    "@confluenza/gatsby-theme-confluenza": "^1.0.18",
+    "@confluenza/gatsby-theme-confluenza": "^1.0.20",
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.23",
     "gatsby": "^2.18.11",

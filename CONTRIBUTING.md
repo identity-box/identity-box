@@ -146,7 +146,7 @@ Please go through existing issues and pull requests to check if
 somebody else is already working on it, we use `someone working on it` 
 label to mark such issues.
 
-## Creating release
+## Creating releases
 
 We define a release as a sequence of Pull Requests. When creating a pull request that
 should be part of a next release, we add one of the following labels to it:
