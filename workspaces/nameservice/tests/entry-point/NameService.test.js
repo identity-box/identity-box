@@ -1,5 +1,5 @@
 import { NameService } from '../../src/entry-point'
-import { Server } from '../../src/server'
+import { Server } from '@identity-box/utils'
 import request from 'supertest'
 import path from 'path'
 import ipfsClient from 'ipfs-http-client'

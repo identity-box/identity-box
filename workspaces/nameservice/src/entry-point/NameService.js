@@ -1,6 +1,6 @@
 import path from 'path'
 import ipfsClient from 'ipfs-http-client'
-import { StateSerializer } from '../services'
+import { StateSerializer } from '@identity-box/utils'
 
 const PUBLISH_INTERVAL = 10000
 
