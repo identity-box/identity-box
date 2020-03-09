@@ -4,6 +4,19 @@
     "workspaces/*"
   ],
   "version": "0.1.26",
+  "changelog": {
+    "repo": "identity-box/identity-box",
+    "ignoreCommitters": [
+      "allcontributors"
+    ],
+    "labels": {
+      "PR: Breaking Change :bomb:": ":bomb: Breaking Change",
+      "PR: New Feature :rocket:": ":rocket: New Feature",
+      "PR: Enhancement :heart_eyes_cat:": ":heart_eyes_cat: Enhancement",
+      "PR: Bug Fix :bug:": ":bug: Bug Fix",
+      "PR: Documentation :book:": ":book: Documentation"
+    }
+  },
   "npmClient": "yarn",
   "command": {
     "publish": {
