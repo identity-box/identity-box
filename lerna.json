@@ -14,7 +14,8 @@
       "PR: New Feature :rocket:": ":rocket: New Feature",
       "PR: Enhancement :heart_eyes_cat:": ":heart_eyes_cat: Enhancement",
       "PR: Bug Fix :bug:": ":bug: Bug Fix",
-      "PR: Documentation :book:": ":book: Documentation"
+      "PR: Documentation :book:": ":book: Documentation",
+      "PR: Refactoring :hammer:": ":hammer: Refactoring"
     }
   },
   "npmClient": "yarn",
