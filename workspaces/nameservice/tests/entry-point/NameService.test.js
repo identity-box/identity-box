@@ -8,8 +8,6 @@ import fs from 'fs'
 jest.mock('fs')
 jest.mock('ipfs-http-client')
 
-const originalTimeout = setTimeout
-
 describe('Name Service', () => {
   const filePath = path.resolve(process.cwd(), 'Identities.json')
   let server
@@ -148,7 +146,6 @@ describe('Name Service', () => {
     let subscribeHandler
 
     beforeEach(() => {
-      jest.restoreAllMocks()
       subscribeMock = jest.fn()
       unsubscribeMock = jest.fn()
       mockIpfsClient = {
@@ -167,10 +164,7 @@ describe('Name Service', () => {
     })
 
     it('resolves the published name', async () => {
-      // eslint-disable-next-line no-global-assign
-      setTimeout = originalTimeout
-      server = new Server(nameservice)
-      app = server.app
+      const ipnsName = 'ipnsName'
       const publishedCid = 'cid'
       subscribeMock.mockImplementation((ipnsName, handler) => {
         setTimeout(() => {
@@ -181,13 +175,14 @@ describe('Name Service', () => {
         return Promise.resolve()
       })
       unsubscribeMock.mockResolvedValue(null)
-      const response = await request(app.callback())
-        .post('/')
-        .send({ method: 'resolve-name', ipnsName: 'ipnsName' })
-
-      expect(response.status).toEqual(200)
-      expect(response.body.ipnsName).toBe('ipnsName')
-      expect(response.body.cid).toBe(publishedCid)
+      const promise = nameservice.processMessage({
+        method: 'resolve-name',
+        ipnsName
+      })
+      jest.advanceTimersByTime(1)
+      const response = await promise
+      expect(response.ipnsName).toBe('ipnsName')
+      expect(response.cid).toBe(publishedCid)
     })
 
     it('returns error when name cannot be resolved', async () => {
