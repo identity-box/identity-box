@@ -1,3 +1,14 @@
+## v0.1.28 (2020-03-11)
+
+#### :heart_eyes_cat: Enhancement
+* [#25](https://github.com/identity-box/identity-box/pull/25) hush-hush: simplifies next.config.js ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#24](https://github.com/identity-box/identity-box/pull/24) Updates package dependencies ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.27 (2020-03-10)
 
 #### :heart_eyes_cat: Enhancement
