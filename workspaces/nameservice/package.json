@@ -33,11 +33,11 @@
     "base64url": "^3.0.1",
     "esm": "^3.2.25",
     "glob": "^7.1.6",
-    "ipfs-http-client": "^41.0.0",
+    "ipfs-http-client": "^42.0.0",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
-    "libp2p-crypto": "^0.17.1",
-    "tweetnacl": "^1.0.1"
+    "libp2p-crypto": "^0.17.3",
+    "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"

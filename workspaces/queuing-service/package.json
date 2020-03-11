@@ -15,11 +15,11 @@
   },
   "devDependencies": {
     "mockdate": "^2.0.5",
-    "now": "^16.7.0",
+    "now": "^17.0.4",
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "@zeit/ncc": "^0.20.4",
+    "@zeit/ncc": "^0.21.1",
     "express": "^4.16.2",
     "lru-cache": "^5.1.1",
     "socket.io": "^2.2.0"

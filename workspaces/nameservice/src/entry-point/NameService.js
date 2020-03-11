@@ -19,7 +19,7 @@ class NameService {
   }
 
   reset = () => {
-    this.interval && clearInterval()
+    this.interval && clearInterval(this.interval)
     this.interval = undefined
     this.identities = {}
   }

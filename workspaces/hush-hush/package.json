@@ -9,18 +9,18 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.22",
-    "@emotion/styled": "^10.0.23",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
     "@identity-box/idbox-react-ui": "^0.1.27",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "base64url": "^3.0.1",
-    "next": "^9.1.5",
+    "next": "^9.3.0",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
-    "tweetnacl": "^1.0.1"
+    "tweetnacl": "^1.0.3"
   },
   "scripts": {
     "dev": "next",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.23",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^9.4.0",
     "@zeit/next-css": "^1.0.1",
     "file-loader": "^5.0.2",
