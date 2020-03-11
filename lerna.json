@@ -1,5 +1,5 @@
 {
-  "lerna": "3.19.0",
+  "lerna": "3.20.2",
   "packages": [
     "workspaces/*"
   ],
@@ -15,7 +15,8 @@
       "PR: Enhancement :heart_eyes_cat:": ":heart_eyes_cat: Enhancement",
       "PR: Bug Fix :bug:": ":bug: Bug Fix",
       "PR: Documentation :book:": ":book: Documentation",
-      "PR: Refactoring :hammer:": ":hammer: Refactoring"
+      "PR: Refactoring :hammer:": ":hammer: Refactoring",
+      "PR: Project Dependencies :building_construction:": ":building_construction: Project Dependencies"
     }
   },
   "npmClient": "yarn",
