@@ -73,7 +73,7 @@ AddressBook.navigationOptions = ({ navigation }) => ({
   headerRightContainerStyle: {
     paddingRight: 10
   },
-  headerRight: <AddIdentityButton navigation={navigation} />
+  headerRight: () => <AddIdentityButton navigation={navigation} />
 })
 
 export { AddressBook }
