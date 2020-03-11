@@ -94,8 +94,15 @@ describe('Name Service', () => {
       expect(response.body.message).toBe('unknown-method')
     })
 
-    it('creates ipfs client interface with correct api url', () => {
+    it('creates ipfs client interface with default api address', () => {
       expect(apiUrl).toBe('/ip4/127.0.0.1/tcp/5001')
+    })
+
+    it('creates ipfs client interface with custom api address', () => {
+      process.env.IPFS_ADDR = '/dns4/some.ipfs.host/tcp/5001'
+      new NameService() // eslint-disable-line no-new
+      expect(apiUrl).toBe(process.env.IPFS_ADDR)
+      delete process.env.IPFS_ADDR
     })
 
     it('returns ipns name and cid requested to be published in publish-name request', async () => {

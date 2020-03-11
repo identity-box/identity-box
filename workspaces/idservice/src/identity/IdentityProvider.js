@@ -11,7 +11,7 @@ class IdentityProvider {
   id
 
   constructor () {
-    this.ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
+    this.ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
   }
 
   createNew = async ({
