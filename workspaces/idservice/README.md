@@ -27,13 +27,17 @@ This is the file where your telepath configuration is kept. The included `telepa
 can be used for development (either locally or on your idbox), but should be removed before
 launching the actual service so that a fresh telepath configuration is created.
 
-## Required environment variables
+## Environment variables
 
 IdService assume some environment variables to be set.
 
-### IPFS_PATH
+### IPFS environment variables
 
 `IPFS_PATH` needs to point to the IPFS data directory. On the local machine this is usually `$HOME/.ipfs`.
+
+`IPFS_ADDR` contains the address of the IPFS host. This needs to conform to the
+[multiaddr](https://multiformats.io/multiaddr/) format. When this environment
+variable is not set, the address will default to `/ip4/127.0.0.1/tcp/5001`.
 
 ### Automatic backup
 

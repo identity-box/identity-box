@@ -5,7 +5,7 @@ import { StateSerializer } from '@identity-box/utils'
 const PUBLISH_INTERVAL = 10000
 
 class NameService {
-  ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
+  ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
   serializer
   interval
   identities
