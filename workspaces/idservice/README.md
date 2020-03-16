@@ -27,7 +27,7 @@ This is the file where your telepath configuration is kept. The included `telepa
 can be used for development (either locally or on your idbox), but should be removed before
 launching the actual service so that a fresh telepath configuration is created.
 
-## Required environment variables
+## Environment variables
 
 IdService assume some environment variables to be set.
 
