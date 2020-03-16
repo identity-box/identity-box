@@ -39,6 +39,11 @@ IdService assume some environment variables to be set.
 [multiaddr](https://multiformats.io/multiaddr/) format. When this environment
 variable is not set, the address will default to `/ip4/127.0.0.1/tcp/5001`.
 
+### IDBOX_NAMESERVICE_URL
+
+`IDBOX_NAMESERVICE_URL` contains the URL where the name service is
+listening. When this environment variable is not set, the URL will default to `http://localhost:3100`.
+
 ### Automatic backup
 
 For the automatic backups functionality, IdService requires two environment variables to be set: `IDBOX_BACKUP` holding the absolute path

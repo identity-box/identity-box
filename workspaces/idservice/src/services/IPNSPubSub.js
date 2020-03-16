@@ -1,6 +1,7 @@
 import got from 'got'
 
-const nameServiceUrl = 'http://localhost:3100/'
+const nameServiceUrl =
+  process.env.IDBOX_NAMESERVICE_URL || 'http://localhost:3100/'
 
 const sendCommandToNameService = json => {
   return got(nameServiceUrl, {
