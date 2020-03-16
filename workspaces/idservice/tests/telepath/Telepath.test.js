@@ -1,6 +1,6 @@
 import fs from 'fs'
 import base64url from 'base64url'
-import { Telepath } from './Telepath'
+import { Telepath } from '../../src/telepath'
 
 jest.mock('fs')
 
