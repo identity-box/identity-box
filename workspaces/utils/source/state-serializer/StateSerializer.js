@@ -14,14 +14,14 @@ class StateSerializer {
 
   read = () => {
     if (!fs.existsSync(this.path)) {
-      return {}
+      return undefined
     }
     try {
       const stateStr = fs.readFileSync(this.path, 'UTF-8')
       return JSON.parse(stateStr)
     } catch (e) {
       console.error(e)
-      return {}
+      return undefined
     }
   }
 }
