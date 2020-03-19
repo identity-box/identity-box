@@ -12,7 +12,7 @@ class NameService {
 
   constructor () {
     this.serializer = new StateSerializer(path.resolve(process.cwd(), 'Identities.json'))
-    this.identities = this.serializer.read()
+    this.identities = this.serializer.read() || {}
     if (Object.keys(this.identities).length > 0) {
       this.interval = setInterval(this.publishHandler, PUBLISH_INTERVAL)
     }
