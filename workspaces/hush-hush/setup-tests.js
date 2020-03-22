@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 
 import { createSerializer } from 'jest-emotion'
 import * as emotion from '@emotion/core'
