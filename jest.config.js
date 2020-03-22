@@ -1,10 +1,19 @@
 module.exports = {
   projects: [
-    'workspaces/hush-hush',
-    'workspaces/queuing-service',
-    'workspaces/telepath',
     'workspaces/idbox-react-ui',
-    'workspaces/utils',
+    'workspaces/hush-hush',
+    {
+      rootDir: 'workspaces/queuing-service',
+      testEnvironment: 'node'
+    },
+    {
+      rootDir: 'workspaces/telepath',
+      testEnvironment: 'node'
+    },
+    {
+      rootDir: 'workspaces/utils',
+      testEnvironment: 'node'
+    },
     {
       rootDir: 'workspaces/idservice',
       testEnvironment: 'node'
