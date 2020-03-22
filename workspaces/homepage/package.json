@@ -12,17 +12,17 @@
     "url": "https://github.com/marcinczenko/identity-box.git"
   },
   "dependencies": {
-    "@confluenza/gatsby-theme-confluenza": "^1.0.20",
+    "@confluenza/gatsby-theme-confluenza": "^1.0.22",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "gatsby": "^2.19.35",
-    "gatsby-plugin-catch-links": "^2.1.27",
-    "gatsby-plugin-emotion": "^4.1.24",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "gatsby": "^2.20.2",
+    "gatsby-plugin-catch-links": "^2.2.0",
+    "gatsby-plugin-emotion": "^4.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
     "react-media": "^1.9.2",
-    "sharp": "^0.25.1"
+    "sharp": "^0.25.2"
   },
   "keywords": [
     "gatsby",
@@ -39,8 +39,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "eslint-config-react-app": "^5.1.0",
-    "gatsby-cli": "^2.8.18",
+    "eslint-config-react-app": "^5.2.1",
+    "gatsby-cli": "^2.11.0",
     "gatsby-plugin-root-import": "^2.0.5"
   }
 }
