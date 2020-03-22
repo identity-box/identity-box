@@ -42,6 +42,7 @@
     { "handle": "filesystem" },
     {
       "src": "(?!/?workspaces/hush-hush)(.*)",
+      "status": 404,
       "dest": "/workspaces/homepage/404",
       "continue": true
     }
