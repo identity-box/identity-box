@@ -17,3 +17,7 @@ during development. For the convenience, there is a script command in `package.j
 ```bash
 » yarn start-dev
 ```
+
+## Service Channels
+
+To accommodate some of our requirements, we introduced a notion of a service channel to the Queuing Service. This functionality is not well-documented and not reflected in tests. Please refer to [Telepath documentation](/components/telepath#service-telepath) and to the source code itself.

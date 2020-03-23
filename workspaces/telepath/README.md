@@ -110,7 +110,7 @@ const channel = this.telepath.createChannel({
   id: this.createRandomId(),
   key: this.createRandomKey(),
   appName: 'App Name',
-  clientId: this.clientId
+  clientId: clientId
 })
 ```
 
@@ -124,22 +124,22 @@ and formally speaking is optional, although highly recommended.
 Telepath always maintains a channel between two, and only two parties at the very moment. Internally, when you subscribe
 to a channel (see below), the queueing service that telepath uses as the exchange proxy, will perform so called _identification_.
 It will record the reference to the socket of the subscribing client. Maximum two distinct client sockets can be recorded, meaning
-no third party can join the conversation. For the reliability of this approach, is is important the the client properly _disconnects_
+no third party can join the conversation. For the reliability of this approach, is is important that the client properly _disconnects_
 (at the socket level, not just unsubscribing from the observer). If this fails for some reason, the channel will be blocked forever.
 
-In order to prevent this from happening, we let the client to provide its unique id. Each next subscription an existing id will replace
+In order to prevent this from happening, we let the client to provide its unique id. Each next subscription with an existing id will replace
 the previous subscription - more precisely, the client socket related to the _old_ subscription will be replaced with the client socket
 for the new subscription.
 
-This create a risk that anyone knowing your channel id and client id can kick you out of the channel and take your place. We need to further
+This creates a risk that anyone knowing your channel id and client id can kick you out of the channel and take your place. We need to further
 consider this arrangement and we may come with extra precautions, but for now the client id should be kept secret with the same security
 requirements as you would use for the channel key.
 
-Another reason for having a client id is for proper handling of pending messages. After the party is subscribed to a channel, it may
+Another important reason for having a client id is for proper handling of pending messages. After the party is subscribed to a channel, it may
 immediately start emitting messages even when the second party is not yet there. Our queuing service, will queue incoming messages
 (up to 10 messages, after which the `emit` operation will throw an exception - see below). When the other party subscribes, all pending
-messages will be delivered to it. But now, a bit cumbersome situation happens when the only subscribed party emits some messages and
-then itself resubscribes. Without knowing who is the sender of the messages, we would have no choice but to send them all to the net first
+messages will be delivered to it. But now, a bit cumbersome situation happens when the only subscribed party emits some messages, disconnects, and
+then resubscribes. Without knowing who is the sender of the messages, we would have no choice but to send them all to the net first
 subscribing party. In this case, the original sender would receive all her messages and the next subscribing (intended) receiver would not
 receive any single message. Using client id allows us to solve this problem easily.
 
@@ -195,19 +195,6 @@ Emitting messages is also asynchronous operation and it can throw on of the foll
 6. `new Error('JSON-RPC request is missing a "method" property')`
 7. potentially other errors thrown as the result of the encryption or encoding failure
 
-
-If you do not want the channel with a random id and a key, but rather recreate
-the channel with the previously obtained id and the key, you can provide them
-as additional attributes in the object passed to the `createChannel` method:
-
-```javascript
-const channel = await this.telepath.createChannel({
-  id: channelId,
-  key: channelKey,
-  appName: 'My Web App'
-})
-```
-
 ### Obtaining a connection URL
 
 At some point, you will need to create a QR code so that you can scan
@@ -248,6 +235,19 @@ const telepath = new Telepath({ serviceUrl: 'https://idbox-queue.now.sh', random
 > TweetNaCl.js provides a stub for `randomBytes` and binds a correct version at runtime. If a proper `randomBytes` function
 cannot be found, when you call `nacl.randomBytes` it will throw an exception. TweetNaCl.js does not seem to be
 using `nacl.randomBytes` on its own.
+
+## Not documented features
+
+Telepath is considered a temporary solution and we aim at providing a more suitable replacement in the future. In particular we are looking for
+a fully decentralized solution. Recall, that currently Telepath depends on a centralized Queueing Service. For this reason some of the developments
+on the Telepath are considered temporary, and so, not fully documented. In the sections that follow we list some of them.
+
+### Service Telepath
+
+A Telepath has been created with one-to-one communication in mind. In this model maximum two distinct parties connect and securely exchange messages.
+But what if there is a service that need to handle requests for many clients. One way to deal with this is that service has a fixed, public channel id where clients can connect. On the connection, the service creates a _transient_, ie, per-connection, telepath channel and then the further  communication continues there. This means potentially a lot of channel and because of the nature os socket.io library, where sockets are rather meant to keep connection active, it was not clear how to properly deal with disposing of the transient channels. As this is a temporary solution anyway, I have decided for a more deterministic approach: a _service telepath channel_. So when a client identifies itself with the Queuing Service it can indicate that the channel it is connecting to is a _service_ channel. This will change the communication model allowing multiple one-to-one communications to happen under single channel id. Thus, a service channel still advertises a single channel id, but now it is possible to for more than just two peers to subscribe to a channel, yet still the exchange happens only between two peers at a time. To send a message on a service channel, a peer needs to know the client id of the intended recipient, which is advertised as a so called _servicePointId_. The client id of the intended recipient is then provided as the `to` entry in the `params` object argument of the telepath `emit` operation.
+
+Currently, the `servicePointId` is usually the same as the `clientId`, which means it should be protected in the same way as the `clientId`. Notice also that in this case the `clientId` provided in the `to` entry in the `params` object argument of the telepath `emit` operation is visible to the Queuing Service.
 
 ### Unit Testing
 
