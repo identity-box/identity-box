@@ -4,11 +4,11 @@ import fs from 'fs-extra'
 import path from 'path'
 
 describe('ServiceRegistry', () => {
-  const servicePath = 'service-namespace.servicename'
-  const anotherServicePath = 'another-service-namespace.servicename'
+  const servicePath1 = 'service-registry.service-1'
+  const servicePath2 = 'service-registry.service-2'
 
   const serializerFileDir = path.resolve(process.cwd(), '.fixtures', 'idservice')
-  const serializerFilePath = path.resolve(serializerFileDir, 'Service.json')
+  const serializerFilePath = path.resolve(serializerFileDir, 'ServiceRegistry-Services.json')
 
   let serviceRegistry
 
@@ -33,16 +33,16 @@ describe('ServiceRegistry', () => {
   })
 
   it('allows registering a new service endpoit', () => {
-    serviceRegistry.register(servicePath)
+    serviceRegistry.register(servicePath1)
 
-    expect(serviceRegistry.services).toEqual([servicePath])
+    expect(serviceRegistry.services).toEqual([servicePath1])
   })
 
   it('maintains the order of registered services in the returned array', () => {
-    serviceRegistry.register(servicePath)
-    serviceRegistry.register(anotherServicePath)
+    serviceRegistry.register(servicePath1)
+    serviceRegistry.register(servicePath2)
 
-    expect(serviceRegistry.services).toEqual([servicePath, anotherServicePath])
+    expect(serviceRegistry.services).toEqual([servicePath1, servicePath2])
   })
 
   describe('checking service path format', () => {
@@ -65,9 +65,9 @@ describe('ServiceRegistry', () => {
     it('throws when trying to register existing path', () => {
       const error = new Error(errors[pathExists])
 
-      serviceRegistry.register(servicePath)
+      serviceRegistry.register(servicePath1)
 
-      expect(() => serviceRegistry.register(servicePath)).toThrow(error)
+      expect(() => serviceRegistry.register(servicePath1)).toThrow(error)
     })
 
     it('throws when path is not provided', () => {
@@ -122,22 +122,22 @@ describe('ServiceRegistry', () => {
     })
 
     it('writes registered services to a file when adding a new service', () => {
-      serviceRegistry.register(servicePath)
+      serviceRegistry.register(servicePath1)
 
       expect(readSerializedState()).toEqual(serviceRegistry.services)
     })
 
     it('writes more registered services to a file when adding a new service', () => {
-      serviceRegistry.register(servicePath)
-      serviceRegistry.register(anotherServicePath)
+      serviceRegistry.register(servicePath1)
+      serviceRegistry.register(servicePath2)
 
       expect(readSerializedState()).toEqual(serviceRegistry.services)
     })
 
     it('restores previously registred services from a file', () => {
       const serializedState = [
-        servicePath,
-        anotherServicePath
+        servicePath1,
+        servicePath2
       ]
       fs.writeFileSync(serializerFilePath, JSON.stringify(serializedState))
 
