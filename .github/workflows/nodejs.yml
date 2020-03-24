@@ -25,7 +25,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: restore lerna
-      uses: actions/cache@v2
+      uses: actions/cache@v1
       with:
         path: |
           node_modules
