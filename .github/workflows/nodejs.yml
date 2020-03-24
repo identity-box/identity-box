@@ -1,8 +1,8 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-# To get proper caching for monorepos we use actions/cache@master instead of actions/cache@1. Support for
-# monorepos will be available in actions/cache@2.
+# To get proper caching for monorepos we use actions/cache@eb78578266b7cec649ab65b6f1534bd6040c838b (from master branch) 
+# instead of actions/cache@1. Support for monorepos will be available in actions/cache@2.
 
 name: Node.js CI
 
@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: restore lerna
         id: cache
-        uses: actions/cache@master
+        uses: actions/cache@eb78578266b7cec649ab65b6f1534bd6040c838b
         with:
           path: |
             node_modules
