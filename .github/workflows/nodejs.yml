@@ -1,6 +1,9 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
+# To get proper caching for monorepos we use actions/cache@master instead of actions/cache@1. Support for
+# monorepos will be available in actions/cache@2.
+
 name: Node.js CI
 
 on:
