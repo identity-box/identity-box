@@ -5,6 +5,8 @@ import { Box, Row } from 'src/components/ui-blocks'
 import Captions from 'file-loader!./IdentityBox-FOSDEM20-en.vtt'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import CaptionsPl from 'file-loader!./IdentityBox-FOSDEM20-pl.vtt'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import CaptionsRo from 'file-loader!./IdentityBox-FOSDEM20-ro.vtt'
 import VideoPoster from './video_poster.jpg'
 
 const Fallback = () => (
@@ -68,6 +70,7 @@ const Video = ({ data }) => (
         <source src='https://gateway.pinata.cloud/ipfs/QmNV9VystxzqotyQaadmK1kk9JUpuuez2BtC72rwY141hj' type='video/mp4' />
         <track kind='captions' srcLang='en' src={Captions} />
         <track kind='captions' srcLang='pl' src={CaptionsPl} />
+        <track kind='captions' srcLang='ro' src={CaptionsRo} />
         <Fallback />
       </video>
     </Row>
