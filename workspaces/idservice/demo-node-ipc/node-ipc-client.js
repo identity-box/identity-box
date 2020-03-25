@@ -1,66 +1,83 @@
-import ipc from 'node-ipc'
+import NodeIPC from 'node-ipc'
 import commander from 'commander'
 
 const program = new commander.Command()
 
-const startClientIPC = ({ serviceNamespace, serviceName }) => {
+const startClientIPC = ({ serviceNamespace, serviceName, instanceId }) => {
+  const ipc = new NodeIPC.IPC()
+
   ipc.config.retry = 1000
+  ipc.config.silent = true
+  ipc.instanceId = instanceId
+  ipc.socketName = `${serviceNamespace}.${serviceName}`
 
-  const socketName = `${serviceNamespace}.${serviceName}`
-
-  ipc.connectTo(
-    socketName,
-    `${ipc.config.socketRoot}${serviceNamespace}.${serviceName}`,
-    () => {
-      ipc.of[socketName].on(
-        'connect',
+  return new Promise(resolve => {
+    if (ipc.connected) {
+      resolve(ipc)
+    } else {
+      ipc.connectTo(
+        ipc.socketName,
+        `${ipc.config.socketRoot}${ipc.socketName}`,
         () => {
-          ipc.log(`## connected to ${serviceNamespace}.${serviceName} ##`)
-          ipc.of[socketName].emit(
+          ipc.of[ipc.socketName].on(
+            'connect',
+            () => {
+              ipc.connected = true
+              console.log(`## connected to ${ipc.socketName} [instanceId: ${instanceId}]##`)
+              resolve(ipc)
+            }
+          )
+          ipc.of[ipc.socketName].on(
+            'disconnect',
+            () => {
+              console.log(`***disconnected from ${ipc.socketName} [instanceId: ${instanceId}]***`)
+            }
+          )
+          ipc.of[ipc.socketName].on(
             'message',
-            {
-              id: 'idservice',
-              message: `hello [${serviceNamespace}.${serviceName}]`
+            (data) => {
+              console.log(`---i am handler for instanceId:${instanceId}---`)
+              console.log(`got a message from ${ipc.socketName}: `, data)
+              ipc.disconnect(ipc.socketName)
             }
           )
         }
       )
-      ipc.of[socketName].on(
-        'disconnect',
-        () => {
-          ipc.log(`disconnected from ${serviceNamespace}.${serviceName}`)
-        }
-      )
-      ipc.of[socketName].on(
-        'message',
-        (data) => {
-          ipc.log(`got a message from ${serviceNamespace}.${serviceName}: `, data)
-        }
-      )
-      console.log(ipc.of[socketName].destroy)
+    }
+  })
+}
+
+const emit = ipc => {
+  ipc.of[ipc.socketName].emit(
+    'message',
+    {
+      id: 'idservice',
+      message: `hello [${ipc.socketName}] [instanceId: ${ipc.instanceId}]`
     }
   )
 }
 
-const connectTo = (endPoint) => {
+const connectTo = (endPoint, instanceId) => {
   const [serviceNamespace, serviceName] = endPoint.split('.')
   if (serviceName === undefined || serviceName.length === 0) {
     console.log('missing service name: the path should be in the format: service-namespace.service-name')
     return false
   }
-  console.log(`Using socket path: ${ipc.config.socketRoot}${endPoint}`)
-  startClientIPC({ serviceNamespace, serviceName })
+  return startClientIPC({ serviceNamespace, serviceName, instanceId })
 }
 
 const run = async cmdObj => {
   const { endPoint1, endPoint2 } = cmdObj
-  ipc.log('============ Service 1 ================')
-  connectTo(endPoint1)
+  console.log('============ Service 1 ================')
+  const ipc1 = await connectTo(endPoint1, 1)
 
   if (endPoint2) {
-    ipc.log('============ Service 2 ================')
-    connectTo(endPoint2)
+    console.log('============ Service 2 ================')
+    const ipc2 = await connectTo(endPoint2, 2)
+    emit(ipc2)
   }
+
+  emit(ipc1)
 }
 
 async function main () {
