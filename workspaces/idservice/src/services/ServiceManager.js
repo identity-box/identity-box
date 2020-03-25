@@ -1,13 +1,4 @@
-class Service {
-  send = rpcObject => {
-    return {
-      status: 'SUCCESS',
-      data: {
-        responseMessage: 'hello world'
-      }
-    }
-  }
-}
+import { Service } from './Service'
 
 class ServiceManager {
   get = servicePath => {
