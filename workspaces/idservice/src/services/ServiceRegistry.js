@@ -31,9 +31,13 @@ class ServiceRegistry {
     }
   }
 
+  isRegistred = servicePath => {
+    return this.services.includes(servicePath)
+  }
+
   register = servicePath => {
     this.checkPath(servicePath)
-    if (this.services.includes(servicePath)) {
+    if (this.isRegistred(servicePath)) {
       throw new Error('Service with given path already exists!')
     }
     this.services.push(servicePath)

@@ -37,14 +37,13 @@ describe('ServiceManager', () => {
 
   beforeEach(async () => {
     server1 = await IPCTestServer.create(rpcObject1.service)
-    // console.log('server2=', server2)
-    // server2 = undefined
     prepareFixtureFile()
     serviceRegistry = new ServiceRegistry({
       serializerFilePath
     })
     serviceRegistry.register(rpcObject1.service)
-    serviceManager = new ServiceManager()
+    serviceRegistry.register(rpcObject2.service)
+    serviceManager = new ServiceManager({ serviceRegistry })
   })
 
   afterEach(async () => {
@@ -53,6 +52,10 @@ describe('ServiceManager', () => {
       await server2.isClientDisconnected()
     }
     fs.removeSync(serializerFilePath)
+  })
+
+  it('throws if service was not previously registered', () => {
+    expect(() => serviceManager.get('some-service.path')).toThrow()
   })
 
   it('provides Service proxy corresponding to the given service path', async () => {
