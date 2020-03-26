@@ -4,8 +4,33 @@ class IPCTestServer {
   ipc
   clientDisconnected
   clientDisconnectedPromise
+  neverConnected = true
+  rpcResponses = []
+
+  emptyResponse = () => {
+    return {
+      method: 'empty-response',
+      params: []
+    }
+  }
+
+  queueExpectedResponse = rpcResponseObject => {
+    this.rpcResponses.push(rpcResponseObject)
+    return rpcResponseObject
+  }
+
+  nextExpectedResponse = () => {
+    if (this.rpcResponses.length === 0) {
+      return this.emptyResponse()
+    }
+    return this.rpcResponses.shift()
+  }
 
   isClientDisconnected = () => {
+    if (this.neverConnected) {
+      this.ipc.server.stop()
+      return Promise.resolve()
+    }
     return this.clientDisconnectedPromise
   }
 
@@ -13,6 +38,12 @@ class IPCTestServer {
     return new Promise(resolve => {
       this.ipc.serve(
         () => {
+          this.ipc.server.on(
+            'connect',
+            () => {
+              this.neverConnected = false
+            }
+          )
           resolve()
         }
       )
@@ -24,18 +55,14 @@ class IPCTestServer {
     this.ipc.server.on(
       'message',
       (data, socket) => {
+        const response = this.nextExpectedResponse()
         this.ipc.server.emit(
           socket,
           'message',
           {
             id: `${this.ipc.socketName}`,
             status: 'SUCCESS',
-            response: {
-              method: `${data.method}-response`,
-              params: [
-                { message: `${data.params[0].message} response` }
-              ]
-            }
+            response
           }
         )
       }
@@ -87,9 +114,7 @@ class IPCTestServer {
     server.addDisconnectHandler()
     server.addMessageHandler()
 
-    return {
-      isClientDisconnected: server.isClientDisconnected
-    }
+    return server
   }
 }
 

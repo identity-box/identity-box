@@ -2,30 +2,29 @@ import ipc from 'node-ipc'
 
 class Service {
   ipc
-  serviceNamespace
-  serviceName
-  socketName
+  servicePath
+
+  constructor (servicePath) {
+    this.servicePath = servicePath
+  }
 
   connect = () => {
-    this.serviceNamespace = 'service-manager'
-    this.serviceName = 'service-1'
-    this.socketName = `${this.serviceNamespace}.${this.serviceName}`
     this.ipc = new ipc.IPC()
     this.ipc.config.silent = true
 
     return new Promise((resolve, reject) => {
       this.ipc.connectTo(
-        this.socketName,
-        `${this.ipc.config.socketRoot}${this.socketName}`,
+        this.servicePath,
+        `${this.ipc.config.socketRoot}${this.servicePath}`,
         () => {
-          this.ipc.of[this.socketName].on(
+          this.ipc.of[this.servicePath].on(
             'connect',
             () => {
-              this.ipc.log(`## connected to ${this.socketName} ##`)
+              this.ipc.log(`## connected to ${this.servicePath} ##`)
               resolve()
             }
           )
-          this.ipc.of[this.socketName].on(
+          this.ipc.of[this.servicePath].on(
             'destroy',
             () => {
               reject(new Error('DESTROY, DESTROY!'))
@@ -38,15 +37,15 @@ class Service {
 
   sendRPC = rpcObject => {
     const promise = new Promise(resolve => {
-      this.ipc.of[this.socketName].on(
+      this.ipc.of[this.servicePath].on(
         'message',
         data => {
-          this.ipc.log(`got a message from ${this.socketName}`, data)
+          this.ipc.log(`got a message from ${this.servicePath}`, data)
           resolve(data)
         }
       )
     })
-    this.ipc.of[this.socketName].emit(
+    this.ipc.of[this.servicePath].emit(
       'message',
       {
         id: 'idservice',
@@ -59,9 +58,9 @@ class Service {
   send = async rpcObject => {
     await this.connect()
     const response = await this.sendRPC(rpcObject)
-    this.ipc.disconnect(this.socketName)
+    this.ipc.disconnect(this.servicePath)
     return {
-      status: 'SUCCESS',
+      status: response.status,
       data: {
         ...response.response
       }
