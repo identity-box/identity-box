@@ -23,6 +23,12 @@ const setupIPC = ({ serviceNamespace, serviceName }) => {
           )
         }
       )
+      ipc.server.on(
+        'connect',
+        () => {
+          console.log('==** established connection with a client **==')
+        }
+      )
     }
   )
 }
