@@ -1,5 +1,5 @@
 import { ServiceRegistry } from '../../src/services/ServiceRegistry'
-import { ServiceManager } from '../../src/services/ServiceManager'
+import { ServiceProxy } from '../../src/services/ServiceProxy'
 import nacl from 'tweetnacl'
 
 import fs from 'fs-extra'
@@ -23,7 +23,6 @@ describe('ServiceRegistrationService', () => {
 
   let registrationService
   let serviceRegistry
-  let serviceManager
 
   const prepareServicePath = () => {
     const serviceId = base64url.encode(nacl.hash(nacl.randomBytes(10)))
@@ -43,7 +42,6 @@ describe('ServiceRegistrationService', () => {
     serviceRegistry = new ServiceRegistry({
       serializerFilePath
     })
-    serviceManager = new ServiceManager({ serviceRegistry })
     registrationService = await ServiceRegistrationService.create({
       serviceRegistry,
       servicePath
@@ -55,12 +53,8 @@ describe('ServiceRegistrationService', () => {
     fs.removeSync(serializerFilePath)
   })
 
-  it('registers itself as a service', async () => {
-    expect(serviceRegistry.isRegistred(servicePath)).toBeTruthy()
-  })
-
   it('allows external service registration', async () => {
-    const serviceProxy = serviceManager.get(servicePath)
+    const serviceProxy = new ServiceProxy(servicePath)
     const response = await serviceProxy.send(registrationRequest)
 
     expect(response.response).toEqual({
@@ -70,7 +64,7 @@ describe('ServiceRegistrationService', () => {
   })
 
   it('returns an error response if external service is already registered', async () => {
-    const serviceProxy = serviceManager.get(servicePath)
+    const serviceProxy = new ServiceProxy(servicePath)
     await serviceProxy.send(registrationRequest)
     const response = await serviceProxy.send(registrationRequest)
 
@@ -83,7 +77,7 @@ describe('ServiceRegistrationService', () => {
   })
 
   it('returns an error response on invalid method', async () => {
-    const serviceProxy = serviceManager.get(servicePath)
+    const serviceProxy = new ServiceProxy(servicePath)
     const invalidRequest = {
       method: 'adhoc'
     }
@@ -98,7 +92,7 @@ describe('ServiceRegistrationService', () => {
   })
 
   it('returns an error response on invalid request', async () => {
-    const serviceProxy = serviceManager.get(servicePath)
+    const serviceProxy = new ServiceProxy(servicePath)
     const response = await serviceProxy.send(undefined)
 
     expect(response.response).toEqual({

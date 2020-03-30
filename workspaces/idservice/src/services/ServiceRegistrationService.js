@@ -97,7 +97,6 @@ class ServiceRegistrationService {
     const { appspace, id } = this.validateServicePath(servicePath)
 
     this.serviceRegistry = serviceRegistry
-    this.serviceRegistry.register(servicePath)
 
     this.ipc = new ipc.IPC()
     this.ipc.config.silent = true
