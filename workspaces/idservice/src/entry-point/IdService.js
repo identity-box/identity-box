@@ -2,7 +2,7 @@ import path from 'path'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
-import { IPNS, ServiceRegistry, ServiceManager, ServiceRegistrationService } from '../services'
+import { IPNS, ServiceRegistry, ServiceManager, ServiceRegistrationService, ServiceBroker } from '../services'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
@@ -23,16 +23,20 @@ class IdService {
   serviceRegistry
   serviceManager
   serviceRegistrationService
+  serviceBroker
   identityProvider
   telepath
   subscription
 
-  startServiceRegistrationService = async () => {
+  startServices = async () => {
     this.serviceRegistry = new ServiceRegistry()
     this.serviceManager = new ServiceManager({ serviceRegistry: this.serviceRegistry })
     this.serviceRegistrationService = await ServiceRegistrationService.create({
       serviceRegistry: this.serviceRegistry,
       servicePath: 'identity-box.service-registration'
+    })
+    this.serviceBroker = new ServiceBroker({
+      serviceManager: this.serviceManager
     })
   }
 
@@ -48,7 +52,7 @@ class IdService {
   }
 
   start = async () => {
-    await this.startServiceRegistrationService()
+    await this.startServices()
     IPNS.connect()
     this.identityProvider = new IdentityProvider()
     await this.startTelepath()
@@ -307,7 +311,13 @@ class IdService {
       }
     } else {
       // new scalable service architecture - will replace legacy, flat message processing above
-
+      try {
+        const response = await this.serviceBroker.dispatch(message)
+        this.respond(response.method, message.params[1].from, response.params)
+      } catch (e) {
+        console.error(e.message)
+        this.respondWithError(message.method, e, message.params[1].from)
+      }
     }
   }
 

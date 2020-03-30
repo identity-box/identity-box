@@ -9,7 +9,7 @@ class ServiceManager {
 
   get = servicePath => {
     if (!this.serviceRegistry.isRegistred(servicePath)) {
-      throw new Error(`Service ${servicePath} is not registred!`)
+      throw new Error(`Service ${servicePath} is not registered!`)
     }
     return new ServiceProxy(servicePath)
   }

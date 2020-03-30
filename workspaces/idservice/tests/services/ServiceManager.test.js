@@ -55,7 +55,9 @@ describe('ServiceManager', () => {
   })
 
   it('throws if service was not previously registered', () => {
-    expect(() => serviceManager.get('some-service.path')).toThrow()
+    const nonExistentPath = 'some-service.path'
+    const expectedError = new Error(`Service ${nonExistentPath} is not registered!`)
+    expect(() => serviceManager.get(nonExistentPath)).toThrow(expectedError)
   })
 
   it('provides Service proxy corresponding to the given service path', async () => {

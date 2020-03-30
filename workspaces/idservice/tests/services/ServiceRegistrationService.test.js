@@ -4,6 +4,7 @@ import nacl from 'tweetnacl'
 
 import fs from 'fs-extra'
 import path from 'path'
+import base64url from 'base64url'
 import { ServiceRegistrationService } from '../../src/services/ServiceRegistrationService'
 
 describe('ServiceRegistrationService', () => {
@@ -25,7 +26,7 @@ describe('ServiceRegistrationService', () => {
   let serviceManager
 
   const prepareFixtureFile = () => {
-    const filename = nacl.hash(nacl.randomBytes(10))
+    const filename = base64url.encode(nacl.hash(nacl.randomBytes(10)))
     serializerFilePath = path.resolve(serializerFileDir, `${filename}.json`)
     fs.ensureDirSync(serializerFileDir)
     fs.removeSync(serializerFilePath)
