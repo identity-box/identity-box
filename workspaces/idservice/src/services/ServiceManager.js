@@ -1,4 +1,4 @@
-import { Service } from './Service'
+import { ServiceProxy } from './ServiceProxy'
 
 class ServiceManager {
   serviceRegistry
@@ -11,7 +11,7 @@ class ServiceManager {
     if (!this.serviceRegistry.isRegistred(servicePath)) {
       throw new Error(`Service ${servicePath} is not registred!`)
     }
-    return new Service(servicePath)
+    return new ServiceProxy(servicePath)
   }
 }
 

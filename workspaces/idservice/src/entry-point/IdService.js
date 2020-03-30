@@ -2,7 +2,7 @@ import path from 'path'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
-import { IPNS } from '../services'
+import { IPNS, ServiceRegistry, ServiceManager, ServiceRegistrationService } from '../services'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
@@ -20,15 +20,23 @@ const supportedMessages = [
 ]
 
 class IdService {
+  serviceRegistry
+  serviceManager
+  serviceRegistrationService
   identityProvider
-
   telepath
-
   subscription
 
-  start = async () => {
-    IPNS.connect()
-    this.identityProvider = new IdentityProvider()
+  startServiceRegistrationService = async () => {
+    this.serviceRegistry = new ServiceRegistry()
+    this.serviceManager = new ServiceManager({ serviceRegistry: this.serviceRegistry })
+    this.serviceRegistrationService = await ServiceRegistrationService.create({
+      serviceRegistry: this.serviceRegistry,
+      servicePath: 'identity-box.service-registration'
+    })
+  }
+
+  startTelepath = async () => {
     this.telepath = await this.getTelepath()
     await this.telepath.connect()
     this.subscription = this.telepath.subscribe(
@@ -37,7 +45,13 @@ class IdService {
         console.log('error: ' + error)
       }
     )
+  }
 
+  start = async () => {
+    await this.startServiceRegistrationService()
+    IPNS.connect()
+    this.identityProvider = new IdentityProvider()
+    await this.startTelepath()
     process.on('SIGINT', this.stop)
   }
 
@@ -168,7 +182,7 @@ class IdService {
     try {
       const response = {
         jsonrpc: '2.0',
-        method: `${method}-error`,
+        method: `${method || 'unknown'}-error`,
         params: [
           { error: error.message }
         ]

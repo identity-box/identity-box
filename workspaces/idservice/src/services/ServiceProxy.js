@@ -1,6 +1,6 @@
 import ipc from 'node-ipc'
 
-class Service {
+class ServiceProxy {
   ipc
   servicePath
 
@@ -48,7 +48,7 @@ class Service {
     this.ipc.of[this.servicePath].emit(
       'message',
       {
-        id: 'idservice',
+        id: 'identity-box',
         ...rpcObject
       }
     )
@@ -68,4 +68,4 @@ class Service {
   }
 }
 
-export { Service }
+export { ServiceProxy }
