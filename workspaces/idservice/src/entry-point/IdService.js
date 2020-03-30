@@ -164,11 +164,11 @@ class IdService {
     }
   }
 
-  respondWithError = async (error, to) => {
+  respondWithError = async (method, error, to) => {
     try {
       const response = {
         jsonrpc: '2.0',
-        method: 'set_identity',
+        method: `${method}-error`,
         params: [
           { error: error.message }
         ]
@@ -289,8 +289,11 @@ class IdService {
         }
       } catch (e) {
         console.error(e.message)
-        this.respondWithError(e)
+        this.respondWithError(message.method, e, message.params[1].from)
       }
+    } else {
+      // new scalable service architecture - will replace legacy, flat message processing above
+
     }
   }
 
