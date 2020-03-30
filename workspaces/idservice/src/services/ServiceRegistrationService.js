@@ -36,7 +36,6 @@ class ServiceRegistrationService {
       'message',
       {
         id: `${this.ipc.servicePath}`,
-        status: 'SUCCESS',
         response
       }
     )
@@ -48,7 +47,6 @@ class ServiceRegistrationService {
       'message',
       {
         id: `${this.ipc.servicePath}`,
-        status: 'ERROR',
         response: {
           method: 'register-error',
           params: [

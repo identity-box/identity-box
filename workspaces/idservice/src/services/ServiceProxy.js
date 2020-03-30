@@ -59,12 +59,7 @@ class ServiceProxy {
     await this.connect()
     const response = await this.sendRPC(rpcObject)
     this.ipc.disconnect(this.servicePath)
-    return {
-      status: response.status,
-      data: {
-        ...response.response
-      }
-    }
+    return { ...response }
   }
 }
 

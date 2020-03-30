@@ -2,12 +2,13 @@ import { ServiceRegistry } from '../../src/services/ServiceRegistry'
 import { ServiceManager } from '../../src/services/ServiceManager'
 import { IPCTestServer } from '../utils/IPCTestServer'
 
+import nacl from 'tweetnacl'
+import base64url from 'base64url'
 import fs from 'fs-extra'
 import path from 'path'
 
 describe('ServiceManager', () => {
   const rpcObject1 = {
-    service: 'service-manager.service-1',
     method: 'serviceMethod-1',
     params: [
       { message: 'message-1' }
@@ -15,7 +16,6 @@ describe('ServiceManager', () => {
   }
 
   const rpcObject2 = {
-    service: 'service-manager.service-2',
     method: 'serviceMethod-2',
     params: [
       { message: 'message-2' }
@@ -25,10 +25,19 @@ describe('ServiceManager', () => {
   const serializerFileDir = path.resolve(process.cwd(), '.fixtures', 'idservice')
   const serializerFilePath = path.resolve(serializerFileDir, 'ServiceManager-Services.json')
 
+  let servicePath1
+  let servicePath2
   let server1
   let server2
   let serviceRegistry
   let serviceManager
+
+  const prepareServicePaths = () => {
+    let serviceId = base64url.encode(nacl.hash(nacl.randomBytes(10)))
+    servicePath1 = `service-registration-service.${serviceId}`
+    serviceId = base64url.encode(nacl.hash(nacl.randomBytes(10)))
+    servicePath2 = `service-registration-service.${serviceId}`
+  }
 
   const prepareFixtureFile = () => {
     fs.ensureDirSync(serializerFileDir)
@@ -36,13 +45,14 @@ describe('ServiceManager', () => {
   }
 
   beforeEach(async () => {
-    server1 = await IPCTestServer.create(rpcObject1.service)
+    prepareServicePaths()
     prepareFixtureFile()
+    server1 = await IPCTestServer.create(servicePath1)
     serviceRegistry = new ServiceRegistry({
       serializerFilePath
     })
-    serviceRegistry.register(rpcObject1.service)
-    serviceRegistry.register(rpcObject2.service)
+    serviceRegistry.register(servicePath1)
+    serviceRegistry.register(servicePath2)
     serviceManager = new ServiceManager({ serviceRegistry })
   })
 
@@ -67,16 +77,15 @@ describe('ServiceManager', () => {
         { message: `${rpcObject1.params[0].message} response` }
       ]
     })
-    const service = serviceManager.get(rpcObject1.service)
+    const service = serviceManager.get(servicePath1)
 
     const response = await service.send(rpcObject1)
 
-    expect(response.status).toBe('SUCCESS')
-    expect(response.data).toEqual(expectedResponse)
+    expect(response.response).toEqual(expectedResponse)
   })
 
   it('provides a distinct Service proxy for distinct service paths', async () => {
-    server2 = await IPCTestServer.create(rpcObject2.service)
+    server2 = await IPCTestServer.create(servicePath2)
     const expectedResponse1 = server1.queueExpectedResponse({
       method: `${rpcObject1.method}-response`,
       params: [
@@ -90,19 +99,16 @@ describe('ServiceManager', () => {
       ]
     })
 
-    const service1 = serviceManager.get(rpcObject1.service)
-    const service2 = serviceManager.get(rpcObject2.service)
+    const service1 = serviceManager.get(servicePath1)
+    const service2 = serviceManager.get(servicePath2)
 
     expect(service1).not.toBe(service2)
 
     const response1 = await service1.send(rpcObject1)
     const response2 = await service2.send(rpcObject2)
 
-    expect(response1.status).toBe('SUCCESS')
-    expect(response1.data).toEqual(expectedResponse1)
-
-    expect(response2.status).toBe('SUCCESS')
-    expect(response2.data).toEqual(expectedResponse2)
+    expect(response1.response).toEqual(expectedResponse1)
+    expect(response2.response).toEqual(expectedResponse2)
   })
 
   it('provides a new instance of the service proxy on each request', async () => {
@@ -119,18 +125,15 @@ describe('ServiceManager', () => {
       ]
     })
 
-    const service1 = serviceManager.get(rpcObject1.service)
-    const service2 = serviceManager.get(rpcObject1.service)
+    const service1 = serviceManager.get(servicePath1)
+    const service2 = serviceManager.get(servicePath1)
 
     expect(service1).not.toBe(service2)
 
     const response1 = await service1.send(rpcObject1)
     const response2 = await service2.send(rpcObject1)
 
-    expect(response1.status).toBe('SUCCESS')
-    expect(response1.data).toEqual(expectedResponse1)
-
-    expect(response2.status).toBe('SUCCESS')
-    expect(response2.data).toEqual(expectedResponse2)
+    expect(response1.response).toEqual(expectedResponse1)
+    expect(response2.response).toEqual(expectedResponse2)
   })
 })

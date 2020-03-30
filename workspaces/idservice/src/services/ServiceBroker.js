@@ -9,10 +9,7 @@ class ServiceBroker {
     const serviceProxy = this.serviceManager.get(request.servicePath)
     const response = await serviceProxy.send(request)
 
-    return {
-      ...response.data,
-      servicePath: request.servicePath
-    }
+    return response.response
   }
 }
 

@@ -108,7 +108,7 @@ describe('ServiceBroker', () => {
     expect(response).toEqual(expectedResponse)
   })
 
-  it('does not brakes if remote service returns non-compliant response format', async () => {
+  it('does not brake if remote service returns non-compliant response format', async () => {
     const request = {
       method: 'some-method',
       servicePath
@@ -117,9 +117,7 @@ describe('ServiceBroker', () => {
 
     const response = await serviceBroker.dispatch(request)
 
-    expect(response).toEqual({
-      servicePath
-    })
+    expect(response).not.toBeDefined()
   })
 
   it('throws an error if service path is not registered', async () => {

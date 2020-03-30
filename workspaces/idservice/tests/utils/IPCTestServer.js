@@ -61,7 +61,6 @@ class IPCTestServer {
           'message',
           {
             id: `${this.ipc.socketName}`,
-            status: 'SUCCESS',
             response
           }
         )

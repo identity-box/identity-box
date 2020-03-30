@@ -8,7 +8,6 @@ import base64url from 'base64url'
 import { ServiceRegistrationService } from '../../src/services/ServiceRegistrationService'
 
 describe('ServiceRegistrationService', () => {
-  const servicePath = 'service-registration-service.service-1'
   const externalServicePath = 'some-other.service-path'
   const registrationRequest = {
     method: 'register',
@@ -19,11 +18,17 @@ describe('ServiceRegistrationService', () => {
 
   const serializerFileDir = path.resolve(process.cwd(), '.fixtures', 'idservice')
 
+  let servicePath
   let serializerFilePath
 
   let registrationService
   let serviceRegistry
   let serviceManager
+
+  const prepareServicePath = () => {
+    const serviceId = base64url.encode(nacl.hash(nacl.randomBytes(10)))
+    servicePath = `service-registration-service.${serviceId}`
+  }
 
   const prepareFixtureFile = () => {
     const filename = base64url.encode(nacl.hash(nacl.randomBytes(10)))
@@ -33,6 +38,7 @@ describe('ServiceRegistrationService', () => {
   }
 
   beforeEach(async () => {
+    prepareServicePath()
     prepareFixtureFile()
     serviceRegistry = new ServiceRegistry({
       serializerFilePath
@@ -57,12 +63,9 @@ describe('ServiceRegistrationService', () => {
     const serviceProxy = serviceManager.get(servicePath)
     const response = await serviceProxy.send(registrationRequest)
 
-    expect(response).toEqual({
-      status: 'SUCCESS',
-      data: {
-        ...registrationRequest,
-        method: `${registrationRequest.method}-response`
-      }
+    expect(response.response).toEqual({
+      ...registrationRequest,
+      method: `${registrationRequest.method}-response`
     })
   })
 
@@ -71,14 +74,11 @@ describe('ServiceRegistrationService', () => {
     await serviceProxy.send(registrationRequest)
     const response = await serviceProxy.send(registrationRequest)
 
-    expect(response).toEqual({
-      status: 'ERROR',
-      data: {
-        method: 'register-error',
-        params: [
-          { message: 'Service with given path already exists!' }
-        ]
-      }
+    expect(response.response).toEqual({
+      method: 'register-error',
+      params: [
+        { message: 'Service with given path already exists!' }
+      ]
     })
   })
 
@@ -89,14 +89,11 @@ describe('ServiceRegistrationService', () => {
     }
     const response = await serviceProxy.send(invalidRequest)
 
-    expect(response).toEqual({
-      status: 'ERROR',
-      data: {
-        method: 'register-error',
-        params: [
-          { message: 'RPC: unknown method' }
-        ]
-      }
+    expect(response.response).toEqual({
+      method: 'register-error',
+      params: [
+        { message: 'RPC: unknown method' }
+      ]
     })
   })
 
@@ -104,14 +101,11 @@ describe('ServiceRegistrationService', () => {
     const serviceProxy = serviceManager.get(servicePath)
     const response = await serviceProxy.send(undefined)
 
-    expect(response).toEqual({
-      status: 'ERROR',
-      data: {
-        method: 'register-error',
-        params: [
-          { message: 'RPC: unknown method' }
-        ]
-      }
+    expect(response.response).toEqual({
+      method: 'register-error',
+      params: [
+        { message: 'RPC: unknown method' }
+      ]
     })
   })
 })
