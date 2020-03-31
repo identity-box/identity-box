@@ -32,7 +32,6 @@
     "@identity-box/telepath": "^0.1.28",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "commander": "^5.0.0",
     "esm": "^3.2.25",
     "firebase-admin": "^8.10.0",
     "glob": "^7.1.6",
@@ -44,5 +43,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "fs-extra": "^8.1.0"
   }
 }

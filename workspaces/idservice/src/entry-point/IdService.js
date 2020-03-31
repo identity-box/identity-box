@@ -2,7 +2,7 @@ import path from 'path'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
-import { IPNS } from '../services'
+import { IPNS, ServiceRegistry, ServiceManager, ServiceRegistrationService, ServiceBroker } from '../services'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
@@ -20,15 +20,27 @@ const supportedMessages = [
 ]
 
 class IdService {
+  serviceRegistry
+  serviceManager
+  serviceRegistrationService
+  serviceBroker
   identityProvider
-
   telepath
-
   subscription
 
-  start = async () => {
-    IPNS.connect()
-    this.identityProvider = new IdentityProvider()
+  startServices = async () => {
+    this.serviceRegistry = new ServiceRegistry()
+    this.serviceManager = new ServiceManager({ serviceRegistry: this.serviceRegistry })
+    this.serviceRegistrationService = await ServiceRegistrationService.create({
+      serviceRegistry: this.serviceRegistry,
+      servicePath: 'identity-box.service-registration'
+    })
+    this.serviceBroker = new ServiceBroker({
+      serviceManager: this.serviceManager
+    })
+  }
+
+  startTelepath = async () => {
     this.telepath = await this.getTelepath()
     await this.telepath.connect()
     this.subscription = this.telepath.subscribe(
@@ -37,7 +49,13 @@ class IdService {
         console.log('error: ' + error)
       }
     )
+  }
 
+  start = async () => {
+    await this.startServices()
+    IPNS.connect()
+    this.identityProvider = new IdentityProvider()
+    await this.startTelepath()
     process.on('SIGINT', this.stop)
   }
 
@@ -164,11 +182,11 @@ class IdService {
     }
   }
 
-  respondWithError = async (error, to) => {
+  respondWithError = async (method, error, to) => {
     try {
       const response = {
         jsonrpc: '2.0',
-        method: 'set_identity',
+        method: `${method || 'unknown'}-error`,
         params: [
           { error: error.message }
         ]
@@ -289,7 +307,16 @@ class IdService {
         }
       } catch (e) {
         console.error(e.message)
-        this.respondWithError(e)
+        this.respondWithError(message.method, e, message.params[1].from)
+      }
+    } else {
+      // new scalable service architecture - will replace legacy, flat message processing above
+      try {
+        const response = await this.serviceBroker.dispatch(message)
+        this.respond(response.method, message.params[1].from, response.params)
+      } catch (e) {
+        console.error(e.message)
+        this.respondWithError(message.method, e, message.params[1].from)
       }
     }
   }
