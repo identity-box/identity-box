@@ -1,0 +1,1 @@
+export { ServiceProxy } from './ServiceProxy'

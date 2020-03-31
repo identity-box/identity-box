@@ -1,4 +1,4 @@
-import { ServiceProxy } from './ServiceProxy'
+import { ServiceProxy } from '@identity-box/utils'
 
 class ServiceManager {
   serviceRegistry

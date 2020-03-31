@@ -1,5 +1,5 @@
 import { ServiceRegistry } from '../../src/services/ServiceRegistry'
-import { ServiceProxy } from '../../src/services/ServiceProxy'
+import { ServiceProxy } from '@identity-box/utils'
 import nacl from 'tweetnacl'
 
 import fs from 'fs-extra'

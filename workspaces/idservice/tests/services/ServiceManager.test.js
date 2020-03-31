@@ -1,6 +1,6 @@
 import { ServiceRegistry } from '../../src/services/ServiceRegistry'
 import { ServiceManager } from '../../src/services/ServiceManager'
-import { IPCTestServer } from '../utils/IPCTestServer'
+import { IPCTestServer } from '@identity-box/utils'
 
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
