@@ -1,23 +1,26 @@
-import ipc from 'node-ipc'
+import { Service } from '@identity-box/utils'
 
 class ServiceRegistrationService {
-  ipc
   serviceRegistry
 
   start = () => {
-    return new Promise(resolve => {
-      this.ipc.serve(
-        () => {
-          resolve(this)
-        }
-      )
-      this.addMessageHandler()
-      this.ipc.server.start()
+    return Service.create({
+      servicePath: this.servicePath,
+      onMessage: this.onMessage
     })
   }
 
-  stop = () => {
-    this.ipc.server.stop()
+  onMessage = ({ method, params }) => {
+    if (method !== 'register') {
+      return this.errorResponse('RPC: unknown method')
+    } else {
+      const { servicePath } = params[0] || {}
+      try {
+        return this.register(servicePath)
+      } catch (e) {
+        return this.errorResponse(e.message)
+      }
+    }
   }
 
   register = servicePath => {
@@ -30,79 +33,19 @@ class ServiceRegistrationService {
     }
   }
 
-  sendResponse = (socket, response) => {
-    this.ipc.server.emit(
-      socket,
-      'message',
-      {
-        id: `${this.ipc.servicePath}`,
-        response
-      }
-    )
-  }
-
-  sendErrorResponse = (socket, message) => {
-    this.ipc.server.emit(
-      socket,
-      'message',
-      {
-        id: `${this.ipc.servicePath}`,
-        response: {
-          method: 'register-error',
-          params: [
-            { message }
-          ]
-        }
-      }
-    )
-  }
-
-  addMessageHandler = () => {
-    this.ipc.server.on(
-      'message',
-      ({ method, params }, socket) => {
-        if (method !== 'register') {
-          this.sendErrorResponse(socket, 'RPC: unknown method')
-        } else {
-          const { servicePath } = params[0] || {}
-          try {
-            const response = this.register(servicePath)
-            this.sendResponse(socket, response)
-          } catch (e) {
-            this.sendErrorResponse(socket, e.message)
-          }
-        }
-      }
-    )
-  }
-
-  validateServicePath = servicePath => {
-    const [appspace, id] = servicePath.split('.')
-
-    if (appspace === undefined || appspace.length === 0) {
-      throw new Error('missing service name: the path should be in the format: service-namespace.service-name')
-    }
-
-    if (id === undefined || id.length === 0) {
-      throw new Error('missing service name: the path should be in the format: service-namespace.service-name')
-    }
-
-    return { appspace, id }
-  }
+  errorResponse = message => ({
+    method: 'register-error',
+    params: [
+      { message }
+    ]
+  })
 
   constructor ({
     serviceRegistry,
     servicePath
   }) {
-    const { appspace, id } = this.validateServicePath(servicePath)
-
     this.serviceRegistry = serviceRegistry
-
-    this.ipc = new ipc.IPC()
-    this.ipc.config.silent = true
-    this.ipc.config.appspace = `${appspace}.`
-    this.ipc.config.id = id
-    this.ipc.servicePath = servicePath
+    this.servicePath = servicePath
   }
 
   static create = ({

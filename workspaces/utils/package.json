@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "base64url": "^3.0.1",
+    "commander": "^5.0.0",
     "tweetnacl": "^1.0.3"
   }
 }
