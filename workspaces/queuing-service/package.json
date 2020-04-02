@@ -1,6 +1,6 @@
 {
   "name": "idbox-queuing-service",
-  "version": "0.1.29-alpha.1",
+  "version": "0.1.29-alpha.2",
   "description": "IdBox Queuing Service",
   "homepage": "https://idbox.online/components/queuing-service",
   "private": true,
