@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@identity-box/telepath": "^0.1.29-alpha.1",
+    "@identity-box/utils": "^0.1.29-alpha.1",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "esm": "^3.2.25",
