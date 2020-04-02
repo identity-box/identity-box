@@ -1,6 +1,6 @@
 {
   "name": "idapp",
-  "version": "0.1.29-alpha.0",
+  "version": "0.1.29-alpha.1",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -20,7 +20,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/native": "^10.0.27",
-    "@identity-box/telepath": "^0.1.29-alpha.0",
+    "@identity-box/telepath": "^0.1.29-alpha.1",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-native-community/masked-view": "0.1.5",
     "base64url": "^3.0.1",

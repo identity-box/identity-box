@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "hush-hush",
-  "version": "0.1.29-alpha.0",
+  "version": "0.1.29-alpha.1",
   "description": "Hush Hush secret sharing web app",
   "author": "Marcin Czenko",
   "license": "MIT",
@@ -11,7 +11,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "@identity-box/idbox-react-ui": "^0.1.29-alpha.0",
+    "@identity-box/idbox-react-ui": "^0.1.29-alpha.1",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "base64url": "^3.0.1",
     "next": "^9.3.1",

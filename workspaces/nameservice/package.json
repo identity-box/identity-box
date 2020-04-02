@@ -1,7 +1,7 @@
 {
   "name": "@identity-box/nameservice",
   "private": false,
-  "version": "0.1.29-alpha.0",
+  "version": "0.1.29-alpha.1",
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": {
     "nameservice": "./index.js",
@@ -28,7 +28,7 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.29-alpha.0",
+    "@identity-box/utils": "^0.1.29-alpha.1",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "esm": "^3.2.25",
