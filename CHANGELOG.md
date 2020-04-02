@@ -1,3 +1,11 @@
+## v0.1.29-alpha.1 (2020-04-02)
+
+#### :bug: Bug Fix
+* [#35](https://github.com/identity-box/identity-box/pull/35) idservice: fixes missing export of ServiceBroker in services ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.29-alpha.0 (2020-03-31)
 
 #### :rocket: New Feature
