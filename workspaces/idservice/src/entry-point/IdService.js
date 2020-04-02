@@ -311,6 +311,7 @@ class IdService {
       }
     } else {
       // new scalable service architecture - will replace legacy, flat message processing above
+      console.log('MESSAGE [new scalable service architecture]:', message)
       try {
         const response = await this.serviceBroker.dispatch(message)
         this.respond(response.method, message.params[1].from, response.params)
