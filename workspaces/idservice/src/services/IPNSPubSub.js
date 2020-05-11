@@ -1,51 +1,52 @@
-import got from 'got'
-
-const nameServiceUrl =
-  process.env.IDBOX_NAMESERVICE_URL || 'http://localhost:3100/'
-
-const sendCommandToNameService = json => {
-  return got(nameServiceUrl, {
-    method: 'POST',
-    json,
-    timeout: 25000
-  }).json()
-}
+import { ServiceProxy } from '@identity-box/utils'
 
 class IPNSPubSub {
-  static connect = () => {
+  static serviceProxy
 
+  static sendCommandToNameService = async request => {
+    const response = await IPNSPubSub.serviceProxy.send(request)
+
+    return response.response
+  }
+
+  static connect = () => {
+    IPNSPubSub.serviceProxy = new ServiceProxy('identity-box.nameservice')
   }
 
   static setIPNSRecord = async ({
     ipnsName,
     cid
   }) => {
-    const cmd = {
+    const request = {
       method: 'publish-name',
-      ipnsName,
-      cid
+      params: [
+        {
+          ipnsName,
+          cid
+        }
+      ]
     }
-    return sendCommandToNameService(cmd)
+    return IPNSPubSub.sendCommandToNameService(request)
   }
 
   static getCIDForIPNSName = async ({
     ipnsName
   }) => {
-    const cmd = {
+    const request = {
       method: 'resolve-name',
-      ipnsName
+      params: [{ ipnsName }]
     }
-    return sendCommandToNameService(cmd)
+    return IPNSPubSub.sendCommandToNameService(request)
   }
 
   static deleteIPNSRecord = async ({
     ipnsName
   }) => {
-    const cmd = {
+    const request = {
       method: 'unpublish-name',
-      ipnsName
+      params: [{ ipnsName }]
     }
-    return sendCommandToNameService(cmd)
+    return IPNSPubSub.sendCommandToNameService(request)
   }
 }
 

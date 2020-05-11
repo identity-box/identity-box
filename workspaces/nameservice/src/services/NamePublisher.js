@@ -1,16 +1,16 @@
 import path from 'path'
-import ipfsClient from 'ipfs-http-client'
 import { StateSerializer } from '@identity-box/utils'
 
 const PUBLISH_INTERVAL = 10000
 
-class NameService {
-  ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
+class NamePublisher {
+  ipfs
   serializer
   interval
   identities
 
-  constructor () {
+  constructor (ipfs) {
+    this.ipfs = ipfs
     this.serializer = new StateSerializer(path.resolve(process.cwd(), 'Identities.json'))
     this.identities = this.serializer.read() || {}
     if (Object.keys(this.identities).length > 0) {
@@ -39,7 +39,7 @@ class NameService {
     // }
   }
 
-  handlePublishName = async ({ ipnsName, cid }) => {
+  publish = ({ ipnsName, cid }) => {
     if (this.identities[ipnsName] && this.identities[ipnsName] === cid) {
       return { ipnsName, cid, info: 'name already exists' }
     }
@@ -51,7 +51,7 @@ class NameService {
     return { ipnsName, cid }
   }
 
-  handleUnpublishName = async ({ ipnsName }) => {
+  unpublish = async ({ ipnsName }) => {
     if (this.identities[ipnsName]) {
       delete this.identities[ipnsName]
       await this.ipfs.pubsub.unsubscribe(ipnsName)
@@ -63,50 +63,6 @@ class NameService {
     }
     return { ipnsName }
   }
-
-  handleResolveName = async ({ ipnsName }) => {
-    let resolveFunction
-    let rejectFunction
-    const handler = msg => resolveFunction(msg.data.toString())
-    const promise = new Promise((resolve, reject) => {
-      resolveFunction = resolve
-      rejectFunction = reject
-      this.ipfs.pubsub.subscribe(ipnsName, handler)
-    })
-    try {
-      const timeout = setTimeout(async () => {
-        await this.ipfs.pubsub.unsubscribe(ipnsName, handler)
-        rejectFunction(
-          new Error(`Could not resolve name: ${ipnsName}`)
-        )
-      }, 15000)
-      const cid = await promise
-      clearTimeout(timeout)
-      await this.ipfs.pubsub.unsubscribe(ipnsName, handler)
-      return { ipnsName, cid }
-    } catch (e) {
-      return { status: 'error', message: e.message }
-    }
-  }
-
-  processMessage = message => {
-    console.log(message)
-    try {
-      switch (message.method) {
-        case 'publish-name':
-          return this.handlePublishName(message)
-        case 'unpublish-name':
-          return this.handleUnpublishName(message)
-        case 'resolve-name':
-          return this.handleResolveName(message)
-        default:
-          return { status: 'error', message: 'unknown-method' }
-      }
-    } catch (e) {
-      console.error(e.message)
-      return { status: 'error', message: e.message }
-    }
-  }
 }
 
-export { NameService }
+export { NamePublisher }

@@ -1,1 +1,1 @@
-export { NameService } from './NameService'
+export { EntryPoint } from './EntryPoint'
