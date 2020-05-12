@@ -1,16 +1,14 @@
-import { ServiceProxy } from '@identity-box/utils'
+import { ServiceBroker } from './ServiceBroker'
 
 class IPNSPubSub {
-  static serviceProxy
-
   static sendCommandToNameService = async request => {
-    const response = await IPNSPubSub.serviceProxy.send(request)
-
-    return response.response
+    return ServiceBroker.getInstance().dispatch({
+      servicePath: 'identity-box.nameservice',
+      ...request
+    })
   }
 
   static connect = () => {
-    IPNSPubSub.serviceProxy = new ServiceProxy('identity-box.nameservice')
   }
 
   static setIPNSRecord = async ({
