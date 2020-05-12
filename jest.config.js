@@ -23,6 +23,10 @@ module.exports = {
       testEnvironment: 'node'
     },
     {
+      rootDir: 'workspaces/identity-service',
+      testEnvironment: 'node'
+    },
+    {
       testMatch: ['<rootDir>/dummy']
     }
   ],

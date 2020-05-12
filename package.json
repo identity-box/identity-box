@@ -43,6 +43,7 @@
       "workspaces/idapp/__generated__/**",
       "workspaces/idservice/index.js",
       "workspaces/nameservice/index.js",
+      "workspaces/identity-service/index.js",
       "tools/build.js"
     ],
     "envs": [

@@ -1,0 +1,45 @@
+{
+  "name": "@identity-box/identity-service",
+  "private": false,
+  "version": "0.1.29-alpha.2",
+  "description": "Service to handle identity based operations",
+  "bin": {
+    "nameservice": "./index.js",
+    "setup": "./setup.sh"
+  },
+  "files": [
+    "src",
+    "ecosystem.config.js",
+    "index.js",
+    "setup.sh"
+  ],
+  "keywords": [
+    "ipfs",
+    "ipns",
+    "ipid",
+    "DID",
+    "DID Document"
+  ],
+  "author": "Marcin Czenko",
+  "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "@identity-box/utils": "^0.1.29-alpha.2",
+    "@react-frontend-developer/buffers": "^1.0.21",
+    "base64url": "^3.0.1",
+    "commander": "^5.0.0",
+    "esm": "^3.2.25",
+    "glob": "^7.1.6",
+    "ipfs-http-client": "^42.0.0",
+    "libp2p-crypto": "^0.17.3",
+    "tweetnacl": "^1.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
+  }
+}
