@@ -5,7 +5,6 @@
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": {
     "nameservice": "./index.js",
-    "nameservice-cjs": "./index-cjs.js",
     "setup": "./setup.sh"
   },
   "files": [
@@ -31,11 +30,10 @@
     "@identity-box/utils": "^0.1.29-alpha.2",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
+    "commander": "^5.0.0",
     "esm": "^3.2.25",
     "glob": "^7.1.6",
     "ipfs-http-client": "^42.0.0",
-    "koa": "^2.11.0",
-    "koa-body": "^4.1.1",
     "libp2p-crypto": "^0.17.3",
     "tweetnacl": "^1.0.3"
   },
@@ -43,7 +41,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "faker": "^4.1.0",
-    "supertest": "^4.0.2"
+    "faker": "^4.1.0"
   }
 }

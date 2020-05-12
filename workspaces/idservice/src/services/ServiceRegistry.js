@@ -43,6 +43,15 @@ class ServiceRegistry {
     this.services.push(servicePath)
     this.stateSerializer.write(this.services)
   }
+
+  static __instance
+
+  static getInstance = () => {
+    if (!this.__instance) {
+      this.__instance = new ServiceRegistry()
+    }
+    return this.__instance
+  }
 }
 
 export { ServiceRegistry }

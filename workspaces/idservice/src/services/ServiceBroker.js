@@ -1,3 +1,5 @@
+import { ServiceManager } from './ServiceManager'
+
 class ServiceBroker {
   serviceManager
 
@@ -10,6 +12,17 @@ class ServiceBroker {
     const response = await serviceProxy.send(request)
 
     return response.response
+  }
+
+  static __instance
+
+  static getInstance = () => {
+    if (!this.__instance) {
+      this.__instance = new ServiceBroker({
+        serviceManager: ServiceManager.getInstance()
+      })
+    }
+    return this.__instance
   }
 }
 

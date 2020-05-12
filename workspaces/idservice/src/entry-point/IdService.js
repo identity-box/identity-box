@@ -2,7 +2,7 @@ import path from 'path'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { Telepath } from '../telepath'
 import { IdentityProvider, createDIDDocument } from '../identity'
-import { IPNS, ServiceRegistry, ServiceManager, ServiceRegistrationService, ServiceBroker } from '../services'
+import { IPNS, ServiceRegistrationService, ServiceBroker } from '../services'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
@@ -29,15 +29,8 @@ class IdService {
   subscription
 
   startServices = async () => {
-    this.serviceRegistry = new ServiceRegistry()
-    this.serviceManager = new ServiceManager({ serviceRegistry: this.serviceRegistry })
-    this.serviceRegistrationService = await ServiceRegistrationService.create({
-      serviceRegistry: this.serviceRegistry,
-      servicePath: 'identity-box.service-registration'
-    })
-    this.serviceBroker = new ServiceBroker({
-      serviceManager: this.serviceManager
-    })
+    await ServiceRegistrationService.start()
+    this.serviceBroker = ServiceBroker.getInstance()
   }
 
   startTelepath = async () => {
