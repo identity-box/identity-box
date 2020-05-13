@@ -13,11 +13,11 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
   const storeJSON = async json => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'store-json',
       params: [{
         json
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {
