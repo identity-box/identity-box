@@ -7,13 +7,13 @@ const createIdentity = async ({
   console.log(`Creating identity: ${keyName}`)
   const message = {
     jsonrpc: '2.0',
+    servicePath: 'identity-box.identity-service',
+    from: telepathChannel.clientId,
     method: 'create-identity',
     params: [{
       name: keyName,
       publicEncryptionKey,
       publicSigningKey
-    }, {
-      from: telepathChannel.clientId
     }]
   }
   try {

@@ -101,13 +101,13 @@ const IdentityDetails = ({ navigation }) => {
   const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
         backupId,
         identityNames
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {
@@ -122,11 +122,11 @@ const IdentityDetails = ({ navigation }) => {
   const deleteIdentityOnIdBox = async (telepathProvider, name) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'delete',
       params: [{
         identityName: name
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {

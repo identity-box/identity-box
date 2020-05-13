@@ -10,7 +10,7 @@ class NameService {
     })
   }
 
-  onMessage = ({ method, params }) => {
+  onMessage = async ({ method, params }) => {
     try {
       return this.dispatcher.dispatch({
         method,

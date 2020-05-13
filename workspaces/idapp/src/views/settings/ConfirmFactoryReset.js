@@ -37,11 +37,11 @@ const ConfirmFactoryReset = ({ navigation }) => {
   const resetIdBox = async (telepathProvider, identityNames) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'reset',
       params: [{
         identityNames
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {

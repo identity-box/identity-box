@@ -29,11 +29,11 @@ const RestoreFromBackup = ({ navigation }) => {
   const restoreIdBox = async (telepathProvider, backupId) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'restore',
       params: [{
         backupId
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {

@@ -2,16 +2,160 @@ import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
 import crypto from 'libp2p-crypto'
-import ipfsClient from 'ipfs-http-client'
-import { IPNS } from '../services'
+import { IPNS } from './ipns'
 
 class IdentityProvider {
   password = process.env.IDBOX_BACKUP_PASSWORD
   ipfs
   id
 
-  constructor () {
-    this.ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
+  constructor (ipfs) {
+    this.ipfs = ipfs
+  }
+
+  createIdentity = async message => {
+    const identity = await this.createNew(message.params[0])
+
+    const didDoc = this.createDIDDocument({
+      ...identity,
+      ...message.params[0]
+    })
+    const cid = await this.writeToIPFS(didDoc)
+    await this.pin(cid)
+    console.log('cid:', cid)
+    const ipnsName = this.ipnsNameFromDID(identity.did)
+    console.log('ipns name:', ipnsName)
+    await IPNS.setIPNSRecord({
+      ipnsName,
+      cid
+    })
+    return {
+      method: 'create-identity-response',
+      params: [
+        { identity }
+      ]
+    }
+  }
+
+  getDIDDocument = async message => {
+    const { did } = message.params[0]
+    const ipnsName = this.ipnsNameFromDID(did)
+    const { cid } = await IPNS.getCIDForIPNSName({ ipnsName })
+    const didDocument = await this.readFromIPFS(cid)
+    return {
+      method: 'get-did-document-response',
+      params: [
+        didDocument
+      ]
+    }
+  }
+
+  storeJSON = async message => {
+    const json = message.params[0]
+    const cid = await this.writeToIPFS(json)
+    await this.pin(cid)
+    return {
+      method: 'store-json-response',
+      params: [
+        { cid }
+      ]
+    }
+  }
+
+  getJSON = async message => {
+    const { cid } = message.params[0]
+    const { json } = await this.readFromIPFS(cid)
+    return {
+      method: 'get-json-response',
+      params: [
+        { json }
+      ]
+    }
+  }
+
+  reset = async message => {
+    const { identityNames } = message.params[0]
+    await this.deleteAll(identityNames)
+    return {
+      method: 'reset-response'
+    }
+  }
+
+  backup = async message => {
+    const { encryptedBackup, backupId, identityNames } = message.params[0]
+    this.createBackupFolders(backupId)
+    this.backupIds(encryptedBackup, backupId)
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => identityNames.includes(k.name))
+    await Promise.all(keys.map(async ({ name, id }) => {
+      if (name === 'self') return
+      console.log('backing up key: ', name)
+      await this.backupName(name, backupId)
+      await this.backupDIDDocument(id, backupId)
+    }))
+    return {
+      method: 'backup-response'
+    }
+  }
+
+  hasBackup = () => {
+    const backupFiles = glob.sync('*', {
+      cwd: process.env.IDBOX_BACKUP
+    })
+    const backupPresent = (backupFiles.length > 0)
+    return {
+      method: 'has-backup-response',
+      params: [
+        { hasBackup: backupPresent }
+      ]
+    }
+  }
+
+  restore = async message => {
+    const { backupId } = message.params[0]
+    let encryptedBackup
+    if (this.backupExists(backupId)) {
+      encryptedBackup = this.restoreIds(backupId)
+      await this.restoreNames(backupId)
+      await this.restoreDIDDocuments(backupId)
+    } else {
+      encryptedBackup = 'not found'
+    }
+    return {
+      method: 'restore-response',
+      params: [
+        { encryptedBackup }
+      ]
+    }
+  }
+
+  deleteIdentity = async message => {
+    const { identityName: name } = message.params[0]
+    const allKeys = await this.ipfs.key.list()
+    const keys = allKeys.filter(k => k.name === name)
+    if (keys.length === 1) {
+      const { id: ipnsName } = keys[0]
+      console.log(`deleting key ${name} with IPNS name ${ipnsName}`)
+      await IPNS.deleteIPNSRecord({ ipnsName })
+      await this.ipfs.key.rm(name)
+    }
+    return {
+      method: 'delete-response'
+    }
+  }
+
+  migrate = async message => {
+    const { migration } = message.params[0]
+    switch (migration.migrationType) {
+      case 'KEY-NAMING':
+        await this.migrateKeyNames(migration.migrationData)
+        break
+      default:
+        console.log('unknown migration - ignoring!')
+    }
+    return {
+      method: 'migrate-response'
+    }
   }
 
   createNew = async ({
@@ -32,6 +176,37 @@ class IdentityProvider {
     return {
       did: `did:ipid:${this.id.id}`,
       name: this.id.name
+    }
+  }
+
+  createDIDDocument = ({
+    did,
+    publicEncryptionKey,
+    publicSigningKey
+  }) => {
+    const timestamp = (new Date()).toISOString()
+    return {
+      '@context': {
+        '/': 'zdpuAmoZixxJjvosviGeYcqduzDhSwGV2bL6ZTTXo1hbEJHfq'
+      },
+      created: timestamp,
+      id: did,
+      publicKey: [
+        {
+          id: `${did}#signing-key-1`,
+          type: 'EdDsaPublicKey',
+          controller: did,
+          curve: 'ed25519',
+          publicKeyBase64: publicSigningKey
+        },
+        {
+          id: `${did}#encryption-key-1`,
+          type: 'ECDHPublicKey',
+          controller: did,
+          curve: 'Curve25519',
+          publicKeyBase64: publicEncryptionKey
+        }
+      ]
     }
   }
 
@@ -76,17 +251,6 @@ class IdentityProvider {
       console.log('deleting IPNS name: ', ipnsName)
       await IPNS.deleteIPNSRecord({ ipnsName })
     }))
-  }
-
-  deleteIdentity = async name => {
-    const allKeys = await this.ipfs.key.list()
-    const keys = allKeys.filter(k => k.name === name)
-    if (keys.length === 1) {
-      const { id: ipnsName } = keys[0]
-      console.log(`deleting key ${name} with IPNS name ${ipnsName}`)
-      await IPNS.deleteIPNSRecord({ ipnsName })
-      await this.ipfs.key.rm(name)
-    }
   }
 
   getKeyPath = name => {
@@ -140,26 +304,6 @@ class IdentityProvider {
     fs.mkdirSync(this.getBackupFolderPath(backupId), { recursive: true, mode: 0o755 })
   }
 
-  backup = async ({ encryptedBackup, backupId, identityNames }) => {
-    this.createBackupFolders(backupId)
-    this.backupIds(encryptedBackup, backupId)
-    const allKeys = await this.ipfs.key.list()
-    const keys = allKeys.filter(k => identityNames.includes(k.name))
-    await Promise.all(keys.map(async ({ name, id }) => {
-      if (name === 'self') return
-      console.log('backing up key: ', name)
-      await this.backupName(name, backupId)
-      await this.backupDIDDocument(id, backupId)
-    }))
-  }
-
-  hasBackup = () => {
-    const backupFiles = glob.sync('*', {
-      cwd: process.env.IDBOX_BACKUP
-    })
-    return backupFiles.length > 0
-  }
-
   restoreIds = backupId => {
     const backupPath = path.join(process.env.IDBOX_BACKUP, backupId, 'backup')
     return fs.readFileSync(backupPath, 'utf8')
@@ -196,32 +340,11 @@ class IdentityProvider {
     return fs.existsSync(path.join(process.env.IDBOX_BACKUP, backupId))
   }
 
-  restore = async ({ backupId }) => {
-    if (this.backupExists(backupId)) {
-      const encryptedBackup = this.restoreIds(backupId)
-      await this.restoreNames(backupId)
-      await this.restoreDIDDocuments(backupId)
-      return encryptedBackup
-    } else {
-      return 'not found'
-    }
-  }
-
   migrateKeyNames = async migrationData => {
     console.log('migrationData=', migrationData)
     await Promise.all(migrationData.map(async ({ oldName, newName }) => {
       await this.ipfs.key.rename(oldName, newName)
     }))
-  }
-
-  migrate = async ({ migration }) => {
-    switch (migration.migrationType) {
-      case 'KEY-NAMING':
-        await this.migrateKeyNames(migration.migrationData)
-        break
-      default:
-        console.log('unknown migration - ignoring!')
-    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { IdentityService, Dispatcher } from '../services'
+import { IdentityService, Dispatcher, IPNS } from '../services'
 import { ServiceProxy } from '@identity-box/utils'
 
 class EntryPoint {
@@ -35,6 +35,7 @@ class EntryPoint {
       servicePath: this.servicePath,
       dispatcher
     })
+    IPNS.connect()
     if (this.registrationPath) {
       const { response } = await this.register()
 

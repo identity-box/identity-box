@@ -1,5 +1,2 @@
-export { IPNS } from './IPNS'
-export { ServiceManager } from './ServiceManager'
-export { ServiceRegistry } from './ServiceRegistry'
 export { ServiceBroker } from './ServiceBroker'
 export { ServiceRegistrationService } from './ServiceRegistrationService'
