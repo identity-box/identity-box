@@ -15,7 +15,7 @@ module.exports = {
       testEnvironment: 'node'
     },
     {
-      rootDir: 'workspaces/idservice',
+      rootDir: 'workspaces/box-office',
       testEnvironment: 'node'
     },
     {

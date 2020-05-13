@@ -1,11 +1,10 @@
 {
-  "name": "@identity-box/idservice",
+  "name": "@identity-box/box-office",
   "private": false,
   "version": "0.1.29-alpha.2",
   "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
-    "idservice": "./index.js",
-    "idservice-cjs": "./index-cjs.js",
+    "box-office": "./index.js",
     "setup": "./setup.sh"
   },
   "files": [

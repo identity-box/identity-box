@@ -18,7 +18,7 @@ const start = cmdObj => {
   })
   entryPoint.start()
   process.on('SIGINT', () => {
-    console.log(`stopping...`)
+    console.log('stopping...')
     entryPoint.stop()
     console.log('stopped. exiting now...')
     process.exit(0)

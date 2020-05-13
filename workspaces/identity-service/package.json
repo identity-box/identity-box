@@ -4,7 +4,7 @@
   "version": "0.1.29-alpha.2",
   "description": "Service to handle identity based operations",
   "bin": {
-    "nameservice": "./index.js",
+    "identity-service": "./index.js",
     "setup": "./setup.sh"
   },
   "files": [
