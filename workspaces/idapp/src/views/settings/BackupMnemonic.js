@@ -23,13 +23,13 @@ const BackupMnemonic = ({ navigation }) => {
   const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
         backupId,
         identityNames
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {

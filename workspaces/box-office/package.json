@@ -1,10 +1,10 @@
 {
-  "name": "@identity-box/nameservice",
+  "name": "@identity-box/box-office",
   "private": false,
   "version": "0.1.29-alpha.2",
-  "description": "IdBox name service to handle name resolution requests in a fully distributed way",
+  "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
-    "nameservice": "./index.js",
+    "box-office": "./index.js",
     "setup": "./setup.sh"
   },
   "files": [
@@ -19,7 +19,8 @@
     "ipns",
     "ipid",
     "DID",
-    "DID Document"
+    "Cogito",
+    "Telepath"
   ],
   "author": "Marcin Czenko",
   "license": "ISC",
@@ -27,17 +28,18 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
+    "@identity-box/telepath": "^0.1.29-alpha.2",
     "@identity-box/utils": "^0.1.29-alpha.2",
+    "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "commander": "^5.0.0",
     "esm": "^3.2.25",
-    "ipfs-http-client": "^42.0.0",
+    "qrcode-terminal": "^0.12.0",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "faker": "^4.1.0"
+    "fs-extra": "^8.1.0"
   }
 }

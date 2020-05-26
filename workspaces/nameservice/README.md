@@ -24,16 +24,18 @@ $ ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --m
 
 Name Service assume some environment variables to be set.
 
-### IPFS_PATH
+### IPFS_ADDR
 
-`IPFS_PATH` needs to point to the IPFS data directory. On the local machine this is usually `$HOME/.ipfs`.
+`IPFS_ADDR` contains the address of the IPFS host. This needs to conform to the
+[multiaddr](https://multiformats.io/multiaddr/) format. When this environment
+variable is not set, the address will default to `/ip4/127.0.0.1/tcp/5001`.
 
 ## Usage
 
 To directly run the service, use:
 
 ```bash
-./node_modules/.bin/nameservice
+./node_modules/.bin/nameservice start
 ```
 
 All currently published identities are listed in the `Identities.json` file. This allows the Name Service to
@@ -89,7 +91,7 @@ $ pm2 logs nameservice --out --lines 150
 
 ### Restart process after editing ecosystem
 
-```
+```bash
 $ pm2 delete ecosystem.config.js
 $ pm2 start ecosystem.config.js
 ```

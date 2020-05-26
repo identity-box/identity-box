@@ -15,11 +15,15 @@ module.exports = {
       testEnvironment: 'node'
     },
     {
-      rootDir: 'workspaces/idservice',
+      rootDir: 'workspaces/box-office',
       testEnvironment: 'node'
     },
     {
       rootDir: 'workspaces/nameservice',
+      testEnvironment: 'node'
+    },
+    {
+      rootDir: 'workspaces/identity-service',
       testEnvironment: 'node'
     },
     {

@@ -10,12 +10,12 @@ Identity Box ecosystem locally so that it is easier to test your changes.
 Our setup comprises of:
 
 1. A local IPFS node,
-2. Identity Box with two services: [Identity Service](/services/idservice) and [Name Service](/services/nameservice).
-We will use one and the same Identity Box for both the users and the Hush-Hush service,
-3. Hush-Hush frontend,
-4. Identity App running on an iPhone via Expo app.
+2. Identity Box with the two services: [Identity Service](/services/identity-service) and [Name Service](/services/nameservice),
+3. [Box Office](/services/box-office) providing the external interface to the Identity Box,
+4. Hush-Hush frontend,
+5. Identity App running on an iPhone via Expo app.
 
-Here we take advantage of the scalable architecture and we run only one instance of IPFS and Identity Box. In production, we would have a separate Identity Box for each potential user and also one for the Hush-Hush service.
+Here we take advantage of the scalable architecture and we run only one instance of IPFS and Identity Box. It means that one and the same Identity Box will serve both the users and the Hush-Hush service. In production, we would have at least one separate Identity Box for each potential user and also at least one separate Identity Box for each service provider.
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ $ ipfs daemon
 
 ## Identity Box
 
-IPFS normally runs on the user's Identity Box, but because the architecture is quite flexible, we can easily separate IPFS and other services that run on the box. [Identity Service](/services/idservice) is currently the only service running on the Identity Box. In order to connect to the external world and be reachable from outside, Identity Box services use [Telepath](/components/telepath). Telepath, in turn uses [Queuing Service](/components/queuing-service).
+IPFS normally runs on the user's Identity Box, but because the architecture is quite flexible, we can easily separate IPFS and other services that run on the box. [Identity Service](/services/identity-service) and [Name Service](/services/nameservice) are two native services currently running on the Identity Box. In order to connect to the external world and be reachable from outside, Identity Box uses [Box Office](/services/box-office) service which uses [Telepath](/components/telepath) under the hood. Telepath, in turn uses [Queuing Service](/components/queuing-service).
 
 > Queuing Service is developed and hosted by us. It is a centralized service and we are working to find a better, decentralized alternative. For now, it was just more convenient from the development perspective...
 
@@ -81,10 +81,10 @@ Please add these environment variables to your shell configuration file.
 
 Identity Service depends in IPNS. IPNS still needs some work to be more suitable for production and so, in the mean time, we are experimenting.
 Our first approach was to use a centralized service to fake IPNS. In this first approach we used the enemy: Google's Firebase.
-In the current implementation though we are experimenting with using IPFS's native _pubsub_ functionality. This still deserves a separate topic,
-and we will publish more about it. For now, it is enough to say that we do not use Firebase at the very moment.
+In the current implementation though, we are experimenting with using IPFS's native _pubsub_ functionality. This still deserves a separate topic,
+and we will publish more about it. For now, it is enough to say that we do not use Firebase at the very moment. Yes, we are free from Google.
 
-> For time being, we still keep the related documentation below in the [appendix](#appendix---ipns-with-firebase).
+> For time being, we still keep the related documentation below in the [appendix](#appendix---ipns-with-firebase) though.
 
 ### Name Service
 
@@ -92,21 +92,30 @@ In order to start a local instance of the Name Service, in a new terminal do:
 
 ```bash
 $ cd workspaces/nameservice
-$ ./index.js
+$ ./index.js start
 ```
 
-That's it.
+That's it. Use `--help` to see all available options.
 
 ### Identity Service
 
-Now we can start a local instance of the Identity Service. In a new terminal:
+In a similar way we start Identity Service:
 
 ```bash
-$ cd workspaces/idservice
-$ serviceUrl=http://localhost:3000 ./index.js
+$ cd workspaces/identity-service
+$ ./index.js start
 ```
 
-By using `serviceUrl` environmental variable, we indicate that we want to use a local Queuing Service running on `http://localhost:3000`.
+### Box Office
+
+Finally, to tie everything up and provide an external interface, we start the Box Office service:
+
+```bash
+$ cd workspaces/box-office
+$ ./index.js start -q http://localhost:3000
+```
+
+The `-q` or `--queuingServiceUrl` option indicates that we want to use a local Queuing Service running on `http://localhost:3000`.
 
 ## Hush-Hush
 

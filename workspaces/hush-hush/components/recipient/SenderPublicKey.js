@@ -8,11 +8,11 @@ const SenderPublicKey = ({ next, did }) => {
   const getDIDDocument = async (telepathProvider) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'get-did-document',
       params: [{
         did
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {

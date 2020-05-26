@@ -1,6 +1,6 @@
 import { Service } from '@identity-box/utils'
 
-class NameService {
+class IdentityService {
   serviceRegistry
 
   start = () => {
@@ -43,7 +43,7 @@ class NameService {
     if (!dispatcher) {
       throw new Error("Can't do anything without Dispatcher instance!")
     }
-    const server = new NameService({
+    const server = new IdentityService({
       servicePath,
       dispatcher
     })
@@ -52,4 +52,4 @@ class NameService {
   }
 }
 
-export { NameService }
+export { IdentityService }

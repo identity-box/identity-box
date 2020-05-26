@@ -1,7 +1,8 @@
 module.exports = {
   apps: [{
     name: 'idservice',
-    script: './node_modules/.bin/idservice',
+    script: './node_modules/.bin/box-office',
+    args: 'start',
     instances: 1,
     autorestart: false,
     watch: false,

@@ -24,10 +24,11 @@ what's actually going on.
 
 ## Usage
 
-```
+```bash
 $ expo-env --env=<your-configuration>
 $ yarn start [--clear]
 ```
+
 ## Publishing to TestFlight
 
 > This documentation applies to Xcode v11.

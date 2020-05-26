@@ -56,11 +56,11 @@ const IdBoxKeyNaming = ({ navigation }) => {
     console.log('clientId=', telepathProvider.current.clientId)
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.current.clientId,
       method: 'migrate',
       params: [{
         migration: migration.current
-      }, {
-        from: telepathProvider.current.clientId
       }]
     }
     try {
@@ -75,13 +75,13 @@ const IdBoxKeyNaming = ({ navigation }) => {
   const writeBackupToIdBox = useCallback(async (telepathProvider, encryptedBackup, backupId, identityNames) => {
     const message = {
       jsonrpc: '2.0',
+      servicePath: 'identity-box.identity-service',
+      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
         backupId,
         identityNames
-      }, {
-        from: telepathProvider.clientId
       }]
     }
     try {
