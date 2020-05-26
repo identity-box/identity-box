@@ -314,13 +314,18 @@ $ pm2 start ecosystem.config.js
 
 ## Identity Service
 
-As a final step we install Identity Service.
+Another step is to install and start the Identity Service.
 
-> Until recently, we used Firebase as to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
+> After changing the service architecture on the Identity Box, the name of the Identity Service package has changed.
+The old `@identity-box/idservice` is depreciated and has been split into two new, lighter packages: `@identity-box/identity-service` and
+`@identity-box/box-office`.
+
+> In the past, we used Firebase as to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
 We currently experiment with using native IPFS _pubsub_ functionality to secure reliable and fast name resolution
 without resorting to external, centralized services. For the time being, as a reference, we keep the documentation
 on how to setup Firebase service in the [appendix](#appendix---ipns-with-firebase).
-The last version of `@identity-box/idservice` that uses Firebase is `0.1.23`.
+The last version of `@identity-box/idservice` that uses Firebase is `0.1.23` and is no longer compatible with the new service
+architecture on the Identity Box. If you have question about using Firebase to mimic IPNS, please contact us.
 
 First please make sure the the following environment variables are defined:
 
@@ -338,16 +343,35 @@ as long as it is there and the `IDBOX_BACKUP` variable correctly points to it. Y
 This makes the environment ready to actually install the Identity Service:
 
 ```bash
-$ mkdir -p idbox/idservice
-$ cd idbox/idservice
-$ yarn add @identity-box/idservice
+$ mkdir -p idbox/identity-service
+$ cd idbox/identity-service
+$ yarn add @identity-box/identity-service
 $ yarn setup
 ```
 
 We start Identity Service with pm2:
 
 ```bash
-$ cd ~/idbox/idservice
+$ cd ~/idbox/identity-service
+$ pm2 start ecosystem.config.js
+```
+
+
+## Box Office
+
+Finally, we install and start the Box Office service:
+
+```bash
+$ mkdir -p idbox/box-office
+$ cd idbox/box-office
+$ yarn add @identity-box/box-office
+$ yarn setup
+```
+
+We start Identity Service with pm2:
+
+```bash
+$ cd ~/idbox/box-office
 $ pm2 start ecosystem.config.js
 ```
 
