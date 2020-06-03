@@ -2,7 +2,7 @@ import { ServiceProxy } from '@identity-box/utils'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 
-import { NameService } from '../../src/services/NameService'
+import { NameService } from '../../source/services/NameService'
 
 describe('NameService', () => {
   const testParam = 'testParam'

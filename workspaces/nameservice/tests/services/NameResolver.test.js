@@ -1,4 +1,4 @@
-import { NameResolver } from '../../src/services/NameResolver'
+import { NameResolver } from '../../source/services/NameResolver'
 
 describe('NameResolver', () => {
   const ipnsName = 'ipnsName'
