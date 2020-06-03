@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../source/entry-point/index.js"],"names":[],"mappings":";;;;;;;;;;;;AAAA","sourcesContent":["export { EntryPoint } from './EntryPoint'\n"],"file":"index.js"}
