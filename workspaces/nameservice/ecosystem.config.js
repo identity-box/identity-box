@@ -2,6 +2,7 @@ module.exports = {
   apps: [{
     name: 'nameservice',
     script: './node_modules/.bin/nameservice',
+    args: 'start',
     instances: 1,
     autorestart: false,
     watch: false,
