@@ -1,4 +1,4 @@
-import { ServiceRegistry } from '../../src/services/ServiceRegistry'
+import { ServiceRegistry } from '../../source/services/ServiceRegistry'
 
 import fs from 'fs-extra'
 import path from 'path'

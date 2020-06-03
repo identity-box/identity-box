@@ -1,5 +1,5 @@
-import { ServiceRegistry } from '../../src/services/ServiceRegistry'
-import { ServiceManager } from '../../src/services/ServiceManager'
+import { ServiceRegistry } from '../../source/services/ServiceRegistry'
+import { ServiceManager } from '../../source/services/ServiceManager'
 import { IPCTestServer } from '@identity-box/utils'
 
 import nacl from 'tweetnacl'

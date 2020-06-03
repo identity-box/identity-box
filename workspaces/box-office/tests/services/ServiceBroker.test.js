@@ -1,6 +1,6 @@
-import { ServiceRegistry } from '../../src/services/ServiceRegistry'
-import { ServiceManager } from '../../src/services/ServiceManager'
-import { ServiceBroker } from '../../src/services/ServiceBroker'
+import { ServiceRegistry } from '../../source/services/ServiceRegistry'
+import { ServiceManager } from '../../source/services/ServiceManager'
+import { ServiceBroker } from '../../source/services/ServiceBroker'
 
 import { IPCTestServer } from '@identity-box/utils'
 
