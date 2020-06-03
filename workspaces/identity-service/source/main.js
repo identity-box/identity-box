@@ -1,5 +1,6 @@
 import { EntryPoint } from './entry-point'
 import commander from 'commander'
+import packageJSON from '../package.json'
 
 const program = new commander.Command()
 
@@ -23,7 +24,7 @@ const start = cmdObj => {
 
 const main = async () => {
   program
-    .version('0.1.0')
+    .version(`${packageJSON.version}`)
     .usage('command [options]')
     .on('command:*', () => {
       console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '))
