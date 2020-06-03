@@ -1,3 +1,21 @@
+## v0.1.29-alpha.3 (2020-06-04)
+
+#### :heart_eyes_cat: Enhancement
+* [#40](https://github.com/identity-box/identity-box/pull/40) Switching packages to use commonjs via babel ([@marcinczenko](https://github.com/marcinczenko))
+* [#39](https://github.com/identity-box/identity-box/pull/39) * [#39](https://github.com/identity-box/identity-box/pull/39) Rolling out new service architecture for remaining services ([@marcinczenko](https://github.com/marcinczenko)) ([@marcinczenko](https://github.com/marcinczenko))
+* [#38](https://github.com/identity-box/identity-box/pull/38) Nameservice: change to the new service architecture ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
+## v0.1.29-alpha.2 (2020-04-03)
+
+#### :bug: Bug Fix
+* [#36](https://github.com/identity-box/identity-box/pull/36) idservice: fix: missing @identity-box/utils in package.json ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.29-alpha.1 (2020-04-02)
 
 #### :bug: Bug Fix
