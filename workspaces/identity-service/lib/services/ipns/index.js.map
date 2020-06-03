@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../source/services/ipns/index.js"],"names":[],"mappings":";;;;;;;;;;;;AAAA","sourcesContent":["export { IPNS } from './IPNS'\n"],"file":"index.js"}

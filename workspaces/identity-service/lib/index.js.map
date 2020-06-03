@@ -1,0 +1,1 @@
+{"version":3,"sources":["../source/index.js"],"names":[],"mappings":"AAAA;;;AAEA;;AAEA","sourcesContent":["#!/usr/bin/env node\n\nimport { main } from './main'\n\nmain()\n"],"file":"index.js"}
