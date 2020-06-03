@@ -32,7 +32,7 @@ const FooterBody = ({ data }) => (
       }}
     >
       <MenuLink to='/components/idbox-react-ui'>Components</MenuLink>
-      <MenuLink to='/services/idservice'>Services</MenuLink>
+      <MenuLink to='/services/box-office'>Services</MenuLink>
       <MenuLink to='/developers/contributing'>Contributing</MenuLink>
     </FooterMenu>
     <Media
