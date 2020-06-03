@@ -379,9 +379,6 @@ At this point your Identity Box should be correctly set up and you can start exp
 
 ## Running services as a daemon
 
-> It seems there is a problem running pm2 services that depend on _esm_. We need to investigate. The instructions below are informative for now
-and unless you know what you do, please do not use them for now (start the services manually).
-
 To make pm2 running as daemon:
 
 ```bash
