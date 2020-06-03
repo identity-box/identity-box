@@ -4,15 +4,16 @@
   "version": "0.1.29-alpha.2",
   "description": "IdBox identity service to handle identity requests via Telepath",
   "bin": {
-    "box-office": "./index.js",
+    "box-office": "./lib/index.js",
+    "box-office-esm": "./index.js",
     "setup": "./setup.sh"
   },
   "files": [
-    "src",
+    "source",
+    "lib",
     "ecosystem.config.js",
-    "index.js",
-    "index-cjs.js",
-    "setup.sh"
+    "setup.sh",
+    "index.js"
   ],
   "keywords": [
     "ipfs",
@@ -26,6 +27,9 @@
   "license": "ISC",
   "engines": {
     "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "node ./tools/build.js"
   },
   "dependencies": {
     "@identity-box/telepath": "^0.1.29-alpha.2",

@@ -4,14 +4,16 @@
   "version": "0.1.29-alpha.2",
   "description": "Service to handle identity based operations",
   "bin": {
-    "identity-service": "./index.js",
+    "identity-service": "./lib/index.js",
+    "identity-service-esm": "./index.js",
     "setup": "./setup.sh"
   },
   "files": [
-    "src",
+    "source",
+    "lib",
     "ecosystem.config.js",
-    "index.js",
-    "setup.sh"
+    "setup.sh",
+    "index.js"
   ],
   "keywords": [
     "ipfs",
@@ -24,6 +26,9 @@
   "license": "ISC",
   "engines": {
     "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "node ./tools/build.js"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.29-alpha.2",

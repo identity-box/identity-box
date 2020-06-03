@@ -1,4 +1,4 @@
-import { NamePublisher } from '../../src/services/NamePublisher'
+import { NamePublisher } from '../../source/services/NamePublisher'
 import path from 'path'
 import fs from 'fs'
 

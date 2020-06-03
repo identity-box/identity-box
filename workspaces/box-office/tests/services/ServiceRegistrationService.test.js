@@ -1,11 +1,11 @@
-import { ServiceRegistry } from '../../src/services/ServiceRegistry'
+import { ServiceRegistry } from '../../source/services/ServiceRegistry'
 import { ServiceProxy } from '@identity-box/utils'
 import nacl from 'tweetnacl'
 
 import fs from 'fs-extra'
 import path from 'path'
 import base64url from 'base64url'
-import { ServiceRegistrationService } from '../../src/services/ServiceRegistrationService'
+import { ServiceRegistrationService } from '../../source/services/ServiceRegistrationService'
 
 describe('ServiceRegistrationService', () => {
   const externalServicePath = 'some-other.service-path'

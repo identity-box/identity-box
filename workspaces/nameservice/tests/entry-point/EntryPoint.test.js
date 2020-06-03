@@ -1,4 +1,4 @@
-import { EntryPoint } from '../../src/entry-point'
+import { EntryPoint } from '../../source/entry-point'
 import { ServiceProxy, Service } from '@identity-box/utils'
 import ipfsClient from 'ipfs-http-client'
 

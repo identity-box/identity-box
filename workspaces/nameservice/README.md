@@ -95,3 +95,20 @@ $ pm2 logs nameservice --out --lines 150
 $ pm2 delete ecosystem.config.js
 $ pm2 start ecosystem.config.js
 ```
+
+## Compatibility with ESM
+
+We used to supply the package in the ECMAScript module format, so without babel transpilation. Unfortunately, it was making it hard to run with pm2 in the service mode. For this reason, now, before the package can be published it needs to be transpiled and include the default commonjs version in the package.
+
+For those who would prefer to run the service with ESM, this is still possible. In the development just do:
+
+```bash
+$ cd workspaces/nameservice
+$ ./index.js start
+```
+
+in production:
+
+```bash
+$ ./node_modules/.bin/nameservice-esm start
+```

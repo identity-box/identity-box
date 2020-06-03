@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: 'idservice',
+    name: 'box-office',
     script: './node_modules/.bin/box-office',
     args: 'start',
     instances: 1,
@@ -12,8 +12,6 @@ module.exports = {
     },
     env_production: {
       NODE_ENV: 'production'
-    },
-    node_args: '-r esm'
+    }
   }]
-
 }
