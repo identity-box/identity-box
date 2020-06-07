@@ -19,7 +19,8 @@
     "commander": "^5.0.0",
     "esm": "^3.2.25",
     "got": "^10.6.0",
-    "ipfs-http-client": "^42.0.0"
+    "ipfs-http-client": "^42.0.0",
+    "ipfs-pubsub-room": "^2.0.1"
   },
   "publishConfig": {
     "access": "public"
