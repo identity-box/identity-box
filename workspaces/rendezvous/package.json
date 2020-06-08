@@ -1,0 +1,47 @@
+{
+  "name": "@identity-box/rendezvous",
+  "private": false,
+  "version": "0.1.29-alpha.3",
+  "description": "Service to provide external connectivity to the box from the browsers and mobile devices",
+  "bin": {
+    "rendezvous": "./lib/index.js",
+    "rendezvous-esm": "./index.js",
+    "setup": "./setup.sh"
+  },
+  "files": [
+    "source",
+    "lib",
+    "ecosystem.config.js",
+    "setup.sh",
+    "index.js"
+  ],
+  "keywords": [
+    "ipfs",
+    "ipns",
+    "ipid",
+    "DID",
+    "DID Document"
+  ],
+  "author": "Marcin Czenko",
+  "license": "ISC",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "node ./tools/build.js"
+  },
+  "dependencies": {
+    "@identity-box/utils": "^0.1.29-alpha.3",
+    "base64url": "^3.0.1",
+    "commander": "^5.0.0",
+    "esm": "^3.2.25",
+    "glob": "^7.1.6",
+    "tweetnacl": "^1.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
+  }
+}

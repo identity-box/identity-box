@@ -1,7 +1,7 @@
 import { Service } from '@identity-box/utils'
-import { ServiceRegistry } from './ServiceRegistry'
+import { ServiceBroker } from './ServiceBroker'
 
-class ServiceRegistrationService {
+class BoxOfficeService {
   serviceRegistry
   service
 
@@ -16,16 +16,26 @@ class ServiceRegistrationService {
     this.service && this.service.stop()
   }
 
-  onMessage = ({ method, params }) => {
-    if (method !== 'register') {
-      return this.errorResponse('RPC: unknown method')
-    } else {
+  processMessage = async message => {
+    console.log('MESSAGE:', message)
+    try {
+      return this.serviceBroker.dispatch(message)
+    } catch (e) {
+      return this.errorResponse(`${message.method}-error`, e.message)
+    }
+  }
+
+  onMessage = message => {
+    const { method, params } = message
+    if (method === 'register') {
       const { servicePath } = params[0] || {}
       try {
         return this.register(servicePath)
       } catch (e) {
-        return this.errorResponse(e.message)
+        return this.errorResponse('register-error', e.message)
       }
+    } else {
+      return this.processMessage(message)
     }
   }
 
@@ -39,8 +49,8 @@ class ServiceRegistrationService {
     }
   }
 
-  errorResponse = message => ({
-    method: 'register-error',
+  errorResponse = (method, message) => ({
+    method,
     params: [
       { message }
     ]
@@ -52,24 +62,14 @@ class ServiceRegistrationService {
   }) {
     this.serviceRegistry = serviceRegistry
     this.servicePath = servicePath
-  }
-
-  static __instance
-
-  static start = async () => {
-    if (!this.__instance) {
-      this.__instance = await this.create({
-        serviceRegistry: ServiceRegistry.getInstance(),
-        servicePath: 'identity-box.service-registration'
-      })
-    }
+    this.serviceBroker = ServiceBroker.getInstance()
   }
 
   static create = async ({
     servicePath,
     serviceRegistry
   }) => {
-    const service = new ServiceRegistrationService({
+    const service = new BoxOfficeService({
       serviceRegistry,
       servicePath
     })
@@ -80,4 +80,4 @@ class ServiceRegistrationService {
   }
 }
 
-export { ServiceRegistrationService }
+export { BoxOfficeService }

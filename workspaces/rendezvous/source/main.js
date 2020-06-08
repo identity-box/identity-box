@@ -5,21 +5,16 @@ import packageJSON from '../package.json'
 const program = new commander.Command()
 
 const start = cmdObj => {
-  const { servicePath, registrationPath } = cmdObj
+  const { baseUrl, servicePath, port } = cmdObj
   console.log('servicePath=', servicePath)
-  console.log('registrationPath=', registrationPath)
+  console.log('baseUrl=', baseUrl)
+  console.log('port=', port)
   const entryPoint = new EntryPoint({
     servicePath,
-    registrationPath
+    baseUrl,
+    port
   })
   entryPoint.start()
-  process.on('SIGINT', () => {
-    console.log(`stopping ${servicePath}...`)
-    entryPoint.stop()
-    console.log('stopped. exiting now...')
-    process.exit(0)
-  })
-  process.stdin.resume()
 }
 
 const main = async () => {
@@ -32,8 +27,9 @@ const main = async () => {
     })
 
   program.command('start')
-    .option('-p, --servicePath <path>', 'service path for the service in the format: service-namespace.service-id', 'identity-box.identity-service')
-    .option('-r, --registrationPath <path>', 'registration path for the service in the format: service-namespace.service-id', 'identity-box.box-office')
+    .option('-s, --servicePath <path>', 'service path where to forward messages', 'identity-box.box-office')
+    .option('-p, --port <number>', 'port on which to listen to http requests', 3100)
+    .option('-b, --baseUrl <url>', 'service url')
     .action(start)
 
   await program.parse(process.argv)

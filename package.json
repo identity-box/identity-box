@@ -44,6 +44,7 @@
       "workspaces/box-office/index.js",
       "workspaces/nameservice/index.js",
       "workspaces/identity-service/index.js",
+      "workspaces/rendezvous/index.js",
       "tools/build.js"
     ],
     "envs": [

@@ -5,9 +5,9 @@ import nacl from 'tweetnacl'
 import fs from 'fs-extra'
 import path from 'path'
 import base64url from 'base64url'
-import { ServiceRegistrationService } from '../../source/services/ServiceRegistrationService'
+import { BoxOfficeService } from '../../source/services/BoxOfficeService'
 
-describe('ServiceRegistrationService', () => {
+describe('BoxOfficeService', () => {
   const externalServicePath = 'some-other.service-path'
   const registrationRequest = {
     method: 'register',
@@ -16,7 +16,7 @@ describe('ServiceRegistrationService', () => {
     ]
   }
 
-  const serializerFileDir = path.resolve(process.cwd(), '.fixtures', 'idservice')
+  const serializerFileDir = path.resolve(process.cwd(), '.fixtures', 'box-office')
 
   let servicePath
   let serializerFilePath
@@ -42,7 +42,7 @@ describe('ServiceRegistrationService', () => {
     serviceRegistry = new ServiceRegistry({
       serializerFilePath
     })
-    registrationService = await ServiceRegistrationService.create({
+    registrationService = await BoxOfficeService.create({
       serviceRegistry,
       servicePath
     })
@@ -84,9 +84,9 @@ describe('ServiceRegistrationService', () => {
     const response = await serviceProxy.send(invalidRequest)
 
     expect(response.response).toEqual({
-      method: 'register-error',
+      method: 'adhoc-error',
       params: [
-        { message: 'RPC: unknown method' }
+        { message: 'Service undefined is not registered!' }
       ]
     })
   })
@@ -96,9 +96,9 @@ describe('ServiceRegistrationService', () => {
     const response = await serviceProxy.send(undefined)
 
     expect(response.response).toEqual({
-      method: 'register-error',
+      method: 'rpc-error',
       params: [
-        { message: 'RPC: unknown method' }
+        { message: 'Service undefined is not registered!' }
       ]
     })
   })
