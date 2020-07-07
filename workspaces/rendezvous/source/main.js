@@ -29,7 +29,7 @@ const main = async () => {
   program.command('start')
     .option('-s, --servicePath <path>', 'service path where to forward messages', 'identity-box.box-office')
     .option('-p, --port <number>', 'port on which to listen to http requests', 3100)
-    .option('-b, --baseUrl <url>', 'service url')
+    .requiredOption('-b, --baseUrl <url>', 'service url')
     .action(start)
 
   await program.parse(process.argv)
