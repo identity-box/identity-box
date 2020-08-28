@@ -1,8 +1,10 @@
 import base64url from 'base64url'
+import { Session } from './Session'
 
 class IOSocketServer {
   io
   dispatcher
+  session
 
   constructor (io, dispatcher) {
     this.io = io
@@ -20,15 +22,11 @@ class IOSocketServer {
         const { publicKey } = JSON.parse(base64url.decode(encodedPublicKey))
         console.log('publicKey:', publicKey)
 
-        this.session = this.io.of(`/${publicKey}`).on('connection', socket => {
-          console.log('connection from ', publicKey)
-          socket.emit('message', 'Ha Ha')
-          this.session.removeAllListeners()
-          // socket.disconnect(false)
-
-          socket.on('disconnect', reason => {
-            console.log('Peer on aaa disconnected:', reason)
-          })
+        // ToDo: here - let's create an abstraction for a session and
+        // have all exchenges to happen there
+        this.session = new Session({
+          clientPublicKey: publicKey,
+          socketIO: this.io
         })
 
         // const { response } = await this.dispatcher.dispatch(message)
@@ -36,7 +34,7 @@ class IOSocketServer {
         // ToDo: handle encryption/decryption...
 
         // socket.emit('message', base64url.encode(response))
-        socket.emit('publicKey', publicKey)
+        // socket.emit('publicKey', publicKey)
       })
       socket.on('disconnect', reason => {
         console.log('Peer disconnected:', reason)
