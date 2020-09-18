@@ -50,22 +50,19 @@ class Service {
   addMessageHandler = () => {
     this.ipc.server.on(
       'message',
-      async ({ method, params }, socket) => {
+      async (message, socket) => {
         try {
           if (this.onMessage) {
-            const response = await this.onMessage({
-              method,
-              params
-            })
+            const response = await this.onMessage(message)
             this.sendResponse(socket, response)
           } else {
             this.sendErrorResponse(socket,
-              method,
+              message.method,
               'Service has no associated method handler!'
             )
           }
         } catch (e) {
-          this.sendErrorResponse(socket, method, e.message)
+          this.sendErrorResponse(socket, message.method, e.message)
         }
       }
     )
