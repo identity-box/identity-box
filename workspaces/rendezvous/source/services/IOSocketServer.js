@@ -22,19 +22,11 @@ class IOSocketServer {
         const { publicKey } = JSON.parse(base64url.decode(encodedPublicKey))
         console.log('publicKey:', publicKey)
 
-        // ToDo: here - let's create an abstraction for a session and
-        // have all exchenges to happen there
         this.session = new Session({
           clientPublicKey: publicKey,
-          socketIO: this.io
+          socketIO: this.io,
+          dispatcher: this.dispatcher
         })
-
-        // const { response } = await this.dispatcher.dispatch(message)
-
-        // ToDo: handle encryption/decryption...
-
-        // socket.emit('message', base64url.encode(response))
-        // socket.emit('publicKey', publicKey)
       })
       socket.on('disconnect', reason => {
         console.log('Peer disconnected:', reason)

@@ -11,9 +11,9 @@ class Dispatcher {
 
   dispatch = async message => {
     console.log('**!!** DISPATCHER **!!**')
-    console.log('received:')
-    console.log('message:', message)
-    return this.serviceProxy.send(message)
+    console.log('received message:', message)
+    const { response } = await this.serviceProxy.send(message)
+    return response
   }
 }
 

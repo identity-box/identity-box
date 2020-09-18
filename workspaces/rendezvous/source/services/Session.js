@@ -1,20 +1,27 @@
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
+import { TypedArrays } from '@react-frontend-developer/buffers'
+
 class Session {
   socketIO
   clientPublicKey
+  dispatcher
   session
+  sessionKey
+  sessionUrl
 
-  constructor ({ clientPublicKey, socketIO }) {
-    this.clientPublicKey = clientPublicKey
+  constructor ({ clientPublicKey, socketIO, dispatcher }) {
+    this.sessionUrl = `/${clientPublicKey}`
+    this.clientPublicKey = base64url.toBuffer(clientPublicKey)
     this.socketIO = socketIO
+    this.dispatcher = dispatcher
     this.start()
   }
 
   onConnection = socket => {
     this.socket = socket
-    console.log('New session on ', this.clientPublicKey)
+    console.log('New session on ', this.sessionUrl)
     this.sendSessionKey()
 
     socket.on('message', this.onMessage)
@@ -24,12 +31,43 @@ class Session {
     })
   }
 
-  onMessage = msg => {
-    console.log('Received encrypted message from the client:', msg)
+  onMessage = async msg => {
+    const { encryptedMessage, nonce } = JSON.parse(base64url.decode(msg))
+    const decryptedMessage = this.decrypt(encryptedMessage, nonce)
+    console.log('Received encrypted message from the client:', decryptedMessage)
 
-    this.sendResponse('Encrypted response from Rendezvous service')
+    const response = await this.dispatcher.dispatch(decryptedMessage)
+    const encryptedResponse = this.encrypt(response)
+
+    this.sendResponse(encryptedResponse)
 
     this.endSession()
+  }
+
+  decrypt = (encryptedMessage, encodedNonce) => {
+    const box = base64url.toBuffer(encryptedMessage)
+    const nonce = base64url.toBuffer(encodedNonce)
+    const decryptedBox = nacl.box.open(box, nonce, this.clientPublicKey, this.sessionKey.secretKey)
+    const decryptedEncoded = TypedArrays.uint8Array2string(decryptedBox)
+    return JSON.parse(base64url.decode(decryptedEncoded))
+  }
+
+  encrypt = msg => {
+    const nonce = nacl.randomBytes(nacl.box.nonceLength)
+    const nonceEncoded = base64url.encode(nonce)
+    const msgJson = JSON.stringify(msg)
+    const msgEncoded = base64url.encode(msgJson)
+    const box = nacl.box(
+      TypedArrays.string2Uint8Array(msgEncoded),
+      nonce,
+      this.clientPublicKey,
+      this.sessionKey.secretKey
+    )
+    const boxEncoded = base64url.encode(box)
+    return base64url.encode(JSON.stringify({
+      encryptedMessage: boxEncoded,
+      nonce: nonceEncoded
+    }))
   }
 
   sendSessionKey = () => {
@@ -50,7 +88,7 @@ class Session {
   }
 
   start = () => {
-    this.session = this.socketIO.of(`/${this.clientPublicKey}`)
+    this.session = this.socketIO.of(this.sessionUrl)
       .on('connection', this.onConnection)
   }
 

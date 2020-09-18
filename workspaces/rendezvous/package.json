@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.29-alpha.3",
+    "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "commander": "^5.0.0",
     "esm": "^3.2.25",
