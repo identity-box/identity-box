@@ -1,10 +1,12 @@
 import base64url from 'base64url'
 import { Session } from './Session'
+import { Tunnel } from './Tunnel'
 
 class IOSocketServer {
   io
   dispatcher
-  session
+  sessions = {}
+  tunnels = {}
 
   constructor (io, dispatcher) {
     this.io = io
@@ -22,11 +24,27 @@ class IOSocketServer {
         const { publicKey } = JSON.parse(base64url.decode(encodedPublicKey))
         console.log('publicKey:', publicKey)
 
-        this.session = new Session({
+        const session = new Session({
           clientPublicKey: publicKey,
           socketIO: this.io,
           dispatcher: this.dispatcher
+        }, () => {
+          delete this.sessions[publicKey]
         })
+
+        this.sessions[publicKey] = session
+      })
+      socket.on('tunnel', async tunnelId => {
+        console.log('requested tunnel with id:', tunnelId)
+        const tunnel = new Tunnel({
+          tunnelId,
+          socketIO: this.io
+        }, () => {
+          delete this.tunnels[tunnelId]
+        })
+
+        this.tunnels[tunnelId] = tunnel
+        socket.emit('ready')
       })
       socket.on('disconnect', reason => {
         console.log('Peer disconnected:', reason)
