@@ -10,12 +10,14 @@ class Session {
   session
   sessionKey
   sessionUrl
+  onSessionEnded
 
-  constructor ({ clientPublicKey, socketIO, dispatcher }) {
+  constructor ({ clientPublicKey, socketIO, dispatcher }, onSessionEnded) {
     this.sessionUrl = `/${clientPublicKey}`
     this.clientPublicKey = base64url.toBuffer(clientPublicKey)
     this.socketIO = socketIO
     this.dispatcher = dispatcher
+    this.onSessionEnded = onSessionEnded
     this.start()
   }
 
@@ -94,6 +96,7 @@ class Session {
 
   endSession = () => {
     this.session.removeAllListeners()
+    this.onSessionEnded && this.onSessionEnded()
     // socket.disconnect(false)
   }
 }
