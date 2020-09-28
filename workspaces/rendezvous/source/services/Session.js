@@ -24,13 +24,13 @@ class Session {
 
   onConnection = socket => {
     this.socket = socket
-    console.log('New session on ', this.sessionUrl)
+    console.log(`New session ${socket.id} for ${this.sessionUrl}`)
     this.sendSessionKey()
 
     socket.on('message', this.onMessage)
 
     socket.on('disconnect', reason => {
-      console.log('Peer on aaa disconnected:', reason)
+      console.log(`Namespace on ${this.sessionUrl} disconnected (reason: ${reason})`)
     })
   }
 

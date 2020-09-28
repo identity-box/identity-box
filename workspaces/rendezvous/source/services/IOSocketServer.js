@@ -19,6 +19,7 @@ class IOSocketServer {
 
   start () {
     this.io.on('connection', socket => {
+      console.log(`Connection from ${socket.id}`)
       socket.on('publicKey', async encodedPublicKey => {
         console.log('encodedPublicKey:', encodedPublicKey)
         const { publicKey } = JSON.parse(base64url.decode(encodedPublicKey))
@@ -47,7 +48,7 @@ class IOSocketServer {
         socket.emit('ready', `${tunnelId}`)
       })
       socket.on('disconnect', reason => {
-        console.log('Peer disconnected:', reason)
+        console.log(`Peer ${socket.id} disconnected (${reason})`)
       })
     })
   }
