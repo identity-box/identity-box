@@ -4,6 +4,7 @@ import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
 class Session {
+  socket
   socketIO
   clientPublicKey
   dispatcher
@@ -42,7 +43,6 @@ class Session {
     const encryptedResponse = this.encrypt(response)
 
     this.sendResponse(encryptedResponse)
-
     this.endSession()
   }
 
@@ -95,9 +95,9 @@ class Session {
   }
 
   endSession = () => {
+    console.log('ending session')
     this.session.removeAllListeners()
     this.onSessionEnded && this.onSessionEnded()
-    // socket.disconnect(false)
   }
 }
 
