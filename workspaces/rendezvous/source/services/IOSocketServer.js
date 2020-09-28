@@ -44,7 +44,7 @@ class IOSocketServer {
         })
 
         this.tunnels[tunnelId] = tunnel
-        socket.emit('ready')
+        socket.emit('ready', `${tunnelId}`)
       })
       socket.on('disconnect', reason => {
         console.log('Peer disconnected:', reason)

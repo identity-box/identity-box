@@ -21,6 +21,7 @@ class Tunnel {
       if (this.tunnelIdFromSocket(this.socketSender) === this.tunnelIdFromSocket(socket)) {
         console.log('RECEIVER')
         this.socketReceiver = socket
+        this.tunnel.emit('ready')
       } else {
         throw new Error('The sockets at both ends of the tunnel are not having the same tunnel id!')
       }
@@ -41,10 +42,18 @@ class Tunnel {
       })
       socket.on('disconnect', reason => {
         console.log('Session disconnected:', socket.id, reason)
+        if (this.socketReceiver && socket.id === this.socketReceiver.id) {
+          this.socketReceiver = undefined
+          this.socketSender && this.socketSender.emit('not-ready')
+        } else if (this.socketSender && socket.id === this.socketSender.id) {
+          this.socketReceiver && this.socketReceiver.emit('end')
+          this.socketReceiver = undefined
+          this.socketServer = undefined
+        }
       })
     } catch (e) {
       console.log(e.msg)
-      this.endTunnel()
+      this.endTunnel(socket)
     }
   }
 
@@ -71,10 +80,10 @@ class Tunnel {
 
   endTunnel = socket => {
     console.log('endTunnel from:', socket.id)
-    this.tunnel.emit('end')
-    this.tunnel.removeAllListeners()
     this.socketReceiver = undefined
     this.socketSender = undefined
+    this.tunnel.removeAllListeners()
+    this.tunnel.emit('end')
     this.onTunnelEnded && this.onTunnelEnded()
   }
 }
