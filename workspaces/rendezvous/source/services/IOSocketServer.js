@@ -1,4 +1,3 @@
-import base64url from 'base64url'
 import { Session } from './Session'
 import { Tunnel } from './Tunnel'
 
@@ -18,38 +17,33 @@ class IOSocketServer {
   }
 
   start () {
-    this.io.on('connection', socket => {
-      console.log(`Connection from ${socket.id}`)
-      socket.on('publicKey', async encodedPublicKey => {
-        console.log('encodedPublicKey:', encodedPublicKey)
-        const { publicKey } = JSON.parse(base64url.decode(encodedPublicKey))
-        console.log('publicKey:', publicKey)
+    this.io.of(/^\/tunnel-[\w-]+$/).on('connection', socket => {
+      const tunnelId = socket.nsp.name.slice(1)
+      let tunnel = this.tunnels[tunnelId]
 
-        const session = new Session({
-          clientPublicKey: publicKey,
-          socketIO: this.io,
-          dispatcher: this.dispatcher
-        }, () => {
-          delete this.sessions[publicKey]
-        })
-
-        this.sessions[publicKey] = session
-      })
-      socket.on('tunnel', async tunnelId => {
-        console.log('requested tunnel with id:', tunnelId)
-        const tunnel = new Tunnel({
+      if (!tunnel) {
+        tunnel = new Tunnel({
           tunnelId,
-          socketIO: this.io
+          socket
         }, () => {
           delete this.tunnels[tunnelId]
         })
-
         this.tunnels[tunnelId] = tunnel
-        socket.emit('ready', `${tunnelId}`)
+      } else {
+        tunnel.addReceiver(socket)
+      }
+    })
+
+    this.io.of(/^\/[\w-]+$/).on('connection', socket => {
+      const sessionId = socket.nsp.name.slice(1)
+      const session = new Session({
+        socket,
+        dispatcher: this.dispatcher
+      }, () => {
+        delete this.sessions[sessionId]
       })
-      socket.on('disconnect', reason => {
-        console.log(`Peer ${socket.id} disconnected (${reason})`)
-      })
+
+      this.sessions[sessionId] = session
     })
   }
 }

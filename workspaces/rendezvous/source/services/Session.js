@@ -5,32 +5,29 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 
 class Session {
   socket
-  socketIO
   clientPublicKey
   dispatcher
-  session
   sessionKey
-  sessionUrl
+  sessionNamespace
   onSessionEnded
 
-  constructor ({ clientPublicKey, socketIO, dispatcher }, onSessionEnded) {
-    this.sessionUrl = `/${clientPublicKey}`
-    this.clientPublicKey = base64url.toBuffer(clientPublicKey)
-    this.socketIO = socketIO
+  constructor ({ socket, dispatcher }, onSessionEnded) {
+    this.socket = socket
     this.dispatcher = dispatcher
     this.onSessionEnded = onSessionEnded
+    this.sessionNamespace = socket.nsp.name
+    this.clientPublicKey = base64url.toBuffer(this.sessionNamespace.slice(1))
     this.start()
   }
 
-  onConnection = socket => {
-    this.socket = socket
-    console.log(`New session ${socket.id} for ${this.sessionUrl}`)
+  start = () => {
+    console.log(`namespace connection on socket ${this.socket.id} from namespace:`, this.sessionNamespace)
     this.sendSessionKey()
 
-    socket.on('message', this.onMessage)
+    this.socket.on('message', this.onMessage)
 
-    socket.on('disconnect', reason => {
-      console.log(`Namespace on ${this.sessionUrl} disconnected (reason: ${reason})`)
+    this.socket.on('disconnect', reason => {
+      console.log(`Namespace on ${this.sessionNamespace} disconnected (reason: ${reason})`)
     })
   }
 
@@ -89,14 +86,9 @@ class Session {
     this.socket.emit('message', response)
   }
 
-  start = () => {
-    this.session = this.socketIO.of(this.sessionUrl)
-      .on('connection', this.onConnection)
-  }
-
   endSession = () => {
     console.log('ending session')
-    this.session.removeAllListeners()
+    this.socket.removeAllListeners()
     this.onSessionEnded && this.onSessionEnded()
   }
 }

@@ -1,16 +1,16 @@
 class Tunnel {
-  socketIO
+  socket
   socketSender
   socketReceiver
   tunnel
-  tunnelUrl
+  tunnelId
   onTunnelEnded
 
-  constructor ({ tunnelId, socketIO }, onTunnelEnded) {
-    this.tunnelUrl = `/${tunnelId}`
-    this.socketIO = socketIO
+  constructor ({ tunnelId, socket }, onTunnelEnded) {
+    this.tunnelId = tunnelId
     this.onTunnelEnded = onTunnelEnded
-    this.start()
+    this.tunnel = socket.nsp
+    this.start(socket)
   }
 
   verifyTunnel = socket => {
@@ -18,7 +18,7 @@ class Tunnel {
       console.log('SENDER')
       this.socketSender = socket
     } else if (!this.socketReceiver) {
-      if (this.tunnelIdFromSocket(this.socketSender) === this.tunnelIdFromSocket(socket)) {
+      if (this.tunnelIdFromSocketId(this.socketSender.id) === this.tunnelIdFromSocketId(socket.id)) {
         console.log('RECEIVER')
         this.socketReceiver = socket
         this.tunnel.emit('ready')
@@ -30,8 +30,8 @@ class Tunnel {
     }
   }
 
-  onConnection = socket => {
-    console.log(`connection from socket with id: ${socket.id}`)
+  start = socket => {
+    console.log(`namespace connection on socket ${socket.id} from namespace:`, socket.nsp.name)
     try {
       this.verifyTunnel(socket)
       socket.on('message', msg => {
@@ -41,15 +41,7 @@ class Tunnel {
         this.endTunnel(socket)
       })
       socket.on('disconnect', reason => {
-        console.log('Session disconnected:', socket.id, reason)
-        if (this.socketReceiver && socket.id === this.socketReceiver.id) {
-          this.socketReceiver = undefined
-          this.socketSender && this.socketSender.emit('not-ready')
-        } else if (this.socketSender && socket.id === this.socketSender.id) {
-          this.socketReceiver && this.socketReceiver.emit('end')
-          this.socketReceiver = undefined
-          this.socketServer = undefined
-        }
+        this.onDisconnect(reason, socket)
       })
     } catch (e) {
       console.log(e.msg)
@@ -57,10 +49,14 @@ class Tunnel {
     }
   }
 
-  tunnelIdFromSocket = socket => {
-    // socket id has the form of /mnyiWEL4AbBJWUkpnIfc-k4hgHFOdnz8JHyjNDOTpG4#HxDrrxGFfCSa8YgHAAAB
+  addReceiver = socket => {
+    this.start(socket)
+  }
+
+  tunnelIdFromSocketId = id => {
+    // socket id has the form of /tunnel-mnyiWEL4AbBJWUkpnIfc-k4hgHFOdnz8JHyjNDOTpG4#HxDrrxGFfCSa8YgHAAAB
     // we first split on "#" and then ignore leading slash
-    return socket.id.split('#')[0].slice(1)
+    return id.split('#')[0].slice(1)
   }
 
   onMessage = async (socket, msg) => {
@@ -73,11 +69,6 @@ class Tunnel {
     // this.tunnel.emit('message', msg)
   }
 
-  start = () => {
-    this.tunnel = this.socketIO.of(this.tunnelUrl)
-      .on('connection', this.onConnection)
-  }
-
   endTunnel = socket => {
     console.log('endTunnel from:', socket.id)
     this.socketReceiver = undefined
@@ -85,6 +76,18 @@ class Tunnel {
     this.tunnel.removeAllListeners()
     this.tunnel.emit('end')
     this.onTunnelEnded && this.onTunnelEnded()
+  }
+
+  onDisconnect = (reason, socket) => {
+    console.log('Session disconnected:', socket.id, reason)
+    if (this.socketReceiver && socket.id === this.socketReceiver.id) {
+      this.socketReceiver = undefined
+      this.socketSender && this.socketSender.emit('not-ready')
+    } else if (this.socketSender && socket.id === this.socketSender.id) {
+      this.socketReceiver && this.socketReceiver.emit('end')
+      this.socketReceiver = undefined
+      this.socketServer = undefined
+    }
   }
 }
 
