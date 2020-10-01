@@ -18,12 +18,12 @@ class RendezvousTunnel {
     this.onTunnelReady = onTunnelReady
     this.onTunnelClosed = onTunnelClosed
     this.onOtherEndNotReady = onOtherEndNotReady
+    this.cryptographer = new Cryptographer()
   }
 
   createNew = async () => {
     return new Promise((resolve, reject) => {
       try {
-        this.cryptographer = new Cryptographer()
         const tunnelId = `tunnel-${base64url.encode(this.cryptographer.myPublicKey)}`
 
         this.setupTunnel(tunnelId)
@@ -33,19 +33,33 @@ class RendezvousTunnel {
           console.log('tunnelId: ', tunnelId)
           resolve(tunnelId)
         })
+        this.tunnel.on('publicKey', encodedPublicKey => {
+          this.cryptographer.theirPublicKey = base64url.toBuffer(encodedPublicKey)
+        })
       } catch (e) {
         reject(e)
       }
     })
   }
 
+  encodedKeyFromTunnelId = tunnelId => {
+    // strip "tunnel-" from tunnelId to get the public key
+    return tunnelId.slice(7)
+  }
+
   connectToExisting = async tunnelId => {
     return new Promise((resolve, reject) => {
       try {
+        this.cryptographer.theirPublicKey = base64url.toBuffer(
+          this.encodedKeyFromTunnelId(tunnelId)
+        )
         this.setupTunnel(tunnelId)
         this.tunnel.on('connect', () => {
           console.log('Connected to a Rendezvous service tunnel')
           console.log('tunnelId: ', tunnelId)
+          this.tunnel.emit('publicKey',
+            base64url.encode(this.cryptographer.myPublicKey)
+          )
           resolve(tunnelId)
         })
       } catch (e) {
@@ -67,8 +81,12 @@ class RendezvousTunnel {
     this.onMessage && this.onMessage(msg)
   }
 
-  onReady = () => {
+  onReady = encodedPublicKey => {
     console.log('the other end of the tunnel got connected')
+    if (encodedPublicKey) {
+      console.log('encodedPublicKey=', encodedPublicKey)
+      this.cryptographer.theirPublicKey = base64url.toBuffer(encodedPublicKey)
+    }
     this.onTunnelReady && this.onTunnelReady()
   }
 
