@@ -1,0 +1,39 @@
+{
+  "name": "rendezvous-tester",
+  "version": "0.1.29-alpha.3",
+  "private": true,
+  "dependencies": {
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
+    "@reach/router": "^1.3.4",
+    "@react-frontend-developer/buffers": "^1.0.21",
+    "base64url": "^3.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet-async": "^1.0.7",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "react-scripts start"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
