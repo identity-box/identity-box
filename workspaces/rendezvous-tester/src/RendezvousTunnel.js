@@ -7,12 +7,14 @@ class RendezvousTunnel {
   tunnel
   tunnelId
   sessionKey
+  onMessage
   onTunnelReady
   onTunnelClosed
+  onOtherEndNotReady
 
-  constructor ({ baseUrl, callback, onTunnelReady, onTunnelClosed, onOtherEndNotReady }) {
+  constructor ({ baseUrl, onMessage, onTunnelReady, onTunnelClosed, onOtherEndNotReady }) {
     this.baseUrl = baseUrl
-    this.callback = callback
+    this.onMessage = onMessage
     this.onTunnelReady = onTunnelReady
     this.onTunnelClosed = onTunnelClosed
     this.onOtherEndNotReady = onOtherEndNotReady
@@ -54,15 +56,15 @@ class RendezvousTunnel {
 
   setupTunnel = (tunnelId) => {
     this.tunnel = io(`${this.baseUrl}/${tunnelId}`)
-    this.tunnel.on('message', this.onMessage)
+    this.tunnel.on('message', this.onMessageHandler)
     this.tunnel.on('ready', this.onReady)
     this.tunnel.on('not-ready', this.onNotReady)
     this.tunnel.on('disconnect', this.onDisconnect)
     this.tunnel.on('end', this.onEnd)
   }
 
-  onMessage = msg => {
-    this.callback && this.callback(msg)
+  onMessageHandler = msg => {
+    this.onMessage && this.onMessage(msg)
   }
 
   onReady = () => {

@@ -18,7 +18,7 @@ const AppTunnelBrowser = () => {
   const rendezvousStart = async () => {
     rendezvousTunnel.current = new RendezvousTunnel({
       baseUrl: 'http://localhost:3100',
-      callback: response => {
+      onMessage: response => {
         console.log('msg response:', response)
         setResponse(response)
         rendezvousTunnel.current.closeTunnel()
