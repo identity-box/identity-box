@@ -1,14 +1,14 @@
 import { RendezvousClientSession } from './RendezvousClientSession'
 
 class RendezvousClientConnection {
-  connection
   session
   baseUrl
-  callback
+  onMessage
+  onSessionEnded
 
-  constructor ({ baseUrl, callback, onSessionEnded }) {
+  constructor ({ baseUrl, onMessage, onSessionEnded }) {
     this.baseUrl = baseUrl
-    this.callback = callback
+    this.onMessage = onMessage
     this.onSessionEnded = onSessionEnded
   }
 
@@ -17,7 +17,7 @@ class RendezvousClientConnection {
       try {
         this.session = new RendezvousClientSession({
           baseUrl: this.baseUrl,
-          callback: this.callback,
+          onMessage: this.onMessage,
           onSessionEnded: this.onSessionEnded
         })
         resolve()

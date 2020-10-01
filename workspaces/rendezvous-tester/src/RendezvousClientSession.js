@@ -6,17 +6,17 @@ import { Cryptographer } from './Cryptographer'
 class RendezvousClientSession {
   baseUrl
   session
-  callback
+  onMessage
   onSessionEnded
   cryptographer
 
   constructor ({
     baseUrl,
-    callback,
+    onMessage,
     onSessionEnded
   }) {
     this.baseUrl = baseUrl
-    this.callback = callback
+    this.onMessage = onMessage
     this.onSessionEnded = onSessionEnded
     this.cryptographer = new Cryptographer()
   }
@@ -37,7 +37,7 @@ class RendezvousClientSession {
           const response = this.cryptographer.decrypt(encryptedMessage, nonce)
           console.log('Encrypted response from Rendezvous service:', response)
           this.end()
-          this.callback && this.callback(response)
+          this.onMessage && this.onMessage(response)
         })
 
         this.session.on('publicKey', encodedPublicKey => {

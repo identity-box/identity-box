@@ -15,7 +15,7 @@ const App = () => {
   const rendezvousStart = async () => {
     rendezvousClient.current = new RendezvousClient({
       baseUrl: 'http://localhost:3100',
-      callback: msg => {
+      onMessage: msg => {
         console.log('msg response:', msg)
         setResponse(JSON.stringify(msg, undefined, 4))
       },

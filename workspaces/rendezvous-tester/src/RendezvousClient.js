@@ -2,19 +2,19 @@ import { RendezvousClientConnection } from './RendezvousClientConnection'
 
 class RendezvousClient {
   baseUrl
-  onConnected
-  connection
+  onMessage
+  onSessionEnded
 
-  constructor ({ baseUrl, callback, onSessionEnded }) {
+  constructor ({ baseUrl, onMessage, onSessionEnded }) {
     this.baseUrl = baseUrl
-    this.callback = callback
+    this.onMessage = onMessage
     this.onSessionEnded = onSessionEnded
   }
 
   connect = async () => {
     const connection = new RendezvousClientConnection({
       baseUrl: this.baseUrl,
-      callback: this.callback,
+      onMessage: this.onMessage,
       onSessionEnded: this.onSessionEnded
     })
     await connection.create()
