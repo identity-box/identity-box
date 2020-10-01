@@ -1,27 +1,24 @@
-import nacl from 'tweetnacl'
-
 import { RendezvousClientSession } from './RendezvousClientSession'
 
 class RendezvousClientConnection {
   connection
   session
-  sessionKey
   baseUrl
   callback
 
-  constructor ({ baseUrl, callback }) {
+  constructor ({ baseUrl, callback, onSessionEnded }) {
     this.baseUrl = baseUrl
     this.callback = callback
+    this.onSessionEnded = onSessionEnded
   }
 
   create = async () => {
     return new Promise((resolve, reject) => {
       try {
-        this.sessionKey = this.createSessionKey()
         this.session = new RendezvousClientSession({
           baseUrl: this.baseUrl,
-          sessionKey: this.sessionKey,
-          callback: this.callback
+          callback: this.callback,
+          onSessionEnded: this.onSessionEnded
         })
         resolve()
       } catch (e) {
@@ -36,10 +33,6 @@ class RendezvousClientConnection {
 
   send = async msg => {
     await this.session.send(msg)
-  }
-
-  createSessionKey = () => {
-    return nacl.box.keyPair()
   }
 }
 

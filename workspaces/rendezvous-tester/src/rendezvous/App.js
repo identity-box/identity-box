@@ -18,6 +18,9 @@ const App = () => {
       callback: msg => {
         console.log('msg response:', msg)
         setResponse(JSON.stringify(msg, undefined, 4))
+      },
+      onSessionEnded: reason => {
+        console.log('Session ended:', reason)
       }
     })
 
