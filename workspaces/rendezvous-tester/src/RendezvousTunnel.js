@@ -1,12 +1,12 @@
 import io from 'socket.io-client'
-import nacl from 'tweetnacl'
 import base64url from 'base64url'
+
+import { Cryptographer } from './Cryptographer'
 
 class RendezvousTunnel {
   baseUrl
   tunnel
-  tunnelId
-  sessionKey
+  cryptographer
   onMessage
   onTunnelReady
   onTunnelClosed
@@ -23,8 +23,8 @@ class RendezvousTunnel {
   createNew = async () => {
     return new Promise((resolve, reject) => {
       try {
-        this.createSessionKey()
-        const tunnelId = `tunnel-${base64url.encode(this.sessionKey.publicKey)}`
+        this.cryptographer = new Cryptographer()
+        const tunnelId = `tunnel-${base64url.encode(this.cryptographer.myPublicKey)}`
 
         this.setupTunnel(tunnelId)
 
@@ -96,10 +96,6 @@ class RendezvousTunnel {
 
   closeLocalConnection = () => {
     this.tunnel.connected && this.tunnel.disconnect()
-  }
-
-  createSessionKey = () => {
-    this.sessionKey = nacl.box.keyPair()
   }
 }
 
