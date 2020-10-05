@@ -14,7 +14,14 @@ class Cryptographer {
     this.createKeyPair()
   }
 
+  get ready () {
+    return this.keyPair && this.theirPublicKey
+  }
+
   encrypt = msg => {
+    if (!this.ready) {
+      throw new Error('The cryptographic keys are not yet provided!')
+    }
     const nonce = nacl.randomBytes(nacl.box.nonceLength)
     const nonceEncoded = base64url.encode(nonce)
     const msgJson = JSON.stringify(msg)
@@ -28,11 +35,15 @@ class Cryptographer {
     const boxEncoded = base64url.encode(box)
     return base64url.encode(JSON.stringify({
       encryptedMessage: boxEncoded,
-      nonce: nonceEncoded
+      encodedNonce: nonceEncoded
     }))
   }
 
-  decrypt = (encryptedMessage, encodedNonce) => {
+  decrypt = encodedBox => {
+    if (!this.ready) {
+      throw new Error('The cryptographic keys are not yet provided!')
+    }
+    const { encryptedMessage, encodedNonce } = JSON.parse(base64url.decode(encodedBox))
     const box = base64url.toBuffer(encryptedMessage)
     const nonce = base64url.toBuffer(encodedNonce)
     const decryptedBox = nacl.box.open(box, nonce, this.theirPublicKey, this.keyPair.secretKey)

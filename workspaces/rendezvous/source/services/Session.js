@@ -32,8 +32,7 @@ class Session {
   }
 
   onMessage = async msg => {
-    const { encryptedMessage, nonce } = JSON.parse(base64url.decode(msg))
-    const decryptedMessage = this.decrypt(encryptedMessage, nonce)
+    const decryptedMessage = this.decrypt(msg)
     console.log('Received encrypted message from the client:', decryptedMessage)
 
     const response = await this.dispatcher.dispatch(decryptedMessage)
@@ -43,7 +42,8 @@ class Session {
     this.endSession()
   }
 
-  decrypt = (encryptedMessage, encodedNonce) => {
+  decrypt = encodedBox => {
+    const { encryptedMessage, encodedNonce } = JSON.parse(base64url.decode(encodedBox))
     const box = base64url.toBuffer(encryptedMessage)
     const nonce = base64url.toBuffer(encodedNonce)
     const decryptedBox = nacl.box.open(box, nonce, this.clientPublicKey, this.sessionKey.secretKey)
@@ -65,7 +65,7 @@ class Session {
     const boxEncoded = base64url.encode(box)
     return base64url.encode(JSON.stringify({
       encryptedMessage: boxEncoded,
-      nonce: nonceEncoded
+      encodedNonce: nonceEncoded
     }))
   }
 

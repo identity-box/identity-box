@@ -78,7 +78,7 @@ class RendezvousTunnel {
   }
 
   onMessageHandler = msg => {
-    this.onMessage && this.onMessage(msg)
+    this.onMessage && this.onMessage(this.cryptographer.decrypt(msg))
   }
 
   onReady = encodedPublicKey => {
@@ -105,7 +105,8 @@ class RendezvousTunnel {
   }
 
   send = msg => {
-    this.tunnel.emit('message', msg)
+    const box = this.cryptographer.encrypt(msg)
+    this.tunnel.emit('message', box)
   }
 
   closeTunnel = () => {

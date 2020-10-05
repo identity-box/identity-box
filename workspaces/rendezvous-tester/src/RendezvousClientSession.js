@@ -33,8 +33,7 @@ class RendezvousClientSession {
         })
 
         this.session.on('message', msg => {
-          const { encryptedMessage, nonce } = JSON.parse(base64url.decode(msg))
-          const response = this.cryptographer.decrypt(encryptedMessage, nonce)
+          const response = this.cryptographer.decrypt(msg)
           console.log('Encrypted response from Rendezvous service:', response)
           this.end()
           this.onMessage && this.onMessage(response)
