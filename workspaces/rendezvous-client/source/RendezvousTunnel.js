@@ -18,12 +18,12 @@ class RendezvousTunnel {
     this.onTunnelReady = onTunnelReady
     this.onTunnelClosed = onTunnelClosed
     this.onOtherEndNotReady = onOtherEndNotReady
-    this.cryptographer = new Cryptographer()
   }
 
   createNew = async () => {
     return new Promise((resolve, reject) => {
       try {
+        this.cryptographer = new Cryptographer()
         const tunnelId = `tunnel-${base64url.encode(this.cryptographer.myPublicKey)}`
 
         this.setupTunnel(tunnelId)
@@ -50,6 +50,7 @@ class RendezvousTunnel {
   connectToExisting = async tunnelId => {
     return new Promise((resolve, reject) => {
       try {
+        this.cryptographer = new Cryptographer()
         this.cryptographer.theirPublicKey = base64url.toBuffer(
           this.encodedKeyFromTunnelId(tunnelId)
         )

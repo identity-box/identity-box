@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from '@reach/router'
+import { RendezvousClient } from '@identity-box/rendezvous-client'
 
-import { RendezvousClient } from '../RendezvousClient'
 import { Row, ButtonLink, Wrapper } from '../common/ui'
 import { SendMessage, Message } from './ui'
 

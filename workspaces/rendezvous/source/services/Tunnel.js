@@ -25,7 +25,6 @@ class Tunnel {
           this.socketSender.emit('ready', encodedPublicKey)
           this.socketReceiver.emit('ready')
         })
-        // this.tunnel.emit('ready')
       } else {
         throw new Error('The sockets at both ends of the tunnel are not having the same tunnel id!')
       }

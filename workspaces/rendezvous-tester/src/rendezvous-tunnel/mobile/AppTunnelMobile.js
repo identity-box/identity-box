@@ -2,8 +2,8 @@
 import { jsx } from '@emotion/core'
 import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { RendezvousTunnel } from '@identity-box/rendezvous-client'
 
-import { RendezvousTunnel } from '../../RendezvousTunnel'
 import { EnterTunnelId } from './EnterTunnelId'
 import { Row, ButtonLink, Wrapper } from '../../common/ui'
 import { Message } from './ui'
