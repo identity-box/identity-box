@@ -1,6 +1,6 @@
 import * as Random from 'expo-random'
 
-const randomBytes = byteCount => {
+const randomBytes = async byteCount => {
   return Random.getRandomBytesAsync(byteCount)
 }
 

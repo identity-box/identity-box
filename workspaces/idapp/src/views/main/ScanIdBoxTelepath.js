@@ -4,7 +4,7 @@ import { useTheme } from 'react-navigation'
 import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
-import { MultiTelepathConfiguration } from 'src/telepath'
+import { MultiRendezvousConfiguration } from 'src/rendezvous'
 
 import {
   PageContainer,
@@ -37,19 +37,11 @@ const ScanIdBoxTelepath = ({ navigation }) => {
     setScanning(false)
   }, [])
 
-  const getChannelDescription = connectUrl => {
-    const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)&S=(?<servicePointId>.*)/)
-
-    return match && match.groups
-  }
-
-  const handleBarCodeScanned = useCallback(async ({ type, data }) => {
-    console.log(`Code scanned. Type: ${type}, data: ${data}`)
+  const handleBarCodeScanned = useCallback(async ({ type, data: url }) => {
+    console.log(`Code scanned. Type: ${type}, url: ${url}`)
     setScanning(false)
-    const channelDescription = getChannelDescription(data)
-    console.log('channelDescription:', channelDescription)
-    const telepathConfiguration = MultiTelepathConfiguration.instance('idbox')
-    await telepathConfiguration.set(channelDescription)
+    const rendezvousConfiguration = await MultiRendezvousConfiguration.instance('idbox')
+    await rendezvousConfiguration.set({ url })
     navigation.navigate('AppLoading')
   })
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
 
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 import { IdentityManager } from 'src/identity'
 
 import {
@@ -12,13 +12,13 @@ import {
 } from './ui'
 
 const AppLoading = ({ navigation }) => {
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
     reset: false,
     onError: () => {
       navigation.navigate('ScanIdBoxTelepath')
     },
-    onTelepathReady: async () => {
+    onReady: async () => {
       const identityManager = await IdentityManager.instance()
 
       if (identityManager.hasIdentities()) {

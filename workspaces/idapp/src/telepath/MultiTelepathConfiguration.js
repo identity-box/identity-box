@@ -19,11 +19,55 @@ class MultiTelepathConfiguration {
 
   servicePointId
 
-  static instance = name => {
+  static instance = async name => {
     if (!_instances[name]) {
+      await MultiTelepathConfiguration.upgradeToRendezvous(name)
       _instances[name] = new MultiTelepathConfiguration(name)
     }
     return _instances[name]
+  }
+
+  static upgradeToRendezvous = async name => {
+    console.log(`Upgrading from Telepath to Rendezvous for telepath name: ${name}`)
+    let somethingDeleted = false
+    const {
+      id,
+      key,
+      appName,
+      clientId,
+      servicePointId
+    } = MultiTelepathConfiguration.recall(name)
+
+    if (id) {
+      console.log(`Deleting telepathChannelId-${name}`)
+      await SecureStore.deleteItemAsync(`telepathChannelId-${name}`)
+      somethingDeleted = true
+    }
+
+    if (key) {
+      console.log(`Deleting telepathChannelKey-${name}`)
+      await SecureStore.deleteItemAsync(`telepathChannelKey-${name}`)
+    }
+
+    if (appName) {
+      console.log(`Deleting telepathChannelAppName-${name}`)
+      await SecureStore.deleteItemAsync(`telepathChannelAppName-${name}`)
+    }
+
+    if (clientId) {
+      console.log(`Deleting telepathChannelClientId-${name}`)
+      await SecureStore.deleteItemAsync(`telepathChannelClientId-${name}`)
+    }
+
+    if (servicePointId) {
+      console.log(`Deleting telepathChannelServicePointId-${name}`)
+      await SecureStore.deleteItemAsync(`telepathChannelServicePointId-${name}`)
+    }
+
+    if (!somethingDeleted) {
+      console.log('[!!] Already upgraded!')
+    }
+    console.log(`Finished upgrading from Telepath to Rendezvous for telepath name: ${name}.`)
   }
 
   static reset = async name => {
@@ -128,10 +172,11 @@ class MultiTelepathConfiguration {
     }
   }
 
-  exists = async (name) => {
-    const { id, key, appName, clientId } = await MultiTelepathConfiguration.recall(name)
-    return !((id === null || key === null || appName === null || clientId === null))
-  }
+  // NOT_USED
+  // exists = async (name) => {
+  //   const { id, key, appName, clientId } = await MultiTelepathConfiguration.recall(name)
+  //   return !((id === null || key === null || appName === null || clientId === null))
+  // }
 }
 
 export { MultiTelepathConfiguration }

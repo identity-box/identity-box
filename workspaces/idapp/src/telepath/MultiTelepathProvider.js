@@ -35,7 +35,7 @@ class MultiTelepathProvider {
   }
 
   connect = async channelDescription => {
-    const telepathConfigurationProvider = MultiTelepathConfiguration.instance(this.name)
+    const telepathConfigurationProvider = await MultiTelepathConfiguration.instance(this.name)
     if (channelDescription) {
       await telepathConfigurationProvider.set(channelDescription)
     }
