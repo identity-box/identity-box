@@ -18,10 +18,10 @@ const AppTunnelMobile = () => {
   const rendezvousStart = async tunnelId => {
     rendezvousTunnel.current = new RendezvousTunnel({
       baseUrl: 'http://localhost:3100',
-      onMessage: msg => {
+      onMessage: async msg => {
         console.log('msg:', msg)
         setMsg(msg)
-        rendezvousTunnel.current.send(`${msg} received!`)
+        await rendezvousTunnel.current.send(`${msg} received!`)
       },
       onTunnelReady: () => {
         console.log('Tunnel ready!')
