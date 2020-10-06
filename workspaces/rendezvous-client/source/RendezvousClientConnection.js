@@ -5,11 +5,13 @@ class RendezvousClientConnection {
   baseUrl
   onMessage
   onSessionEnded
+  prng
 
-  constructor ({ baseUrl, onMessage, onSessionEnded }) {
+  constructor ({ baseUrl, onMessage, onSessionEnded, prng }) {
     this.baseUrl = baseUrl
     this.onMessage = onMessage
     this.onSessionEnded = onSessionEnded
+    this.prng = prng
   }
 
   create = async () => {
@@ -18,7 +20,8 @@ class RendezvousClientConnection {
         this.session = new RendezvousClientSession({
           baseUrl: this.baseUrl,
           onMessage: this.onMessage,
-          onSessionEnded: this.onSessionEnded
+          onSessionEnded: this.onSessionEnded,
+          prng: this.prng
         })
         resolve()
       } catch (e) {

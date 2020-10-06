@@ -13,12 +13,13 @@ class RendezvousClientSession {
   constructor ({
     baseUrl,
     onMessage,
-    onSessionEnded
+    onSessionEnded,
+    prng
   }) {
     this.baseUrl = baseUrl
     this.onMessage = onMessage
     this.onSessionEnded = onSessionEnded
-    this.cryptographer = new Cryptographer()
+    this.cryptographer = new Cryptographer(prng)
   }
 
   create = async () => {
@@ -75,9 +76,10 @@ class RendezvousClientSession {
   }
 
   send = async msg => {
+    await this.cryptographer.generateKeyPair()
     await this.create()
     // encrypt message with session key
-    const box = this.cryptographer.encrypt(msg)
+    const box = await this.cryptographer.encrypt(msg)
     // and send it to the Rendezvous service
     this.session.emit('message', box)
   }

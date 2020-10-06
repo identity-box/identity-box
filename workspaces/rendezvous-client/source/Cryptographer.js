@@ -5,24 +5,37 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 class Cryptographer {
   keyPair
   theirPublicKey
+  prng
 
   get myPublicKey () {
     return this.keyPair.publicKey
   }
 
-  constructor () {
-    this.createKeyPair()
+  constructor (prng) {
+    this.prng = prng
+  }
+
+  generateKeyPair = async () => {
+    await this.createKeyPair()
   }
 
   get ready () {
     return this.keyPair && this.theirPublicKey
   }
 
-  encrypt = msg => {
+  randomBytes = async n => {
+    if (this.prng) {
+      return this.prng(n)
+    } else {
+      return nacl.randomBytes(n)
+    }
+  }
+
+  encrypt = async msg => {
     if (!this.ready) {
       throw new Error('The cryptographic keys are not yet provided!')
     }
-    const nonce = nacl.randomBytes(nacl.box.nonceLength)
+    const nonce = await this.randomBytes(nacl.box.nonceLength)
     const nonceEncoded = base64url.encode(nonce)
     const msgJson = JSON.stringify(msg)
     const msgEncoded = base64url.encode(msgJson)
@@ -51,8 +64,28 @@ class Cryptographer {
     return JSON.parse(base64url.decode(decryptedEncoded))
   }
 
-  createKeyPair = () => {
-    this.keyPair = nacl.box.keyPair()
+  createKeyPair = async () => {
+    if (this.prng) {
+      const secret = await this.randomBytes(nacl.box.publicKeyLength)
+      let calledTimes = 0
+      nacl.setPRNG((x, n) => {
+        calledTimes = calledTimes + 1
+        console.log(`PRNG called with secret=${secret}, times called: ${calledTimes}`)
+        if (calledTimes > 1) {
+          throw new Error(`PRNG: called more than one with the same secret ${secret}!`)
+        }
+        if (n !== nacl.box.publicKeyLength) {
+          throw new Error(`PRNG: invalid length! Expected: ${nacl.box.publicKeyLength}, received: ${n}`)
+        }
+        for (let i = 0; i < n; i++) {
+          x[i] = secret[i]
+        }
+      })
+      this.keyPair = nacl.box.keyPair()
+      nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
+    } else {
+      this.keyPair = nacl.box.keyPair()
+    }
   }
 }
 

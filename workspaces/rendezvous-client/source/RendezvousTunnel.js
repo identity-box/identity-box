@@ -11,19 +11,22 @@ class RendezvousTunnel {
   onTunnelReady
   onTunnelClosed
   onOtherEndNotReady
+  prng
 
-  constructor ({ baseUrl, onMessage, onTunnelReady, onTunnelClosed, onOtherEndNotReady }) {
+  constructor ({ baseUrl, onMessage, onTunnelReady, onTunnelClosed, onOtherEndNotReady, prng }) {
     this.baseUrl = baseUrl
     this.onMessage = onMessage
     this.onTunnelReady = onTunnelReady
     this.onTunnelClosed = onTunnelClosed
     this.onOtherEndNotReady = onOtherEndNotReady
+    this.prng = prng
   }
 
   createNew = async () => {
+    this.cryptographer = new Cryptographer(this.prng)
+    await this.cryptographer.generateKeyPair()
     return new Promise((resolve, reject) => {
       try {
-        this.cryptographer = new Cryptographer()
         const tunnelId = `tunnel-${base64url.encode(this.cryptographer.myPublicKey)}`
 
         this.setupTunnel(tunnelId)
@@ -48,9 +51,10 @@ class RendezvousTunnel {
   }
 
   connectToExisting = async tunnelId => {
+    this.cryptographer = new Cryptographer(this.prng)
+    await this.cryptographer.generateKeyPair()
     return new Promise((resolve, reject) => {
       try {
-        this.cryptographer = new Cryptographer()
         this.cryptographer.theirPublicKey = base64url.toBuffer(
           this.encodedKeyFromTunnelId(tunnelId)
         )
@@ -105,8 +109,8 @@ class RendezvousTunnel {
     this.tunnel.connected && this.tunnel.disconnect()
   }
 
-  send = msg => {
-    const box = this.cryptographer.encrypt(msg)
+  send = async msg => {
+    const box = await this.cryptographer.encrypt(msg)
     this.tunnel.emit('message', box)
   }
 
