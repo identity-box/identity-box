@@ -93,14 +93,14 @@ const FirstIdentity = ({ navigation }) => {
     const secret = await randomBytes(nacl.sign.publicKeyLength)
     nacl.setPRNG((x, n) => {
       if (n !== nacl.sign.publicKeyLength) {
-        throw new Error('World collapse, escape! Now!')
+        throw new Error(`PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`)
       }
       for (let i = 0; i < n; i++) {
         x[i] = secret[i]
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG((x, n) => { throw new Error('No, no, no, no....') })
+    nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
   }
 
   const createEncryptionKeyPair = async () => {
