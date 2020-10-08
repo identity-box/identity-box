@@ -13,6 +13,7 @@ const Backup = ({ navigation }) => {
 
   const readBackupStatus = async () => {
     const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
+    console.log('backupEnabled=', backupEnabled)
     setBackupEnabled(backupEnabled)
   }
 

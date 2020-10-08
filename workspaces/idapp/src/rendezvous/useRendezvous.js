@@ -39,7 +39,7 @@ const useRendezvous = ({
       if (!baseUrl) {
         baseUrl = await getUrl()
       }
-
+      console.log('baseUrl=', baseUrl)
       rendezvousClient.current = new RendezvousClient({
         baseUrl,
         onMessage: msg => {
@@ -55,7 +55,7 @@ const useRendezvous = ({
 
       rendezvousConnection.current = await rendezvousClient.current.connect()
 
-      onReady && onReady()
+      onReady && onReady(rendezvousConnection.current)
     } catch (e) {
       console.log(e.message)
       onError && onError(e)

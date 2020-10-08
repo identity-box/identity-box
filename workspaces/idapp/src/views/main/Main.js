@@ -118,6 +118,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   // initialRouteName: 'BackupNotFound'
   // initialRouteName: 'BackupMnemonic'
   // initialRouteName: 'CreateNewIdentity'
+  // initialRouteName: 'ConfirmFactoryReset'
   initialRouteName: 'AppLoading'
   // initialRouteName: 'DefaultApp'
   // initialRouteName: 'RestoreFromBackup'

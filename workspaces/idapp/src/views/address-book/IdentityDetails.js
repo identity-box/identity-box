@@ -10,7 +10,7 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 import { entropyToMnemonic } from 'src/crypto'
 
 import { useIdentity } from 'src/identity'
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 
 import { QRCodeThemed, Description } from './ui'
 
@@ -48,7 +48,7 @@ const Did = styled(Themed.Text)({
 
 const IdentityDetails = ({ navigation }) => {
   const identityManager = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const rendezvousConnection = useRef(undefined)
   const name = navigation.getParam('name', '')
   const keyName = navigation.getParam('keyName', '')
   const did = navigation.getParam('did', '')
@@ -68,7 +68,7 @@ const IdentityDetails = ({ navigation }) => {
       const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
       const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
       const backupId = backupIdFromBackupKey(backupKey)
-      writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
+      writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
     } else {
       navigation.navigate('AddressBook')
     }
@@ -92,17 +92,15 @@ const IdentityDetails = ({ navigation }) => {
     console.log(`deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`)
     setInProgress(true)
     if (isOwn) {
-      deleteIdentityOnIdBox(telepathProvider.current, keyName)
+      deleteIdentityOnIdBox(rendezvousConnection.current, keyName)
     } else {
       deletePeerIdentity({ name })
     }
   }, [])
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
@@ -111,37 +109,31 @@ const IdentityDetails = ({ navigation }) => {
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  const deleteIdentityOnIdBox = async (telepathProvider, name) => {
+  const deleteIdentityOnIdBox = async (rendezvousConnection, name) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'delete',
       params: [{
         identityName: name
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: ({ telepathProvider: tp }) => {
-      telepathProvider.current = tp
+    onReady: rc => {
+      rendezvousConnection.current = rc
     },
     onMessage: message => {
       console.log('received message: ', message)

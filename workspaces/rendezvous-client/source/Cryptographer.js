@@ -70,7 +70,7 @@ class Cryptographer {
       let calledTimes = 0
       nacl.setPRNG((x, n) => {
         calledTimes = calledTimes + 1
-        console.log(`PRNG called with secret=${secret}, times called: ${calledTimes}`)
+        console.log(`PRNG called with secret=${secret}, times called: ${calledTimes}, n=${n}, x.length=${x.length}`)
         if (calledTimes > 1) {
           throw new Error(`PRNG: called more than one with the same secret ${secret}!`)
         }

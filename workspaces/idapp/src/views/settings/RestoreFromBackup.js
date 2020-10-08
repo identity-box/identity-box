@@ -7,7 +7,7 @@ import base64url from 'base64url'
 import { ThemedButton } from 'src/theme'
 import { mnemonicToEntropy } from 'src/crypto'
 import { IdentityManager } from 'src/identity'
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 import {
   Container,
   Subcontainer,
@@ -24,31 +24,27 @@ const RestoreFromBackup = ({ navigation }) => {
   const [focused, setFocused] = useState(false)
   const [mnemonic, setMnemonic] = useState(undefined)
   const backupKey = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const rendezvousConnection = useRef(undefined)
 
-  const restoreIdBox = async (telepathProvider, backupId) => {
+  const restoreIdBox = async (rendezvousConnection, backupId) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'restore',
       params: [{
         backupId
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: async ({ telepathProvider: tp }) => {
-      telepathProvider.current = tp
+    onReady: async rc => {
+      rendezvousConnection.current = rc
     },
     onMessage: async message => {
       console.log('received message: ', message)
@@ -99,7 +95,7 @@ const RestoreFromBackup = ({ navigation }) => {
     console.log('restoring....')
     setInProgress(true)
     const backupId = backupIdFromMnemonic(mnemonic)
-    restoreIdBox(telepathProvider.current, backupId)
+    restoreIdBox(rendezvousConnection.current, backupId)
   }, [mnemonic])
 
   const onSubmit = useCallback(() => {

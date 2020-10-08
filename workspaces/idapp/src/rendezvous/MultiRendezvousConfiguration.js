@@ -88,9 +88,8 @@ class MultiRendezvousConfiguration {
     }
   }
 
-  constructor (name, url) {
+  constructor (name) {
     this.name = name
-    this.url = url
   }
 
   hasConfiguration = () => {
@@ -115,6 +114,8 @@ class MultiRendezvousConfiguration {
     console.log(`No active rendezvous configuration with name ${this.name}. Restoring...`)
 
     const { url } = await MultiRendezvousConfiguration.recall(this.name)
+
+    this.url = url
 
     if (url === null) {
       console.log(`Restoring configuration with name ${this.name} failed.`)

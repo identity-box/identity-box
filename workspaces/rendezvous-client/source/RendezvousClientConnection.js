@@ -35,7 +35,7 @@ class RendezvousClientConnection {
   }
 
   send = async msg => {
-    await this.session.send(msg)
+    return this.session.send(msg)
   }
 }
 
