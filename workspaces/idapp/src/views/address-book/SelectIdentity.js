@@ -32,9 +32,6 @@ const SelectIdentity = ({ navigation }) => {
   const theme = useTheme()
 
   rendezvousTunnel.current = useMemo(() => navigation.getParam('rendezvousTunnel', undefined), [])
-  const rendezvousUrl = useMemo(() => navigation.getParam('baseUrl', undefined), [])
-
-  const tunnelId = useMemo(() => navigation.getParam('tunnelId', undefined), [])
 
   useIdentity({
     onReady: idManager => {

@@ -33,18 +33,6 @@ const CurrentIdentity = ({ navigation }) => {
     setCameraEnabled(status === 'granted')
   }
 
-  // const confirmQRCodeScanned = async () => {
-  //   const message = {
-  //     method: 'connectionSetupDone',
-  //     params: []
-  //   }
-  //   try {
-  //     await rendezvousTunnel.current.send(message)
-  //   } catch (e) {
-  //     console.log(e.message)
-  //   }
-  // }
-
   const sendEncryptedContent = async encryptedContentRecord => {
     const message = {
       method: 'encrypt_content_response',
@@ -112,7 +100,6 @@ const CurrentIdentity = ({ navigation }) => {
     tunnelId,
     onReady: rt => {
       rendezvousTunnel.current = rt
-      // confirmQRCodeScanned()
     },
     onMessage: async message => {
       console.log('received message: ', message)
@@ -120,8 +107,6 @@ const CurrentIdentity = ({ navigation }) => {
         sendCurrentIdentity(identity.did)
       } else if (message.method === 'select_identity') {
         navigation.navigate('SelectIdentity', {
-          baseUrl: rendezvousUrl,
-          tunnelId,
           rendezvousTunnel: rendezvousTunnel.current
         })
       } else if (message.method === 'encrypt-content' && message.params.length > 0) {
