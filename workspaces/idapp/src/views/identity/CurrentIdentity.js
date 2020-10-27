@@ -8,7 +8,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner'
 
 import { randomBytes } from 'src/crypto'
 import { useIdentity } from 'src/identity'
-import { useTelepath } from 'src/telepath'
+import { useRendezvousTunnel } from 'src/rendezvous'
 
 import {
   PageContainer,
@@ -21,10 +21,11 @@ const CurrentIdentity = ({ navigation }) => {
   const [identity, setIdentity] = useState({ name: '', did: '' })
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
-  const [channelDescription, setChannelDescription] = useState({})
   const [cameraSize, setCameraSize] = useState(200)
   const identityManager = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const [rendezvousUrl, setRendezvousUrl] = useState(undefined)
+  const [tunnelId, setTunnelId] = useState(undefined)
+  const rendezvousTunnel = useRef(undefined)
   const theme = useTheme()
 
   const enableCamera = async () => {
@@ -32,27 +33,25 @@ const CurrentIdentity = ({ navigation }) => {
     setCameraEnabled(status === 'granted')
   }
 
-  const confirmQRCodeScanned = async telepathProvider => {
-    const message = {
-      jsonrpc: '2.0',
-      method: 'connectionSetupDone',
-      params: []
-    }
-    try {
-      await telepathProvider.emit(message)
-    } catch (e) {
-      console.log(e.message)
-    }
-  }
+  // const confirmQRCodeScanned = async () => {
+  //   const message = {
+  //     method: 'connectionSetupDone',
+  //     params: []
+  //   }
+  //   try {
+  //     await rendezvousTunnel.current.send(message)
+  //   } catch (e) {
+  //     console.log(e.message)
+  //   }
+  // }
 
   const sendEncryptedContent = async encryptedContentRecord => {
     const message = {
-      jsonrpc: '2.0',
       method: 'encrypt_content_response',
       params: [encryptedContentRecord]
     }
     try {
-      await telepathProvider.current.emit(message)
+      await rendezvousTunnel.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -60,14 +59,13 @@ const CurrentIdentity = ({ navigation }) => {
 
   const sendDecryptedContent = async decryptedContent => {
     const message = {
-      jsonrpc: '2.0',
       method: 'decrypt_content_response',
       params: [{
         decryptedContent
       }]
     }
     try {
-      await telepathProvider.current.emit(message)
+      await rendezvousTunnel.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -75,14 +73,13 @@ const CurrentIdentity = ({ navigation }) => {
 
   const sendErrorMessage = async errorID => {
     const message = {
-      jsonrpc: '2.0',
       method: 'decrypt_content_error',
       params: [{
         errorID
       }]
     }
     try {
-      await telepathProvider.current.emit(message)
+      await rendezvousTunnel.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -90,12 +87,11 @@ const CurrentIdentity = ({ navigation }) => {
 
   const sendCurrentIdentity = async currentDid => {
     const message = {
-      jsonrpc: '2.0',
       method: 'get_current_identity_response',
       params: [{ currentDid }]
     }
     try {
-      await telepathProvider.current.emit(message)
+      await rendezvousTunnel.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -111,15 +107,23 @@ const CurrentIdentity = ({ navigation }) => {
     }
   })
 
-  useTelepath({
-    name: channelDescription.appName,
-    channelDescription,
+  useRendezvousTunnel({
+    url: rendezvousUrl,
+    tunnelId,
+    onReady: rt => {
+      rendezvousTunnel.current = rt
+      // confirmQRCodeScanned()
+    },
     onMessage: async message => {
       console.log('received message: ', message)
       if (message.method === 'get_current_identity') {
         sendCurrentIdentity(identity.did)
       } else if (message.method === 'select_identity') {
-        navigation.navigate('SelectIdentity', { name: channelDescription.appName })
+        navigation.navigate('SelectIdentity', {
+          baseUrl: rendezvousUrl,
+          tunnelId,
+          rendezvousTunnel: rendezvousTunnel.current
+        })
       } else if (message.method === 'encrypt-content' && message.params.length > 0) {
         const { content, theirPublicKey } = message.params[0]
         const nonce = await randomBytes(nacl.box.nonceLength)
@@ -152,13 +156,8 @@ const CurrentIdentity = ({ navigation }) => {
     },
     onError: error => {
       console.log('error: ', error)
-    },
-    onTelepathReady: ({ telepathProvider: tp }) => {
-      console.log('telepath ready')
-      confirmQRCodeScanned(tp)
-      telepathProvider.current = tp
     }
-  }, [channelDescription])
+  }, [tunnelId, rendezvousUrl])
 
   useEffect(() => {
     enableCamera()
@@ -181,10 +180,17 @@ const CurrentIdentity = ({ navigation }) => {
     setScanning(false)
   }, [])
 
-  const getChannelDescription = connectUrl => {
-    const match = connectUrl.match(/#I=(?<id>.*)&E=(?<key>.*)&A=(?<appName>.*)/)
+  const parseUrl = connectUrl => {
+    const match = connectUrl.match(/^(?<url>(?<baseUrl>(?:http(?<https>s)?:\/\/)(?<domain>localhost|(?:[\w.-]+(?:\.[\w.-]+)+))+(?::(?<port>\d+)?)?)(?:(?:\/(?<path>[\w\-._~:/?[\]@!$&'()*+,;=.]+))?(?<fragment>#.+)?|\/))$/)
 
-    return match && match.groups
+    if (match && match.groups) {
+      const { baseUrl, path } = match.groups
+      console.log(match.groups)
+      if (baseUrl && path) {
+        return { baseUrl, tunnelId: path }
+      }
+    }
+    return {}
   }
 
   const handleBarCodeScanned = useCallback(({ type, data }) => {
@@ -194,10 +200,12 @@ const CurrentIdentity = ({ navigation }) => {
       console.log(`Detected DID: ${data}`)
       addNewIdentity({ did: data })
     } else {
-      const channelDescription = getChannelDescription(data)
-      if (channelDescription) {
-        console.log('channelDescription:', channelDescription)
-        setChannelDescription(channelDescription)
+      const { baseUrl, tunnelId } = parseUrl(data)
+      if (baseUrl && tunnelId) {
+        console.log('rendezvous baseUrl:', baseUrl)
+        console.log('rendezvous tunnelId:', tunnelId)
+        setRendezvousUrl(baseUrl)
+        setTunnelId(tunnelId)
       }
     }
   }, [])

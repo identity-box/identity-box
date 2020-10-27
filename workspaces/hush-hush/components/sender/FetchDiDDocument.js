@@ -2,35 +2,31 @@ import React, { useCallback } from 'react'
 import { FadingValueBox } from '../animations'
 import { Blue, InfoBox, MrSpacer, Centered } from '../ui'
 
-import { useTelepath } from '../telepath'
+import { useRendezvous } from '../rendezvous'
 
-const FetchDidDocument = ({ onDIDDocumentRetrieved, did }) => {
-  const getDIDDocument = async (telepathProvider) => {
+const FetchDidDocument = ({ onDIDDocumentRetrieved, did, baseUrl }) => {
+  const getDIDDocument = async rendezvousConnection => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'get-did-document',
       params: [{
         did
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  const onTelepathReady = useCallback(async ({ telepathProvider }) => {
-    await getDIDDocument(telepathProvider)
+  const onReady = useCallback(async rendezvousConnection => {
+    await getDIDDocument(rendezvousConnection)
   }, [])
 
-  useTelepath({
-    name: 'idbox',
-    onTelepathReady: onTelepathReady,
+  useRendezvous({
+    url: baseUrl,
+    onReady: onReady,
     onMessage: message => {
       if (message.method === 'get-did-document-response' && message.params.length > 0) {
         onDIDDocumentRetrieved && onDIDDocumentRetrieved(message.params[0])

@@ -6,12 +6,11 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 import { FadingValueBox } from '../animations'
 import { Blue, Green, InfoBox, Centered } from '../ui'
 
-const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey, didRecipient }) => {
+const DecryptSecret = ({ next, rendezvousTunnel, encryptedSecret, theirPublicKey, didRecipient }) => {
   const decryptSecret = async () => {
     const encryptedContentBase64 = encryptedSecret.encryptedSymmetricKey
     const nonceBase64 = encryptedSecret.boxNonce
     const message = {
-      jsonrpc: '2.0',
       method: 'decrypt-content',
       params: [{
         encryptedContentBase64,
@@ -21,14 +20,14 @@ const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey,
       }]
     }
     try {
-      await telepathChannel.emit(message)
+      await rendezvousTunnel.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
   useEffect(() => {
-    telepathChannel.subscribe(async message => {
+    rendezvousTunnel.onMessage = async message => {
       console.log('received message: ', message)
       const { method, params } = message
       if (method === 'decrypt_content_response' && params) {
@@ -48,10 +47,15 @@ const DecryptSecret = ({ next, telepathChannel, encryptedSecret, theirPublicKey,
           next({ errorID })
         }
       }
-    }, error => {
+    }
+    rendezvousTunnel.onError = error => {
       console.log('error: ', error)
-    })
+    }
     decryptSecret()
+    return () => {
+      rendezvousTunnel.onMessage = undefined
+      rendezvousTunnel.onError = undefined
+    }
   })
 
   return (

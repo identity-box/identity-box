@@ -29,7 +29,7 @@ class Tunnel {
         throw new Error('The sockets at both ends of the tunnel are not having the same tunnel id!')
       }
     } else {
-      throw new Error('The sockets at both ends of the tunnel are not having the same tunnel id!')
+      throw new Error('Both ends are already connected!!!!')
     }
   }
 
@@ -47,7 +47,7 @@ class Tunnel {
         this.onDisconnect(reason, socket)
       })
     } catch (e) {
-      console.log(e.msg)
+      console.log(e.message)
       this.endTunnel(socket)
     }
   }

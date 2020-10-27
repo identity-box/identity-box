@@ -1,29 +1,26 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { FadingValueBox } from '../animations'
 import { Blue, InfoBox, Centered } from '../ui'
 
-import { useTelepath } from '../telepath'
+import { useRendezvous } from '../rendezvous'
 
-const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTelepathChannel, idBoxTransientTelepathName }) => {
+const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappRendezvousTunnel, baseUrl }) => {
   const [symmetricKey, setSymmetricKey] = useState(undefined)
-  const [telepathProvider, setTelepathProvider] = useState(undefined)
+  const rendezvousConnection = useRef(undefined)
+
   const storeJSON = async json => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'store-json',
       params: [{
         json
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -33,7 +30,6 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
     const symmetricKey = nacl.randomBytes(nacl.secretbox.keyLength)
     setSymmetricKey(symmetricKey)
     const message = {
-      jsonrpc: '2.0',
       method: 'encrypt-content',
       params: [{
         content: base64url.encode(symmetricKey),
@@ -41,7 +37,7 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
       }]
     }
     try {
-      await idappTelepathChannel.emit(message)
+      await idappRendezvousTunnel.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -55,13 +51,14 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
     return { encryptedSecret, nonce }
   }
 
-  const onTelepathReady = useCallback(async ({ telepathProvider }) => {
-    setTelepathProvider(telepathProvider)
+  const onReady = useCallback(async rc => {
+    rendezvousConnection.current = rc
     encryptSymmetricKey()
   }, [])
 
   useEffect(() => {
-    idappTelepathChannel.subscribe(async message => {
+    idappRendezvousTunnel.onMessage = async message => {
+      console.log('idappRendezvousTunnel[message]=', message)
       if (symmetricKey === undefined) return
       console.log('received message: ', message)
       const { method, params } = message
@@ -77,14 +74,19 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappTe
           })
         }
       }
-    }, error => {
+    }
+    idappRendezvousTunnel.onError = error => {
       console.log('error: ', error)
-    })
-  })
+    }
+    return () => {
+      idappRendezvousTunnel.onMessage = undefined
+      idappRendezvousTunnel.onError = undefined
+    }
+  }, [symmetricKey])
 
-  useTelepath({
-    name: 'idbox',
-    onTelepathReady: onTelepathReady,
+  useRendezvous({
+    url: baseUrl,
+    onReady: onReady,
     onMessage: message => {
       if (message.method === 'store-json-response' && message.params.length > 0) {
         const { cid } = message.params[0]

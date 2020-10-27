@@ -5,7 +5,6 @@ import { useTheme } from 'react-navigation'
 import styled from '@emotion/native'
 
 import { useIdentity } from 'src/identity'
-import { useTelepath } from 'src/telepath'
 import { MrSpacer } from 'src/ui'
 
 import { AllIdentities } from './AllIdentities'
@@ -29,10 +28,13 @@ const SelectIdentity = ({ navigation }) => {
   const [identityNames, setIdentityNames] = useState([])
   const [identities, setIdentities] = useState({})
   const [peerIdentities, setPeerIdentities] = useState({})
-  const [telepathProvider, setTelepathProvider] = useState(undefined)
+  const rendezvousTunnel = useRef(undefined)
   const theme = useTheme()
 
-  const telepathChannelName = useMemo(() => navigation.getParam('name', undefined), [])
+  rendezvousTunnel.current = useMemo(() => navigation.getParam('rendezvousTunnel', undefined), [])
+  const rendezvousUrl = useMemo(() => navigation.getParam('baseUrl', undefined), [])
+
+  const tunnelId = useMemo(() => navigation.getParam('tunnelId', undefined), [])
 
   useIdentity({
     onReady: idManager => {
@@ -43,26 +45,15 @@ const SelectIdentity = ({ navigation }) => {
     }
   })
 
-  useTelepath({
-    name: telepathChannelName,
-    onError: error => {
-      console.log('error: ', error)
-    },
-    onTelepathReady: ({ telepathProvider }) => {
-      setTelepathProvider(telepathProvider)
-    }
-  }, [])
-
   const sendIdentity = async ({ did }) => {
     const message = {
-      jsonrpc: '2.0',
       method: 'select_identity_response',
       params: [{
         did
       }]
     }
     try {
-      await telepathProvider.emit(message)
+      await rendezvousTunnel.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -71,21 +62,21 @@ const SelectIdentity = ({ navigation }) => {
   const onSelectPeerIdentity = useCallback(async item => {
     const identity = { name: item, did: peerIdentities[item] }
     console.log('selected identity:', identity)
-    if (telepathProvider) {
+    if (rendezvousTunnel.current) {
       await sendIdentity(identity)
       navigation.navigate('CurrentIdentity')
     }
-  }, [peerIdentities, telepathProvider])
+  }, [peerIdentities, rendezvousTunnel.current])
 
   const onSelectOwnIdentity = useCallback(async item => {
     const id = identities[item]
     const identity = { name: id.name, did: id.did, isOwn: true }
     console.log('selected identity:', identity)
-    if (telepathProvider) {
+    if (rendezvousTunnel.current) {
       await sendIdentity(identity)
       navigation.navigate('CurrentIdentity')
     }
-  }, [identities, telepathProvider])
+  }, [identities, rendezvousTunnel.current])
 
   const onCancel = useCallback(() => {
     console.log('cancel')

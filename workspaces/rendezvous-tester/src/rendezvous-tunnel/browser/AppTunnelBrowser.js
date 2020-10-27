@@ -40,8 +40,7 @@ const AppTunnelBrowser = () => {
         console.log('Tunnel closed!')
       }
     })
-
-    const tunnelId = await rendezvousTunnel.current.createNew()
+    const { tunnelId } = await rendezvousTunnel.current.createNew()
     setTunnelId(tunnelId)
   }
 

@@ -34,7 +34,10 @@ class RendezvousTunnel {
         this.tunnel.on('connect', () => {
           console.log('Connected to a new tunnel with Rendezvous service')
           console.log('tunnelId: ', tunnelId)
-          resolve(tunnelId)
+          resolve({
+            tunnelId,
+            tunnelUrl: `${this.baseUrl}/${tunnelId}`
+          })
         })
         this.tunnel.on('publicKey', encodedPublicKey => {
           this.cryptographer.theirPublicKey = base64url.toBuffer(encodedPublicKey)
@@ -65,7 +68,10 @@ class RendezvousTunnel {
           this.tunnel.emit('publicKey',
             base64url.encode(this.cryptographer.myPublicKey)
           )
-          resolve(tunnelId)
+          resolve({
+            tunnelId,
+            tunnelUrl: `${this.baseUrl}/${tunnelId}`
+          })
         })
       } catch (e) {
         reject(e)

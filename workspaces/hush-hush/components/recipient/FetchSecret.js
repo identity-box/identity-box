@@ -3,35 +3,31 @@ import React, { useCallback } from 'react'
 import { FadingValueBox } from '../animations'
 import { Blue, Green, InfoBox, Centered, MrSpacer } from '../ui'
 
-import { useTelepath } from '../telepath'
+import { useRendezvous } from '../rendezvous'
 
-const FetchSecret = ({ next, cid }) => {
-  const getJSON = async (telepathProvider) => {
+const FetchSecret = ({ next, cid, baseUrl }) => {
+  const getJSON = async rendezvousConnection => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'get-json',
       params: [{
         cid
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  const onTelepathReady = useCallback(async ({ telepathProvider }) => {
-    await getJSON(telepathProvider)
+  const onReady = useCallback(async rendezvousConnection => {
+    await getJSON(rendezvousConnection)
   }, [])
 
-  useTelepath({
-    name: 'idbox',
-    onTelepathReady: onTelepathReady,
+  useRendezvous({
+    url: baseUrl,
+    onReady: onReady,
     onMessage: message => {
       if (message.method === 'get-json-response' && message.params.length > 0) {
         const { json } = message.params[0]

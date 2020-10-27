@@ -1,16 +1,11 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { FadingValueBox } from '../animations'
 import { Blue, InfoBox, MrSpacer } from '../ui'
 import { Centered } from '@react-frontend-developer/react-layout-helpers'
 
 import { Connector } from '../identity'
 
-const IdAppConnect = ({ onConnected } = {}) => {
-  const onDone = useCallback(telepathChannel => {
-    console.log('Connected')
-    onConnected && onConnected(telepathChannel)
-  })
-
+const IdAppConnect = ({ closeDialog, rendezvousUrl } = {}) => {
   return (
     <FadingValueBox>
       <Centered>
@@ -28,8 +23,9 @@ const IdAppConnect = ({ onConnected } = {}) => {
         </InfoBox>
         <MrSpacer space='50px' />
         <Connector
-          onDone={onDone}
           title='Connect...'
+          rendezvousUrl={rendezvousUrl}
+          closeDialog={closeDialog}
         />
       </Centered>
     </FadingValueBox>
