@@ -51,8 +51,7 @@ const useRendezvousTunnel = ({
   }
 
   const unsubscribe = () => {
-    console.log('I WILL do rendezvousTunnel.current.closeTunnel()!!!!')
-    // rendezvousTunnel.current && rendezvousTunnel.current.closeTunnel()
+    rendezvousTunnel.current && rendezvousTunnel.current.closeTunnel()
   }
 
   useEffect(() => {

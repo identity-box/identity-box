@@ -34,8 +34,7 @@ workspaces/assets
 !workspaces/idbox-react-ui/babel.config.js
 !workspaces/idbox-react-ui/package.json
 
-!workspaces/telepath/images/**
-!workspaces/telepath/source/**
-!workspaces/telepath/tools/**
-!workspaces/telepath/babel.config.js
-!workspaces/telepath/package.json
+!workspaces/rendezvous-client/source/**
+!workspaces/rendezvous-client/tools/**
+!workspaces/rendezvous-client/babel.config.js
+!workspaces/rendezvous-client/package.json

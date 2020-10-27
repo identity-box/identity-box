@@ -21,7 +21,6 @@
     "@emotion/core": "^10.0.28",
     "@emotion/native": "^10.0.27",
     "@identity-box/rendezvous-client": "^0.1.29-alpha.3",
-    "@identity-box/telepath": "^0.1.29-alpha.3",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-native-community/masked-view": "0.1.5",
     "base64url": "^3.0.1",
