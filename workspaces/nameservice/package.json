@@ -32,10 +32,12 @@
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.29-alpha.3",
+    "cids": "^1.0.2",
+    "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "commander": "^5.0.0",
     "esm": "^3.2.25",
-    "ipfs-http-client": "^42.0.0",
+    "ipfs-http-client": "^47.0.1",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {

@@ -1,5 +1,6 @@
 import path from 'path'
 import { StateSerializer } from '@identity-box/utils'
+import CID from 'cids'
 
 const PUBLISH_INTERVAL = 10000
 
@@ -13,9 +14,25 @@ class NamePublisher {
     this.ipfs = ipfs
     this.serializer = new StateSerializer(path.resolve(process.cwd(), 'Identities.json'))
     this.identities = this.serializer.read() || {}
+    this.convertIPNSNamesToBase36()
     if (Object.keys(this.identities).length > 0) {
       this.interval = setInterval(this.publishHandler, PUBLISH_INTERVAL)
     }
+  }
+
+  convertIPNSNamesToBase36 = () => {
+    const identities = {}
+    Object.entries(this.identities).forEach(e => {
+      const [ipnsName, cid] = e
+      if (ipnsName.startsWith('Q')) {
+        const cidB58 = new CID(ipnsName)
+        const cidBase36 = new CID(1, 'libp2p-key', cidB58.multihash, 'base36')
+        const ipnsNameBase36 = cidBase36.toString()
+        console.log(`Converted ${ipnsName} to ${ipnsNameBase36}`)
+        identities[ipnsNameBase36] = cid
+      }
+    })
+    console.log('new identities=', identities)
   }
 
   reset = () => {

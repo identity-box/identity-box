@@ -52,5 +52,8 @@
       "browser",
       "jest"
     ]
+  },
+  "dependencies": {
+    "jest-snapshot": "^26.6.2"
   }
 }

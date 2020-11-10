@@ -9,9 +9,9 @@ const CreateLink = ({ cid, did, currentDid }) => {
   const [copied, setCopied] = useState(false)
   const secretField = useRef(undefined)
   const baseUrl = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3001'
+    ? 'http://localhost:3000'
     : 'https://idbox.online'
-  const link = `${baseUrl}/hush-hush/secret#${base64url.encode(`${cid}.${did}.${currentDid}`)}`
+  const link = `${baseUrl}/secret#${base64url.encode(`${cid}.${did}.${currentDid}`)}`
 
   const isOS = () => {
     return navigator.userAgent.match(/ipad|iphone/i)

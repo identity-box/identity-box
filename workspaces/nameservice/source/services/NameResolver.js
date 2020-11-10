@@ -1,3 +1,5 @@
+import { TypedArrays } from '@react-frontend-developer/buffers'
+
 class NameResolver {
   ipfs
   serializer
@@ -11,7 +13,7 @@ class NameResolver {
   resolve = async ({ ipnsName }) => {
     let resolveFunction
     let rejectFunction
-    const handler = msg => resolveFunction(msg.data.toString())
+    const handler = msg => resolveFunction(TypedArrays.uint8Array2string(msg.data, 'utf8'))
     const promise = new Promise((resolve, reject) => {
       resolveFunction = resolve
       rejectFunction = reject

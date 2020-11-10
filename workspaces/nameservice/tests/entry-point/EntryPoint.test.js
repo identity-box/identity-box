@@ -97,9 +97,9 @@ describe('EntryPoint', () => {
 
     await entryPoint.start()
 
-    expect(console.log).toHaveBeenNthCalledWith(1, 'registration failed!')
-    expect(console.log).toHaveBeenNthCalledWith(2, 'received:')
-    expect(console.log).toHaveBeenNthCalledWith(3, JSON.stringify(expectedRegistrationResponse))
+    expect(console.log).toHaveBeenNthCalledWith(2, 'registration failed!')
+    expect(console.log).toHaveBeenNthCalledWith(3, 'received:')
+    expect(console.log).toHaveBeenNthCalledWith(4, JSON.stringify(expectedRegistrationResponse))
   })
 
   describe('ipfs client', () => {
