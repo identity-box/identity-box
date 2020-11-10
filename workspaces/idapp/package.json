@@ -18,11 +18,11 @@
     "env:prod": "expo-env --env=production"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.28",
+    "@emotion/core": "^10.1.1",
     "@emotion/native": "^10.0.27",
     "@identity-box/rendezvous-client": "^0.1.29-alpha.3",
     "@react-frontend-developer/buffers": "^1.0.21",
-    "@react-native-community/masked-view": "0.1.5",
+    "@react-native-community/masked-view": "0.1.10",
     "base64url": "^3.0.1",
     "buffer": "^5.5.0",
     "emotion-theming": "^10.0.27",
@@ -32,7 +32,7 @@
     "expo-permissions": "~8.0.0",
     "expo-random": "~8.0.0",
     "expo-secure-store": "~8.0.0",
-    "expo-web-browser": "~8.0.0",
+    "expo-web-browser": "~8.5.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
@@ -51,8 +51,8 @@
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.7.4",
-    "babel-preset-expo": "^8.0.0",
+    "@babel/plugin-proposal-decorators": "^7.12.1",
+    "babel-preset-expo": "^8.3.0",
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.2.0",
     "jest-expo": "^36.0.0"
