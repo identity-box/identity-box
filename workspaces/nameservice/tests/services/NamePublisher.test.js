@@ -37,6 +37,7 @@ describe('NamePublisher', () => {
 
   afterEach(() => {
     namePublisher.reset()
+    jest.runAllTimers()
     console.log.mockRestore()
   })
 

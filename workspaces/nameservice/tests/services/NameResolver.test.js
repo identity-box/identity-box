@@ -34,6 +34,7 @@ describe('NameResolver', () => {
   })
 
   afterEach(() => {
+    jest.runAllTimers()
     subscribeMock.mockReset()
     unsubscribeMock.mockReset()
     console.log.mockRestore()

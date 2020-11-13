@@ -39,6 +39,6 @@ jobs:
         run: yarn
       - name: Build local packages
         run: yarn build
-      - run: yarn test --no-cache --detectOpenHandles
+      - run: yarn test
         env:
           CI: true
