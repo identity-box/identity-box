@@ -46,7 +46,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
   }, [])
 
   useRendezvousTunnel({
-    url: 'http://192.168.1.15:3100',
+    url: 'http://192.168.1.23:3100',
     onCreated: onCreated,
     onReady: onReady
   })
@@ -82,7 +82,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     return (
       <FetchSecret
         cid={cid}
-        baseUrl='http://192.168.1.15:3100'
+        baseUrl='http://192.168.1.23:3100'
         next={json => {
           console.log('json=', json)
           setEncryptedSecret(json)
@@ -98,7 +98,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     return (
       <SenderPublicKey
         did={didSender}
-        baseUrl='http://192.168.1.15:3100'
+        baseUrl='http://192.168.1.23:3100'
         next={didDocument => {
           console.log('didDocument=', didDocument)
           processDIDDocument(didDocument)

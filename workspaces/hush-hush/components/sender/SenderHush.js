@@ -45,7 +45,7 @@ const SenderHush = () => {
   }, [])
 
   useRendezvousTunnel({
-    url: 'http://192.168.1.15:3100',
+    url: 'http://192.168.1.23:3100',
     onCreated: onCreated,
     onReady: onReady
   })
@@ -107,7 +107,7 @@ const SenderHush = () => {
       <FetchDidDocument
         onDIDDocumentRetrieved={onDIDDocumentRetrieved}
         did={did}
-        baseUrl='http://192.168.1.15:3100'
+        baseUrl='http://192.168.1.23:3100'
       />
     )
   }
@@ -119,7 +119,7 @@ const SenderHush = () => {
         encryptionKey={publicEncryptionKey}
         secret={secret}
         idappRendezvousTunnel={rendezvousTunnel.current}
-        baseUrl='http://192.168.1.15:3100'
+        baseUrl='http://192.168.1.23:3100'
       />
     )
   }
