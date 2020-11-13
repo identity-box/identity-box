@@ -43,8 +43,8 @@ const Backup = ({ navigation }) => {
           ? (
             <>
               <Description>
-              Backup is currently enabled. When you disable it, we will no longer automatically
-              backup your identities. You can enable it again at any time. Your most recent backup will be preserved.
+                Backup is currently enabled. When you disable it, we will no longer automatically
+                backup your identities. You can enable it again at any time. Your most recent backup will be preserved.
               </Description>
               <Row>
                 <Button
@@ -60,11 +60,11 @@ const Backup = ({ navigation }) => {
                 />
               </Row>
             </>
-          )
+            )
           : (
             <>
               <Description>
-              By enabling backup, we will automatically backup all your indentities, encrypted with a backup key that will be stored on this mobile device.
+                By enabling backup, we will automatically backup all your indentities, encrypted with a backup key that will be stored on this mobile device.
               </Description>
               <Row>
                 <Button
@@ -80,7 +80,7 @@ const Backup = ({ navigation }) => {
                 />
               </Row>
             </>
-          )
+            )
       }
 
     </Wrapper>

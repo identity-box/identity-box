@@ -145,11 +145,12 @@ const IdBoxKeyNaming = ({ navigation }) => {
               </Description>
               <ActivityIndicator />
             </>
-          ) : (
+            )
+          : (
             <>
               <Description>
-                  We need to update your identities to a new, more privacy-respecting format before continuing.
-                  Please keep the app open and connected during the update.
+                We need to update your identities to a new, more privacy-respecting format before continuing.
+                Please keep the app open and connected during the update.
               </Description>
               <ThemedButton
                 onPress={onStartMigration}
@@ -157,7 +158,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
                 accessibilityLabel='Start migration now!'
               />
             </>
-          )}
+            )}
       </Subcontainer>
     </Container>
   )

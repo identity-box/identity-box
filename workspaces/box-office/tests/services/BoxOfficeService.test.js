@@ -37,6 +37,7 @@ describe('BoxOfficeService', () => {
   }
 
   beforeEach(async () => {
+    console.log = jest.fn()
     prepareServicePath()
     prepareFixtureFile()
     serviceRegistry = new ServiceRegistry({
@@ -51,6 +52,7 @@ describe('BoxOfficeService', () => {
   afterEach(() => {
     registrationService.stop()
     fs.removeSync(serializerFilePath)
+    console.log.mockRestore()
   })
 
   it('allows external service registration', async () => {

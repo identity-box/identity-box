@@ -9,8 +9,8 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@emotion/core": "^10.1.1",
-    "@emotion/styled": "^10.0.27",
+    "@emotion/core": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@identity-box/idbox-react-ui": "^0.1.29-alpha.3",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "base64url": "^3.0.1",
@@ -29,11 +29,11 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@emotion/babel-preset-css-prop": "^10.2.1",
+    "@emotion/babel-preset-css-prop": "^11.0.0",
+    "@emotion/jest": "^11.0.0",
     "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/react": "^11.1.2",
     "file-loader": "^6.2.0",
-    "jest-emotion": "^10.0.32",
     "react-test-renderer": "^16.13.1",
     "url-loader": "^4.1.1",
     "webpack": "^4.41.2"

@@ -63,33 +63,35 @@ const ConfirmFactoryReset = ({ navigation }) => {
         justifyContent: 'center'
       }}
       >
-        {resetInProgress ? (
-          <>
-            <Description>
-              Resetting....
-            </Description>
-            <ActivityIndicator />
-          </>
-        ) : (
-          <>
-            <Description>
-              This is a new start... Are you sure?
-            </Description>
-            <Row>
-              <Button
-                color='red'
-                onPress={onPerformReset}
-                title='Yes, reset now!'
-                accessibilityLabel='Yes, reset now!'
-              />
-              <Button
-                onPress={() => navigation.navigate('Settings')}
-                title='Cancel'
-                accessibilityLabel='Cancel'
-              />
-            </Row>
-          </>
-        )}
+        {resetInProgress
+          ? (
+            <>
+              <Description>
+                Resetting....
+              </Description>
+              <ActivityIndicator />
+            </>
+            )
+          : (
+            <>
+              <Description>
+                This is a new start... Are you sure?
+              </Description>
+              <Row>
+                <Button
+                  color='red'
+                  onPress={onPerformReset}
+                  title='Yes, reset now!'
+                  accessibilityLabel='Yes, reset now!'
+                />
+                <Button
+                  onPress={() => navigation.navigate('Settings')}
+                  title='Cancel'
+                  accessibilityLabel='Cancel'
+                />
+              </Row>
+            </>
+            )}
       </Subcontainer>
     </Container>
   )

@@ -58,7 +58,7 @@ function setupPlugins (babelEnv) {
 function setupIgnoredFiles (babelEnv) {
   let ignore
 
-  if (babelEnv !== 'test') {
+  if (babelEnv !== 'test' && babelEnv !== 'development') {
     ignore = [
       '**/*.test.js',
       '**/__mocks__/**'

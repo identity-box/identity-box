@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`index has proper styling 1`] = `
-.emotion-4 {
+.emotion-0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -41,7 +41,7 @@ exports[`index has proper styling 1`] = `
   opacity: 0;
 }
 
-.emotion-0 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -61,7 +61,7 @@ exports[`index has proper styling 1`] = `
 
 <div>
   <div
-    class="emotion-4 emotion-5"
+    class="emotion-0 emotion-1"
   >
     <div
       css="[object Object]"
@@ -71,7 +71,7 @@ exports[`index has proper styling 1`] = `
         opacity="0"
       >
         <div
-          class="emotion-0 emotion-1"
+          class="emotion-4 emotion-5"
         >
           <div
             css="[object Object]"

@@ -141,7 +141,7 @@ const RestoreFromBackup = ({ navigation }) => {
                 accessibilityLabel='Cancel'
               />
             </Row>
-          )
+            )
           : <ActivityIndicator />}
       </Subcontainer>
     </Container>

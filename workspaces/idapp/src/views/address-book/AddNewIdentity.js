@@ -150,7 +150,7 @@ const AddNewIdentity = ({ navigation }) => {
                 onPress={cancel}
               />
             </Row>
-          )}
+            )}
       </SubContainer>
     </Container>
   )

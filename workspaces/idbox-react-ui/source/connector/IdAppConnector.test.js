@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, waitForElement } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { IdAppConnector } from './IdAppConnector'
 
 describe('IdApp Connector', () => {
@@ -35,7 +35,7 @@ describe('IdApp Connector', () => {
       getByText = renderUtils.getByText
 
       fireEvent.click(getByText(/show qr code/i))
-      await waitForElement(() => getByText(/rendezvousUrl/i))
+      await waitFor(() => expect(getByText(/rendezvousUrl/i)).toBeInTheDocument())
     })
 
     it('does show the dialog when opened', () => {

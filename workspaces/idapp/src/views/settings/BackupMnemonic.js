@@ -91,7 +91,7 @@ const BackupMnemonic = ({ navigation }) => {
                   accessibilityLabel='Got it'
                 />
               </>
-            )
+              )
             : (
               <>
                 <Description>
@@ -99,7 +99,7 @@ const BackupMnemonic = ({ navigation }) => {
                 </Description>
                 <ActivityIndicator />
               </>
-            )
+              )
         }
       </Subcontainer>
     </Container>
