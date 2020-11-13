@@ -56,8 +56,9 @@ class MultiRendezvousConfiguration {
 
     if (!somethingDeleted) {
       console.log('[!!] Already upgraded!')
+    } else {
+      console.log(`Finished upgrading from Telepath to Rendezvous for telepath name: ${name}.`)
     }
-    console.log(`Finished upgrading from Telepath to Rendezvous for telepath name: ${name}.`)
   }
 
   static reset = async name => {
