@@ -39,6 +39,6 @@ jobs:
         run: yarn
       - name: Build local packages
         run: yarn build
-      - run: yarn test --forceExit
+      - run: yarn test
         env:
           CI: true
