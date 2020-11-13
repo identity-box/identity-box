@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
+import { jsx } from '@emotion/react'
 import React, { useState } from 'react'
 
 import { Row, Input, Button } from '../../common/ui'

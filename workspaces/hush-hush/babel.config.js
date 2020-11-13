@@ -14,7 +14,7 @@ module.exports = function (api) {
 function setupPresets (babelEnv) {
   const emotion = babelEnv === 'production'
     ? { hoist: true }
-    : { sourceMap: true, autoLabel: true }
+    : { sourceMap: true, autoLabel: 'dev-only', labelFormat: '[local]' }
   return [
     [
       'next/babel', {

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Global } from '@emotion/core'
+import { jsx, Global } from '@emotion/react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { HelmetProvider, Helmet } from 'react-helmet-async'

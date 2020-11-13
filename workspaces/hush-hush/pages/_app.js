@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { Global } from '@emotion/core'
+import { Global } from '@emotion/react'
 import App from 'next/app'
 import 'semantic-ui-css/semantic.min.css'
 

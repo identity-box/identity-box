@@ -18,14 +18,13 @@
     "env:prod": "expo-env --env=production"
   },
   "dependencies": {
-    "@emotion/core": "^11.0.0",
     "@emotion/native": "^11.0.0",
+    "@emotion/react": "^11.0.0",
     "@identity-box/rendezvous-client": "^0.1.29-alpha.3",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-native-community/masked-view": "0.1.5",
     "base64url": "^3.0.1",
     "buffer": "^5.5.0",
-    "emotion-theming": "^11.0.0",
     "expo": "^36.0.2",
     "expo-barcode-scanner": "~8.0.0",
     "expo-constants": "~8.0.0",

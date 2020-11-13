@@ -40,10 +40,6 @@ function setupPresets (babelEnv) {
 function setupPlugins (babelEnv) {
   if (babelEnv === 'test') {
     return [
-      [
-        'emotion',
-        { sourceMap: true, autoLabel: true }
-      ],
       '@babel/plugin-proposal-object-rest-spread',
       '@babel/plugin-proposal-class-properties'
     ]
