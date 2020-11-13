@@ -34,18 +34,18 @@
     "@identity-box/utils": "^0.1.29-alpha.3",
     "base32-encode": "^1.1.1",
     "base64url": "^3.0.1",
-    "commander": "^5.0.0",
+    "commander": "^6.2.0",
     "esm": "^3.2.25",
     "firebase-admin": "^8.10.0",
     "glob": "^7.1.6",
-    "ipfs-http-client": "^47.0.1",
-    "libp2p-crypto": "^0.17.3",
+    "ipfs-http-client": "^48.1.0",
+    "libp2p-crypto": "^0.18.0",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "faker": "^4.1.0"
+    "faker": "^5.1.0"
   }
 }

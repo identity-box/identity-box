@@ -32,18 +32,18 @@
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.29-alpha.3",
-    "cids": "^1.0.2",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "commander": "^5.0.0",
+    "cids": "^1.0.2",
+    "commander": "^6.2.0",
     "esm": "^3.2.25",
-    "ipfs-http-client": "^47.0.1",
+    "ipfs-http-client": "^48.1.0",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "faker": "^4.1.0"
+    "faker": "^5.1.0"
   }
 }
