@@ -8,7 +8,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner'
 
 import { randomBytes } from 'src/crypto'
 import { useIdentity } from 'src/identity'
-import { useRendezvousTunnel } from 'src/rendezvous'
+import { MultiRendezvousConfiguration, useRendezvousTunnel } from 'src/rendezvous'
 
 import {
   PageContainer,
@@ -168,29 +168,31 @@ const CurrentIdentity = ({ navigation }) => {
   const parseUrl = connectUrl => {
     const match = connectUrl.match(/^(?<url>(?<baseUrl>(?:http(?<https>s)?:\/\/)(?<domain>localhost|(?:[\w.-]+(?:\.[\w.-]+)+))+(?::(?<port>\d+)?)?)(?:(?:\/(?<path>[\w\-._~:/?[\]@!$&'()*+,;=.]+))?(?<fragment>#.+)?|\/))$/)
 
-    if (match && match.groups) {
-      const { baseUrl, path } = match.groups
-      console.log(match.groups)
-      if (baseUrl && path) {
-        return { baseUrl, tunnelId: path }
-      }
-    }
-    return {}
+    return match && match.groups
   }
 
-  const handleBarCodeScanned = useCallback(({ type, data }) => {
+  const handleBarCodeScanned = useCallback(async ({ type, data }) => {
     console.log(`Code scanned. Type: ${type}, data: ${data}`)
     setScanning(false)
     if (data.match(/^did:ipid:.{46}$/)) {
       console.log(`Detected DID: ${data}`)
       addNewIdentity({ did: data })
     } else {
-      const { baseUrl, tunnelId } = parseUrl(data)
-      if (baseUrl && tunnelId) {
-        console.log('rendezvous baseUrl:', baseUrl)
-        console.log('rendezvous tunnelId:', tunnelId)
-        setRendezvousUrl(baseUrl)
-        setTunnelId(tunnelId)
+      const matchGroups = parseUrl(data)
+      if (matchGroups) {
+        const { baseUrl, path } = matchGroups
+        if (baseUrl && path) {
+          console.log('rendezvous baseUrl:', baseUrl)
+          console.log('rendezvous tunnelId:', path)
+          setRendezvousUrl(baseUrl)
+          setTunnelId(path)
+        } else if (baseUrl) {
+          // assuming idbox url
+          console.log(`Scanned IdBox with url: ${baseUrl}`)
+          const rendezvousConfiguration = await MultiRendezvousConfiguration.instance('idbox')
+          await rendezvousConfiguration.set({ url: baseUrl })
+          navigation.navigate('AppLoading')
+        }
       }
     }
   }, [])
