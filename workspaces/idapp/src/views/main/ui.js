@@ -4,7 +4,7 @@ import { Themed, ThemeColors } from 'react-navigation'
 const PageContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
   flex: 1,
   display: 'flex',
-  flexFlow: 'column',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: ThemeColors[theme].body

@@ -21,7 +21,7 @@ const Container = styled.View({
 })
 
 const SubContainer = styled.View({
-  flexFlow: 'column',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   width: '90%',
