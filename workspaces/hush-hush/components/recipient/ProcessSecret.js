@@ -10,6 +10,8 @@ import { PresentSecret } from './PresentSecret'
 import { PresentError } from './PresentError'
 import { useRendezvousTunnel } from '../rendezvous'
 
+const rendezvousUrlGlobal = process.env.NEXT_PUBLIC_HUSH_HUSH_RENDEZVOUS_URL
+
 const Stages = Object.freeze({
   Start: Symbol('start'),
   FetchSecret: Symbol('fetchSecret'),
@@ -46,7 +48,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
   }, [])
 
   useRendezvousTunnel({
-    url: 'http://192.168.1.23:3100',
+    url: rendezvousUrlGlobal,
     onCreated: onCreated,
     onReady: onReady
   })
@@ -82,7 +84,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     return (
       <FetchSecret
         cid={cid}
-        baseUrl='http://192.168.1.23:3100'
+        baseUrl={rendezvousUrlGlobal}
         next={json => {
           console.log('json=', json)
           setEncryptedSecret(json)
@@ -98,7 +100,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     return (
       <SenderPublicKey
         did={didSender}
-        baseUrl='http://192.168.1.23:3100'
+        baseUrl={rendezvousUrlGlobal}
         next={didDocument => {
           console.log('didDocument=', didDocument)
           processDIDDocument(didDocument)

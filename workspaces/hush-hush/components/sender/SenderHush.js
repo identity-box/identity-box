@@ -7,6 +7,8 @@ import { EncryptSecret } from './EncryptSecret'
 import { CreateLink } from './CreateLink'
 import { useRendezvousTunnel } from '../rendezvous'
 
+const rendezvousUrlGlobal = process.env.NEXT_PUBLIC_HUSH_HUSH_RENDEZVOUS_URL
+
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
   Recipient: Symbol('gettingRecipient'),
@@ -45,7 +47,7 @@ const SenderHush = () => {
   }, [])
 
   useRendezvousTunnel({
-    url: 'http://192.168.1.23:3100',
+    url: rendezvousUrlGlobal,
     onCreated: onCreated,
     onReady: onReady
   })
@@ -107,7 +109,7 @@ const SenderHush = () => {
       <FetchDidDocument
         onDIDDocumentRetrieved={onDIDDocumentRetrieved}
         did={did}
-        baseUrl='http://192.168.1.23:3100'
+        baseUrl={rendezvousUrlGlobal}
       />
     )
   }
@@ -119,7 +121,7 @@ const SenderHush = () => {
         encryptionKey={publicEncryptionKey}
         secret={secret}
         idappRendezvousTunnel={rendezvousTunnel.current}
-        baseUrl='http://192.168.1.23:3100'
+        baseUrl={rendezvousUrlGlobal}
       />
     )
   }
