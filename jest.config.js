@@ -10,10 +10,10 @@ module.exports = {
       rootDir: 'workspaces/box-office',
       testEnvironment: 'node'
     },
-    // {
-    //   rootDir: 'workspaces/nameservice',
-    //   testEnvironment: 'node'
-    // },
+    {
+      rootDir: 'workspaces/nameservice',
+      testEnvironment: 'node'
+    },
     {
       rootDir: 'workspaces/identity-service',
       testEnvironment: 'node'
