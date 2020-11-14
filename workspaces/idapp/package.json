@@ -24,7 +24,7 @@
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-native-community/masked-view": "0.1.10",
     "base64url": "^3.0.1",
-    "buffer": "^5.5.0",
+    "buffer": "^6.0.2",
     "expo": "^39.0.0",
     "expo-barcode-scanner": "~9.0.0",
     "expo-constants": "~9.2.0",
