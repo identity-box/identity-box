@@ -38,7 +38,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
       - name: Build local packages
-        run: yarn build
+        run: yarn build:npx
       - name: use @babel/eslint-parser for linting
         run: ./update-babel-eslint.sh
       - run: yarn test
