@@ -1,5 +1,5 @@
 module.exports = {
-  // assetPrefix: '/hush-hush',
+  assetPrefix: '/hush-hush',
   webpack (config) {
     config.module.rules.push({
       test: /\.(png|svg)$/,
@@ -7,7 +7,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          publicPath: '/_next/static/',
+          publicPath: '/hush-hush/_next/static/',
           outputPath: 'static/',
           name: '[name].[ext]'
         }
