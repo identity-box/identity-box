@@ -1,7 +1,7 @@
 {
   "name": "@identity-box/box-office",
   "private": false,
-  "version": "0.1.29-alpha.3",
+  "version": "0.1.29",
   "description": "Dispatching service for Identity Box",
   "bin": {
     "box-office": "./lib/index.js",
@@ -36,7 +36,7 @@
     "build": "node ./tools/build.js"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.29-alpha.3",
+    "@identity-box/utils": "^0.1.29",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "esm": "^3.2.25",
