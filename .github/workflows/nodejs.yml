@@ -28,12 +28,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: restore lerna
         id: cache
-        uses: actions/cache@eb78578266b7cec649ab65b6f1534bd6040c838b
+        uses: actions/cache@v2
         with:
           path: |
             node_module
             */*/node_modules
-          key: n-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          key: m-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
