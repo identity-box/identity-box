@@ -1,7 +1,7 @@
 module.exports = {
   projects: [
     'workspaces/idbox-react-ui',
-    // 'workspaces/hush-hush',
+    'workspaces/hush-hush',
     {
       rootDir: 'workspaces/utils',
       testEnvironment: 'node'
