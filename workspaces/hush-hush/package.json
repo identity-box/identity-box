@@ -5,6 +5,11 @@
   "description": "Hush Hush secret sharing web app",
   "author": "Marcin Czenko",
   "license": "MIT",
+  "homepage": "https://idbox.online",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/identity-box/identity-box.git"
+  },
   "engines": {
     "node": ">=12.0.0"
   },

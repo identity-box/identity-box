@@ -7,9 +7,10 @@
   "engines": {
     "node": ">=12.0.0"
   },
+  "homepage": "https://idbox.online",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcinczenko/identity-box.git"
+    "url": "https://github.com/identity-box/identity-box.git"
   },
   "dependencies": {
     "@confluenza/gatsby-theme-confluenza": "^1.0.22",
