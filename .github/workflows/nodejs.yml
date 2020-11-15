@@ -31,9 +31,9 @@ jobs:
         uses: actions/cache@eb78578266b7cec649ab65b6f1534bd6040c838b
         with:
           path: |
-            node_modules
+            node_module
             */*/node_modules
-          key: n-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          key: m-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
