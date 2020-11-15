@@ -3,7 +3,6 @@
     "name": "Identity App",
     "slug": "idapp",
     "privacy": "unlisted",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -24,10 +23,10 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 6
+      "versionCode": 7
     },
     "ios": {
-      "buildNumber": "0.1.6",
+      "buildNumber": "0.1.7",
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",

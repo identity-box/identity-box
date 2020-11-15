@@ -237,8 +237,9 @@ class IdentityManager {
   fromDID = did => {
     const identities = Object.values(this.identities).filter(identity => {
       if (identity.did === did) {
-        return identity
+        return true
       }
+      return false
     })
     return identities.length === 1 ? identities[0] : undefined
   }

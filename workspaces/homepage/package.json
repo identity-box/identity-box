@@ -7,20 +7,21 @@
   "engines": {
     "node": ">=12.0.0"
   },
+  "homepage": "https://idbox.online",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcinczenko/identity-box.git"
+    "url": "https://github.com/identity-box/identity-box.git"
   },
   "dependencies": {
     "@confluenza/gatsby-theme-confluenza": "^1.0.22",
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
-    "gatsby": "^2.20.2",
-    "gatsby-plugin-catch-links": "^2.2.0",
-    "gatsby-plugin-emotion": "^4.2.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-helmet": "^5.2.1",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
+    "gatsby": "^2.26.1",
+    "gatsby-plugin-catch-links": "^2.4.0",
+    "gatsby-plugin-emotion": "^4.4.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-helmet": "^6.1.0",
     "react-media": "^1.9.2"
   },
   "keywords": [
@@ -38,9 +39,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.2.0",
-    "eslint-config-react-app": "^5.2.1",
-    "gatsby-cli": "^2.11.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "eslint-config-react-app": "^6.0.0",
+    "gatsby-cli": "^2.13.1",
     "gatsby-plugin-root-import": "^2.0.5"
   }
 }

@@ -8,7 +8,7 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 import { randomBytes, entropyToMnemonic } from 'src/crypto'
 
 import { useIdentity } from 'src/identity'
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 
 import { ThemedButton } from 'src/theme'
 import { Container, Subcontainer, Description } from './ui'
@@ -21,7 +21,7 @@ const createRandomIdentityKeyName = async () => {
 
 const IdBoxKeyNaming = ({ navigation }) => {
   const identityManager = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const rendezvousConnection = useRef(undefined)
   const migration = useRef(undefined)
   const [migrationStarted, setMigrationStarted] = useState(false)
 
@@ -31,10 +31,10 @@ const IdBoxKeyNaming = ({ navigation }) => {
     }
   })
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: ({ telepathProvider: tp }) => {
-      telepathProvider.current = tp
+    onReady: rc => {
+      rendezvousConnection.current = rc
     },
     onMessage: async message => {
       console.log('received message: ', message)
@@ -53,30 +53,23 @@ const IdBoxKeyNaming = ({ navigation }) => {
   const migrate = useCallback(async () => {
     migration.current = await createMigration()
     console.log('migration=', migration.current)
-    console.log('clientId=', telepathProvider.current.clientId)
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.current.clientId,
       method: 'migrate',
       params: [{
         migration: migration.current
       }]
     }
     try {
-      await telepathProvider.current.emit(message, {
-        to: telepathProvider.current.servicePointId
-      })
+      await rendezvousConnection.current.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }, [])
 
-  const writeBackupToIdBox = useCallback(async (telepathProvider, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = useCallback(async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
@@ -85,9 +78,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -105,7 +96,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
       const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
       const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
       const backupId = backupIdFromBackupKey(backupKey)
-      writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
+      writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
     } else {
       navigation.navigate('AppLoading')
     }
@@ -154,11 +145,12 @@ const IdBoxKeyNaming = ({ navigation }) => {
               </Description>
               <ActivityIndicator />
             </>
-          ) : (
+            )
+          : (
             <>
               <Description>
-                  We need to update your identities to a new, more privacy-respecting format before continuing.
-                  Please keep the app open and connected during the update.
+                We need to update your identities to a new, more privacy-respecting format before continuing.
+                Please keep the app open and connected during the update.
               </Description>
               <ThemedButton
                 onPress={onStartMigration}
@@ -166,7 +158,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
                 accessibilityLabel='Start migration now!'
               />
             </>
-          )}
+            )}
       </Subcontainer>
     </Container>
   )

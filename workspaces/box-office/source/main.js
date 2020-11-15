@@ -5,12 +5,10 @@ import packageJSON from '../package.json'
 const program = new commander.Command()
 
 const start = cmdObj => {
-  const { queuingServiceUrl, telepathLinkBaseUrl } = cmdObj
-  console.log('queuingServiceUrl=', queuingServiceUrl)
-  console.log('telepathLinkBaseUrl=', telepathLinkBaseUrl)
+  const { servicePath } = cmdObj
+  console.log('servicePath=', servicePath)
   const entryPoint = new EntryPoint({
-    queuingServiceUrl,
-    telepathLinkBaseUrl
+    servicePath
   })
   entryPoint.start()
   process.on('SIGINT', () => {
@@ -32,8 +30,7 @@ const main = async () => {
     })
 
   program.command('start')
-    .option('-q, --queuingServiceUrl <url>', 'url of the queuing service (including port if necessary)', 'https://idbox-queue.now.sh')
-    .option('-b, --telepathLinkBaseUrl <url>', 'base url for the telepath link', 'https://idbox.online')
+    .option('-p, --servicePath <path>', 'service path for the service in the format:  service-namespace.service-id', 'identity-box.box-office')
     .action(start)
 
   await program.parse(process.argv)

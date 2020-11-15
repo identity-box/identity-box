@@ -1,18 +1,4 @@
 module.exports = {
-  env: {
-    serviceUrl: {
-      development: 'http://localhost:3000',
-      production: 'https://idbox-queue.now.sh'
-    },
-    telepath: {
-      idbox: {
-        id: process.env.hush_hush_telepath_idbox_id,
-        key: process.env.hush_hush_telepath_idbox_key,
-        appName: process.env.hush_hush_telepath_idbox_appname,
-        servicePointId: process.env.hush_hush_telepath_idbox_servicepointid
-      }
-    }
-  },
   assetPrefix: '/hush-hush',
   webpack (config) {
     config.module.rules.push({

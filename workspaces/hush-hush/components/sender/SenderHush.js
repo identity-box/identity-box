@@ -1,10 +1,13 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { IdAppConnect } from './IdAppConnect'
 import { Recipient } from './Recipient'
 import { EnterSecret } from './EnterSecret'
 import { FetchDidDocument } from './FetchDiDDocument'
 import { EncryptSecret } from './EncryptSecret'
 import { CreateLink } from './CreateLink'
+import { useRendezvousTunnel } from '../rendezvous'
+
+const rendezvousUrlGlobal = process.env.NEXT_PUBLIC_HUSH_HUSH_RENDEZVOUS_URL
 
 const Stages = Object.freeze({
   Connect: Symbol('connecting'),
@@ -21,13 +24,33 @@ const Stages = Object.freeze({
 })
 
 const SenderHush = () => {
+  const rendezvousTunnel = useRef(undefined)
+  const [rendezvousUrl, setRendezvousUrl] = useState('')
   const [workflow, setWorkflow] = useState(Stages.Connect)
-  const [telepathChannel, setTelepathChannel] = useState(undefined)
   const [did, setDid] = useState(undefined)
   const [currentDid, setCurrentDid] = useState(undefined)
   const [secret, setSecret] = useState(undefined)
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
   const [cid, setCID] = useState(undefined)
+  const [closeDialog, setCloseDialog] = useState(false)
+
+  const onReady = useCallback(() => {
+    console.log('Tunnel to IdApp established')
+    setCloseDialog(true)
+    setWorkflow(Stages.Recipient)
+  }, [])
+
+  const onCreated = useCallback(({ rendezvousTunnel: rt, rendezvousTunnelUrl: rendezvousUrl }) => {
+    console.log('Tunnel to IdApp created')
+    rendezvousTunnel.current = rt
+    setRendezvousUrl(rendezvousUrl)
+  }, [])
+
+  useRendezvousTunnel({
+    url: rendezvousUrlGlobal,
+    onCreated: onCreated,
+    onReady: onReady
+  })
 
   const onRecipientReady = useCallback(async ({ did, currentDid }) => {
     console.log('got your recipient DID:', did)
@@ -35,18 +58,12 @@ const SenderHush = () => {
     setDid(did)
     setCurrentDid(currentDid)
     setWorkflow(Stages.Secret)
-  }, [telepathChannel])
+  }, [])
 
   const onSecretReady = useCallback(async ({ secret }) => {
     console.log('got your secret:', secret)
     setSecret(secret)
     setWorkflow(Stages.RecipientDIDDocument)
-  }, [])
-
-  const onConnected = useCallback(telepathChannel => {
-    console.log('Connected to IdApp')
-    setTelepathChannel(telepathChannel)
-    setWorkflow(Stages.Recipient)
   }, [])
 
   const onDIDDocumentRetrieved = useCallback(didDocument => {
@@ -68,19 +85,22 @@ const SenderHush = () => {
 
   const renderConnect = () => {
     return (
-      <IdAppConnect onConnected={onConnected} />
+      <IdAppConnect rendezvousUrl={rendezvousUrl} closeDialog={closeDialog} />
     )
   }
 
   const renderRecipient = () => {
     return (
-      <Recipient onRecipientReady={onRecipientReady} telepathChannel={telepathChannel} />
+      <Recipient onRecipientReady={onRecipientReady} rendezvousTunnel={rendezvousTunnel.current} />
     )
   }
 
   const renderEnterSecret = () => {
     return (
-      <EnterSecret did={did} onSecretReady={onSecretReady} />
+      <EnterSecret
+        did={did}
+        onSecretReady={onSecretReady}
+      />
     )
   }
 
@@ -89,6 +109,7 @@ const SenderHush = () => {
       <FetchDidDocument
         onDIDDocumentRetrieved={onDIDDocumentRetrieved}
         did={did}
+        baseUrl={rendezvousUrlGlobal}
       />
     )
   }
@@ -99,7 +120,8 @@ const SenderHush = () => {
         onEncryptedCIDRetrieved={onEncryptedCIDRetrieved}
         encryptionKey={publicEncryptionKey}
         secret={secret}
-        idappTelepathChannel={telepathChannel}
+        idappRendezvousTunnel={rendezvousTunnel.current}
+        baseUrl={rendezvousUrlGlobal}
       />
     )
   }

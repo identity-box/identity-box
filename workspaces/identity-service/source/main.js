@@ -33,7 +33,7 @@ const main = async () => {
 
   program.command('start')
     .option('-p, --servicePath <path>', 'service path for the service in the format: service-namespace.service-id', 'identity-box.identity-service')
-    .option('-r, --registrationPath <path>', 'registration path for the service in the format: service-namespace.service-id', 'identity-box.service-registration')
+    .option('-r, --registrationPath <path>', 'registration path for the service in the format: service-namespace.service-id', 'identity-box.box-office')
     .action(start)
 
   await program.parse(process.argv)

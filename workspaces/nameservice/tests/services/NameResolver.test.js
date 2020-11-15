@@ -1,13 +1,23 @@
+import { TypedArrays } from '@react-frontend-developer/buffers'
+import CID from 'cids'
+
 import { NameResolver } from '../../source/services/NameResolver'
 
 describe('NameResolver', () => {
   const ipnsName = 'ipnsName'
   const publishedCid = 'cid'
+  const qmName = 'QmU9PcKHfWAgsckymPBnKxoTyt5SNQmZV2HSdBfbvadTMH'
   let nameResolver
   let ipfs
   let subscribeMock
   let unsubscribeMock
   let subscribeHandler
+
+  const toBase36 = ipnsName => {
+    const cidB58 = new CID(ipnsName)
+    const cidBase36 = new CID(1, 'libp2p-key', cidB58.multihash, 'base36')
+    return cidBase36.toString()
+  }
 
   beforeEach(() => {
     jest.useFakeTimers()
@@ -24,6 +34,7 @@ describe('NameResolver', () => {
   })
 
   afterEach(() => {
+    jest.runAllTimers()
     subscribeMock.mockReset()
     unsubscribeMock.mockReset()
     console.log.mockRestore()
@@ -43,6 +54,28 @@ describe('NameResolver', () => {
     jest.advanceTimersByTime(1)
     const response = await promise
     expect(response.ipnsName).toBe('ipnsName')
+    expect(response.cid).toBe(publishedCid)
+  })
+
+  it('converts the name to be resolved to new base36 format', async () => {
+    let subscribedIpnsName
+    subscribeMock.mockImplementation((ipnsName, handler) => {
+      subscribedIpnsName = ipnsName
+      setTimeout(() => {
+        handler({
+          data: TypedArrays.string2Uint8Array(publishedCid, 'utf8')
+        })
+      }, 0)
+      return Promise.resolve()
+    })
+    unsubscribeMock.mockResolvedValue(null)
+    const promise = nameResolver.resolve({ ipnsName: qmName })
+    jest.advanceTimersByTime(1)
+    const response = await promise
+    expect(subscribedIpnsName).toBe(toBase36(qmName))
+    expect(response.ipnsName).toBe(toBase36(qmName))
+    console.log(response.cid)
+    console.log(publishedCid)
     expect(response.cid).toBe(publishedCid)
   })
 

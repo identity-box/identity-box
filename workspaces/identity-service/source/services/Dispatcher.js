@@ -1,5 +1,6 @@
 import ipfsClient from 'ipfs-http-client'
 import { IdentityProvider } from './IdentityProvider'
+import packageJSON from '../../package.json'
 
 class Dispatcher {
   ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
@@ -14,6 +15,16 @@ class Dispatcher {
     console.log('received:')
     console.log('message:', message)
     switch (message.method) {
+      case 'about':
+        return {
+          method: 'about-response',
+          params: [
+            {
+              description: '@identity-box/identity-service',
+              version: `${packageJSON.version}`
+            }
+          ]
+        }
       case 'create-identity':
         return this.identityProvider.createIdentity(message)
       case 'get-did-document':

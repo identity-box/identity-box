@@ -3,14 +3,6 @@ module.exports = {
     'workspaces/idbox-react-ui',
     'workspaces/hush-hush',
     {
-      rootDir: 'workspaces/queuing-service',
-      testEnvironment: 'node'
-    },
-    {
-      rootDir: 'workspaces/telepath',
-      testEnvironment: 'node'
-    },
-    {
       rootDir: 'workspaces/utils',
       testEnvironment: 'node'
     },

@@ -2,13 +2,13 @@ import React, { useCallback, useState } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
 
 import { useIdentity } from 'src/identity'
-import { useTelepath, MultiTelepathConfiguration } from 'src/telepath'
+import { useRendezvous, MultiRendezvousConfiguration } from 'src/rendezvous'
 
 import { Container, Subcontainer, Description, Row } from './ui'
 
 const ConfirmFactoryReset = ({ navigation }) => {
   const [identityManager, setIdentityManager] = useState(undefined)
-  const [telepathProvider, setTelepathProvider] = useState(undefined)
+  const [rendezvousConnection, setRendezvousConnection] = useState(undefined)
   const [resetInProgress, setResetInProgress] = useState(false)
 
   useIdentity({
@@ -17,15 +17,15 @@ const ConfirmFactoryReset = ({ navigation }) => {
     }
   })
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: ({ telepathProvider }) => {
-      setTelepathProvider(telepathProvider)
+    onReady: rendezvousConnection => {
+      setRendezvousConnection(rendezvousConnection)
     },
     onMessage: async message => {
       console.log('received message: ', message)
       if (message.method === 'reset-response') {
-        await MultiTelepathConfiguration.reset('idbox')
+        await MultiRendezvousConfiguration.reset('idbox')
         navigation.navigate('ScanIdBoxTelepath')
       }
     },
@@ -34,20 +34,16 @@ const ConfirmFactoryReset = ({ navigation }) => {
     }
   })
 
-  const resetIdBox = async (telepathProvider, identityNames) => {
+  const resetIdBox = async (rendezvousConnection, identityNames) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'reset',
       params: [{
         identityNames
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -58,8 +54,8 @@ const ConfirmFactoryReset = ({ navigation }) => {
     setResetInProgress(true)
     const identityNames = identityManager.keyNames
     await identityManager.reset()
-    resetIdBox(telepathProvider, identityNames)
-  }, [identityManager, telepathProvider])
+    resetIdBox(rendezvousConnection, identityNames)
+  }, [identityManager, rendezvousConnection])
 
   return (
     <Container>
@@ -67,33 +63,35 @@ const ConfirmFactoryReset = ({ navigation }) => {
         justifyContent: 'center'
       }}
       >
-        {resetInProgress ? (
-          <>
-            <Description>
-              Resetting....
-            </Description>
-            <ActivityIndicator />
-          </>
-        ) : (
-          <>
-            <Description>
-              This is a new start... Are you sure?
-            </Description>
-            <Row>
-              <Button
-                color='red'
-                onPress={onPerformReset}
-                title='Yes, reset now!'
-                accessibilityLabel='Yes, reset now!'
-              />
-              <Button
-                onPress={() => navigation.navigate('Settings')}
-                title='Cancel'
-                accessibilityLabel='Cancel'
-              />
-            </Row>
-          </>
-        )}
+        {resetInProgress
+          ? (
+            <>
+              <Description>
+                Resetting....
+              </Description>
+              <ActivityIndicator />
+            </>
+            )
+          : (
+            <>
+              <Description>
+                This is a new start... Are you sure?
+              </Description>
+              <Row>
+                <Button
+                  color='red'
+                  onPress={onPerformReset}
+                  title='Yes, reset now!'
+                  accessibilityLabel='Yes, reset now!'
+                />
+                <Button
+                  onPress={() => navigation.navigate('Settings')}
+                  title='Cancel'
+                  accessibilityLabel='Cancel'
+                />
+              </Row>
+            </>
+            )}
       </Subcontainer>
     </Container>
   )

@@ -4,14 +4,12 @@ import { ConnectorBody } from './ConnectorBody'
 import PropTypes from 'prop-types'
 
 const IdAppConnector = ({
-  connectUrl,
-  telepathChannel,
+  rendezvousUrl,
   buttonStyling,
   buttonDisabled,
   buttonText,
   open,
   onOpen,
-  onDone,
   onCancel
 }) => {
   return (
@@ -41,10 +39,7 @@ const IdAppConnector = ({
       <Modal.Content>
         <Modal.Description>
           <ConnectorBody
-            connectUrl={connectUrl}
-            telepathChannel={telepathChannel}
-            buttonStyling={buttonStyling}
-            onDone={onDone}
+            rendezvousUrl={rendezvousUrl}
           />
         </Modal.Description>
       </Modal.Content>
@@ -53,14 +48,12 @@ const IdAppConnector = ({
 }
 
 IdAppConnector.propTypes = {
-  connectUrl: PropTypes.string.isRequired,
-  telepathChannel: PropTypes.object.isRequired,
+  rendezvousUrl: PropTypes.string.isRequired,
   buttonStyling: PropTypes.object,
   buttonDisabled: PropTypes.bool,
   buttonText: PropTypes.string,
   open: PropTypes.bool,
   onOpen: PropTypes.func,
-  onDone: PropTypes.func,
   onCancel: PropTypes.func
 }
 

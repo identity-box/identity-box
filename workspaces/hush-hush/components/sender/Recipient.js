@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { FadingValueBox } from '../animations'
 import { InfoBox, MrSpacer, Blue, Green, Centered } from '../ui'
 
-const Recipient = ({ onRecipientReady, telepathChannel }) => {
+const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
   const [currentDid, setCurrentDid] = useState(undefined)
 
   const requestCurrentDid = async () => {
     const message = {
-      jsonrpc: '2.0',
       method: 'get_current_identity',
       params: []
     }
     try {
-      await telepathChannel.emit(message)
+      await rendezvousTunnel.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -20,18 +19,17 @@ const Recipient = ({ onRecipientReady, telepathChannel }) => {
 
   const requestRecipient = async () => {
     const message = {
-      jsonrpc: '2.0',
       method: 'select_identity',
       params: []
     }
     try {
-      await telepathChannel.emit(message)
+      await rendezvousTunnel.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  const process = message => {
+  const process = useCallback(message => {
     console.log('received message: ', message)
     const { method, params } = message
     if (params && params.length > 0) {
@@ -44,17 +42,17 @@ const Recipient = ({ onRecipientReady, telepathChannel }) => {
         requestRecipient()
       }
     }
-  }
+  }, [currentDid])
 
   useEffect(() => {
-    const subscription = telepathChannel.subscribe(process, error => {
-      console.log('error: ', error)
-    })
-    requestCurrentDid()
-    return () => {
-      telepathChannel.unsubscribe(subscription)
+    rendezvousTunnel.onMessage = process
+    if (currentDid === undefined) {
+      requestCurrentDid()
     }
-  }, [currentDid])
+    return () => {
+      rendezvousTunnel.onMessage = undefined
+    }
+  }, [process, currentDid])
 
   if (currentDid) {
     return (

@@ -1,14 +1,12 @@
 const createIdentity = async ({
-  telepathChannel,
+  rendezvousConnection,
   keyName,
   publicEncryptionKey,
   publicSigningKey
 }) => {
   console.log(`Creating identity: ${keyName}`)
   const message = {
-    jsonrpc: '2.0',
     servicePath: 'identity-box.identity-service',
-    from: telepathChannel.clientId,
     method: 'create-identity',
     params: [{
       name: keyName,
@@ -17,9 +15,7 @@ const createIdentity = async ({
     }]
   }
   try {
-    await telepathChannel.emit(message, {
-      to: telepathChannel.servicePointId
-    })
+    await rendezvousConnection.send(message)
   } catch (e) {
     console.log(e.message)
   }

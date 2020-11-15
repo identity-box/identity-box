@@ -1,3 +1,1 @@
-module.exports = {
-  queuingServiceUrl: 'https://idbox-queue.now.sh'
-}
+module.exports = {}

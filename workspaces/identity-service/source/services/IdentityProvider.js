@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
 import crypto from 'libp2p-crypto'
+import base32encode from 'base32-encode'
 import { IPNS } from './ipns'
 
 class IdentityProvider {
@@ -233,6 +234,7 @@ class IdentityProvider {
   }
 
   deleteAll = async identityNames => {
+    console.log('Identity Names!!!!:', identityNames)
     const allKeys = await this.ipfs.key.list()
     const keys = allKeys.filter(k => identityNames.includes(k.name))
     await Promise.all(keys.map(async ({ name }) => {
@@ -254,7 +256,8 @@ class IdentityProvider {
   }
 
   getKeyPath = name => {
-    return path.join(process.env.IPFS_PATH, 'keystore', name)
+    const encodedName = base32encode(Buffer.from(name), 'RFC4648', { padding: false })
+    return path.join(process.env.IPFS_PATH, 'keystore', `key_${encodedName}`)
   }
 
   getBackupPath = (name, backupId) => {

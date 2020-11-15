@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import base64url from 'base64url'
 
 import { Start } from './Start'
@@ -8,6 +8,9 @@ import { ConnectIdApp } from './ConnectIdApp'
 import { DecryptSecret } from './DecryptSecret'
 import { PresentSecret } from './PresentSecret'
 import { PresentError } from './PresentError'
+import { useRendezvousTunnel } from '../rendezvous'
+
+const rendezvousUrlGlobal = process.env.NEXT_PUBLIC_HUSH_HUSH_RENDEZVOUS_URL
 
 const Stages = Object.freeze({
   Start: Symbol('start'),
@@ -20,15 +23,35 @@ const Stages = Object.freeze({
 })
 
 const ProcessSecret = ({ senderTagBase64 }) => {
+  const rendezvousTunnel = useRef(undefined)
+  const [rendezvousUrl, setRendezvousUrl] = useState('')
   const [workflow, setWorkflow] = useState(Stages.Start)
   const [cid, setCid] = useState(undefined)
   const [didRecipient, setDidRecipient] = useState(undefined)
   const [didSender, setDidSender] = useState(undefined)
   const [encryptedSecret, setEncryptedSecret] = useState(undefined)
   const [publicEncryptionKey, setPublicEncryptionKey] = useState(undefined)
-  const [telepathChannel, setTelepathChannel] = useState(undefined)
   const [secret, setSecret] = useState(undefined)
   const [errorID, setErrorID] = useState(undefined)
+  const [closeDialog, setCloseDialog] = useState(false)
+
+  const onReady = useCallback(() => {
+    console.log('Tunnel to IdApp established')
+    setCloseDialog(true)
+    setWorkflow(Stages.DecryptSecret)
+  }, [])
+
+  const onCreated = useCallback(({ rendezvousTunnel: rt, rendezvousTunnelUrl: rendezvousUrl }) => {
+    console.log('Tunnel to IdApp created')
+    rendezvousTunnel.current = rt
+    setRendezvousUrl(rendezvousUrl)
+  }, [])
+
+  useRendezvousTunnel({
+    url: rendezvousUrlGlobal,
+    onCreated: onCreated,
+    onReady: onReady
+  })
 
   const processLink = () => {
     const [cidEncryptedSecret, didRecipient, didSender] = base64url.decode(senderTagBase64).split('.')
@@ -60,7 +83,9 @@ const ProcessSecret = ({ senderTagBase64 }) => {
   const renderFetchSecret = useCallback(() => {
     return (
       <FetchSecret
-        cid={cid} next={json => {
+        cid={cid}
+        baseUrl={rendezvousUrlGlobal}
+        next={json => {
           console.log('json=', json)
           setEncryptedSecret(json)
           setTimeout(() => {
@@ -74,7 +99,9 @@ const ProcessSecret = ({ senderTagBase64 }) => {
   const renderSenderPublicKey = useCallback(() => {
     return (
       <SenderPublicKey
-        did={didSender} next={didDocument => {
+        did={didSender}
+        baseUrl={rendezvousUrlGlobal}
+        next={didDocument => {
           console.log('didDocument=', didDocument)
           processDIDDocument(didDocument)
           setTimeout(() => {
@@ -87,20 +114,14 @@ const ProcessSecret = ({ senderTagBase64 }) => {
 
   const renderConnectIdApp = useCallback(() => {
     return (
-      <ConnectIdApp next={telepathChannel => {
-        console.log('connected to IdApp')
-        console.log('tp=', telepathChannel)
-        setTelepathChannel(telepathChannel)
-        setWorkflow(Stages.DecryptSecret)
-      }}
-      />
+      <ConnectIdApp rendezvousUrl={rendezvousUrl} closeDialog={closeDialog} />
     )
-  }, [])
+  }, [rendezvousUrl, closeDialog])
 
   const renderDecryptSecret = useCallback(() => {
     return (
       <DecryptSecret
-        telepathChannel={telepathChannel}
+        rendezvousTunnel={rendezvousTunnel.current}
         encryptedSecret={encryptedSecret}
         didRecipient={didRecipient}
         theirPublicKey={publicEncryptionKey}
@@ -121,7 +142,7 @@ const ProcessSecret = ({ senderTagBase64 }) => {
         }}
       />
     )
-  }, [telepathChannel])
+  }, [rendezvousTunnel.current, encryptedSecret, didRecipient, publicEncryptionKey])
 
   const renderPresentSecret = useCallback(() => {
     return (

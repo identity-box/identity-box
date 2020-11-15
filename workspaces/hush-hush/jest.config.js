@@ -4,6 +4,9 @@ module.exports = {
     '<rootDir>/.next/',
     '<rootDir>/node_modules/'
   ],
+  snapshotSerializers: [
+    '@emotion/jest/serializer'
+  ],
   modulePaths: [
     '<rootDir>/'
   ]

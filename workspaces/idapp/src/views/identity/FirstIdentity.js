@@ -6,8 +6,8 @@ import nacl from 'tweetnacl'
 
 import { ThemeConstants, ThemedButton } from 'src/theme'
 import { randomBytes } from 'src/crypto'
-import { useTelepath } from 'src/telepath'
 import { useIdentity } from 'src/identity'
+import { useRendezvous } from 'src/rendezvous'
 
 import { createIdentity } from './createIdentity'
 
@@ -21,7 +21,7 @@ import {
 
 const FirstIdentity = ({ navigation }) => {
   const identityManager = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const rendezvousConnection = useRef(undefined)
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
@@ -30,28 +30,24 @@ const FirstIdentity = ({ navigation }) => {
   const [backupAvailable, setBackupAvailable] = useState(false)
   const theme = useTheme()
 
-  const checkForBackup = async telepathProvider => {
+  const checkForBackup = async rendezvousConnection => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'has-backup',
       params: []
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: ({ telepathProvider: tp }) => {
-      telepathProvider.current = tp
-      checkForBackup(tp)
+    onReady: rc => {
+      rendezvousConnection.current = rc
+      checkForBackup(rc)
     },
     onMessage: message => {
       console.log('received message: ', message)
@@ -97,14 +93,14 @@ const FirstIdentity = ({ navigation }) => {
     const secret = await randomBytes(nacl.sign.publicKeyLength)
     nacl.setPRNG((x, n) => {
       if (n !== nacl.sign.publicKeyLength) {
-        throw new Error('World collapse, escape! Now!')
+        throw new Error(`PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`)
       }
       for (let i = 0; i < n; i++) {
         x[i] = secret[i]
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG((x, n) => { throw new Error('No, no, no, no....') })
+    nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
   }
 
   const createEncryptionKeyPair = async () => {
@@ -128,7 +124,7 @@ const FirstIdentity = ({ navigation }) => {
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
-      telepathChannel: telepathProvider.current.channel,
+      rendezvousConnection: rendezvousConnection.current,
       keyName,
       publicEncryptionKey,
       publicSigningKey

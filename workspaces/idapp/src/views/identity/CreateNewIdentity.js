@@ -8,7 +8,7 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 
 import { ThemedButton } from 'src/theme'
 import { randomBytes, entropyToMnemonic } from 'src/crypto'
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 import { useIdentity } from 'src/identity'
 import { MrSpacer } from 'src/ui'
 import { createIdentity } from './createIdentity'
@@ -24,7 +24,7 @@ import {
 
 const CreateNewIdentity = ({ navigation }) => {
   const identityManager = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const rendezvousConnection = useRef(undefined)
   const signingKeyPair = useRef(undefined)
   const encryptionKeyPair = useRef(undefined)
   const [name, setName] = useState('')
@@ -32,10 +32,10 @@ const CreateNewIdentity = ({ navigation }) => {
   const [nameAlreadyExists, setNameAlreadyExists] = useState(false)
   const [inProgress, setInProgress] = useState(false)
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: ({ telepathProvider: tp }) => {
-      telepathProvider.current = tp
+    onReady: rc => {
+      rendezvousConnection.current = rc
     },
     onMessage: message => {
       console.log('received message: ', message)
@@ -57,11 +57,9 @@ const CreateNewIdentity = ({ navigation }) => {
     }
   })
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
@@ -70,9 +68,7 @@ const CreateNewIdentity = ({ navigation }) => {
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -103,7 +99,7 @@ const CreateNewIdentity = ({ navigation }) => {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
+        writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
       }
       goHomeAndResetNavigation()
     } catch (e) {
@@ -121,14 +117,14 @@ const CreateNewIdentity = ({ navigation }) => {
     const secret = await randomBytes(nacl.sign.publicKeyLength)
     nacl.setPRNG((x, n) => {
       if (n !== nacl.sign.publicKeyLength) {
-        throw new Error('World collapse, escape! Now!')
+        throw new Error(`PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`)
       }
       for (let i = 0; i < n; i++) {
         x[i] = secret[i]
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG((x, n) => { throw new Error('No, no, no, no....') })
+    nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
   }
 
   const createEncryptionKeyPair = async () => {
@@ -152,7 +148,7 @@ const CreateNewIdentity = ({ navigation }) => {
     const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
-      telepathChannel: telepathProvider.current.channel,
+      rendezvousConnection: rendezvousConnection.current,
       keyName,
       publicEncryptionKey,
       publicSigningKey
@@ -191,21 +187,23 @@ const CreateNewIdentity = ({ navigation }) => {
         {nameAlreadyExists
           ? <Description style={{ color: 'red', marginBottom: 10 }}>You already have identity with that name...</Description>
           : <MrSpacer space={25} />}
-        {inProgress ? <ActivityIndicator /> : (
-          <Row style={{ justifyContent: 'space-around' }}>
-            <ThemedButton
-              onPress={onCreateIdentity}
-              title='Create...'
-              disabled={name.length === 0 || nameAlreadyExists}
-              accessibilityLabel='Create an identity...'
-            />
-            <Button
-              onPress={onCancel}
-              title='Cancel'
-              accessibilityLabel='Cancel'
-            />
-          </Row>
-        )}
+        {inProgress
+          ? <ActivityIndicator />
+          : (
+            <Row style={{ justifyContent: 'space-around' }}>
+              <ThemedButton
+                onPress={onCreateIdentity}
+                title='Create...'
+                disabled={name.length === 0 || nameAlreadyExists}
+                accessibilityLabel='Create an identity...'
+              />
+              <Button
+                onPress={onCancel}
+                title='Cancel'
+                accessibilityLabel='Cancel'
+              />
+            </Row>
+            )}
       </Container>
     </PageContainer>
   )

@@ -201,3 +201,22 @@ Adjust the fields so that the new release follows the structure of previous rele
 - [using conventional commits with lerna](https://medium.com/angular-in-depth/release-management-in-angular-with-lerna-21b4ab417c59)
 - [semantic-release](https://semantic-release.gitbook.io/semantic-release/)
 - [semantic-release and monorepos discussion](https://github.com/semantic-release/semantic-release/issues/193)
+
+## Manual Let's Encrypt certificates
+
+On Identity Box we run Nginx server and we use Let's Encrypt certificates. We generate (and renew) certificates manually using the following command:
+
+```bash
+$ sudo apt-get install certbot # only first time
+$ sudo certbot certonly --server https://acme-v02.api.letsencrypt.org/directory --manual --preferred-challenges dns -d *.idbox.online
+```
+
+You will be asked to add a `TXT` DNS record to your domain DNS configuration.
+
+It is a good idea to backup your certificates:
+
+```bash
+$ sudo tar czvf letsencrypt-idbox.tar.gz /etc/letsencrypt
+```
+
+and store them safely on another machine.

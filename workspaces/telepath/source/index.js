@@ -1,1 +1,0 @@
-export { Telepath } from './telepath'

@@ -1,2 +1,3 @@
 export { ServiceBroker } from './ServiceBroker'
-export { ServiceRegistrationService } from './ServiceRegistrationService'
+export { ServiceRegistry } from './ServiceRegistry'
+export { BoxOfficeService } from './BoxOfficeService'

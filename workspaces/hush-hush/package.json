@@ -5,21 +5,27 @@
   "description": "Hush Hush secret sharing web app",
   "author": "Marcin Czenko",
   "license": "MIT",
+  "homepage": "https://idbox.online",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/identity-box/identity-box.git"
+  },
   "engines": {
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@identity-box/idbox-react-ui": "^0.1.29-alpha.3",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "base64url": "^3.0.1",
-    "next": "^9.3.1",
+    "next": "^10.0.1",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2",
+    "semantic-ui-react": "^2.0.1",
+    "sharp": "^0.26.2",
     "tweetnacl": "^1.0.3"
   },
   "scripts": {
@@ -29,13 +35,13 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@emotion/babel-preset-css-prop": "^10.0.23",
-    "@testing-library/jest-dom": "^5.1.1",
-    "@testing-library/react": "^9.5.0",
-    "file-loader": "^6.0.0",
-    "jest-emotion": "^10.0.32",
-    "react-test-renderer": "^16.13.1",
-    "url-loader": "^4.0.0",
-    "webpack": "^4.41.2"
+    "@emotion/babel-preset-css-prop": "^11.0.0",
+    "@emotion/jest": "^11.0.0",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.1.2",
+    "file-loader": "^6.2.0",
+    "react-test-renderer": "^17.0.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.4.0"
   }
 }

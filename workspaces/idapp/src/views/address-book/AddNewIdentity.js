@@ -8,7 +8,7 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 
 import { entropyToMnemonic } from 'src/crypto'
 
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 import { useIdentity } from 'src/identity'
 import { MrSpacer } from 'src/ui'
 import { ThemedButton } from 'src/theme'
@@ -24,7 +24,7 @@ import {
 
 const AddNewIdentity = ({ navigation }) => {
   const identityManager = useRef(undefined)
-  const telepathProvider = useRef(undefined)
+  const rendezvousConnection = useRef(undefined)
   const [name, setName] = useState('')
   const [nameAlreadyExists, setNameAlreadyExists] = useState(false)
   const [placeholderText, setPlaceholderText] = useState('name')
@@ -49,7 +49,7 @@ const AddNewIdentity = ({ navigation }) => {
         const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
         const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(telepathProvider.current, encryptedBackup, backupId, identityManager.current.keyNames)
+        writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
       } else {
         setInProgress(false)
         navigation.navigate('CurrentIdentity')
@@ -77,11 +77,9 @@ const AddNewIdentity = ({ navigation }) => {
     navigation.navigate('CurrentIdentity')
   }, [])
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
@@ -90,18 +88,16 @@ const AddNewIdentity = ({ navigation }) => {
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: ({ telepathProvider: tp }) => {
-      telepathProvider.current = tp
+    onReady: rc => {
+      rendezvousConnection.current = rc
     },
     onMessage: message => {
       console.log('received message: ', message)
@@ -154,7 +150,7 @@ const AddNewIdentity = ({ navigation }) => {
                 onPress={cancel}
               />
             </Row>
-          )}
+            )}
       </SubContainer>
     </Container>
   )

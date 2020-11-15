@@ -5,7 +5,7 @@ import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 
 import { IdentityManager } from 'src/identity'
-import { useTelepath } from 'src/telepath'
+import { useRendezvous } from 'src/rendezvous'
 import { Container, Subcontainer, Description, MnemonicText } from './ui'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import base64url from 'base64url'
@@ -20,11 +20,9 @@ const BackupMnemonic = ({ navigation }) => {
     navigation.navigate('Settings')
   }, [])
 
-  const writeBackupToIdBox = async (telepathProvider, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
     const message = {
-      jsonrpc: '2.0',
       servicePath: 'identity-box.identity-service',
-      from: telepathProvider.clientId,
       method: 'backup',
       params: [{
         encryptedBackup,
@@ -33,9 +31,7 @@ const BackupMnemonic = ({ navigation }) => {
       }]
     }
     try {
-      await telepathProvider.emit(message, {
-        to: telepathProvider.servicePointId
-      })
+      await rendezvousConnection.send(message)
     } catch (e) {
       console.log(e.message)
     }
@@ -46,16 +42,16 @@ const BackupMnemonic = ({ navigation }) => {
     return base64url.encode(nacl.hash(mnemonicUint8Array))
   }
 
-  useTelepath({
+  useRendezvous({
     name: 'idbox',
-    onTelepathReady: async ({ telepathProvider }) => {
+    onReady: async rendezvousConnection => {
       const identityManager = await IdentityManager.instance()
       const { encryptedBackup, mnemonic } = await identityManager.createEncryptedBackup()
       const backupId = backupIdFromMnemonic(mnemonic)
       setMnemonic(mnemonic)
       Clipboard.setString(mnemonic)
       console.log('encryptedBackup=', encryptedBackup)
-      writeBackupToIdBox(telepathProvider, encryptedBackup, backupId, identityManager.keyNames)
+      writeBackupToIdBox(rendezvousConnection, encryptedBackup, backupId, identityManager.keyNames)
     },
     onMessage: async message => {
       console.log('received message: ', message)
@@ -95,7 +91,7 @@ const BackupMnemonic = ({ navigation }) => {
                   accessibilityLabel='Got it'
                 />
               </>
-            )
+              )
             : (
               <>
                 <Description>
@@ -103,7 +99,7 @@ const BackupMnemonic = ({ navigation }) => {
                 </Description>
                 <ActivityIndicator />
               </>
-            )
+              )
         }
       </Subcontainer>
     </Container>
