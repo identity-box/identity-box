@@ -1,52 +1,24 @@
-# Identity Service
+# Rendezvous Service
 
-A service to handle identity related operations.
+A service to provide external connectivity to the box from the browsers and mobile devices.
 
 ## Installation
 
 On your identity-box, first create a folder where you want your service to be installed (we recommend that you use the name of the service as the name of the folder). Then install the service as follows:
 
 ```bash
-$ mkdir identity-service
-$ cd identity-service
-$ yarn add @identity-box/identity-service
+$ mkdir rendezvous
+$ cd rendezvous
+$ yarn add @identity-box/rendezvous
 $ yarn setup
 ```
-
-## IPFS
-
-Make sure the IPFS daemon is running:
-
-```bash
-$ ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
-```
-
-## Required environment variables
-
-Identity Service assume some environment variables to be set.
-
-### IPFS environment variables
-
-Identity Service assume some environment variables to be set.
-
-`IPFS_PATH` needs to point to the IPFS data directory. On the local machine this is usually `$HOME/.ipfs`.
-
-`IPFS_ADDR` contains the address of the IPFS host. This needs to conform to the
-[multiaddr](https://multiformats.io/multiaddr/) format. When this environment
-variable is not set, the address will default to `/ip4/127.0.0.1/tcp/5001`.
-
-### Automatic backups
-
-For the automatic backups functionality, Identity Service requires two environment variables to be set: `IDBOX_BACKUP` holding the absolute path
-to the backup directory, and `IDBOX_BACKUP_PASSWORD` to hold the password to encrypt the idbox IPNS keys. Every key from `$IPFS_PATH/keystore` will
-have its corresponding `pem` file in `$IDBOX_BACKUP` directory. `$IDBOX_BACKUP` will also contain a `backup` file with all user's identities from the IdApp (encrypted).
 
 ## Usage
 
 To directly run the service, use:
 
 ```bash
-./node_modules/.bin/identity-service start
+./node_modules/.bin/rendezvous start
 ```
 
 ## With PM2
@@ -78,7 +50,7 @@ $ pm2 list
 ### Settings on a service
 
 ```bash
-$ pm2 show identity-service
+$ pm2 show rendezvous
 ```
 
 ### Logs
@@ -86,7 +58,7 @@ $ pm2 show identity-service
 To show both stdout and stderr logs run:
 
 ```bash
-$ pm2 logs identity-service
+$ pm2 logs rendezvous
 ```
 
 This shows all the logs of identity-service and outputs the last 15 lines (the default).
@@ -94,7 +66,7 @@ This shows all the logs of identity-service and outputs the last 15 lines (the d
 To see only standard output logs, and print more lines from the output use:
 
 ```bash
-$ pm2 logs identity-service --out --lines 150
+$ pm2 logs rendezvous --out --lines 150
 ```
 
 ### Restart process after editing ecosystem
@@ -111,12 +83,12 @@ We used to supply the package in the ECMAScript module format, so without babel 
 For those who would prefer to run the service with ESM, this is still possible. In the development just do:
 
 ```bash
-$ cd workspaces/identity-service
+$ cd workspaces/rendezvous
 $ ./index.js start
 ```
 
 in production:
 
 ```bash
-$ ./node_modules/.bin/identity-service-esm start
+$ ./node_modules/.bin/rendezvous-esm start
 ```
