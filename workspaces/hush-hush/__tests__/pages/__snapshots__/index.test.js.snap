@@ -26,6 +26,7 @@ exports[`index has proper styling 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-flow: column nowrap;
   -webkit-flex-flow: column nowrap;
   -ms-flex-flow: column nowrap;
   flex-flow: column nowrap;
@@ -34,14 +35,14 @@ exports[`index has proper styling 1`] = `
   -ms-flex-align: flex-start;
   align-items: flex-start;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   width: 100%;
   opacity: 0;
 }
 
-.emotion-4 {
+.emotion-3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -67,11 +68,11 @@ exports[`index has proper styling 1`] = `
       css="[object Object]"
     >
       <div
-        class="emotion-2 emotion-3"
+        class="emotion-2"
         opacity="0"
       >
         <div
-          class="emotion-4 emotion-5"
+          class="emotion-3 emotion-4"
         >
           <div
             css="[object Object]"

@@ -4,9 +4,6 @@ import Home from '../../pages/index'
 
 describe('index', () => {
   beforeEach(() => {
-    process.env.serviceUrl = {
-      test: 'http://localhost:3000'
-    }
     console.log = jest.fn()
   })
 
