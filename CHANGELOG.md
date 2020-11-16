@@ -1,7 +1,10 @@
 ## v0.1.30 (2020-11-16)
 
 #### :heart_eyes_cat: Enhancement
-* [#43](https://github.com/identity-box/identity-box/pull/43) Vercel ([@marcinczenko](https://github.com/marcinczenko))
+* [#43](https://github.com/identity-box/identity-box/pull/43) New Vercel monorepo setup ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :bug: Bug Fix
+* [#44](https://github.com/identity-box/identity-box/pull/44) Bug fixes for Release 0.1.29 ([@marcinczenko](https://github.com/marcinczenko))
 
 #### Committers: 1
 - Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
