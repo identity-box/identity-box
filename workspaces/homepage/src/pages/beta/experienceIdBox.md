@@ -12,8 +12,6 @@ For this purpose, specially for our early adopters, we created a *virtual* Ident
 
 When you start your IdentityBox app for the first time, you will be asked to scan your Identity Box's QRCode in order to establish a one-to-one connection between your Identity Box app and your Identity Box:
 
-> The QRCode below will not work. We will notify all the testers when the upgraded Identity Box is available!
-
 <a id="figure-1"></a> 
 <div class="flex-wrap">
 <div class="bordered-content-300">
@@ -23,8 +21,6 @@ When you start your IdentityBox app for the first time, you will be asked to sca
 </div>
 
 Here, we want you to use our virtual Identity Box by scanning the following QRCode:
-
-> The QRCode below will not work. We will notify all the testers when the upgraded Identity Box is available!
 
 <a id="figure-2"></a> 
 <div class="flex-wrap">
