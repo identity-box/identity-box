@@ -1,3 +1,14 @@
+## v0.1.29 (2020-11-15)
+
+#### :bomb: Breaking Change
+* [#42](https://github.com/identity-box/identity-box/pull/42) Experimental new architecture without Telepath ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :bug: Bug Fix
+* [#41](https://github.com/identity-box/identity-box/pull/41) nameservice: adds missing <<start>> arg to pm2 ecosystem file ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.29-alpha.3 (2020-06-04)
 
 #### :heart_eyes_cat: Enhancement
