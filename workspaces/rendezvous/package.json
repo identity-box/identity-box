@@ -1,7 +1,7 @@
 {
   "name": "@identity-box/rendezvous",
   "private": false,
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "Service to provide external connectivity to the box from the browsers and mobile devices",
   "bin": {
     "rendezvous": "./lib/index.js",
@@ -36,7 +36,7 @@
     "build": "node ./tools/build.js"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.29",
+    "@identity-box/utils": "^0.1.30",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
     "commander": "^6.2.0",

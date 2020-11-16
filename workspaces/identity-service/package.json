@@ -1,7 +1,7 @@
 {
   "name": "@identity-box/identity-service",
   "private": false,
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "Service to handle identity based operations",
   "bin": {
     "identity-service": "./lib/index.js",
@@ -36,7 +36,7 @@
     "build": "node ./tools/build.js"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.29",
+    "@identity-box/utils": "^0.1.30",
     "base32-encode": "^1.1.1",
     "base64url": "^3.0.1",
     "commander": "^6.2.0",
