@@ -39,6 +39,7 @@
     "@identity-box/utils": "^0.1.29",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
+    "commander": "^6.2.0",
     "esm": "^3.2.25",
     "qrcode-terminal": "^0.12.0",
     "tweetnacl": "^1.0.3"
