@@ -33,7 +33,6 @@
   "main": "n/a",
   "scripts": {
     "build": "gatsby build",
-    "now-build": "yarn build",
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
