@@ -2,6 +2,8 @@ node_modules
 coverage/
 .fixtures
 .DS_Store
+.yarn
+.yarnrc
 yarn-error.log
 
 .now
