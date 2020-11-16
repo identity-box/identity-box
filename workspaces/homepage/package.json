@@ -32,6 +32,7 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
+    "install:vercel": "rm ../../package.json && mv ../../yarn.lock . && yarn",
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
