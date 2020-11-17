@@ -257,7 +257,7 @@ class IdentityProvider {
 
   getKeyPath = name => {
     const encodedName = base32encode(Buffer.from(name), 'RFC4648', { padding: false })
-    return path.join(process.env.IPFS_PATH, 'keystore', `key_${encodedName}`)
+    return path.join(process.env.IPFS_PATH, 'keystore', `key_${encodedName.toLowerCase()}`)
   }
 
   getBackupPath = (name, backupId) => {
