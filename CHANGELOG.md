@@ -1,3 +1,11 @@
+## v0.1.31 (2020-11-17)
+
+#### :bug: Bug Fix
+* [#45](https://github.com/identity-box/identity-box/pull/45) identity-service: fix key path ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.30 (2020-11-16)
 
 #### :heart_eyes_cat: Enhancement
