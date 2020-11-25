@@ -25,7 +25,7 @@
     "commander": "^6.2.0",
     "esm": "^3.2.25",
     "got": "^11.8.0",
-    "ipfs-http-client": "^48.1.0",
+    "ipfs-http-client": "^48.1.1",
     "ipfs-pubsub-room": "^2.0.1"
   },
   "publishConfig": {

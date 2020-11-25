@@ -18,7 +18,7 @@
     "source"
   ],
   "dependencies": {
-    "@emotion/react": "^11.0.0",
+    "@emotion/react": "^11.1.1",
     "@emotion/styled": "^11.0.0",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "qrcode.react": "^1.0.0",
@@ -31,9 +31,9 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.0.0",
-    "@emotion/jest": "^11.0.0",
+    "@emotion/jest": "^11.1.0",
     "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.1.2",
+    "@testing-library/react": "^11.2.2",
     "jest-canvas-mock": "^2.3.0"
   },
   "publishConfig": {

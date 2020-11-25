@@ -5,28 +5,61 @@ module.exports = function (api) {
   console.log('babelEnv=', babelEnv)
 
   const presets = setupPresets(babelEnv)
+  const plugins = setupPlugins(babelEnv)
 
   return {
-    presets
+    presets,
+    plugins
   }
 }
 
 function setupPresets (babelEnv) {
-  const emotion = babelEnv === 'production'
-    ? { hoist: true }
-    : { sourceMap: true, autoLabel: 'dev-only', labelFormat: '[local]' }
   return [
     [
       'next/babel', {
         'preset-env': {
           modules: false,
           targets: ['> 0.25%, not dead']
+        },
+        'preset-react': {
+          runtime: 'automatic',
+          importSource: '@emotion/react'
         }
       }
-    ],
-    [
-      '@emotion/babel-preset-css-prop',
-      emotion
     ]
   ]
+}
+
+function setupPlugins (babelEnv) {
+  if (babelEnv === 'test') {
+    return [
+      [
+        '@emotion',
+        {
+          // sourceMap is on by default but source maps are dead code eliminated in production
+          sourceMap: true,
+          autoLabel: 'dev-only',
+          labelFormat: '[local]',
+          cssPropOptimization: true
+        }
+      ],
+      '@babel/plugin-proposal-object-rest-spread',
+      '@babel/plugin-proposal-class-properties'
+    ]
+  } else {
+    return [
+      [
+        '@emotion',
+        {
+          // sourceMap is on by default but source maps are dead code eliminated in production
+          sourceMap: true,
+          autoLabel: 'dev-only',
+          labelFormat: '[local]',
+          cssPropOptimization: true
+        }
+      ],
+      '@babel/plugin-proposal-object-rest-spread',
+      '@babel/plugin-proposal-class-properties'
+    ]
+  }
 }
