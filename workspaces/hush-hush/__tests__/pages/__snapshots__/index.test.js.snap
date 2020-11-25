@@ -2,6 +2,10 @@
 
 exports[`index has proper styling 1`] = `
 .emotion-0 {
+  color: black;
+}
+
+.emotion-1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -21,7 +25,25 @@ exports[`index has proper styling 1`] = `
   width: 100vw;
 }
 
-.emotion-2 {
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex-flow: column nowrap;
+  -webkit-flex-flow: column nowrap;
+  -ms-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 150px;
+  max-width: 550px;
+  width: 85%;
+}
+
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -42,7 +64,7 @@ exports[`index has proper styling 1`] = `
   opacity: 0;
 }
 
-.emotion-3 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -60,71 +82,112 @@ exports[`index has proper styling 1`] = `
   justify-content: center;
 }
 
+.emotion-8 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: white;
+}
+
+.emotion-9 {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 0;
+  color: white;
+}
+
+.emotion-11 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 0;
+  color: white;
+}
+
+.emotion-12 {
+  color: #0099FF;
+}
+
+.emotion-13 {
+  height: 20px;
+  width: 1px;
+}
+
+.emotion-17 {
+  height: 50px;
+  width: 1px;
+}
+
+.emotion-18 {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
 <div>
   <div
-    class="emotion-0 emotion-1"
+    class="emotion-0 emotion-1 emotion-2"
   >
     <div
-      css="[object Object]"
+      class="emotion-3"
     >
       <div
-        class="emotion-2"
+        class="emotion-4 emotion-5"
         opacity="0"
       >
         <div
-          class="emotion-3 emotion-4"
+          class="emotion-6 emotion-7"
         >
           <div
-            css="[object Object]"
+            class="emotion-8"
           >
             In order to share your secret securely with the intendent (and only intended) recipient, Hush Hush needs to know two things:
           </div>
           <div
-            css="[object Object]"
+            class="emotion-9"
           >
             1. The DID of the intended recipient.
           </div>
           <div
-            css="[object Object]"
+            class="emotion-9"
           >
             2. Your current DID.
           </div>
           <div
-            css="[object Object]"
+            class="emotion-11"
           >
             For this reason, Hush Hush, needs to connect to your mobile where you can then select the intended recipient from your 
             <span
-              css="[object Object]"
+              class="emotion-12"
             >
               Identity Box IdApp Address Book
             </span>
             .
           </div>
           <div
-            css="[object Object]"
+            class="emotion-13"
           />
           <div
-            css="[object Object]"
+            class="emotion-8"
           >
             Please make sure that you have your 
             <span
-              css="[object Object]"
+              class="emotion-12"
             >
               IdApp
             </span>
              ready and that you have selected the idenity you want to use before hitting 
             <span
-              css="[object Object]"
+              class="emotion-12"
             >
               connect
             </span>
              below.
           </div>
           <div
-            css="[object Object]"
+            class="emotion-17"
           />
           <div
-            css="[object Object]"
+            class="emotion-18"
           >
             <button
               class="ui primary button"
