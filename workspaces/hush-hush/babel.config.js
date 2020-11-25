@@ -31,35 +31,16 @@ function setupPresets (babelEnv) {
 }
 
 function setupPlugins (babelEnv) {
-  if (babelEnv === 'test') {
-    return [
-      [
-        '@emotion',
-        {
-          // sourceMap is on by default but source maps are dead code eliminated in production
-          sourceMap: true,
-          autoLabel: 'dev-only',
-          labelFormat: '[local]',
-          cssPropOptimization: true
-        }
-      ],
-      '@babel/plugin-proposal-object-rest-spread',
-      '@babel/plugin-proposal-class-properties'
+  return [
+    [
+      '@emotion',
+      {
+        // sourceMap is on by default but source maps are dead code eliminated in production
+        sourceMap: true,
+        autoLabel: 'dev-only',
+        labelFormat: '[local]',
+        cssPropOptimization: true
+      }
     ]
-  } else {
-    return [
-      [
-        '@emotion',
-        {
-          // sourceMap is on by default but source maps are dead code eliminated in production
-          sourceMap: true,
-          autoLabel: 'dev-only',
-          labelFormat: '[local]',
-          cssPropOptimization: true
-        }
-      ],
-      '@babel/plugin-proposal-object-rest-spread',
-      '@babel/plugin-proposal-class-properties'
-    ]
-  }
+  ]
 }
