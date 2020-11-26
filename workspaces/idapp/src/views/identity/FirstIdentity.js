@@ -39,7 +39,7 @@ const FirstIdentity = ({ navigation }) => {
     try {
       await rendezvousConnection.send(message)
     } catch (e) {
-      console.log(e.message)
+      console.warn(e.message)
     }
   }
 

@@ -63,7 +63,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
     try {
       await rendezvousConnection.current.send(message)
     } catch (e) {
-      console.log(e.message)
+      console.warn(e.message)
     }
   }, [])
 
@@ -80,7 +80,7 @@ const IdBoxKeyNaming = ({ navigation }) => {
     try {
       await rendezvousConnection.send(message)
     } catch (e) {
-      console.log(e.message)
+      console.warn(e.message)
     }
   }, [])
 

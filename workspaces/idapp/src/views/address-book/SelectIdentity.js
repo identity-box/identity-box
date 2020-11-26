@@ -52,7 +52,7 @@ const SelectIdentity = ({ navigation }) => {
     try {
       await rendezvousTunnel.current.send(message)
     } catch (e) {
-      console.log(e.message)
+      console.warn(e.message)
     }
   }
 
