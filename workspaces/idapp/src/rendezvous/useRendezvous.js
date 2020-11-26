@@ -22,7 +22,7 @@ const useRendezvous = ({
     const { url } = await rendezvousConfigurationProvider.get()
 
     if (!url) {
-      throw new Error(`Cannot connect! Missing rendezvous configuration with name ${name}`)
+      throw new Error(`Cannot connect! Missing rendezvous configuration with name <<${name}>>`)
     }
 
     return url

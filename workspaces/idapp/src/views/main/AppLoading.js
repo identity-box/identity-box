@@ -1,7 +1,7 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
 
-import { useRendezvous, MultiRendezvousConfiguration } from 'src/rendezvous'
+import { useRendezvous } from 'src/rendezvous'
 import { IdentityManager } from 'src/identity'
 
 import {
@@ -17,9 +17,7 @@ const AppLoading = ({ navigation }) => {
     reset: false,
     onError: async err => {
       console.warn('AppLoading:onError:', err.message)
-      const { url } = await MultiRendezvousConfiguration.recall('idbox')
-      console.warn('AppLoading:onError:url:', url)
-      if (url === null) {
+      if (err.message === 'Cannot connect! Missing rendezvous configuration with name <<idbox>>') {
         navigation.navigate('ScanIdBoxTelepath')
       }
     },
