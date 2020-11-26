@@ -1,7 +1,7 @@
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
 
-import { useRendezvous } from 'src/rendezvous'
+import { useRendezvous, MultiRendezvousConfiguration } from 'src/rendezvous'
 import { IdentityManager } from 'src/identity'
 
 import {
@@ -15,8 +15,13 @@ const AppLoading = ({ navigation }) => {
   useRendezvous({
     name: 'idbox',
     reset: false,
-    onError: () => {
-      navigation.navigate('ScanIdBoxTelepath')
+    onError: async err => {
+      console.warn('AppLoading:onError:', err.message)
+      const { url } = await MultiRendezvousConfiguration.recall('idbox')
+      console.warn('AppLoading:onError:url:', url)
+      if (url === null) {
+        navigation.navigate('ScanIdBoxTelepath')
+      }
     },
     onReady: async () => {
       const identityManager = await IdentityManager.instance()
