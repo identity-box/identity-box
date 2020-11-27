@@ -3,6 +3,7 @@ import { ActivityIndicator } from 'react-native'
 
 import { useRendezvous } from 'src/rendezvous'
 import { IdentityManager } from 'src/identity'
+import { LogDb } from 'src/views/diagnostics'
 
 import {
   PageContainer,
@@ -17,6 +18,7 @@ const AppLoading = ({ navigation }) => {
     reset: false,
     onError: async err => {
       console.warn('AppLoading:onError:', err.message)
+      LogDb.log(`AppLoading:onError: ${err.message}`)
       if (err.message === 'Cannot connect! Missing rendezvous configuration with name <<idbox>>') {
         navigation.navigate('ScanIdBoxTelepath')
       }

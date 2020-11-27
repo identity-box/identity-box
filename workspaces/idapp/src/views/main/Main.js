@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import { FirstIdentity, CurrentIdentity, CreateNewIdentity } from 'src/views/identity'
 import { Settings, BackupMnemonic, ConfirmFactoryReset, RestoreFromBackup, BackupNotFound } from 'src/views/settings'
+import { Diagnostics } from 'src/views/diagnostics'
 import {
   AddressBook,
   IdentityDetails,
@@ -112,7 +113,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   ConfirmFactoryReset,
   RestoreFromBackup,
   BackupNotFound,
-  IdBoxKeyNaming
+  IdBoxKeyNaming,
+  Diagnostics
 },
 {
   // initialRouteName: 'BackupNotFound'
