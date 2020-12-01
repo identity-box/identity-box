@@ -57,8 +57,5 @@
     "expo-yarn-workspaces": "^1.2.0",
     "jest-expo": "^39.0.0"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
   "private": true
 }

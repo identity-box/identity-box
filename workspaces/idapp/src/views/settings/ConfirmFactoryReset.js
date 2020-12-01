@@ -25,7 +25,8 @@ const ConfirmFactoryReset = ({ navigation }) => {
     onMessage: async message => {
       console.log('received message: ', message)
       if (message.method === 'reset-response') {
-        await MultiRendezvousConfiguration.reset('idbox')
+        const rendezvousConfigurationProvider = await MultiRendezvousConfiguration.instance('idbox')
+        await rendezvousConfigurationProvider.reset()
         navigation.navigate('ScanIdBoxTelepath')
       }
     },

@@ -32,7 +32,8 @@ const useRendezvous = ({
     try {
       if (reset) {
         await AsyncStorage.removeItem('identityNames')
-        await MultiRendezvousConfiguration.reset(name)
+        const rendezvousConfigurationProvider = await MultiRendezvousConfiguration.instance(name)
+        await rendezvousConfigurationProvider.reset()
       }
 
       let baseUrl = url

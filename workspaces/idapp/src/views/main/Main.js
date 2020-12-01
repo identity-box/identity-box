@@ -135,9 +135,11 @@ Appearance.addChangeListener(({ colorScheme }) => {
 
 const Main = () => {
   let colorScheme = useColorScheme()
-  if (colorScheme === 'no-preference') {
+  if (colorScheme === 'no-preference' || colorScheme === null || colorScheme === undefined) {
     colorScheme = 'light'
   }
+
+  console.log('colorScheme=', colorScheme)
 
   return (
     <ThemeProvider theme={{
