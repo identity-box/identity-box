@@ -5,6 +5,7 @@ import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
 import { MultiRendezvousConfiguration } from 'src/rendezvous'
+import { DiagnosticsSensor } from 'src/views/diagnostics'
 
 import {
   PageContainer,
@@ -27,6 +28,10 @@ const ScanIdBoxTelepath = ({ navigation }) => {
     enableCamera()
   }, [])
 
+  const exitDiagnostics = useCallback(() => {
+    navigation.navigate('ScanIdBoxTelepath')
+  }, [])
+
   const scanQRCode = useCallback(async () => {
     console.log('scan QR code')
     setScanning(true)
@@ -47,6 +52,11 @@ const ScanIdBoxTelepath = ({ navigation }) => {
 
   return (
     <PageContainer>
+      <View style={{
+        flexGrow: 1,
+        height: 0
+      }}
+      />
       <Container>
         <Welcome>Identity Box</Welcome>
         <Description style={{
@@ -74,6 +84,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
           onPress={scanning ? cancel : scanQRCode}
         />
       </Container>
+      <DiagnosticsSensor navigation={navigation} onExit={exitDiagnostics} />
     </PageContainer>
   )
 }

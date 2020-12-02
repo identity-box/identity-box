@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store'
 const _instances = {}
 
 class MultiRendezvousConfiguration {
+  name
   url
 
   static instance = async name => {
@@ -59,10 +60,6 @@ class MultiRendezvousConfiguration {
     } else {
       console.log(`Finished upgrading from Telepath to Rendezvous for telepath name: ${name}.`)
     }
-  }
-
-  static reset = async name => {
-    await SecureStore.deleteItemAsync(`rendezvousUrl-${name}`)
   }
 
   static recall = async name => {
@@ -140,6 +137,11 @@ class MultiRendezvousConfiguration {
       this.url = url
       await SecureStore.setItemAsync(`rendezvousUrl-${this.name}`, this.url)
     }
+  }
+
+  reset = async () => {
+    await SecureStore.deleteItemAsync(`rendezvousUrl-${this.name}`)
+    this.url = undefined
   }
 }
 

@@ -28,6 +28,7 @@
     "expo": "^39.0.0",
     "expo-barcode-scanner": "~9.0.0",
     "expo-constants": "~9.2.0",
+    "expo-file-system": "~9.2.0",
     "expo-permissions": "~9.3.0",
     "expo-random": "~9.0.0",
     "expo-secure-store": "~9.2.0",
@@ -55,9 +56,6 @@
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.2.0",
     "jest-expo": "^39.0.0"
-  },
-  "jest": {
-    "preset": "jest-expo"
   },
   "private": true
 }

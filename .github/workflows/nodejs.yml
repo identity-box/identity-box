@@ -41,6 +41,7 @@ jobs:
         run: yarn build
       - name: use @babel/eslint-parser for linting
         run: ./update-babel-eslint.sh
-      - run: yarn test
+      - name: test
+        run: yarn test && (cd workspaces/idapp && yarn test)
         env:
           CI: true

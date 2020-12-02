@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import { FirstIdentity, CurrentIdentity, CreateNewIdentity } from 'src/views/identity'
 import { Settings, BackupMnemonic, ConfirmFactoryReset, RestoreFromBackup, BackupNotFound } from 'src/views/settings'
+import { Diagnostics } from 'src/views/diagnostics'
 import {
   AddressBook,
   IdentityDetails,
@@ -112,7 +113,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
   ConfirmFactoryReset,
   RestoreFromBackup,
   BackupNotFound,
-  IdBoxKeyNaming
+  IdBoxKeyNaming,
+  Diagnostics
 },
 {
   // initialRouteName: 'BackupNotFound'
@@ -133,9 +135,11 @@ Appearance.addChangeListener(({ colorScheme }) => {
 
 const Main = () => {
   let colorScheme = useColorScheme()
-  if (colorScheme === 'no-preference') {
+  if (colorScheme === 'no-preference' || colorScheme === null || colorScheme === undefined) {
     colorScheme = 'light'
   }
+
+  console.log('colorScheme=', colorScheme)
 
   return (
     <ThemeProvider theme={{

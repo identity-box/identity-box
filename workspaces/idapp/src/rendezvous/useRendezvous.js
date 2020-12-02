@@ -22,7 +22,7 @@ const useRendezvous = ({
     const { url } = await rendezvousConfigurationProvider.get()
 
     if (!url) {
-      throw new Error(`Cannot connect! Missing rendezvous configuration with name ${name}`)
+      throw new Error(`Cannot connect! Missing rendezvous configuration with name <<${name}>>`)
     }
 
     return url
@@ -32,7 +32,8 @@ const useRendezvous = ({
     try {
       if (reset) {
         await AsyncStorage.removeItem('identityNames')
-        await MultiRendezvousConfiguration.reset(name)
+        const rendezvousConfigurationProvider = await MultiRendezvousConfiguration.instance(name)
+        await rendezvousConfigurationProvider.reset()
       }
 
       let baseUrl = url
