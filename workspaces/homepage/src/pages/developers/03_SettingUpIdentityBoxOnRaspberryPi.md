@@ -8,13 +8,13 @@ RaspberryPi is a reliable, powerful, and cost-effective platform that can be use
 
 ## Install Node.js and yarn
 
-Identity service requires Node v12 (see https://github.com/ipfs/js-ipfs-http-client/issues/1194) Therefore, we recommend using Node v12 LTS. We recommend using [Node Version Manager](https://github.com/nvm-sh/nvm). To install Node Version Manager (nvm) on your Raspberry run:
+We currently use Node v14 LTS. We recommend using [Node Version Manager](https://github.com/nvm-sh/nvm). To install Node Version Manager (nvm) on your Raspberry run:
 
 ```bash
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
 ```
 
-Then install Node 12 LTS:
+Then install Node 14 LTS:
 
 ```bash
 $ nvm install --lts
@@ -32,9 +32,9 @@ Everything should be in place now. At the time of writing of this document we ha
 
 ```bash
 $ node --version
-v12.14.1
+v14.15.1
 $ yarn --version
-1.21.1
+1.22.5
 $ git --version
 git version 2.20.1
 ```
@@ -51,7 +51,7 @@ We install IPFS v0
 
 ```bash
 $ cd ipfs-rpi/
-$ ./install v0.4.22
+$ ./install v0.7.0
 $ sudo systemctl stop ipfs-daemon.service
 ```
 
@@ -74,7 +74,7 @@ You can change it using:
 $ nano templates/ipfs-daemon.service.tpl
 ```
 
-Notice, however, that in order for the changes to take effect, you will need to stop the daemon and run installation script again: `./install v0.4.22`.
+Notice, however, that in order for the changes to take effect, you will need to stop the daemon and run installation script again: `./install v0.7.0`.
 
 We also need to change the configuration of our IPFS node. IPFS configuration can be found in `~/.ipfs/config`. While the daemon is stopped, we can edit this file:
 
@@ -316,10 +316,6 @@ $ pm2 start ecosystem.config.js
 
 Another step is to install and start the Identity Service.
 
-> After changing the service architecture on the Identity Box, the name of the Identity Service package has changed.
-The old `@identity-box/idservice` is depreciated and has been split into two new, lighter packages: `@identity-box/identity-service` and
-`@identity-box/box-office`.
-
 > In the past, we used Firebase as to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
 We currently experiment with using native IPFS _pubsub_ functionality to secure reliable and fast name resolution
 without resorting to external, centralized services. For the time being, as a reference, we keep the documentation
@@ -334,7 +330,7 @@ export IDBOX_BACKUP=$HOME/backups
 export IDBOX_BACKUP_PASSWORD=password
 ```
 
-Please ensure that the `backups` folder exists. It does not have to named `backups` - any name will do,
+Please also ensure that the `backups` folder exists. It does not have to be named `backups` - any name will do,
 as long as it is there and the `IDBOX_BACKUP` variable correctly points to it. You can also set
 `IDBOX_BACKUP_PASSWORD` to whatever value you want.
 
@@ -356,7 +352,6 @@ $ cd ~/idbox/identity-service
 $ pm2 start ecosystem.config.js
 ```
 
-
 ## Box Office
 
 Finally, we install and start the Box Office service:
@@ -372,6 +367,96 @@ We start Identity Service with pm2:
 
 ```bash
 $ cd ~/idbox/box-office
+$ pm2 start ecosystem.config.js
+```
+
+## Rendezvous
+
+The Rendezvous service provides external connectivity to the box and this needs a bit more setup.
+
+We start with:
+
+```bash
+$ mkdir -p idbox/box-office
+$ cd idbox/box-office
+$ yarn add @identity-box/box-office
+$ yarn setup
+```
+
+Then, we open `ecosystem.config.js` and change the `args` parameter to include the external domain name
+to be used as your rendezvous url:
+
+```javascript
+args: 'start -b https://<your-domain-name>',
+```
+
+You need to register (buy) a domain name you want to use and make sure you have an `A` record pointing to your
+IP address. You also have to make sure your router is configured appropriately so that the correct ports are open
+and mapped to your identity box. If you do not want to buy a domain name yet or your IP address changes often,
+you can try using services [http://noip.com/](http://noip.com/) or your preferred DynamicDNS solution.
+In the end, you need to have a url that resolves to your Identity Box.
+
+> Yes, this is all impossible to do for a regular user, but if you are reading this, you must know what you are doing.
+> We work hard to make this experience painless for the regular users that will decide to acquire the box from us.
+
+You will also need a _reverse-proxy_ server to point this url to your rendezvous service on the box.
+If you use [NGINX](https://www.nginx.com) (`sudo apt-get install nginx`) you can use the following configuration:
+
+```
+server {
+        listen 80;
+        server_name <your-domain-url>;
+        return 301 https://$host$request_uri;
+}
+
+server {
+        listen 443 ssl;
+        server_name <your-domain-url>;
+        ssl_certificate /etc/letsencrypt/live/<your-domain>/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/<your-domain>/privkey.pem;
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+        location /  {
+                proxy_pass    http://localhost:3100;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+        }
+}
+```
+
+> To setup the SSL certificates, please check 
+> [Manual Let's Encrypt certificates](https://idbox.online/developers/contributing#manual-lets-encrypt-certificates).
+
+Save this file as, for instance, `/etc/nginx/sites-available/idbox`, and then do:
+
+```bash
+$ cd /etc/nginx/sites-enabled/
+$ sudo ln -s /etc/nginx/sites-available/idbox idbox
+```
+
+so that you get:
+
+```bash
+$ ls -l
+total 0
+lrwxrwxrwx 1 root root 32 Jun  6 23:39 idbox -> /etc/nginx/sites-available/idbox
+```
+
+Then, restart the nginx service:
+
+```bash
+$ sudo systemctl restart nginx
+```
+
+Finally, start the Rendezvous service:
+
+```bash
+$ cd ~/idbox/rendezvous
 $ pm2 start ecosystem.config.js
 ```
 
@@ -400,8 +485,6 @@ You can remove startup script at any time by running:
 ```bash
 $ pm2 unstartup systemd
 ```
-
-The box should be ready to use.
 
 ## Appendix - IPNS with Firebase
 

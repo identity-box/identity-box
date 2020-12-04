@@ -108,7 +108,7 @@ Identity App also provides the _Settings_ tab, where you can enable backups and 
 
 
 
-You can already experience using Identity Box app in a real-life app. We built a simple secret sharing portal called *Hush Hush*, where you can securely exchange secrets with your peers. Please visit <a href="https://idbox.online/hush-hush" target="_blank">Hush Hush</a> and follow
+You can already experience using Identity Box app in a real-life scenario. We built a simple secret sharing portal called *Hush Hush*, where you can securely exchange secrets with your peers. Please visit <a href="https://hush-hush.xyz" target="_blank">Hush Hush</a> and follow
 the instructions.
 
 > Hint - you can exchange secrets between your own identities as well - e.g. you can use Hush Hush to share secrets with yourself.

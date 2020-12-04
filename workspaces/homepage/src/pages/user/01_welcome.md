@@ -106,7 +106,7 @@ As we see, everything we need to create and to maintain a DID is already part of
 
 In order to take advantage of the distributed internet of the future, each participating user needs to own an IPFS node extended with self-sovereign identity and potentially other user-tailored services.
 
-The IdBox is a physical device that the user connects to his personal home network. In the minimal version it runs an instance of the IPFS node and an identity service. Together with the accompanying identity (mobile) app, the IdBox provides a self sovereign identity service that can be used in combination with other services. Being an full-fledged IPFS node, IdBox provides access to all IPFS services. Using the accompanying identity app and in the future also a desktop app, the user will be able to securely and conveniently to store the user's own content, and by extending IdBox via external storage (a drive can be directly connect to the box itself, or a special service app can be use to share the content from the storage available on desktop and laptop computers). Finally, an IdBox makes it possible to install and run other, third-party apps directly on the box. These apps can extend and complement the IPFS and the provided identity service with other user-specific capabilities: healthcare, home automation, home security, and personal hosting are just to most obvious the examples. IdBox will help us to start changing from the centralized internet to a powerful distributed network of the future.
+The IdBox is a physical device that the user connects to his personal home network. In the minimal version it runs an instance of the IPFS node and a number of our own custom services (e.g. Name Service, Identity Service, Rendezvous, Box Office). Together with the accompanying identity (mobile) app, the IdBox provides a self sovereign identity service that can be used in combination with other services. Being an full-fledged IPFS node, IdBox provides access to all IPFS services. Using the accompanying identity app and in the future also a desktop app, the user will be able to securely and conveniently store the user's own content, and by extending IdBox via external storage (a drive can be directly connect to the box itself, or a special service app can be used to share the content from the storage available on desktop and laptop computers). Finally, an IdBox makes it possible to install and run other, third-party apps directly on the box. These apps can extend and complement the IPFS and the provided identity service with other user-specific capabilities: healthcare, home automation, home security, and personal hosting are just to most obvious the examples. IdBox will help us to start changing from the centralized internet to a powerful distributed network of the future.
 
 ## Some technology aspects
 
@@ -129,33 +129,38 @@ The most important part of IPFS is the underlying Distributed Hash Table (DHT).
 
 ### How does IdBox work
 
-In designing IdBox our most important concern is the user security and privacy. To support this claim the most important invariant when designing the IdBox is that only the owner of the IdBox can directly connect to it. 
+In designing IdBox our most important concern is the user security and privacy. To support this claim the most important invariant when designing the IdBox is that only the owner of the IdBox has write access to the box. 
 
-The user connects to the IdBox using a mobile app. The connection between the mobile app and the IdBox is established during box installation. The technology we currently used is called [Telepath](/components/telepath). Telepath is a simple service that facilitates connecting two parties using a secure end-to-end encrypted channel. For the moment we leave out the technical details on how the mobile app learns the telepath configuration channel description.
+The user connects to the IdBox using a mobile app. The connection between the mobile app and the IdBox is established during the box setup. Each box runs a so called [Rendezvous service](/services/rendezvous). Rendezvous service has two important functions:
 
-The user will connect the idbox to his router (internal Ethernet, we can consider wireless connection as well for a more convenient setup).
+1. It allows the box owner to directly connect to the box.
+2. It allows creating a so called _tunnel_ between Identity App and a web app running in a browser.
 
-Recall that an identity is an IPNS name. The current implementation of IPNS is still work in progress and therefore subject to change. [DNSLink](https://docs.ipfs.io/guides/concepts/dnslink/) can also be used alone and in combination with IPNS to provide human readable names for the published content.
+Rendezvous service has public url.
+
+> We did not decide yet how we will make this convenient for the user. For our virtual box this is of course not an issue, but we need to make it easy for the owner of a physical box to either receive a domain name from us (or any other box provider), let the user to conveniently associate his own domain, or use a _DynamicDNS_ service. _No vendor lock-in_ is the principle here.
+
+The user will connect the Identity Box to his router (currently via regular Ethernet cable, we can consider wireless connection as well for a more convenient setup).
 
 ### Creating identity with idbox and mobile app
 
-We know that an IPNS name is simply a hash of a key. We can see the hashes of currently available keys by issuing the following ipfs command:
+We know that an IPNS name is simply a hash of a key. We can see the hashes of currently available keys by issuing the following ipfs command from the
+IPFS node:
 
 ```bash
 $ ipfs key list -l
-QmQUcC5iRXee1QCgavsT1oWwGRzbSZPm8PhudWmUGWDmp8 self      
-QmXKJcdEmXoGaAKoyKBR8SSCmdeS6i8kbsicY146zUuj7P identity1
+k2k4r8pdw2o63cw436h1sx91fq0wcvwiv8zihxydw5jllg14d6pvjitx self
+k2k4r8lkezjykb4ty8sv0yzzk29omf09r9rljz6onfnjj0abhh6b13f4 1571676385721O3etAS4D5X6Yuw
+k2k4r8o8hveyjw6i1w9ezbqc39fqofsaewlwu6srwqmp3t9i25q3ngn3 1571680020616cJq-qjd4orX1cw
 ```
 
-The `self` key is special - it is like an identity of the box itself - we do not use it for user's identities. User identities are explicitly created as additional keys on the IPFS node.
+First column is a public key encoded in a content identifier format (CIDv1: `base36` encoded using `libp2p-key` codec). The second column is the associated name. `self` designates the node itself and is automatically created by IPFS when the node is bootstrapped. The other keys are the keys either created by the user or created when an IPNS name is published (`ipfs name publish` command). Thus, a CID-encoded key is a valid IPNS name. Here `k2k4r8lkezjykb4ty8sv0yzzk29omf09r9rljz6onfnjj0abhh6b13f4` can be used as an IPNS name, and `k2k4r8o8hveyjw6i1w9ezbqc39fqofsaewlwu6srwqmp3t9i25q3ngn3` can be used as an IPNS name as well. The associated name is a composition of a timestamp and a random string. By doing this, we make sure that the friendly descriptions as seen in the Identity App never leave the mobile.
 
-It is now important to notice that identity is being created on the IdBox, but the corresponding private keys reside on the mobile device only.
+It is also important to emphasize that an identity is being created on the Identity Box, but the corresponding private keys reside on the mobile device only.
 
-Every identity box creates its own unique telepath channel when it is powered up for the first time. This channel will be a one-to-one pairing between the box and the mobile app.
+Thus, each new identity is created on the mobile device. Creating an identity currently involves creating an encryption and signing key-pairs, creating identity on the Identity Box, and persisting (on IPFS via IdBox) the corresponding DID document including the corresponding signing and encrypting public keys (the private keys stay in the mobile app). The content identifier (CID) corresponding to the created DID Document is then associated with the user identity using IPNS.
 
-Each new identity is created on the mobile device. Creating an identity currently involves creating an encryption and signing key-pairs, creating identity on the IdBox, and persisting (on IPFS via IdBox) the corresponding DID document including a default signing and encrypting public keys (the private keys stay in the mobile app). The content identifier (CID) corresponding to the created DID Document is then associated with the user identity using IPNS.
-
-> We still work to get a proper grip on IPNS. For the moment our boxes use real IPNS names as identities, but for the mapping itself is maintained using regular Firebase database. The intention is to remove Firebase from the system as soon as IPNS becomes sufficiently reliable.
+> The current implementation of IPNS is still work in progress and therefore subject to change. [DNSLink](https://docs.ipfs.io/guides/concepts/dnslink/) can also be used alone and in combination with IPNS to provide human readable names for the published content.
 
 <br/><br/>
 Your *Identity Box team*
