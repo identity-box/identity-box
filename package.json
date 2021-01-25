@@ -45,6 +45,7 @@
       "**/lib/**",
       "**/es/**",
       "workspaces/idapp/__generated__/**",
+      "workspaces/association/deployment/index.js",
       "workspaces/box-office/index.js",
       "workspaces/nameservice/index.js",
       "workspaces/identity-service/index.js",
