@@ -14,7 +14,7 @@ describe('IdentityService', () => {
   }
 
   let servicePath
-  let nameService
+  let identityService
 
   const prepareServicePath = () => {
     const serviceId = base64url.encode(nacl.hash(nacl.randomBytes(10)))
@@ -26,7 +26,7 @@ describe('IdentityService', () => {
   })
 
   afterEach(() => {
-    nameService.stop()
+    identityService.stop()
   })
 
   it('delegates processing to the Dispatcher', async () => {
@@ -39,7 +39,7 @@ describe('IdentityService', () => {
     const dispatcher = {
       dispatch: jest.fn().mockReturnValueOnce(expectedResponse)
     }
-    nameService = await IdentityService.create({
+    identityService = await IdentityService.create({
       servicePath,
       dispatcher
     })
@@ -60,7 +60,7 @@ describe('IdentityService', () => {
     const dispatcher = {
       dispatch: jest.fn().mockReturnValueOnce(expectedResponse)
     }
-    nameService = await IdentityService.create({
+    identityService = await IdentityService.create({
       servicePath,
       dispatcher
     })
@@ -84,7 +84,7 @@ describe('IdentityService', () => {
         throw new Error(expectedErrorMessage)
       }
     }
-    nameService = await IdentityService.create({
+    identityService = await IdentityService.create({
       servicePath,
       dispatcher
     })
