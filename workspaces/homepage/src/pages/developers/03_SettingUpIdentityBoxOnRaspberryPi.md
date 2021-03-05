@@ -402,7 +402,7 @@ In the end, you need to have a url that resolves to your Identity Box.
 You will also need a _reverse-proxy_ server to point this url to your rendezvous service on the box.
 If you use [NGINX](https://www.nginx.com) (`sudo apt-get install nginx`) you can use the following configuration:
 
-```
+```bash
 server {
         listen 80;
         server_name <your-domain-url>;

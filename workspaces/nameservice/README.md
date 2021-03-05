@@ -12,6 +12,7 @@ $ cd nameservice
 $ yarn add @identity-box/nameservice
 $ yarn setup
 ```
+
 ## IPFS
 
 Make sure the IPFS daemon is running:
