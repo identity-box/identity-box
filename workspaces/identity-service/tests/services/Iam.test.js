@@ -1,7 +1,10 @@
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
+// import fs from 'fs'
 import { Buffers } from '@react-frontend-developer/buffers'
 import { Iam } from '../../source/services/Iam'
+
+jest.mock('fs')
 
 describe('Iam', () => {
   const rendezvousUrl = 'https://rendezvous.example.com'
