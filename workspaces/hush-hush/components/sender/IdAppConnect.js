@@ -18,7 +18,7 @@ const IdAppConnect = ({ closeDialog, rendezvousUrl } = {}) => {
         </InfoBox>
         <MrSpacer space='20px' />
         <InfoBox>
-          Please make sure that you have your <Blue>IdApp</Blue> ready and that you have selected the idenity you want to use before
+          Please make sure that you have your <Blue>IdApp</Blue> ready and that you have selected the identity you want to use before
           hitting <Blue>connect</Blue> below.
         </InfoBox>
         <MrSpacer space='50px' />
