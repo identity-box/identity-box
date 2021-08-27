@@ -155,7 +155,7 @@ exports[`index has proper styling 1`] = `
           <div
             class="emotion-11"
           >
-            For this reason, Hush Hush, needs to connect to your mobile where you can then select the intended recipient from your
+            For this reason, Hush Hush, needs to connect to your mobile where you can then select the intended recipient from your 
             <span
               class="emotion-12"
             >
@@ -169,13 +169,13 @@ exports[`index has proper styling 1`] = `
           <div
             class="emotion-8"
           >
-            Please make sure that you have your
+            Please make sure that you have your 
             <span
               class="emotion-12"
             >
               IdApp
             </span>
-             ready and that you have selected the identity you want to use before hitting
+             ready and that you have selected the identity you want to use before hitting 
             <span
               class="emotion-12"
             >
