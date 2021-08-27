@@ -2,8 +2,14 @@ node_modules
 coverage/
 .fixtures
 .DS_Store
-.yarn
-.yarnrc
-yarn-error.log
-
 .now
+
+# yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+yarn-error.log
