@@ -4,8 +4,7 @@
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": {
     "nameservice": "./lib/index.js",
-    "nameservice-esm": "./index.js",
-    "setup": "./setup.sh"
+    "nameservice-esm": "./index.js"
   },
   "files": [
     "source",
@@ -32,7 +31,8 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "build": "node ./tools/build.js"
+    "build": "node ./tools/build.js",
+    "postinstall": "cp ./ecosystem.config.js $INIT_CWD"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.31",

@@ -4,8 +4,7 @@
   "description": "Service to handle identity based operations",
   "bin": {
     "identity-service": "./lib/index.js",
-    "identity-service-esm": "./index.js",
-    "setup": "./setup.sh"
+    "identity-service-esm": "./index.js"
   },
   "files": [
     "source",

@@ -13,7 +13,6 @@ $ yarn set version berry
 $ echo 'nodeLinker: node-modules' >> .yarnrc.yml
 $ yarn init
 $ yarn add @identity-box/box-office
-$ yarn setup
 ```
 
 ## Usage
