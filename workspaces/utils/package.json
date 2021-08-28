@@ -26,7 +26,7 @@
   "dependencies": {
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
-    "node-ipc": "^9.2.1"
+    "node-ipc": "^10.0.2"
   },
   "scripts": {
     "build": "node ./tools/build.js"
