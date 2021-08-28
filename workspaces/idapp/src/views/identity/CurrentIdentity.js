@@ -3,7 +3,6 @@ import { Button, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
-import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
 import { randomBytes } from 'src/crypto'
@@ -29,7 +28,7 @@ const CurrentIdentity = ({ navigation }) => {
   const theme = useTheme()
 
   const enableCamera = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA)
+    const { status } = await BarCodeScanner.requestPermissionsAsync()
     setCameraEnabled(status === 'granted')
   }
 

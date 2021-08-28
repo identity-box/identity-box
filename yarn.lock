@@ -5838,6 +5838,7 @@ __metadata:
     "@identity-box/utils": ^0.1.31
     base32-encode: ^1.2.0
     base64url: ^3.0.1
+    cids: ^1.1.8
     commander: ^8.1.0
     esm: ^3.2.25
     faker: ^5.5.3
@@ -18983,15 +18984,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-permissions@npm:~12.1.1":
-  version: 12.1.1
-  resolution: "expo-permissions@npm:12.1.1"
-  dependencies:
-    expo-modules-core: ~0.2.0
-  checksum: a782a3f0c79bd9888e0aa1ed4e393003be665faf4f2415fed8f837f80c1e7f3f4faac21b124a6b0f4d09f368bf01e7c945fb2be37e377a026b603eeca1cceaf1
-  languageName: node
-  linkType: hard
-
 "expo-pwa@npm:0.0.94":
   version: 0.0.94
   resolution: "expo-pwa@npm:0.0.94"
@@ -23211,7 +23203,6 @@ fsevents@~2.1.2:
     expo-constants: ~11.0.1
     expo-env: ^1.1.1
     expo-file-system: ~11.1.3
-    expo-permissions: ~12.1.1
     expo-random: ~11.2.0
     expo-secure-store: ~10.2.0
     expo-web-browser: ~9.2.0

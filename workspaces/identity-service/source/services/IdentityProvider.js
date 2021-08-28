@@ -3,6 +3,7 @@ import path from 'path'
 import glob from 'glob'
 import crypto from 'libp2p-crypto'
 import base32encode from 'base32-encode'
+import CID from 'cids'
 import { IPNS } from './ipns'
 
 class IdentityProvider {
@@ -216,7 +217,7 @@ class IdentityProvider {
       json,
       { format: 'dag-cbor', hashAlg: 'sha2-256' }
     )
-    return cid.toBaseEncodedString()
+    return cid.toString()
   }
 
   pin = async hash => {
@@ -224,7 +225,8 @@ class IdentityProvider {
   }
 
   readFromIPFS = async cid => {
-    const { value } = await this.ipfs.dag.get(cid)
+    const cidObject = new CID(cid)
+    const { value } = await this.ipfs.dag.get(cidObject)
     return value
   }
 

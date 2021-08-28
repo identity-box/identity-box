@@ -28,7 +28,6 @@
     "expo-barcode-scanner": "~10.2.2",
     "expo-constants": "~11.0.1",
     "expo-file-system": "~11.1.3",
-    "expo-permissions": "~12.1.1",
     "expo-random": "~11.2.0",
     "expo-secure-store": "~10.2.0",
     "expo-web-browser": "~9.2.0",
