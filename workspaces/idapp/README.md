@@ -47,19 +47,20 @@ Run `expo build:ios` from the terminal. Once the build is finished download the 
 
 ### Upload the build to Apple Connect
 
-> Here I assume you have your Apple Connect configured. In particular you have generated an App Specific password for your account. If you need some guidance on the whole process you may like to consult [React Native: How To Publish An Expo App To TestFlight + Debug Common Errors] and the official Expo documentation [Uploading Apps to the Apple App Store and Google Play].
-
 Once the app is built, download the `ipa` file and use [Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12) to upload the file to the Apple Connect account.
 
-## Previous (not recommended) method
+### Previous (not recommended) method
 
 In the past we had to use `xcrun` tool to upload the app to Apple Connect:
 
 ```bash
 xcrun altool --upload-app -f <PATH-TO-IPA-FILE> -u <YOUR APPLE-ID>
 ```
-  
+
 You will be asked for the password.
+
+> Here I assume you have your Apple Connect configured. In particular you might have to generate an App Specific password for your account. If you need some guidance on the whole process you may like to consult [React Native: How To Publish An Expo App To TestFlight + Debug Common Errors] and the official Expo documentation [Uploading Apps to the Apple App Store and Google Play].
+  
 
 > If you have 2FA enabled for your AppleId, you will need to create an App-specific password and provide it here.
 
