@@ -1,3 +1,17 @@
+## v0.1.32 (2021-08-28)
+
+#### :heart_eyes_cat: Enhancement
+* [#52](https://github.com/identity-box/identity-box/pull/52) Yarn 2 (with node_modules linking) ([@marcinczenko](https://github.com/marcinczenko))
+* [#48](https://github.com/identity-box/identity-box/pull/48) Updates documentation after moving from telepath to rendezvous ([@marcinczenko](https://github.com/marcinczenko))
+* [#46](https://github.com/identity-box/identity-box/pull/46) New jsx transform ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :bug: Bug Fix
+* [#47](https://github.com/identity-box/identity-box/pull/47) bug fix: clearing and restoring rendezvousUrl ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 2
+- Jeroen Knoops ([@JeroenKnoops](https://github.com/JeroenKnoops))
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.31 (2020-11-17)
 
 #### :bug: Bug Fix
