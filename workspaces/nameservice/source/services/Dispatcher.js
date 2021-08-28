@@ -1,10 +1,10 @@
-import ipfsClient from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 
 import { NamePublisher } from './NamePublisher'
 import { NameResolver } from './NameResolver'
 
 class Dispatcher {
-  ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
+  ipfs = create(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
   namePublisher
   nameResolver
 

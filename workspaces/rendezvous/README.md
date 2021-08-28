@@ -9,8 +9,10 @@ On your identity-box, first create a folder where you want your service to be in
 ```bash
 $ mkdir rendezvous
 $ cd rendezvous
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/rendezvous
-$ yarn setup
 ```
 
 ## Usage
@@ -26,13 +28,7 @@ To directly run the service, use:
 You can take of advantage of pm2 to start an identity-box service. Make sure you have pm2 installed globally:
 
 ```bash
-$ yarn global add pm2
-```
-
-and ensure it is in `$PATH`:
-
-```bash
-export PATH=$PATH:/home/pi/.yarn/bin
+$ npm install pm2 -g
 ```
 
 ### Start service

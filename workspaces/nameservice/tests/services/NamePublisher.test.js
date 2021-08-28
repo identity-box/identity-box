@@ -37,7 +37,7 @@ describe('NamePublisher', () => {
 
   afterEach(() => {
     namePublisher.reset()
-    jest.runAllTimers()
+    jest.useRealTimers()
     console.log.mockRestore()
   })
 
@@ -161,16 +161,6 @@ describe('NamePublisher', () => {
       )
     })
 
-    it('starts publishing with correct time interval', () => {
-      namePublisher.publish({
-        ipnsName,
-        cid
-      })
-
-      expect(setInterval).toHaveBeenCalledTimes(1)
-      expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 10000)
-    })
-
     it('starts publishing ipns name after receiving publish-name request', () => {
       namePublisher.publish({
         ipnsName,
@@ -180,6 +170,22 @@ describe('NamePublisher', () => {
       expect(publishMock).not.toBeCalled()
       jest.runOnlyPendingTimers()
       jest.runOnlyPendingTimers()
+      expect(publishMock).toHaveBeenCalledTimes(2)
+    })
+
+    it('publishes at the correct interval', () => {
+      const expectedInterval = 10000
+      namePublisher.publish({
+        ipnsName,
+        cid
+      })
+
+      expect(publishMock).not.toBeCalled()
+      jest.advanceTimersByTime(expectedInterval - 1)
+      expect(publishMock).toHaveBeenCalledTimes(0)
+      jest.advanceTimersByTime(1)
+      expect(publishMock).toHaveBeenCalledTimes(1)
+      jest.advanceTimersByTime(expectedInterval)
       expect(publishMock).toHaveBeenCalledTimes(2)
     })
   })

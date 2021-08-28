@@ -1,10 +1,10 @@
 // run it with node -r esm test.js
 // it should list the keys on your ipfs node
 
-import ipfsClient from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 // import CID from 'cids'
 
-const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
+const ipfs = create('/ip4/127.0.0.1/tcp/5001')
 
 // const getDID = async cid => {
 //   const { value } = await ipfs.dag.get(cid)

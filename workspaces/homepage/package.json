@@ -5,7 +5,7 @@
   "version": "0.1.31",
   "author": "Marcin Czenko <marcin@everydayproductive.com>",
   "engines": {
-    "node": ">=12.0.0"
+    "node": "14.x"
   },
   "homepage": "https://idbox.online",
   "repository": {
@@ -13,16 +13,16 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "dependencies": {
-    "@confluenza/gatsby-theme-confluenza": "^1.0.25",
-    "@emotion/react": "^11.1.1",
-    "@emotion/styled": "^11.0.0",
-    "gatsby": "^2.27.1",
-    "gatsby-plugin-catch-links": "^2.5.0",
-    "gatsby-plugin-emotion": "^4.5.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "@confluenza/gatsby-theme-confluenza": "^1.0.28",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "gatsby": "^3.12.1",
+    "gatsby-plugin-catch-links": "^3.12.0",
+    "gatsby-plugin-emotion": "^6.12.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
-    "react-media": "^1.9.2"
+    "react-media": "^1.10.0"
   },
   "keywords": [
     "gatsby",
@@ -32,7 +32,6 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "install:vercel": "rm ../../package.json && mv ../../yarn.lock . && yarn",
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
@@ -41,7 +40,7 @@
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "eslint-config-react-app": "^6.0.0",
-    "gatsby-cli": "^2.14.0",
-    "gatsby-plugin-root-import": "^2.0.5"
+    "gatsby-cli": "^3.12.0",
+    "gatsby-plugin-root-import": "^2.0.7"
   }
 }

@@ -9,8 +9,10 @@ On your identity-box, first create a folder where you want your service to be in
 ```bash
 $ mkdir nameservice
 $ cd nameservice
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/nameservice
-$ yarn setup
 ```
 ## IPFS
 
@@ -35,7 +37,7 @@ variable is not set, the address will default to `/ip4/127.0.0.1/tcp/5001`.
 To directly run the service, use:
 
 ```bash
-./node_modules/.bin/nameservice start
+$ yarn nameservice start
 ```
 
 All currently published identities are listed in the `Identities.json` file. This allows the Name Service to
@@ -46,13 +48,7 @@ automatically restart publishing after the service has been restarted.
 You can take of advantage of pm2 to start an identity-box service. Make sure you have pm2 installed globally:
 
 ```bash
-$ yarn global add pm2
-```
-
-and ensure it is in `$PATH`:
-
-```bash
-export PATH=$PATH:/home/pi/.yarn/bin
+$ npm install pm2 -g
 ```
 
 ### Start service

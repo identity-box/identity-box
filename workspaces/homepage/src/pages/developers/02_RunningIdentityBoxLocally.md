@@ -25,6 +25,8 @@ A computer (we work on a MAC), a local network with access to the Internet, and 
 
 Also, the `ipfs-http-client` package currently does not work on Node 13 (see https://github.com/ipfs/js-ipfs-http-client/issues/1194). We are using Node 14 LTS for testing.
 
+> This has to be re-evaluated. Maybe it is already supported.
+
 Let's start with IPFS node on your computer.
 
 ## IPFS node

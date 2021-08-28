@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
 import { useTheme } from 'react-navigation'
-import * as Permissions from 'expo-permissions'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
 import { MultiRendezvousConfiguration } from 'src/rendezvous'
@@ -20,7 +19,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
   const theme = useTheme()
 
   const enableCamera = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA)
+    const { status } = await BarCodeScanner.requestPermissionsAsync()
     setCameraEnabled(status === 'granted')
   }
 

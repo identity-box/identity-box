@@ -1,6 +1,6 @@
 import { EntryPoint } from '../../source/entry-point'
 import { ServiceProxy, Service } from '@identity-box/utils'
-import ipfsClient from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
@@ -104,7 +104,7 @@ describe('EntryPoint', () => {
 
   describe('ipfs client', () => {
     beforeEach(() => {
-      ipfsClient.mockImplementation(api => {
+      create.mockImplementation(api => {
         apiUrl = api
         return jest.fn()
       })

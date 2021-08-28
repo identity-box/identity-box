@@ -1,12 +1,10 @@
 {
   "name": "@identity-box/nameservice",
-  "private": false,
   "version": "0.1.31",
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": {
     "nameservice": "./lib/index.js",
-    "nameservice-esm": "./index.js",
-    "setup": "./setup.sh"
+    "nameservice-esm": "./index.js"
   },
   "files": [
     "source",
@@ -33,22 +31,23 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "build": "node ./tools/build.js"
+    "build": "node ./tools/build.js",
+    "postinstall": "cp ./ecosystem.config.js $INIT_CWD"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.31",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "cids": "^1.0.2",
-    "commander": "^6.2.0",
+    "cids": "^1.1.8",
+    "commander": "^8.1.0",
     "esm": "^3.2.25",
-    "ipfs-http-client": "^48.1.1",
+    "ipfs-http-client": "^52.0.2",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "faker": "^5.1.0"
+    "faker": "^5.5.3"
   }
 }

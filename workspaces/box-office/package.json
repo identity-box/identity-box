@@ -1,12 +1,10 @@
 {
   "name": "@identity-box/box-office",
-  "private": false,
   "version": "0.1.31",
   "description": "Dispatching service for Identity Box",
   "bin": {
     "box-office": "./lib/index.js",
-    "box-office-esm": "./index.js",
-    "setup": "./setup.sh"
+    "box-office-esm": "./index.js"
   },
   "files": [
     "source",
@@ -33,13 +31,14 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "build": "node ./tools/build.js"
+    "build": "node ./tools/build.js",
+    "postinstall": "cp ./ecosystem.config.js $INIT_CWD"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.31",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "commander": "^6.2.0",
+    "commander": "^8.1.0",
     "esm": "^3.2.25",
     "qrcode-terminal": "^0.12.0",
     "tweetnacl": "^1.0.3"
@@ -48,6 +47,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^10.0.0"
   }
 }
