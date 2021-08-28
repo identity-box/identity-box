@@ -1,8 +1,8 @@
 module.exports = {
   apps: [{
     name: 'box-office',
-    script: './node_modules/.bin/box-office',
-    args: 'start',
+    script: 'yarn',
+    args: 'box-office start',
     instances: 1,
     autorestart: false,
     watch: false,

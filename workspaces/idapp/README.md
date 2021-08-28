@@ -4,10 +4,9 @@ Identity App to work with IdentityBox.
 
 ## App configuration
 
-The telepath channel description for the app comes from one of the config files.
-Before starting the app, please make sure to create a valid config file
-with the channel data that you want to use. Please
-take a look at one of the existing configuration files (`*.config.js`).
+The app does not currently require any configuration.
+
+> In case one is needed in the future, it can be provided in one of the configuration files (`*.config.js`).
 All the constants from the config file will be added to `app.json`
 under the `extra` key. The `app.json` is created by adding this
 `extra` key to the contents of the `config.json`.
@@ -18,16 +17,13 @@ populate the `extra` entry of the `app.json` making it visible
 to the app via `Constants.manifest.extra`.
 For more information check [expo-env](https://www.npmjs.com/package/expo-env).
 
-> Please, make sure you use your own unique telepath channel when your queuing service
-is set to `https://idbox-queue.now.sh`. Otherwise, you may have troubles to understand
-what's actually going on.
-
 ## Usage
 
 ```bash
-$ expo-env --env=<your-configuration>
 $ yarn start [--clear]
 ```
+
+> If you used the app before, and now your rendezvous server is available on a different url, make sure that you re-scan the QR-code published by the rendezvous server. This is especially important to do **before** you do a _factory reset_ in the Identity App.
 
 ## Publishing to TestFlight
 
@@ -53,12 +49,16 @@ Run `expo build:ios` from the terminal. Once the build is finished download the 
 
 > Here I assume you have your Apple Connect configured. In particular you have generated an App Specific password for your account. If you need some guidance on the whole process you may like to consult [React Native: How To Publish An Expo App To TestFlight + Debug Common Errors] and the official Expo documentation [Uploading Apps to the Apple App Store and Google Play].
 
-The `expo upload:ios` command is temporarily unavailable due to changes in Xcode 11 - as stated in the Expo documentation - this is why we have to use `xcrun` command. The command you have to run is:
+Once the app is built, download the `ipa` file and use [Apple Transporter](https://apps.apple.com/us/app/transporter/id1450874784?mt=12) to upload the file to the Apple Connect account.
+
+## Previous (not recommended) method
+
+In the past we had to use `xcrun` tool to upload the app to Apple Connect:
 
 ```bash
 xcrun altool --upload-app -f <PATH-TO-IPA-FILE> -u <YOUR APPLE-ID>
 ```
-
+  
 You will be asked for the password.
 
 > If you have 2FA enabled for your AppleId, you will need to create an App-specific password and provide it here.

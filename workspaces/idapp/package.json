@@ -11,9 +11,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "node_modules/.bin/jest",
+    "test": "yarn jest",
     "postinstall": "expo-yarn-workspaces postinstall",
-    "env:dev:local-qs": "expo-env --env=development-lqs",
     "env:dev:idbox": "expo-env --env=development-idbox",
     "env:prod": "expo-env --env=production"
   },
@@ -53,6 +52,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.12.1",
     "babel-preset-expo": "^8.3.0",
+    "expo-cli": "^4.11.0",
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.2.0",
     "jest-expo": "^39.0.0"

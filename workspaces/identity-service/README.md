@@ -9,6 +9,9 @@ On your identity-box, first create a folder where you want your service to be in
 ```bash
 $ mkdir identity-service
 $ cd identity-service
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/identity-service
 $ yarn setup
 ```
@@ -46,7 +49,7 @@ have its corresponding `pem` file in `$IDBOX_BACKUP` directory. `$IDBOX_BACKUP` 
 To directly run the service, use:
 
 ```bash
-./node_modules/.bin/identity-service start
+$ yarn identity-service start
 ```
 
 ## With PM2
@@ -54,13 +57,7 @@ To directly run the service, use:
 You can take of advantage of pm2 to start an identity-box service. Make sure you have pm2 installed globally:
 
 ```bash
-$ yarn global add pm2
-```
-
-and ensure it is in `$PATH`:
-
-```bash
-export PATH=$PATH:/home/pi/.yarn/bin
+$ npm install pm2 -g
 ```
 
 ### Start service
