@@ -4859,7 +4859,6 @@ __metadata:
   bin:
     box-office: ./lib/index.js
     box-office-esm: ./index.js
-    setup: ./setup.sh
   languageName: unknown
   linkType: soft
 
@@ -4916,7 +4915,6 @@ __metadata:
   bin:
     identity-service: ./lib/index.js
     identity-service-esm: ./index.js
-    setup: ./setup.sh
   languageName: unknown
   linkType: soft
 
@@ -4936,7 +4934,6 @@ __metadata:
   bin:
     nameservice: ./lib/index.js
     nameservice-esm: ./index.js
-    setup: ./setup.sh
   languageName: unknown
   linkType: soft
 
@@ -4968,7 +4965,6 @@ __metadata:
   bin:
     rendezvous: ./lib/index.js
     rendezvous-esm: ./index.js
-    setup: ./setup.sh
   languageName: unknown
   linkType: soft
 
