@@ -11,7 +11,7 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": "14.x"
   },
   "dependencies": {
     "@emotion/react": "^11.1.1",
@@ -30,7 +30,6 @@
     "tweetnacl": "^1.0.3"
   },
   "scripts": {
-    "install:vercel": "rm ../../package.json && mv ../../yarn.lock . && yarn",
     "dev": "next",
     "build": "next build",
     "start": "next start"

@@ -5,7 +5,7 @@
   "version": "0.1.31",
   "author": "Marcin Czenko <marcin@everydayproductive.com>",
   "engines": {
-    "node": ">=12.0.0"
+    "node": "14.x"
   },
   "homepage": "https://idbox.online",
   "repository": {
@@ -32,7 +32,6 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "install:vercel": "rm ../../package.json && mv ../../yarn.lock . && yarn",
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.js\"",
