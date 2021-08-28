@@ -5,5 +5,6 @@ module.exports = {
   snapshotSerializers: [
     '@emotion/jest/serializer'
   ],
-  setupFilesAfterEnv: [require.resolve('./setup-tests.js')]
+  setupFilesAfterEnv: [require.resolve('./setup-tests.js')],
+  testEnvironment: 'jsdom'
 }

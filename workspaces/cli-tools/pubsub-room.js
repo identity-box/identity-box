@@ -20,10 +20,10 @@
  *
 *************************************************/
 
-import ipfsClient from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 import Room from 'ipfs-pubsub-room'
 
-const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5001')
+const ipfs = create('/ip4/127.0.0.1/tcp/5001')
 
 const room = new Room(ipfs, 'test-room')
 

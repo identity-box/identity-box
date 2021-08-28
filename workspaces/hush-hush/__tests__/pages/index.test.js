@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Home from '../../pages/index'
 
 describe('index', () => {
@@ -12,14 +12,14 @@ describe('index', () => {
   })
 
   it('has proper styling', async () => {
-    const { container, findByText } = render(<Home />)
+    const { container } = render(<Home />)
     expect(container).toMatchSnapshot()
-    await findByText(/^Connect\.\.\./i)
+    await screen.findByText(/^Connect\.\.\./i)
   })
 
   it('displays welcome text', async () => {
-    const { getByText, findByText } = render(<Home />)
-    expect(getByText(/Hush Hush needs to know two things/i)).toBeInTheDocument()
-    await findByText(/^Connect\.\.\./i)
+    render(<Home />)
+    expect(screen.getByText(/Hush Hush needs to know two things/i)).toBeInTheDocument()
+    await screen.findByText(/^Connect\.\.\./i)
   })
 })

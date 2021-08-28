@@ -1,9 +1,9 @@
-import ipfsClient from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 import { IdentityProvider } from './IdentityProvider'
 import packageJSON from '../../package.json'
 
 class Dispatcher {
-  ipfs = ipfsClient(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
+  ipfs = create(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
   identityProvider
 
   constructor () {

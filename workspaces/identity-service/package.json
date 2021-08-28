@@ -36,21 +36,21 @@
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.31",
-    "base32-encode": "^1.1.1",
+    "base32-encode": "^1.2.0",
     "base64url": "^3.0.1",
-    "commander": "^6.2.0",
+    "commander": "^8.1.0",
     "esm": "^3.2.25",
-    "firebase-admin": "^9.4.1",
-    "glob": "^7.1.6",
-    "ipfs-http-client": "^48.1.1",
-    "libp2p-crypto": "^0.18.0",
+    "firebase-admin": "^9.11.1",
+    "glob": "^7.1.7",
+    "ipfs-http-client": "^52.0.2",
+    "libp2p-crypto": "^0.19.7",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.8",
-    "faker": "^5.1.0"
+    "@babel/cli": "^7.14.8",
+    "faker": "^5.5.3"
   }
 }
