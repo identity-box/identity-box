@@ -4324,9 +4324,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@confluenza/confluenza@npm:^1.0.27":
-  version: 1.0.27
-  resolution: "@confluenza/confluenza@npm:1.0.27"
+"@confluenza/confluenza@npm:^1.0.28":
+  version: 1.0.28
+  resolution: "@confluenza/confluenza@npm:1.0.28"
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
@@ -4338,15 +4338,15 @@ __metadata:
     gatsby: ^3.4.0
     react: ^17.0.0
     react-dom: ^17.0.0
-  checksum: ad8933dda0e5c42e70c807d46c4a51f55d663ce0e957ae1fc054287489cf40fef5fb0fdc565383d2a1b283bd9c24d1ce1ed6a7dc0462fed2d13645f79688baff
+  checksum: 78be8efac2aa2633f2ddb05ef2eacbd9e86273c450d06450f3e8c94aed50dd352341bf9704b7201a17f00c242b44595f3ac852c03e3273c3fe367e12a6f35f7f
   languageName: node
   linkType: hard
 
-"@confluenza/gatsby-theme-confluenza@npm:^1.0.27":
-  version: 1.0.27
-  resolution: "@confluenza/gatsby-theme-confluenza@npm:1.0.27"
+"@confluenza/gatsby-theme-confluenza@npm:^1.0.28":
+  version: 1.0.28
+  resolution: "@confluenza/gatsby-theme-confluenza@npm:1.0.28"
   dependencies:
-    "@confluenza/confluenza": ^1.0.27
+    "@confluenza/confluenza": ^1.0.28
     "@emotion/core": ^11.0.0
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
@@ -4381,7 +4381,7 @@ __metadata:
     gatsby: ^3.4.0
     react: ^17.0.0
     react-dom: ^17.0.0
-  checksum: ebf9162eaa29bb2569e393e1ed956ecbe51a736d3122b4104e43cd68509ea654422fa686387c913373eb680673ace476f21027d25e4bc0bd622c865d034addb2
+  checksum: 88a3ee289c24ece76b0f3adcfbe56f791f87a81f7391fc6e16fd4d66de9a8d8942b40a172437171e522d6bdf082bbc9a33ffab7b7433b4764888b3ca333daaea
   languageName: node
   linkType: hard
 
@@ -22613,7 +22613,7 @@ fsevents@~2.1.2:
   version: 0.0.0-use.local
   resolution: "homepage@workspace:workspaces/homepage"
   dependencies:
-    "@confluenza/gatsby-theme-confluenza": ^1.0.27
+    "@confluenza/gatsby-theme-confluenza": ^1.0.28
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
     "@pmmmwh/react-refresh-webpack-plugin": ^0.4.3

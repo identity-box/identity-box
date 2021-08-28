@@ -13,7 +13,7 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "dependencies": {
-    "@confluenza/gatsby-theme-confluenza": "^1.0.27",
+    "@confluenza/gatsby-theme-confluenza": "^1.0.28",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "gatsby": "^3.12.1",
