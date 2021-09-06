@@ -38,7 +38,7 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-qrcode-svg": "^6.1.1",
     "react-native-reanimated": "~2.2.0",
-    "react-native-safe-area-context": "3.2.0",
+    "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
     "react-native-swipe-list-view": "^2.4.0",
