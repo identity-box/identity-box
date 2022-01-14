@@ -5782,7 +5782,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/box-office@workspace:workspaces/box-office"
   dependencies:
-    "@identity-box/utils": ^0.1.31
+    "@identity-box/utils": ^0.1.32
     "@react-frontend-developer/buffers": ^1.0.21
     base64url: ^3.0.1
     commander: ^8.1.0
@@ -5809,7 +5809,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/idbox-react-ui@^0.1.31, @identity-box/idbox-react-ui@workspace:workspaces/idbox-react-ui":
+"@identity-box/idbox-react-ui@^0.1.32, @identity-box/idbox-react-ui@workspace:workspaces/idbox-react-ui":
   version: 0.0.0-use.local
   resolution: "@identity-box/idbox-react-ui@workspace:workspaces/idbox-react-ui"
   dependencies:
@@ -5835,7 +5835,7 @@ __metadata:
   resolution: "@identity-box/identity-service@workspace:workspaces/identity-service"
   dependencies:
     "@babel/cli": ^7.14.8
-    "@identity-box/utils": ^0.1.31
+    "@identity-box/utils": ^0.1.32
     base32-encode: ^1.2.0
     base64url: ^3.0.1
     cids: ^1.1.8
@@ -5857,7 +5857,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/nameservice@workspace:workspaces/nameservice"
   dependencies:
-    "@identity-box/utils": ^0.1.31
+    "@identity-box/utils": ^0.1.32
     "@react-frontend-developer/buffers": ^1.0.21
     base64url: ^3.0.1
     cids: ^1.1.8
@@ -5865,6 +5865,7 @@ __metadata:
     esm: ^3.2.25
     faker: ^5.5.3
     ipfs-http-client: ^52.0.2
+    shelljs: ^0.8.4
     tweetnacl: ^1.0.3
   bin:
     nameservice: ./lib/index.js
@@ -5872,7 +5873,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/rendezvous-client@^0.1.31, @identity-box/rendezvous-client@workspace:workspaces/rendezvous-client":
+"@identity-box/rendezvous-client@^0.1.32, @identity-box/rendezvous-client@workspace:workspaces/rendezvous-client":
   version: 0.0.0-use.local
   resolution: "@identity-box/rendezvous-client@workspace:workspaces/rendezvous-client"
   dependencies:
@@ -5886,7 +5887,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/rendezvous@workspace:workspaces/rendezvous"
   dependencies:
-    "@identity-box/utils": ^0.1.31
+    "@identity-box/utils": ^0.1.32
     "@react-frontend-developer/buffers": ^1.0.21
     base64url: ^3.0.1
     commander: ^8.1.0
@@ -5903,7 +5904,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/utils@^0.1.31, @identity-box/utils@workspace:workspaces/utils":
+"@identity-box/utils@^0.1.32, @identity-box/utils@workspace:workspaces/utils":
   version: 0.0.0-use.local
   resolution: "@identity-box/utils@workspace:workspaces/utils"
   dependencies:
@@ -23093,8 +23094,8 @@ fsevents@~2.1.2:
     "@emotion/jest": ^11.3.0
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
-    "@identity-box/idbox-react-ui": ^0.1.31
-    "@identity-box/rendezvous-client": ^0.1.31
+    "@identity-box/idbox-react-ui": ^0.1.32
+    "@identity-box/rendezvous-client": ^0.1.32
     "@react-frontend-developer/react-layout-helpers": ^1.0.22
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^12.0.0
@@ -23191,7 +23192,7 @@ fsevents@~2.1.2:
     "@babel/plugin-proposal-decorators": ^7.14.5
     "@emotion/native": ^11.0.0
     "@emotion/react": ^11.4.1
-    "@identity-box/rendezvous-client": ^0.1.31
+    "@identity-box/rendezvous-client": ^0.1.32
     "@react-frontend-developer/buffers": ^1.0.21
     "@react-native-community/masked-view": 0.1.10
     babel-preset-expo: 8.3.0
@@ -23702,6 +23703,13 @@ fsevents@~2.1.2:
     has: ^1.0.3
     side-channel: ^1.0.4
   checksum: 1944f92e981e47aebc98a88ff0db579fd90543d937806104d0b96557b10c1f170c51fb777b97740a8b6ddeec585fca8c39ae99fd08a8e058dfc8ab70937238bf
+  languageName: node
+  linkType: hard
+
+"interpret@npm:^1.0.0":
+  version: 1.4.0
+  resolution: "interpret@npm:1.4.0"
+  checksum: 2e5f51268b5941e4a17e4ef0575bc91ed0ab5f8515e3cf77486f7c14d13f3010df9c0959f37063dcc96e78d12dc6b0bb1b9e111cdfe69771f4656d2993d36155
   languageName: node
   linkType: hard
 
@@ -35864,6 +35872,15 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"rechoir@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "rechoir@npm:0.6.2"
+  dependencies:
+    resolve: ^1.1.6
+  checksum: fe76bf9c21875ac16e235defedd7cbd34f333c02a92546142b7911a0f7c7059d2e16f441fe6fb9ae203f459c05a31b2bcf26202896d89e390eda7514d5d2702b
+  languageName: node
+  linkType: hard
+
 "recursive-readdir@npm:2.2.2":
   version: 2.2.2
   resolution: "recursive-readdir@npm:2.2.2"
@@ -36436,7 +36453,7 @@ fsevents@~2.1.2:
   dependencies:
     "@emotion/react": ^11.4.1
     "@emotion/styled": ^11.3.0
-    "@identity-box/rendezvous-client": ^0.1.31
+    "@identity-box/rendezvous-client": ^0.1.32
     "@reach/router": ^1.3.4
     "@react-frontend-developer/buffers": ^1.0.21
     base64url: ^3.0.1
@@ -36682,6 +36699,16 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"resolve@^1.1.6, resolve@^1.20.0":
+  version: 1.20.0
+  resolution: "resolve@npm:1.20.0"
+  dependencies:
+    is-core-module: ^2.2.0
+    path-parse: ^1.0.6
+  checksum: 40cf70b2cde00ef57f99daf2dc63c6a56d6c14a1b7fc51735d06a6f0a3b97cb67b4fb7ef6c747b4e13a7baba83b0ef625d7c4ce92a483cd5af923c3b65fd16fe
+  languageName: node
+  linkType: hard
+
 "resolve@^1.10.0, resolve@^1.10.1, resolve@^1.13.1, resolve@^1.4.0, resolve@^1.5.0, resolve@^1.8.1":
   version: 1.15.1
   resolution: "resolve@npm:1.15.1"
@@ -36698,16 +36725,6 @@ fsevents@~2.1.2:
     is-core-module: ^2.1.0
     path-parse: ^1.0.6
   checksum: a05b356e47b85ad3613d9e2a39a824f3c27f4fcad9c9ff6c7cc71a2e314c5904a90ab37481ad0069d03cab9eaaac6eb68aca1bc3355fdb05f1045cd50e2aacea
-  languageName: node
-  linkType: hard
-
-resolve@^1.20.0:
-  version: 1.20.0
-  resolution: "resolve@npm:1.20.0"
-  dependencies:
-    is-core-module: ^2.2.0
-    path-parse: ^1.0.6
-  checksum: 40cf70b2cde00ef57f99daf2dc63c6a56d6c14a1b7fc51735d06a6f0a3b97cb67b4fb7ef6c747b4e13a7baba83b0ef625d7c4ce92a483cd5af923c3b65fd16fe
   languageName: node
   linkType: hard
 
@@ -36731,6 +36748,16 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>":
+  version: 1.20.0
+  resolution: "resolve@patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=00b1ff"
+  dependencies:
+    is-core-module: ^2.2.0
+    path-parse: ^1.0.6
+  checksum: bed00be983cd20a8af0e7840664f655c4b269786dbd9595c5f156cd9d8a0050e65cdbbbdafc30ee9b6245b230c78a2c8ab6447a52545b582f476c29adb188cc5
+  languageName: node
+  linkType: hard
+
 "resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.13.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.4.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.5.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.8.1#~builtin<compat/resolve>":
   version: 1.15.1
   resolution: "resolve@patch:resolve@npm%3A1.15.1#~builtin<compat/resolve>::version=1.15.1&hash=00b1ff"
@@ -36747,16 +36774,6 @@ resolve@^2.0.0-next.3:
     is-core-module: ^2.1.0
     path-parse: ^1.0.6
   checksum: 4714fbea90c3a4b9c14af343f255193ab16bce50782309318e01c3e4113e89df69a2a9fb1f1d9f7791c9c5a52a56f10568ce82df92dbbe184557d309a96808e5
-  languageName: node
-  linkType: hard
-
-"resolve@patch:resolve@^1.20.0#~builtin<compat/resolve>":
-  version: 1.20.0
-  resolution: "resolve@patch:resolve@npm%3A1.20.0#~builtin<compat/resolve>::version=1.20.0&hash=00b1ff"
-  dependencies:
-    is-core-module: ^2.2.0
-    path-parse: ^1.0.6
-  checksum: bed00be983cd20a8af0e7840664f655c4b269786dbd9595c5f156cd9d8a0050e65cdbbbdafc30ee9b6245b230c78a2c8ab6447a52545b582f476c29adb188cc5
   languageName: node
   linkType: hard
 
@@ -37837,6 +37854,19 @@ resolve@~1.7.1:
   version: 1.7.2
   resolution: "shell-quote@npm:1.7.2"
   checksum: efad426fb25d8a54d06363f1f45774aa9e195f62f14fa696d542b44bfe418ab41206448b63af18d726c62e099e66d9a3f4f44858b9ea2ce4b794b41b802672d1
+  languageName: node
+  linkType: hard
+
+"shelljs@npm:^0.8.4":
+  version: 0.8.4
+  resolution: "shelljs@npm:0.8.4"
+  dependencies:
+    glob: ^7.0.0
+    interpret: ^1.0.0
+    rechoir: ^0.6.2
+  bin:
+    shjs: bin/shjs
+  checksum: 27f83206ef6a4f5b74a493726c3e6b4c3e07a9c2aac94c5e692d800a61353c18a8234967bd8523b1346abe718beb563843687fb57f466529ba06db3cae6f0bb3
   languageName: node
   linkType: hard
 

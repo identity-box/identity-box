@@ -32,7 +32,7 @@
   },
   "scripts": {
     "build": "yarn node ./tools/build.js",
-    "postinstall": "cp ./ecosystem.config.js $INIT_CWD"
+    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.32",

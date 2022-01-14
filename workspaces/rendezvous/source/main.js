@@ -6,6 +6,7 @@ const program = new commander.Command()
 
 const start = cmdObj => {
   const { baseUrl, servicePath, port } = cmdObj
+  console.log(`@identity-box/rendezvous@${packageJSON.version}`)
   console.log('servicePath=', servicePath)
   console.log('baseUrl=', baseUrl)
   console.log('port=', port)

@@ -2,6 +2,7 @@ import { create } from 'ipfs-http-client'
 
 import { NamePublisher } from './NamePublisher'
 import { NameResolver } from './NameResolver'
+import packageJSON from '../../package.json'
 
 class Dispatcher {
   ipfs = create(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
@@ -18,6 +19,16 @@ class Dispatcher {
     console.log('received:')
     console.log('message:', message)
     switch (message.method) {
+      case 'about':
+        return {
+          method: 'about-response',
+          params: [
+            {
+              description: '@identity-box/nameservice',
+              version: `${packageJSON.version}`
+            }
+          ]
+        }
       case 'publish-name':
         return this.namePublisher.publish(message.params[0])
       case 'unpublish-name':

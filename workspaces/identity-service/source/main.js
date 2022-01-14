@@ -6,6 +6,7 @@ const program = new commander.Command()
 
 const start = cmdObj => {
   const { servicePath, registrationPath } = cmdObj
+  console.log(`@identity-box/identity-service@${packageJSON.version}`)
   console.log('servicePath=', servicePath)
   console.log('registrationPath=', registrationPath)
   const entryPoint = new EntryPoint({

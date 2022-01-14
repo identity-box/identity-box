@@ -11,30 +11,28 @@ RaspberryPi is a reliable, powerful, and cost-effective platform that can be use
 We currently use Node v14 LTS. We recommend using [Node Version Manager](https://github.com/nvm-sh/nvm). To install Node Version Manager (nvm) on your Raspberry run:
 
 ```bash
-$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 ```
 
-Then install Node 14 LTS:
+Then install Node 16 LTS:
 
 ```bash
 $ nvm install --lts
 ```
 
-Let's also install [yarn](https://yarnpkg.com/lang/en/docs/install/#debian-stable):
+Let's also install [yarn](https://yarnpkg.com/getting-started/install):
 
 ```bash
-$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-$ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-$ sudo apt update && sudo apt install --no-install-recommends yarn
+$ corepack enable
 ```
 
 Everything should be in place now. At the time of writing of this document we had:
 
 ```bash
 $ node --version
-v14.15.1
+v16.13.2
 $ yarn --version
-1.22.5
+1.22.15
 $ git --version
 git version 2.20.1
 ```
@@ -47,12 +45,11 @@ We will use [IPFS installer](https://github.com/claudiobizzotto/ipfs-rpi):
 $ git clone https://github.com/claudiobizzotto/ipfs-rpi.git
 ```
 
-We install IPFS v0
+We install IPFS v0.11.0
 
 ```bash
 $ cd ipfs-rpi/
-$ ./install v0.7.0
-$ sudo systemctl stop ipfs-daemon.service
+$ ./install v0.11.0
 ```
 
 This will install, initialize, and start IPFS. We need to alter configuration a bit, so let's stop IPFS for the moment:
@@ -71,10 +68,26 @@ a different startup command:
 You can change it using:
 
 ```bash
+$ cd ipfs-rpi/
 $ nano templates/ipfs-daemon.service.tpl
 ```
 
+and change set:
+
+```bash
+$ ExecStart=/usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
+```
+
 Notice, however, that in order for the changes to take effect, you will need to stop the daemon and run installation script again: `./install v0.7.0`.
+
+So after changing the template file, we run again:
+
+```bash
+$ cd ipfs-rpi/
+$ ./install v0.11.0
+>>> Starting IPFS
+>>> All done.
+```
 
 We also need to change the configuration of our IPFS node. IPFS configuration can be found in `~/.ipfs/config`. While the daemon is stopped, we can edit this file:
 
@@ -88,20 +101,23 @@ We first disable the gateway:
 "Addresses": {
   "Swarm": [
     "/ip4/0.0.0.0/tcp/4001",
-    "/ip6/::/tcp/4001"
+    "/ip6/::/tcp/4001",
+    "/ip4/0.0.0.0/udp/4001/quic",
+    "/ip6/::/udp/4001/quic"
   ],
   "Announce": [],
+  "AppendAnnounce": [],
   "NoAnnounce": [],
   "API": "/ip4/127.0.0.1/tcp/5001",
   "Gateway": ""
 },
 ```
 
-Then we limit the maximum size of file storage to `10MB`:
+Then we limit the maximum size of file storage to `5GB` (default is `10G`):
 
 ```json
 "Datastore": {
-  "StorageMax": "10MB",
+  "StorageMax": "5GB",
 ```
 
 We change the `MDNS` discovery:
@@ -122,10 +138,13 @@ and finally in `Swarm` section:
   "AddrFilters": null,
   "DisableBandwidthMetrics": true,
   "DisableNatPortMap": true,
-  "DisableRelay": false,
-  "EnableRelayHop": false,
-  "EnableAutoRelay": false,
-  "EnableAutoNATService": false,
+  "RelayClient": {},
+  "RelayService": {},
+  "Transports": {
+    "Network": {},
+    "Security": {},
+    "Multiplexers": {}
+  },
   "ConnMgr": {
     "Type": "basic",
     "LowWater": 100,
@@ -133,6 +152,171 @@ and finally in `Swarm` section:
     "GracePeriod": "20s"
   }
 },
+```
+
+For reference, below is the whole `~/.ipfs/config`:
+
+```json
+{
+  "Identity": {
+    "PeerID": "...",
+    "PrivKey": "..."
+  },
+  "Datastore": {
+    "StorageMax": "5GB",
+    "StorageGCWatermark": 90,
+    "GCPeriod": "1h",
+    "Spec": {
+      "mounts": [
+        {
+          "child": {
+            "path": "blocks",
+            "shardFunc": "/repo/flatfs/shard/v1/next-to-last/2",
+            "sync": true,
+            "type": "flatfs"
+          },
+          "mountpoint": "/blocks",
+          "prefix": "flatfs.datastore",
+          "type": "measure"
+        },
+        {
+          "child": {
+            "compression": "none",
+            "path": "datastore",
+            "type": "levelds"
+          },
+          "mountpoint": "/",
+          "prefix": "leveldb.datastore",
+          "type": "measure"
+        }
+      ],
+      "type": "mount"
+    },
+    "HashOnRead": false,
+    "BloomFilterSize": 0
+  },
+  "Addresses": {
+    "Swarm": [
+      "/ip4/0.0.0.0/tcp/4001",
+      "/ip6/::/tcp/4001",
+      "/ip4/0.0.0.0/udp/4001/quic",
+      "/ip6/::/udp/4001/quic"
+    ],
+    "Announce": [],
+    "AppendAnnounce": [],
+    "NoAnnounce": [],
+    "API": "/ip4/127.0.0.1/tcp/5001",
+    "Gateway": ""
+  },
+  "Mounts": {
+    "IPFS": "/ipfs",
+    "IPNS": "/ipns",
+    "FuseAllowOther": false
+  },
+  "Discovery": {
+    "MDNS": {
+      "Enabled": false,
+      "Interval": 10
+    }
+  },
+  "Routing": {
+    "Type": "dht"
+  },
+  "Ipns": {
+    "RepublishPeriod": "",
+    "RecordLifetime": "",
+    "ResolveCacheSize": 128
+  },
+  "Bootstrap": [
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
+    "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+  ],
+  "Gateway": {
+    "HTTPHeaders": {
+      "Access-Control-Allow-Headers": [
+        "X-Requested-With",
+        "Range",
+        "User-Agent"
+      ],
+      "Access-Control-Allow-Methods": [
+        "GET"
+      ],
+      "Access-Control-Allow-Origin": [
+        "*"
+      ]
+    },
+    "RootRedirect": "",
+    "Writable": false,
+    "PathPrefixes": [],
+    "APICommands": [],
+    "NoFetch": false,
+    "NoDNSLink": false,
+    "PublicGateways": null
+  },
+  "API": {
+    "HTTPHeaders": {}
+  },
+  "Swarm": {
+    "AddrFilters": null,
+    "DisableBandwidthMetrics": true,
+    "DisableNatPortMap": true,
+    "RelayClient": {},
+    "RelayService": {},
+    "Transports": {
+      "Network": {},
+      "Security": {},
+      "Multiplexers": {}
+    },
+    "ConnMgr": {
+      "Type": "basic",
+      "LowWater": 100,
+      "HighWater": 300,
+      "GracePeriod": "20s"
+    }
+  },
+  "AutoNAT": {},
+  "Pubsub": {
+    "Router": "",
+    "DisableSigning": false
+  },
+  "Peering": {
+    "Peers": null
+  },
+  "DNS": {
+    "Resolvers": {}
+  },
+  "Migration": {
+    "DownloadSources": [],
+    "Keep": ""
+  },
+  "Provider": {
+    "Strategy": ""
+  },
+  "Reprovider": {
+    "Interval": "12h",
+    "Strategy": "all"
+  },
+  "Experimental": {
+    "FilestoreEnabled": false,
+    "UrlstoreEnabled": false,
+    "GraphsyncEnabled": false,
+    "Libp2pStreamMounting": false,
+    "P2pHttpProxy": false,
+    "StrategicProviding": false,
+    "AcceleratedDHTClient": false
+  },
+  "Plugins": {
+    "Plugins": null
+  },
+  "Pinning": {
+    "RemoteServices": {}
+  },
+  "Internal": {}
+}
 ```
 
 Also make sure you open port `4001` and map it to your Identity Box IP address so that it is accessible from outside. For this please refer to your ISP router settings.
@@ -167,25 +351,34 @@ You can check the status and see how much memory your IPFS is using by running:
 
 ```bash
 $ sudo systemctl status ipfs-daemon.service
-Loaded: loaded (/lib/systemd/system/ipfs-daemon.service; enabled; vendor preset: enabled)
-   Active: active (running) since Fri 2020-01-17 21:09:26 CET; 1min 19s ago
- Main PID: 18796 (ipfs)
-    Tasks: 14 (limit: 4915)
-   Memory: 11.2M
+● ipfs-daemon.service - IPFS daemon
+   Loaded: loaded (/lib/systemd/system/ipfs-daemon.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2022-01-14 02:28:45 CET; 20s ago
+ Main PID: 517 (ipfs)
+    Tasks: 10 (limit: 4915)
+   Memory: 87.9M
    CGroup: /system.slice/ipfs-daemon.service
-           └─18796 /usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
+           └─517 /usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
 
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm listening on /ip4/127.0.0.1/tcp/4001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm listening on /ip4/192.168.1.21/tcp/4001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm listening on /ip6/::1/tcp/4001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm listening on /p2p-circuit
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm announcing /ip4/127.0.0.1/tcp/4001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm announcing /ip4/192.168.1.21/tcp/4001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Swarm announcing /ip6/::1/tcp/4001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: API server listening on /ip4/127.0.0.1/tcp/5001
-Jan 17 21:09:28 idbox-1 ipfs[18796]: WebUI: http://127.0.0.1:5001/webui
-Jan 17 21:09:28 idbox-1 ipfs[18796]: Daemon is ready
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm listening on /ip6/::1/tcp/4001
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm listening on /ip6/::1/udp/4001/quic
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm listening on /p2p-circuit
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm announcing /ip4/127.0.0.1/tcp/4001
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm announcing /ip4/127.0.0.1/udp/4001/quic
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm announcing /ip6/::1/tcp/4001
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Swarm announcing /ip6/::1/udp/4001/quic
+Jan 14 02:28:48 idbox-1-new ipfs[517]: API server listening on /ip4/127.0.0.1/tcp/5001
+Jan 14 02:28:48 idbox-1-new ipfs[517]: WebUI: http://127.0.0.1:5001/webui
+Jan 14 02:28:48 idbox-1-new ipfs[517]: Daemon is ready
 ```
+
+> if you do not see the `Memory` entry above, you may need to add
+>
+> ```bash
+> cgroup_enable=memory cgroup_memory=1
+> ```
+> 
+> to `/boot/cmdline.txt` and restart your box with `sudo shutdown -r now`
 
 IPFS may occasionally run into memory problems. Our settings should prevent memory leaks (`HighWater`, `LowWater`, `DisableBandwidthMetrics`, `DisableNatPortMap`), but for now we decided to restart IPFS daemon every 24h. We use cron to accomplish the task:
 
@@ -264,25 +457,15 @@ $ systemctl status swarm-connector
 
 Our virtual identity box also keeps the same kind of connection with other Identity Boxes.
 
-> We still explore. We do not know how many connections we will have to keep alive. We also
-consider creating a proper Identity Box service with more intelligence to keep connected
-what needs to be connected.
+> We still explore. We do not know how many connections we will have to keep alive. We also consider creating a proper Identity Box service with more intelligence to keep connected what needs to be connected.
 
 ## PM2
 
 We control Identity Box services using [pm2](https://pm2.keymetrics.io/):
 
 ```bash
-$ yarn global add pm2
+$ npm install pm2 -g
 ```
-
-Please also add `/home/pi/.yarn/bin` to your `PATH`:
-
-```bash
-export PATH=$PATH:/home/pi/.yarn/bin
-```
-
-This way we can run `pm2` without `yarn`.
 
 In order to prevent that the logs grow without control, please add the `pm2-logrotate` module to pm2:
 
@@ -301,8 +484,10 @@ To instal Name Service, please use the following commands:
 ```bash
 $ mkdir nameservice
 $ cd nameservice
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/nameservice
-$ yarn setup
 ```
 
 After this start the Name Service using pm2:
@@ -341,8 +526,10 @@ This makes the environment ready to actually install the Identity Service:
 ```bash
 $ mkdir -p idbox/identity-service
 $ cd idbox/identity-service
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/identity-service
-$ yarn setup
 ```
 
 We start Identity Service with pm2:
@@ -359,8 +546,10 @@ Finally, we install and start the Box Office service:
 ```bash
 $ mkdir -p idbox/box-office
 $ cd idbox/box-office
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/box-office
-$ yarn setup
 ```
 
 We start Identity Service with pm2:
@@ -379,8 +568,10 @@ We start with:
 ```bash
 $ mkdir -p idbox/box-office
 $ cd idbox/box-office
+$ yarn set version berry
+$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
+$ yarn init
 $ yarn add @identity-box/box-office
-$ yarn setup
 ```
 
 Then, we open `ecosystem.config.js` and change the `args` parameter to include the external domain name
