@@ -1,6 +1,6 @@
 {
   "name": "idapp",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -19,7 +19,7 @@
   "dependencies": {
     "@emotion/native": "^11.0.0",
     "@emotion/react": "^11.4.1",
-    "@identity-box/rendezvous-client": "^0.1.32",
+    "@identity-box/rendezvous-client": "^0.1.33",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-native-community/masked-view": "0.1.10",
     "base64url": "^3.0.1",

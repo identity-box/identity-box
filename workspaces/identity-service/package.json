@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/identity-service",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "description": "Service to handle identity based operations",
   "bin": {
     "identity-service": "./lib/index.js",
@@ -35,7 +35,7 @@
     "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.32",
+    "@identity-box/utils": "^0.1.33",
     "base32-encode": "^1.2.0",
     "base64url": "^3.0.1",
     "cids": "^1.1.8",
