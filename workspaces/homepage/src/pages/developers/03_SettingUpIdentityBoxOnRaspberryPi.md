@@ -482,7 +482,7 @@ To learn more about pm2-logrotate, please consult https://www.npmjs.com/package/
 Finally, we install and start the Box Office service:
 
 ```bash
-npx github:/identity-box/cli install-service box-office
+$ npx github:/identity-box/cli install-service box-office
 ```
 
 We start the Box Office service with pm2:
@@ -534,7 +534,7 @@ as long as it is there and the `IDBOX_BACKUP` variable correctly points to it. Y
 This makes the environment ready to actually install the Identity Service:
 
 ```bash
-npx github:/identity-box/cli install-service identity-service
+$ npx github:/identity-box/cli install-service identity-service
 ```
 
 We start Identity Service with pm2:
@@ -551,7 +551,7 @@ The Rendezvous service provides external connectivity to the box and this needs 
 We start with:
 
 ```bash
-npx github:/identity-box/cli install-service rendezvous
+$ npx github:/identity-box/cli install-service rendezvous
 ```
 
 Then, we open `ecosystem.config.js` and change the `args` parameter to include the external domain name
