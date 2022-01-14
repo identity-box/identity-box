@@ -477,17 +477,27 @@ $ pm2 set pm2-logrotate:workerInterval 300
 The last command above sets the interval at which the logs will be checked to 5min.
 To learn more about pm2-logrotate, please consult https://www.npmjs.com/package/pm2-logrotate.
 
+## Box Office
+
+Finally, we install and start the Box Office service:
+
+```bash
+npx github:/identity-box/cli install-service box-office
+```
+
+We start the Box Office service with pm2:
+
+```bash
+$ cd ~/idbox/box-office
+$ pm2 start ecosystem.config.js
+```
+
 ## Name service
 
 To instal Name Service, please use the following commands:
 
 ```bash
-$ mkdir nameservice
-$ cd nameservice
-$ yarn set version berry
-$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
-$ yarn init
-$ yarn add @identity-box/nameservice
+$ npx github:/identity-box/cli install-service nameservice
 ```
 
 After this start the Name Service using pm2:
@@ -524,38 +534,13 @@ as long as it is there and the `IDBOX_BACKUP` variable correctly points to it. Y
 This makes the environment ready to actually install the Identity Service:
 
 ```bash
-$ mkdir -p idbox/identity-service
-$ cd idbox/identity-service
-$ yarn set version berry
-$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
-$ yarn init
-$ yarn add @identity-box/identity-service
+npx github:/identity-box/cli install-service identity-service
 ```
 
 We start Identity Service with pm2:
 
 ```bash
 $ cd ~/idbox/identity-service
-$ pm2 start ecosystem.config.js
-```
-
-## Box Office
-
-Finally, we install and start the Box Office service:
-
-```bash
-$ mkdir -p idbox/box-office
-$ cd idbox/box-office
-$ yarn set version berry
-$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
-$ yarn init
-$ yarn add @identity-box/box-office
-```
-
-We start Identity Service with pm2:
-
-```bash
-$ cd ~/idbox/box-office
 $ pm2 start ecosystem.config.js
 ```
 
@@ -566,12 +551,7 @@ The Rendezvous service provides external connectivity to the box and this needs 
 We start with:
 
 ```bash
-$ mkdir -p idbox/box-office
-$ cd idbox/box-office
-$ yarn set version berry
-$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
-$ yarn init
-$ yarn add @identity-box/box-office
+npx github:/identity-box/cli install-service rendezvous
 ```
 
 Then, we open `ecosystem.config.js` and change the `args` parameter to include the external domain name
@@ -643,6 +623,31 @@ Then, restart the nginx service:
 ```bash
 $ sudo systemctl restart nginx
 ```
+
+> If you are getting an error like this:
+>
+> ```bash
+> ● nginx.service - A high performance web server and a reverse proxy server
+>   Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+>   Active: failed (Result: exit-code) since Fri 2022-01-14 06:03:36 CET; 22s ago
+>     Docs: man:nginx(8)
+>  Process: 6900 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+>
+> Jan 14 06:03:35 idbox-1-new systemd[1]: Starting A high performance web server and a reverse proxy server...
+> Jan 14 06:03:36 idbox-1-new nginx[6900]: nginx: [emerg] could not build server_names_hash, you should increase server_names_hash_bucket_size: 32
+> Jan 14 06:03:36 idbox-1-new nginx[6900]: nginx: configuration file /etc/nginx/nginx.conf test failed
+> Jan 14 06:03:36 idbox-1-new systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+> Jan 14 06:03:36 idbox-1-new systemd[1]: nginx.service: Failed with result 'exit-code'.
+> Jan 14 06:03:36 idbox-1-new systemd[1]: Failed to start A high performance web server and a reverse proxy server.
+> ```
+> 
+> you may need to update your `/etc/nginx/nginx.conf` file and make sure that line:
+>
+> ```bash
+> server_names_hash_bucket_size 64;
+> ```
+>
+> is **not** commented out.
 
 Finally, start the Rendezvous service:
 
