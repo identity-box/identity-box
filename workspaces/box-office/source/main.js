@@ -6,6 +6,7 @@ const program = new commander.Command()
 
 const start = cmdObj => {
   const { servicePath } = cmdObj
+  console.log(`@identity-box/box-office@${packageJSON.version}`)
   console.log('servicePath=', servicePath)
   const entryPoint = new EntryPoint({
     servicePath

@@ -1,6 +1,8 @@
 import { Service } from '@identity-box/utils'
 import { ServiceBroker } from './ServiceBroker'
 
+import packageJSON from '../../package.json'
+
 class BoxOfficeService {
   serviceRegistry
   service
@@ -18,6 +20,17 @@ class BoxOfficeService {
 
   processMessage = async message => {
     console.log('MESSAGE:', message)
+    if (message.servicePath === 'identity-box.box-office' && message.method === 'about') {
+      return {
+        method: 'about-response',
+        params: [
+          {
+            description: '@identity-box/box-office',
+            version: `${packageJSON.version}`
+          }
+        ]
+      }
+    }
     try {
       return this.serviceBroker.dispatch(message)
     } catch (e) {

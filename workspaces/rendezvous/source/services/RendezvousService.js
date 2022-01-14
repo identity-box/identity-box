@@ -2,7 +2,7 @@ import express from 'express'
 import http from 'http'
 import socketIO from 'socket.io'
 import { IOSocketServer } from './IOSocketServer'
-
+import packageJSON from '../../package.json'
 class RendezvousService {
   app
   httpServer
@@ -17,7 +17,7 @@ class RendezvousService {
     this.ioSocketServer.start()
 
     this.app.get('/', function (req, res) {
-      res.send('Hello World!')
+      res.send(`@identity-box/rendezvous@${packageJSON.version}`)
     })
 
     return this.httpServer

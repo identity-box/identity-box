@@ -48,6 +48,7 @@
       "workspaces/nameservice/index.js",
       "workspaces/identity-service/index.js",
       "workspaces/rendezvous/index.js",
+      "workspaces/service-tester/index.js",
       "tools/build.js"
     ],
     "envs": [
