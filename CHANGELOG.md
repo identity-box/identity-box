@@ -1,3 +1,11 @@
+## v0.1.33 (2022-01-14)
+
+#### :heart_eyes_cat: Enhancement
+* [#68](https://github.com/identity-box/identity-box/pull/68) Adds versioning functionality for Identity Box services ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.32 (2021-08-28)
 
 #### :heart_eyes_cat: Enhancement
