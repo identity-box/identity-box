@@ -2,6 +2,7 @@
 path: /experience-identity-box
 title: Experience Identity Box
 tag: beta
+sortIndex: 10
 ---
 
 > You can join our Early Access Program by subscribing at [https://mailchi.mp/d0a5998cc646/identity-box-eap](https://mailchi.mp/d0a5998cc646/identity-box-eap).

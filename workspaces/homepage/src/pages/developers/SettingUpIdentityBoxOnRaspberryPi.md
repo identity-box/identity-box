@@ -2,6 +2,7 @@
 path: /developers/idbox-raspberry-pi
 title: Identity Box on Raspberry Pi
 tag: developer
+sortIndex: 30
 ---
 
 RaspberryPi is a reliable, powerful, and cost-effective platform that can be used to run Identity Box. In this document we describe how to setup a an Identity Box on Raspberry Pi. We will be using [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) with 4GB RAM. Please follow the standard instructions at [Setting up your Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up) and make sure you [enable ssh access](https://www.raspberrypi.org/documentation/remote-access/ssh/). [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) comes with git already installed.
