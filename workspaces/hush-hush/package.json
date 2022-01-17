@@ -11,7 +11,7 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "engines": {
-    "node": "16.x"
+    "node": "14.x"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
