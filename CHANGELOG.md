@@ -1,3 +1,11 @@
+## v0.1.34 (2022-01-17)
+
+#### :heart_eyes_cat: Enhancement
+* [#69](https://github.com/identity-box/identity-box/pull/69) IPFS v0.11.0 ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.33 (2022-01-14)
 
 #### :heart_eyes_cat: Enhancement
