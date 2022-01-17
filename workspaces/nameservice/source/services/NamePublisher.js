@@ -1,6 +1,7 @@
 import path from 'path'
 import { StateSerializer } from '@identity-box/utils'
 import { CID } from 'multiformats/cid'
+import { base36 } from 'multiformats/bases/base36'
 
 const PUBLISH_INTERVAL = 10000
 
@@ -33,9 +34,13 @@ class NamePublisher {
   }
 
   toBase36 = ipnsName => {
+    const libp2pKey = {
+      code: 0x72,
+      name: 'libp2p-key'
+    }
     const v0 = CID.parse(ipnsName)
-    v0.toString()
-    return v0.toV1().toString()
+    const v1 = CID.create(1, libp2pKey.code, v0.multihash, v0.bytes)
+    return v1.toString(base36.encoder)
   }
 
   convertIPNSNamesToBase36 = () => {

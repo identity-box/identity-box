@@ -1,5 +1,6 @@
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { CID } from 'multiformats/cid'
+import { base36 } from 'multiformats/bases/base36'
 
 import { NameResolver } from '../../source/services/NameResolver'
 
@@ -17,9 +18,13 @@ describe('NameResolver', () => {
     // const cidB58 = new CID(ipnsName)
     // const cidBase36 = new CID(1, 'libp2p-key', cidB58.multihash, 'base36')
     // return cidBase36.toString()
+    const libp2pKey = {
+      code: 0x72,
+      name: 'libp2p-key'
+    }
     const v0 = CID.parse(ipnsName)
-    v0.toString()
-    return v0.toV1().toString()
+    const v1 = CID.create(1, libp2pKey.code, v0.multihash, v0.bytes)
+    return v1.toString(base36.encoder)
   }
 
   beforeEach(() => {

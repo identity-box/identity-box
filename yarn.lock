@@ -3262,6 +3262,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/cli-tools@workspace:workspaces/cli-tools"
   dependencies:
+    cids: 1.1.8
     commander: ^8.3.0
     esm: ^3.2.25
     got: ^12.0.1
@@ -4940,6 +4941,13 @@ __metadata:
   version: 2.0.1
   resolution: "@microsoft/fetch-event-source@npm:2.0.1"
   checksum: a50e1c0f33220206967266d0a4bbba0703e2793b079d9f6e6bfd48f71b2115964a803e14cf6e902c6fab321edc084f26022334f5eaacc2cec87f174715d41852
+  languageName: node
+  linkType: hard
+
+"@multiformats/base-x@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@multiformats/base-x@npm:4.0.1"
+  checksum: ecbf84bdd7613fd795e4a41f20f3e8cc7df8bbee84690b7feed383d45a638ed228a80ff6f5c930373cbf24539f64857b66023ee3c1e914f6bac9995c76414a87
   languageName: node
   linkType: hard
 
@@ -10224,6 +10232,18 @@ __metadata:
   version: 3.3.0
   resolution: "ci-info@npm:3.3.0"
   checksum: c3d86fe374938ecda5093b1ba39acb535d8309185ba3f23587747c6a057e63f45419b406d880304dbc0e1d72392c9a33e42fe9a1e299209bc0ded5efaa232b66
+  languageName: node
+  linkType: hard
+
+"cids@npm:1.1.8":
+  version: 1.1.8
+  resolution: "cids@npm:1.1.8"
+  dependencies:
+    multibase: ^4.0.1
+    multicodec: ^3.0.1
+    multihashes: ^4.0.1
+    uint8arrays: ^3.0.0
+  checksum: 1183dbf4499bf7faf9e713294c978e1e2f5b2f477f4fb4aad334ce7c7dce3ec5b9126a29cae237bcc35df491fa20ac3d36b4c2d922677257841679edb457dafe
   languageName: node
   linkType: hard
 
@@ -23414,6 +23434,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"multibase@npm:^4.0.1":
+  version: 4.0.6
+  resolution: "multibase@npm:4.0.6"
+  dependencies:
+    "@multiformats/base-x": ^4.0.1
+  checksum: 891ce47f509c6070d2306e7e00aef3ef41fbb50a848a1e1bec5e75ca63c5032015a436cf09e9e3939b5b2ca81e74804151eb410a388f10e9aabf7a2f5a35d272
+  languageName: node
+  linkType: hard
+
 "multicast-dns-service-types@npm:^1.1.0":
   version: 1.1.0
   resolution: "multicast-dns-service-types@npm:1.1.0"
@@ -23433,10 +23462,31 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"multicodec@npm:^3.0.1":
+  version: 3.2.1
+  resolution: "multicodec@npm:3.2.1"
+  dependencies:
+    uint8arrays: ^3.0.0
+    varint: ^6.0.0
+  checksum: 9b6d209c85e12ea3f66cad25671dd92b6be2eff1455669fbbd3c01a26e649c79f94b29f8228c0f9e4fdecb4137b6b6f0f4b0721fd2cb79ec74b1049c29101092
+  languageName: node
+  linkType: hard
+
 "multiformats@npm:^9.4.13, multiformats@npm:^9.4.2, multiformats@npm:^9.4.5, multiformats@npm:^9.5.4, multiformats@npm:^9.5.8":
   version: 9.5.8
   resolution: "multiformats@npm:9.5.8"
   checksum: 40c73d63f6ca7391dcf393296efadf327dcf3bce79c2b2ea0235f5284b2ebd3e85caad04c0fe98d7c94cc4c122d89206d7b40fe76222a14b13e12c8c25d62d26
+  languageName: node
+  linkType: hard
+
+"multihashes@npm:^4.0.1":
+  version: 4.0.3
+  resolution: "multihashes@npm:4.0.3"
+  dependencies:
+    multibase: ^4.0.1
+    uint8arrays: ^3.0.0
+    varint: ^5.0.2
+  checksum: 57c978aa53f7144f8a146a486aa6aea96a73f21058f48ab80a8c5542854197aa63d33aae42b005bed1bbba9f70958b60f3287d90f1a47cf13e8ea7d75d6b8e34
   languageName: node
   linkType: hard
 
@@ -33491,6 +33541,13 @@ resolve@~1.7.1:
   version: 1.0.6
   resolution: "value-or-promise@npm:1.0.6"
   checksum: 3f255d288ba25c4021cb88f319c3a8fe147d1cbc9a4a3b70c795c1a6225d126959b1709d3b4d357745ceb4812f644218de02907ad4934023ca0be2db7e194f86
+  languageName: node
+  linkType: hard
+
+"varint@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "varint@npm:5.0.2"
+  checksum: e1a66bf9a6cea96d1f13259170d4d41b845833acf3a9df990ea1e760d279bd70d5b1f4c002a50197efd2168a2fd43eb0b808444600fd4d23651e8d42fe90eb05
   languageName: node
   linkType: hard
 

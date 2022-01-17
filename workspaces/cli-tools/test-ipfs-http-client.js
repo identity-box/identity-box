@@ -3,7 +3,9 @@
 
 import { create } from 'ipfs-http-client'
 import { CID } from 'multiformats/cid'
+import OCID from 'cids'
 import { base32 } from 'multiformats/bases/base32'
+import { base36 } from 'multiformats/bases/base36'
 
 const ipfs = create('/ip4/127.0.0.1/tcp/5001')
 
@@ -27,9 +29,20 @@ const rmKey = async name => {
 
 //'QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n'
 const toBase36 = ipnsName => {
+  const libp2pKey = {
+    code: 0x72,
+    name: 'libp2p-key'
+  }
   const v0 = CID.parse(ipnsName)
-  v0.toString()
-  return v0.toV1().toString()
+  console.log('base58btc:', v0.toString())
+  const v1 = CID.create(1, libp2pKey.code, v0.multihash, v0.bytes)
+  return v1.toString(base36.encoder)
+}
+
+const toBase36Old = ipnsName => {
+  const cidB58 = new OCID(ipnsName)
+  const cidBase36 = new OCID(1, 'libp2p-key', cidB58.multihash, 'base36')
+  return cidBase36.toString()
 }
 
 // ipfs.key.list().then(keys => {
@@ -44,9 +57,11 @@ const toBase36 = ipnsName => {
 
 // console.log('cid=', cid)
 
-const base36 = toBase36('QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n')
+const base36New = toBase36('QmSmnDg62GVfCUkehTxuosBsyFs86Ktr47HjTVVXMe4odq')
+const base36Old = toBase36Old('QmSmnDg62GVfCUkehTxuosBsyFs86Ktr47HjTVVXMe4odq')
 
-console.log('base36=', base36)
+console.log('base36=', base36New)
+console.log('base36=', base36Old)
 
 // ipfs.dag.get(cid).then(({ value }) => {
 //   console.log('value=', value)
