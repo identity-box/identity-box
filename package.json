@@ -1,7 +1,7 @@
 {
   "private": true,
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.8",
@@ -49,6 +49,7 @@
       "workspaces/rendezvous/index.js",
       "workspaces/service-tester/index.js",
       "workspaces/cli-tools/test-ipfs-http-client.js",
+      "workspaces/idapp/__mocks__",
       "tools/build.js"
     ],
     "envs": [
