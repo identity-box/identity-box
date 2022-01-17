@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import * as SecureStore from 'expo-secure-store'
-import { Button, Clipboard, ActivityIndicator } from 'react-native'
+import { Button, ActivityIndicator } from 'react-native'
+import * as Clipboard from 'expo-clipboard'
 import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'
 

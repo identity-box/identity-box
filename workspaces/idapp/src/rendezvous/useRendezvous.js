@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { RendezvousClient } from '@identity-box/rendezvous-client'
 
 import { MultiRendezvousConfiguration } from './MultiRendezvousConfiguration'
