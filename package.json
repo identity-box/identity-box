@@ -4,21 +4,20 @@
     "node": ">=12.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.8",
-    "@babel/core": "7.15.0",
-    "@babel/eslint-parser": "^7.15.0",
-    "@babel/eslint-plugin": "^7.14.5",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.14.7",
-    "@babel/preset-env": "^7.15.0",
-    "@babel/preset-react": "^7.14.5",
-    "babel-jest": "^27.1.0",
-    "jest": "^27.1.0",
-    "jest-snapshot": "^27.1.0",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "7.16.7",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/eslint-plugin": "^7.16.5",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "babel-jest": "^27.4.6",
+    "jest": "^27.4.7",
+    "jest-snapshot": "^27.4.6",
     "lerna": "^4.0.0",
     "lerna-changelog": "^2.2.0",
-    "pm2": "^5.1.1",
-    "standard": "^16.0.3"
+    "standard": "^16.0.4"
   },
   "workspaces": {
     "packages": [

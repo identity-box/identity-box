@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@emotion/native": "^11.0.0",
-    "@emotion/react": "^11.4.1",
+    "@emotion/react": "^11.7.1",
     "@identity-box/rendezvous-client": "^0.1.33",
     "@react-frontend-developer/buffers": "^1.0.21",
     "@react-native-community/masked-view": "0.1.10",
@@ -31,8 +31,8 @@
     "expo-random": "~11.2.0",
     "expo-secure-store": "~10.2.0",
     "expo-web-browser": "~9.2.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-appearance": "~0.3.3",
     "react-native-gesture-handler": "~1.10.2",
@@ -49,7 +49,7 @@
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.16.7",
     "babel-preset-expo": "8.3.0",
     "expo-cli": "^4.11.0",
     "expo-env": "^1.1.1",
