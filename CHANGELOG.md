@@ -1,3 +1,11 @@
+## v0.1.35 (2022-01-18)
+
+#### :bug: Bug Fix
+* [#72](https://github.com/identity-box/identity-box/pull/72) bugfix: corrects conversion of legacy base58btc names to base36 ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.34 (2022-01-17)
 
 #### :heart_eyes_cat: Enhancement
