@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/utils",
-  "version": "0.1.34",
+  "version": "0.1.35",
   "description": "Common utils for building Identity Box services",
   "main": "lib/index.js",
   "module": "es/index.js",
