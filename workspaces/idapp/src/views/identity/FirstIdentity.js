@@ -135,6 +135,10 @@ const FirstIdentity = ({ navigation }) => {
     navigation.navigate('RestoreFromBackup')
   }
 
+  const onScanIdBox = () => {
+    navigation.navigate('ScanIdBoxTelepath')
+  }
+
   return (
     <PageContainer>
       <Container style={{
@@ -174,6 +178,18 @@ const FirstIdentity = ({ navigation }) => {
             </>
           )
         }
+        <Description style={{
+          marginTop: 20,
+          marginBottom: 20
+        }}
+        >- OR -
+        </Description>
+        <Button
+          color={ThemeConstants[theme].accentColor}
+          onPress={onScanIdBox}
+          title='(Re)Scan Identity Box...'
+          accessibilityLabel='(Re)Scan Identity Box...'
+        />
         {inProgress && <ActivityIndicator />}
       </Container>
     </PageContainer>

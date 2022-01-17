@@ -28,17 +28,17 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "build": "node ./tools/build.js",
-    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD"
+    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD || true"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.33",
     "@react-frontend-developer/buffers": "^1.0.21",
     "base64url": "^3.0.1",
-    "commander": "^8.1.0",
+    "commander": "^8.3.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "glob": "^7.1.7",
@@ -50,6 +50,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "faker": "^5.5.3"
+    "faker": "^6.6.6"
   }
 }

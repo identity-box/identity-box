@@ -1,5 +1,5 @@
 import { TypedArrays } from '@react-frontend-developer/buffers'
-import CID from 'cids'
+import { CID } from 'multiformats/cid'
 
 import { NameResolver } from '../../source/services/NameResolver'
 
@@ -14,9 +14,12 @@ describe('NameResolver', () => {
   let subscribeHandler
 
   const toBase36 = ipnsName => {
-    const cidB58 = new CID(ipnsName)
-    const cidBase36 = new CID(1, 'libp2p-key', cidB58.multihash, 'base36')
-    return cidBase36.toString()
+    // const cidB58 = new CID(ipnsName)
+    // const cidBase36 = new CID(1, 'libp2p-key', cidB58.multihash, 'base36')
+    // return cidBase36.toString()
+    const v0 = CID.parse(ipnsName)
+    v0.toString()
+    return v0.toV1().toString()
   }
 
   beforeEach(() => {

@@ -49,6 +49,7 @@
       "workspaces/identity-service/index.js",
       "workspaces/rendezvous/index.js",
       "workspaces/service-tester/index.js",
+      "workspaces/cli-tools/test-ipfs-http-client.js",
       "tools/build.js"
     ],
     "envs": [
@@ -56,5 +57,6 @@
       "browser",
       "jest"
     ]
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }

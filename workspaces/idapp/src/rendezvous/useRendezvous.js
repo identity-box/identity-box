@@ -37,6 +37,7 @@ const useRendezvous = ({
       }
 
       let baseUrl = url
+
       if (!baseUrl) {
         baseUrl = await getUrl()
       }

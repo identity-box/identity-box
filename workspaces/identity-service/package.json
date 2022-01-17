@@ -28,23 +28,23 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "build": "yarn node ./tools/build.js",
-    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD"
+    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD || true"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.33",
     "base32-encode": "^1.2.0",
     "base64url": "^3.0.1",
-    "cids": "^1.1.8",
     "commander": "^8.1.0",
     "esm": "^3.2.25",
     "firebase-admin": "^9.11.1",
     "glob": "^7.1.7",
-    "ipfs-http-client": "^52.0.2",
+    "ipfs-http-client": "^55.0.0",
     "libp2p-crypto": "^0.19.7",
+    "multiformats": "^9.5.8",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {

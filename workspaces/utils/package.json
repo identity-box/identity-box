@@ -21,7 +21,7 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "koa": "^2.13.1",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "base64url": "^3.0.1",
-    "commander": "^8.1.0",
+    "commander": "^8.3.0",
     "tweetnacl": "^1.0.3"
   }
 }
