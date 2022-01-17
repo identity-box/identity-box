@@ -5,7 +5,7 @@
   "version": "0.1.33",
   "author": "Marcin Czenko <marcin@everydayproductive.com>",
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "homepage": "https://idbox.online",
   "repository": {
