@@ -3,7 +3,8 @@ import path from 'path'
 import glob from 'glob'
 import crypto from 'libp2p-crypto'
 import base32encode from 'base32-encode'
-import CID from 'cids'
+import { CID } from 'multiformats/cid'
+import { base32 } from 'multiformats/bases/base32'
 import { IPNS } from './ipns'
 
 class IdentityProvider {
@@ -17,6 +18,8 @@ class IdentityProvider {
 
   createIdentity = async message => {
     const identity = await this.createNew(message.params[0])
+
+    console.log('identity=', identity)
 
     const didDoc = this.createDIDDocument({
       ...identity,
@@ -225,7 +228,7 @@ class IdentityProvider {
   }
 
   readFromIPFS = async cid => {
-    const cidObject = new CID(cid)
+    const cidObject = CID.parse(cid, base32.decoder)
     const { value } = await this.ipfs.dag.get(cidObject)
     return value
   }
@@ -305,7 +308,12 @@ class IdentityProvider {
   }
 
   createBackupFolders = backupId => {
-    fs.rmdirSync(path.join(process.env.IDBOX_BACKUP, backupId), { recursive: true })
+    fs.rmSync(
+      path.join(
+        process.env.IDBOX_BACKUP, backupId
+      ),
+      { recursive: true, force: true }
+    )
     fs.mkdirSync(this.getBackupFolderPath(backupId), { recursive: true, mode: 0o755 })
   }
 

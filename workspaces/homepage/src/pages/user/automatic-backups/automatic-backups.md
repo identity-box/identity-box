@@ -2,6 +2,7 @@
 path: /backups
 title: Automatic Backups
 tag: beta
+sortIndex: 20
 ---
 
 Being able to backup the identities is obviously a necessity - in the end you may lose your phone, or you just got a new one, or you use more than one device (we do not cover this case yet).

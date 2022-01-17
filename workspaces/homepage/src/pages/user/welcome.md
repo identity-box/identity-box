@@ -2,6 +2,7 @@
 path: /identity-box
 title: Welcome to Identity Box
 tag: user
+sortIndex: 10
 ---
 
 > This is still a work in progress document, which will later be published as the Identity Box white paper.

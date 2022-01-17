@@ -2,6 +2,7 @@
 path: /developers/running-identity-box-locally
 title: Running Identity Box Locally
 tag: developer
+sortIndex: 20
 ---
 
 If you are a contributor, you will certainly like to be able to run the whole

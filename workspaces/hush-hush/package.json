@@ -14,19 +14,19 @@
     "node": "14.x"
   },
   "dependencies": {
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
     "@identity-box/idbox-react-ui": "^0.1.33",
     "@identity-box/rendezvous-client": "^0.1.33",
     "@react-frontend-developer/react-layout-helpers": "^1.0.22",
     "base64url": "^3.0.1",
-    "next": "^11.1.0",
-    "prop-types": "^15.7.2",
+    "next": "^12.0.8",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.3",
-    "sharp": "^0.29.0",
+    "semantic-ui-react": "^2.0.4",
+    "sharp": "^0.29.3",
     "tweetnacl": "^1.0.3"
   },
   "scripts": {
@@ -36,12 +36,12 @@
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@emotion/jest": "^11.3.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
+    "@emotion/jest": "^11.7.1",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
     "file-loader": "^6.2.0",
     "react-test-renderer": "^17.0.2",
     "url-loader": "^4.1.1",
-    "webpack": "^5.51.1"
+    "webpack": "^5.66.0"
   }
 }

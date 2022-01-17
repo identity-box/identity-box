@@ -12,7 +12,8 @@ module.exports = function (api) {
             src: path.resolve(__dirname, 'src')
           }
         }
-      ]
+      ],
+      'react-native-reanimated/plugin'
     ]
   }
 }

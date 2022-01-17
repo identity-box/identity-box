@@ -15,7 +15,7 @@ const Copyright = () => (
       }}
       >
         &copy;
-      </span> 2020 Identity Box
+      </span> 2022 Identity Box
     </p>
   </Row>
 )

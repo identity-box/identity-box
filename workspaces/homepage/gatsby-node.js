@@ -24,7 +24,8 @@ exports.createSchemaCustomization = ({ actions }) => {
     type MdxFrontmatter @infer {
       title: String @noMdx,
       path: String @noMdx,
-      tag: String @noMdx
+      tag: String @noMdx,
+      sortIndex: String @noMdx
     }
   `
   createTypes(typeDefs)
