@@ -93,7 +93,7 @@ In order to create another identity (i.e. your own identity) tap on the _Create 
 <p class="figure-title"><b>Figure 7</b> Creating a new identity</p>
 </div>
 
-Finally, you can also delete identity by first tapping on the given identity in the _Address Book_ tab and then by tapping on _Delete this identity_ button. This works the same way for both you own identities and you peer identities, except that when you delete your own identity, it is also removed from your identity box.
+Finally, you can also delete an identity by first tapping on the given identity in the _Address Book_ tab and then by tapping on _Delete this identity_ button. This works the same way for both your own identities and your peer identities, except that when you delete your own identity, it is also removed from your identity box.
 
 <a id="figure-8"></a> 
 <div class="scrollable flex-wrap responsive">
@@ -114,7 +114,7 @@ the instructions.
 
 > Hint - you can exchange secrets between your own identities as well - e.g. you can use Hush Hush to share secrets with yourself.
 
-We appreciate your all your feedback and we thank you for helping us build the self-sovereign identity system of the future!
+We appreciate all your feedback and we thank you for helping us build the self-sovereign identity system of the future!
 
 <br/><br/>
 Your *Identity Box team*
