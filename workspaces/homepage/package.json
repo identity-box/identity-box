@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
-    "eslint-config-react-app": "^6.0.0",
+    "eslint-config-react-app": "^7.0.0",
     "gatsby-cli": "^4.5.1",
     "gatsby-plugin-root-import": "^2.0.8"
   }
