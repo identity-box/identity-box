@@ -1,0 +1,312 @@
+WEBVTT
+
+00:03.000 --> 00:08.000
+Identity Box. Permiteți-mi să încep așa:
+
+00:08.000 --> 00:13.000
+Confidențialitatea începe cu ideea de identitate.
+
+00:13.000 --> 00:19.000
+Dar nu numai cu “identitatea”. De fapt, confidențialitatea începe cu ideea de identitate auto-guvernată, 
+sau identitate guvernată de sine (engl. „self-sovereign identity”).
+
+00:19.000 --> 00:22.000
+Cei prezenți aici știu, cel mai probabil, ce este identitatea auto-guvernată.
+
+00:22.000 --> 00:26.000
+Pe scurt, este o identitate pe care o deții și o controlezi.
+
+00:27.000 --> 00:30.000
+Asta înseamnă și că ea nu e deținută de vreun serviciu ca Google sau Github, etcetera.
+
+00:30.000 --> 00:33.000
+și mai înseamnă că nimeni nu ți-o poate lua.
+
+00:36.000 --> 00:41.000
+Identitatea auto-guvernată are nevoie de o rețea decentralizată.
+(și acest slide va fi repetat de câteva ori astăzi)
+
+00:41.000 --> 00:44.000
+Acest lucru nu e evident la prima vedere, dar devine mai ușor să ne dăm seama
+
+00:45.000 --> 00:49.000
+dacă luăm în considerare cum se poate implementa o identitate auto-guvernată.
+
+00:50.000 --> 00:55.000
+Cel mai ușor și (într-un fel) naiv mod de a implementa identiatea auto-guvernată
+
+00:55.000 --> 01:00.000
+este să o asociem cu o cheie publică.
+
+01:00.000 --> 01:05.000
+Astfel, fiecare identitate este de fapt o cheie publică.
+
+01:05.000 --> 01:08.000
+Asta am făcut și noi.
+
+01:08.000 --> 01:10.000
+Am implementat această metodă în Cogito:
+
+01:10.000 --> 01:17.000
+un framework de management al identității pe care l-am creat în urmă cu aproximativ doi ani,
+
+01:17.000 --> 01:20.000
+și pe care l-am prezentat anul trecut aici la FOSDEM într-una din sesiunile-fulger.
+
+01:20.000 --> 01:28.000
+Și, după cum vă așteptați probabil, faptul că folosim o cheie publică 
+pe post de identitate aduce după sine o serie de întrebări interesante:
+
+01:28.000 --> 01:32.000
+Ce se întâmplă în cazul în care cheia publică devine compromisă?
+
+01:32.000 --> 01:35.000
+Desigur, identitatea dumneavoastră e compromisă de asemenea.
+
+01:35.000 --> 01:38.000
+Cum vor ști de identiatea ta oamenii care o vor folosi?
+
+01:38.000 --> 01:41.000
+Știi tu însuți cine îți folosește identitatea?
+
+01:41.000 --> 01:42.000
+Sigur că nu!
+
+01:42.000 --> 01:47.000
+Cu alte cuvinte, trebuie să ai de-a face cu o rețea de chei, 
+la fel ca într-un "web of trust" (o rețea de încredere)
+
+01:47.000 --> 01:50.000
+Ceea ce știm că e o problemă grea în sine.
+
+01:54.000 --> 01:58.000
+Acum, membrii inițiativei „Rebooting web of trust”, împreună cu alți oameni,
+
+01:58.000 --> 02:03.000
+au venit cu propunerea unor identificatori decentralizați, DIDs (engl. ”Decentralized Identifiers”)
+
+02:11.000 --> 02:20.000
+Ei au introdus un „DID resolver” (descoperitor de identificatori decentralizati). Ce face acesta?
+
+02:20.000 --> 02:25.000
+Dată fiind identitatea ta, care e, până la urmă, doar un șir de caractere,
+
+02:25.000 --> 02:31.000
+întrebi resolver-ul: „dă-mi un așa-numit document de identificator decentralizat (DID doc)”.
+
+02:31.000 --> 02:35.000
+În acest document DID, găsești informații despre identitatea dată,
+
+02:35.000 --> 02:38.000
+de exemplu cheia publică de criptare sau cheia de semnare publică.
+
+02:39.000 --> 02:41.000
+E un concept destul de puternic, nu-i așa?
+
+02:41.000 --> 02:44.000
+La un nivel mai înalt de abstracție, ar trebui să funcționeze destul de bine,
+
+02:44.000 --> 02:50.000
+și se pare că rezolvă cele mai multe probleme menționate anterior.
+
+02:51.000 --> 02:53.000
+Poți să schimbi cheile în orice clipă.
+
+02:53.000 --> 02:56.000
+Identitatea ta rămâne aceeași.
+
+02:57.000 --> 03:00.000
+Nu e nevoie ca oamenii să îți știe cheile publice.
+
+03:00.000 --> 03:04.000
+Nu e nevoie să reții cheile publice ale celor cu care vrei să comunici.
+
+03:04.000 --> 03:08.000
+Trebuie doar să întrebi resolver-ul, și acesta îți va spune:
+
+03:08.000 --> 03:12.000
+„dă-mi o identitate, și eu îți voi returna cheile”
+
+03:12.000 --> 03:15.000
+Pare că problema distribuirii cheilor este rezolvată!
+
+03:15.000 --> 03:20.000
+Cu alte cuvinte, în loc de a avea o rețea de chei ce formează un "web of trust" tipic,
+
+03:20.000 --> 03:23.000
+ajungi în situația descrisă de imaginea:
+
+03:23.000 --> 03:28.000
+întrebi un fel de infrastructură să îți ofere informația cerută.
+
+03:28.000 --> 03:33.000
+Dar acum, uitându-ne la imaginea prezentată, 
+aceasta ne amintește de o arhitectură centralizată.
+
+03:33.000 --> 03:37.000
+De fapt, resolver-ul ar putea fi implementat într-un mod pur centralizat.
+
+03:37.000 --> 03:41.000
+Și asta am făcut ca și exercițiu, și funcționează foarte bine!
+
+03:41.000 --> 03:46.000
+Are un timp de latență foarte mic și e sigur, dar totuși...
+
+03:46.000 --> 03:51.000
+dacă te-ai baza, pentru descoperirea identităților,
+
+03:51.000 --> 03:53.000
+doar pe un serviciu centralizat,
+
+03:53.000 --> 03:56.000
+nu am mai vorbi de-acum despre identitate auto-guvernată!
+
+03:56.000 --> 04:03.000
+Asta înseamnă că resolver-ul însuși trebuie construit pe o rețea decentralizată.
+
+04:03.000 --> 04:09.000
+De aceea am spus la începutul acestei prezentări că identitatea 
+auto-guvernată are nevoie de o rețea decentralizată.
+
+04:09.000 --> 04:13.000
+Și acum, care este problema cu rețelele decentralizate?
+
+04:13.000 --> 04:23.000
+De ce, chiar și astăzi, după atât de multe încercări, 
+nu aveam o infrastructură unanim recunoscută, securizată, și stabilă?
+
+04:23.000 --> 04:28.000
+Unul din motive este că nu există noduri fizice.
+
+04:28.000 --> 04:32.000
+Nu este suficient să pui 1000 de noduri într-un cloud ca și Amazon,
+
+04:32.000 --> 04:40.000
+și de asemenea nu este suficient ca un număr de entuziaști într-ale 
+rețelelor să își ruleze nodurile pe laptop câteva ore pe săptămână.
+
+04:40.000 --> 04:46.000
+Nu așa funcționează. Chiar și IPFS promovează ideea că nodurile 
+să fie stabile și să fie mereu accesibile.
+
+04:46.000 --> 04:54.000
+De aceea, rețelele decentralizate au nevoie de noduri fizice care să fie 
+disponibile, stabile și -posibil -  să fie accesibile mereu.
+
+04:54.000 --> 04:57.000
+Am adus cu mine un astfel de nod fizic.
+
+04:57.000 --> 05:01.000
+Identity Box (cutia de identitate) este un nod fizic, un aparat fizic.
+
+05:01.000 --> 05:03.000
+De fapt, aceasta e doar o cutie goală.
+
+05:03.000 --> 05:08.000
+Pentru că Identity Box-ul meu real rulează în acest moment la biroul meu.
+
+05:08.000 --> 05:11.000
+E conectat cu alte Identity Box-uri.
+
+05:11.000 --> 05:13.000
+Deci, cum ar funcționa de fapt?
+
+05:13.000 --> 05:19.000
+Vrem ca aceste Identity Box-uri să meargă în casele oamenilor, așa cum se întâmplă și cu alte aparate. 
+
+05:19.000 --> 05:24.000
+De îndata ce vei avea propriul Identity Box, vei primi și o aplicație, Identity App, de la noi.
+
+05:24.000 --> 05:28.000
+Acum, permiteți-mi să fac o demonstrație, pentru a putea să vedeți cum funcționează.
+
+05:28.000 --> 05:38.000
+Aici, vedeți aplicația mea Identity App: este o aplicație din care pot gestiona toate identitățile mele.
+
+05:38.000 --> 05:44.000
+Acum, scanez QR Code de pe Identity Box-ul meu.
+
+05:44.000 --> 05:50.000
+Aplicația mea Identity App se conectează la Identity Box - la cel care rulează pe biroul meu.
+
+05:50.000 --> 05:53.000
+Ea detectează că există câteva backup-uri deja, dar nu voi folosi deocamdată backup-uri ca să îmi restaurez identitățile.
+
+05:53.000 --> 05:58.000
+În schimb, voi crea rapid o nouă identitate.
+
+06:02.000 --> 06:08.000
+Acum, vedeți în lista mea de identități că eu am o singură identitate care îmi aparține.
+
+06:08.000 --> 06:12.000
+Identity App vă permite să creați identități multiple.
+
+06:12.000 --> 06:22.000
+Deoarece sunt aici la FOSDEM, voi crea o identitate "Marcin@FOSDEM20"
+
+06:26.000 --> 06:29.000
+Acum, vedeți în lista mea de identități că am două identități care îmi aparțin.
+
+06:29.000 --> 06:35.000
+Pot cu ușurință să schimb între ele: pot alege să fiu "Marcin" sau să fiu "Marcin@FOSDEM20".
+
+06:35.000 --> 06:39.000
+Bineînteles, acum aș vrea să pot comunica cu altcineva.
+
+06:39.000 --> 06:43.000
+Colegul meu Mark este aici cu mine, așa că am să mă conectez cu el.
+
+06:43.000 --> 06:46.000
+El are propriul lui Identity Box, care e asociat cu aplicația lui Identity App.
+
+06:46.000 --> 06:49.000
+Folosind aplicația lui Identity App, el îmi arată acum un QR Code corespunzător identității lui.
+
+06:49.000 --> 06:57.000
+Voi scana acest QR Code cu aplicația mea Identity App.
+
+06:57.000 --> 07:00.000
+Și îi voi da numele “Mark”.
+
+07:03.000 --> 07:07.000
+Acum, în lista mea de identități, vedeți că am înregistrată și o identitate a altcuiva ("peer identity").
+
+07:10.000 --> 07:14.000
+Vă oferim un serviciu simplu de transmisie a secretelor, pe care îl folosim pentru a demonstra 
+folosirea identităților pe care tocmai le-am creat.
+
+07:14.000 --> 07:21.000
+Îmi cere să mă conectez prin scanarea acestui QR Code.
+
+07:22.000 --> 07:26.000
+Acum, selectez identitatea căreia vreau să îi trimit secretul.
+
+07:26.000 --> 07:28.000
+Aleg "Mark”.
+
+07:28.000 --> 07:35.000
+Scriu mesajul meu secret și apăs pe “Trimite”.
+
+07:35.000 --> 07:41.000
+Aplicația de transmitere a secretelor determină identiatea mea folosindu-și propria Identity Box.
+
+07:41.000 --> 07:43.000
+Apoi, ea creează un link care poate fi trimis lui Mark.
+
+07:43.000 --> 07:50.000
+Putem folosi orice canal de comunicare dorim: numai Mark poate decripta secretul.
+
+07:50.000 --> 07:52.000
+Mark va deschide linkul în browser
+
+07:52.000 --> 07:58.000
+și își va folosi Identity App pentru a decripta secretul.
+
+07:58.000 --> 08:02.000
+El se va conecta mai întâi la aplicația de transmitere a secretelor, scanand un QR Code.
+
+08:02.000 --> 08:05.000
+Secretul va fi decriptat folosing cheia privată a lui Mark, și va fi prezentat lui Mark.
+
+08:05.000 --> 08:09.000
+Așadar, aceasta este Identity Box! Vă mulțumesc!
