@@ -66,8 +66,8 @@ const Video = ({ data }) => (
           outline: 'none'
         }} controls width='80%' preload='metadata' poster={VideoPoster}
       >
-        <source src='https://gateway.pinata.cloud/ipfs/QmbpqgXBCZtFrBqzjWEm1mTJWYkL4ze32JTjsEqaMzAhMH' type='video/webm' />
-        <source src='https://gateway.pinata.cloud/ipfs/QmNV9VystxzqotyQaadmK1kk9JUpuuez2BtC72rwY141hj' type='video/mp4' />
+        <source src='https://ipfs.io/ipfs/QmbpqgXBCZtFrBqzjWEm1mTJWYkL4ze32JTjsEqaMzAhMH' type='video/webm' />
+        <source src='https://ipfs.io/ipfs/QmNV9VystxzqotyQaadmK1kk9JUpuuez2BtC72rwY141hj' type='video/mp4' />
         <track kind='captions' srcLang='en' src={Captions} />
         <track kind='captions' srcLang='pl' src={CaptionsPl} />
         <track kind='captions' srcLang='ro' src={CaptionsRo} />
