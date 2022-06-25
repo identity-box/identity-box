@@ -23,10 +23,10 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 15
+      "versionCode": 16
     },
     "ios": {
-      "buildNumber": "0.1.15",
+      "buildNumber": "0.1.16",
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",

@@ -1,9 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-# To get proper caching for monorepos we use actions/cache@eb78578266b7cec649ab65b6f1534bd6040c838b (from master branch) 
-# instead of actions/cache@1. Support for monorepos will be available in actions/cache@2.
-
 name: Node.js CI
 
 on:
@@ -26,13 +20,6 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: restore lerna
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            .yarn
-          key: m-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - name: Install Dependencies
         run: yarn install
       - name: Build local packages

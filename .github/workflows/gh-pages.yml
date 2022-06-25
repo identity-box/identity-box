@@ -1,0 +1,38 @@
+name: GH Pages
+
+on:
+  push:
+    tags:
+      - homepage*
+
+jobs:
+  nodejs:
+    name: Deploy GH-pages
+    runs-on: ubuntu-latest
+
+    env:
+      CI: true
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Check out code 🛎️
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build Packages 📦
+        run: yarn build
+      - name: Build Homepage 📦
+        run: yarn workspace homepage build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: workspaces/homepage/public
+          CLEAN: true
