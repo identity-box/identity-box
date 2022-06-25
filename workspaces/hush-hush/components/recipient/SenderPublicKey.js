@@ -26,7 +26,7 @@ const SenderPublicKey = ({ next, did, baseUrl }) => {
 
   useRendezvous({
     url: baseUrl,
-    onReady: onReady,
+    onReady,
     onMessage: message => {
       if (message.method === 'get-did-document-response' && message.params.length > 0) {
         const didDocument = message.params[0]

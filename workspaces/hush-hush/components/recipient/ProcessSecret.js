@@ -49,8 +49,8 @@ const ProcessSecret = ({ senderTagBase64 }) => {
 
   useRendezvousTunnel({
     url: rendezvousUrlGlobal,
-    onCreated: onCreated,
-    onReady: onReady
+    onCreated,
+    onReady
   })
 
   const processLink = () => {
