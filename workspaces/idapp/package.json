@@ -17,10 +17,10 @@
     "env:prod": "expo-env --env=production"
   },
   "dependencies": {
-    "@emotion/native": "^11.0.0",
-    "@emotion/react": "^11.7.1",
+    "@emotion/native": "^11.9.3",
+    "@emotion/react": "^11.9.3",
     "@identity-box/rendezvous-client": "^0.1.35",
-    "@react-frontend-developer/buffers": "^1.0.21",
+    "@react-frontend-developer/buffers": "^2.0.0",
     "@react-native-async-storage/async-storage": "^1.15.15",
     "@react-native-community/masked-view": "0.1.11",
     "base64url": "^3.0.1",
@@ -33,8 +33,8 @@
     "expo-random": "~12.1.1",
     "expo-secure-store": "~11.1.0",
     "expo-web-browser": "~10.1.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "17.0.2",
+    "react-dom": "18.2.0",
     "react-native": "0.64.3",
     "react-native-appearance": "~0.3.3",
     "react-native-gesture-handler": "~2.1.0",
@@ -51,8 +51,8 @@
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.16.7",
-    "babel-preset-expo": "9.0.2",
+    "@babel/plugin-proposal-decorators": "^7.18.2",
+    "babel-preset-expo": "9.1.0",
     "expo-cli": "^5.0.5",
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.7.0",

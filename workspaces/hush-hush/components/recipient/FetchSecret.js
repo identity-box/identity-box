@@ -27,7 +27,7 @@ const FetchSecret = ({ next, cid, baseUrl }) => {
 
   useRendezvous({
     url: baseUrl,
-    onReady: onReady,
+    onReady,
     onMessage: message => {
       if (message.method === 'get-json-response' && message.params.length > 0) {
         const { json } = message.params[0]

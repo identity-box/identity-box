@@ -48,8 +48,8 @@ const SenderHush = () => {
 
   useRendezvousTunnel({
     url: rendezvousUrlGlobal,
-    onCreated: onCreated,
-    onReady: onReady
+    onCreated,
+    onReady
   })
 
   const onRecipientReady = useCallback(async ({ did, currentDid }) => {

@@ -2,20 +2,17 @@
 
 exports[`index has proper styling 1`] = `
 .emotion-0 {
-  color: black;
-}
-
-.emotion-1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-flow: row nowrap;
   -webkit-flex-flow: row nowrap;
   -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -23,9 +20,10 @@ exports[`index has proper styling 1`] = `
   align-items: center;
   height: 100vh;
   width: 100vw;
+  color: black;
 }
 
-.emotion-3 {
+.emotion-2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -43,7 +41,7 @@ exports[`index has proper styling 1`] = `
   width: 85%;
 }
 
-.emotion-4 {
+.emotion-3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -64,11 +62,12 @@ exports[`index has proper styling 1`] = `
   opacity: 0;
 }
 
-.emotion-6 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex-flow: column nowrap;
   -webkit-flex-flow: column nowrap;
   -ms-flex-flow: column nowrap;
   flex-flow: column nowrap;
@@ -77,47 +76,47 @@ exports[`index has proper styling 1`] = `
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
+  -webkit-justify-content: center;
   justify-content: center;
 }
 
-.emotion-8 {
+.emotion-7 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 0;
   color: white;
 }
 
-.emotion-9 {
+.emotion-8 {
   text-align: center;
   margin-top: 15px;
   margin-bottom: 0;
   color: white;
 }
 
-.emotion-11 {
+.emotion-10 {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 0;
   color: white;
 }
 
-.emotion-12 {
+.emotion-11 {
   color: #0099FF;
 }
 
-.emotion-13 {
+.emotion-12 {
   height: 20px;
   width: 1px;
 }
 
-.emotion-17 {
+.emotion-16 {
   height: 50px;
   width: 1px;
 }
 
-.emotion-18 {
+.emotion-17 {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -125,69 +124,69 @@ exports[`index has proper styling 1`] = `
 
 <div>
   <div
-    class="emotion-0 emotion-1 emotion-2"
+    class="emotion-0 emotion-1"
   >
     <div
-      class="emotion-3"
+      class="emotion-2"
     >
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-3 emotion-4"
         opacity="0"
       >
         <div
-          class="emotion-6 emotion-7"
+          class="emotion-5 emotion-6"
         >
           <div
-            class="emotion-8"
+            class="emotion-7"
           >
             In order to share your secret securely with the intendent (and only intended) recipient, Hush Hush needs to know two things:
           </div>
           <div
-            class="emotion-9"
+            class="emotion-8"
           >
             1. The DID of the intended recipient.
           </div>
           <div
-            class="emotion-9"
+            class="emotion-8"
           >
             2. Your current DID.
           </div>
           <div
-            class="emotion-11"
+            class="emotion-10"
           >
             For this reason, Hush Hush, needs to connect to your mobile where you can then select the intended recipient from your 
             <span
-              class="emotion-12"
+              class="emotion-11"
             >
               Identity Box IdApp Address Book
             </span>
             .
           </div>
           <div
-            class="emotion-13"
+            class="emotion-12"
           />
           <div
-            class="emotion-8"
+            class="emotion-7"
           >
             Please make sure that you have your 
             <span
-              class="emotion-12"
+              class="emotion-11"
             >
               IdApp
             </span>
              ready and that you have selected the identity you want to use before hitting 
             <span
-              class="emotion-12"
+              class="emotion-11"
             >
               connect
             </span>
              below.
           </div>
           <div
-            class="emotion-17"
+            class="emotion-16"
           />
           <div
-            class="emotion-18"
+            class="emotion-17"
           >
             <button
               class="ui primary button"
