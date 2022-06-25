@@ -86,7 +86,7 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappRe
 
   useRendezvous({
     url: baseUrl,
-    onReady: onReady,
+    onReady,
     onMessage: message => {
       if (message.method === 'store-json-response' && message.params.length > 0) {
         const { cid } = message.params[0]

@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "koa": "^2.13.4",
-    "koa-body": "^4.2.0",
+    "koa-body": "^5.0.0",
     "node-ipc": "^10.1.0"
   },
   "scripts": {
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "base64url": "^3.0.1",
-    "commander": "^8.3.0",
+    "commander": "^9.3.0",
     "tweetnacl": "^1.0.3"
   }
 }

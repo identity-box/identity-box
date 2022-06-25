@@ -38,20 +38,20 @@
     "@identity-box/utils": "^0.1.35",
     "base32-encode": "^1.2.0",
     "base64url": "^3.0.1",
-    "commander": "^8.3.0",
+    "commander": "^9.3.0",
     "esm": "^3.2.25",
     "firebase-admin": "^10.0.1",
-    "glob": "^7.2.0",
+    "glob": "^7.2.3",
     "ipfs-http-client": "^55.0.0",
-    "libp2p-crypto": "^0.21.0",
-    "multiformats": "^9.5.8",
+    "libp2p-crypto": "^0.21.2",
+    "multiformats": "^9.7.0",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.8",
+    "@babel/cli": "^7.17.10",
     "faker": "^6.6.6"
   }
 }
