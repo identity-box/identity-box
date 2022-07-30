@@ -36,7 +36,7 @@
     "expo-web-browser": "~10.1.0",
     "react": "17.0.2",
     "react-dom": "18.2.0",
-    "react-native": "0.64.3",
+    "react-native": "0.69.3",
     "react-native-appearance": "~0.3.3",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-qrcode-svg": "^6.1.1",
