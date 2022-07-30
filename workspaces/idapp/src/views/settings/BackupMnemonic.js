@@ -39,7 +39,7 @@ const BackupMnemonic = ({ navigation }) => {
   }
 
   const backupIdFromMnemonic = mnemonic => {
-    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic, 'utf8')
+    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
     return base64url.encode(nacl.hash(mnemonicUint8Array))
   }
 

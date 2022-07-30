@@ -71,7 +71,7 @@ describe('NameResolver', () => {
       subscribedIpnsName = ipnsName
       setTimeout(() => {
         handler({
-          data: TypedArrays.string2Uint8Array(publishedCid, 'utf8')
+          data: TypedArrays.string2Uint8Array(publishedCid)
         })
       }, 0)
       return Promise.resolve()
