@@ -16,7 +16,7 @@
     "babel-jest": "^28.1.1",
     "jest": "^27.5.1",
     "jest-snapshot": "^27.5.1",
-    "lerna": "^5.1.6",
+    "lerna": "^5.3.0",
     "lerna-changelog": "^2.2.0",
     "standard": "^17.0.0"
   },

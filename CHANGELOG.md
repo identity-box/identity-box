@@ -1,3 +1,20 @@
+## v0.1.36 (2022-07-30)
+
+#### :bomb: Breaking Change
+* [#113](https://github.com/identity-box/identity-box/pull/113) Fixes buffer encoding (@react-frontend-developer/buffers@2.0.1) ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :heart_eyes_cat: Enhancement
+* [#103](https://github.com/identity-box/identity-box/pull/103) Update deps ([@marcinczenko](https://github.com/marcinczenko))
+* [#86](https://github.com/identity-box/identity-box/pull/86) Moving homepage deployment to GitHub Pages ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#83](https://github.com/identity-box/identity-box/pull/83) Bump actions/checkout from 2 to 3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#102](https://github.com/identity-box/identity-box/pull/102) Bump actions/setup-node from 2.5.1 to 3.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+- [@dependabot[bot]](https://github.com/apps/dependabot)
+
 ## v0.1.35 (2022-01-18)
 
 #### :bug: Bug Fix
