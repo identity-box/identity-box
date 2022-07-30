@@ -4,8 +4,6 @@ coverage/
 .DS_Store
 .now
 
-ecosystem.config.js
-
 # yarn
 .yarn/*
 !.yarn/patches

@@ -28,10 +28,11 @@
     "expo": "^44.0.0",
     "expo-barcode-scanner": "~11.2.0",
     "expo-clipboard": "~2.1.0",
-    "expo-constants": "~13.0.1",
-    "expo-file-system": "~13.1.4",
+    "expo-constants": "~13.0.0",
+    "expo-file-system": "~13.1.0",
     "expo-random": "~12.1.1",
     "expo-secure-store": "~11.1.0",
+    "expo-updates": "~0.11.7",
     "expo-web-browser": "~10.1.0",
     "react": "17.0.2",
     "react-dom": "18.2.0",
@@ -53,8 +54,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.18.2",
     "babel-preset-expo": "9.1.0",
-    "eas-cli": "^0.56.0",
-    "expo-cli": "^6.0.1",
+    "expo-cli": "^5.0.5",
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.7.0",
     "jest-expo": "^44.0.0"
