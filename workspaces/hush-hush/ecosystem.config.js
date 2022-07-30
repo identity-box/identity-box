@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'hush-hush',
-    script: './node_modules/.bin/next',
+    script: '../../node_modules/.bin/next',
     args: 'start --port 3300',
     instances: 1,
     autorestart: false,
