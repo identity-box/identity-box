@@ -1,5 +1,4 @@
 import React from 'react'
-import { AppearanceProvider } from 'react-native-appearance'
 import { Main } from 'src/views/main'
 import { LogBox } from 'react-native'
 import { Buffer } from 'buffer/'
@@ -12,9 +11,7 @@ LogBox.ignoreLogs([
 window.Buffer = Buffer
 
 const App = () => (
-  <AppearanceProvider>
-    <Main />
-  </AppearanceProvider>
+  <Main />
 )
 
 export default App
