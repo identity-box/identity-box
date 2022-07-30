@@ -10,7 +10,7 @@ const CreateLink = ({ cid, did, currentDid }) => {
   const secretField = useRef(undefined)
   const baseUrl = process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : 'https://hush-hush.xyz'
+    : (process.env.NEXT_PUBLIC_HUSH_HUSH_BASEURL ?? 'https://hush-hush.xyz')
   const link = `${baseUrl}/secret#${base64url.encode(`${cid}.${did}.${currentDid}`)}`
 
   const isOS = () => {
