@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/rendezvous",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "description": "Service to provide external connectivity to the box from the browsers and mobile devices",
   "bin": {
     "rendezvous": "./lib/index.js",
@@ -35,7 +35,7 @@
     "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD || true"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.35",
+    "@identity-box/utils": "^0.1.36",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
     "commander": "^9.3.0",

@@ -1,11 +1,11 @@
 {
   "name": "rendezvous-tester",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
-    "@identity-box/rendezvous-client": "^0.1.35",
+    "@identity-box/rendezvous-client": "^0.1.36",
     "@reach/router": "^1.3.4",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
