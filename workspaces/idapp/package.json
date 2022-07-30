@@ -54,7 +54,8 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.18.2",
     "babel-preset-expo": "9.1.0",
-    "expo-cli": "^5.0.5",
+    "eas-cli": "^0.56.0",
+    "expo-cli": "^6.0.1",
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.7.0",
     "jest-expo": "^44.0.0"
