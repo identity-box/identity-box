@@ -121,7 +121,7 @@ class IdentityManager {
 
     const nonce = await randomBytes(nacl.secretbox.nonceLength)
     const secretBackupBox = nacl.secretbox(
-      TypedArrays.string2Uint8Array(backupBox, 'utf8'),
+      TypedArrays.string2Uint8Array(backupBox),
       nonce,
       backupKey
     )
@@ -135,7 +135,7 @@ class IdentityManager {
 
     const nonce = await randomBytes(nacl.secretbox.nonceLength)
     const secretBackupBox = nacl.secretbox(
-      TypedArrays.string2Uint8Array(backupBox, 'utf8'),
+      TypedArrays.string2Uint8Array(backupBox),
       nonce,
       backupKey
     )
@@ -151,7 +151,7 @@ class IdentityManager {
     const nonce = backupAndNonce.slice(0, nacl.secretbox.nonceLength)
     const backup = backupAndNonce.slice(nacl.secretbox.nonceLength)
     const backupBoxUint8Array = nacl.secretbox.open(backup, nonce, backupKey)
-    const backupBoxBase64 = TypedArrays.uint8Array2string(backupBoxUint8Array, 'utf8')
+    const backupBoxBase64 = TypedArrays.uint8Array2string(backupBoxUint8Array)
     const backupBox = JSON.parse(base64url.decode(backupBoxBase64))
     const { ownIdentities, peerIdentities } = backupBox
     await AsyncStorage.setItem('peerIdentities', base64url.decode(peerIdentities))

@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.35",
-    "@react-frontend-developer/buffers": "^2.0.0",
+    "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
     "commander": "^9.3.0",
     "ipfs-http-client": "^55.0.0",

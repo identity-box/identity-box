@@ -109,7 +109,7 @@ const CreateNewIdentity = ({ navigation }) => {
 
   const backupIdFromBackupKey = backupKey => {
     const mnemonic = entropyToMnemonic(backupKey)
-    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic, 'utf8')
+    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
     return base64url.encode(nacl.hash(mnemonicUint8Array))
   }
 

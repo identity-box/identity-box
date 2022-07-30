@@ -23,7 +23,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@react-frontend-developer/buffers": "^2.0.0",
+    "@react-frontend-developer/buffers": "^2.0.1",
     "socket.io-client": "^2.4.0",
     "tweetnacl": "^1.0.3"
   },

@@ -29,7 +29,7 @@ class NameResolver {
     if (ipnsName.startsWith('Q')) {
       ipnsName = this.toBase36(ipnsName)
     }
-    const handler = msg => resolveFunction(TypedArrays.uint8Array2string(msg.data, 'utf8'))
+    const handler = msg => resolveFunction(TypedArrays.uint8Array2string(msg.data))
     const promise = new Promise((resolve, reject) => {
       resolveFunction = resolve
       rejectFunction = reject
