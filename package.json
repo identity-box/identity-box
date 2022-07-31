@@ -32,7 +32,8 @@
     "lint": "yarn standard --verbose",
     "lint:fix": "yarn standard --fix --verbose",
     "build": "yarn lerna run build --scope '@identity-box/**'",
-    "build:npx": "npx lerna run build --scope @identity-box/**"
+    "build:npx": "npx lerna run build --scope @identity-box/**",
+    "postinstall": "yarn build"
   },
   "standard": {
     "parser": "@babel/eslint-parser",
