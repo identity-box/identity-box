@@ -1,0 +1,28 @@
+{
+  "cli": {
+    "version": ">= 0.56.0"
+  },
+  "build": {
+    "production": {
+      "node": "16.16.0",
+      "cache": {
+        "key": "1"
+      },
+      "env": {
+        "ENTRY_FILE": "./index.js"
+      }
+    },
+    "development": {
+      "extends": "production",
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "extends": "production",
+      "distribution": "internal"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
