@@ -14,8 +14,8 @@
     "node": "14.x"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
     "@identity-box/idbox-react-ui": "^0.1.37",
     "@identity-box/rendezvous-client": "^0.1.37",
     "@react-frontend-developer/react-layout-helpers": "^2.0.1",
@@ -35,8 +35,8 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@emotion/jest": "^11.9.4",
+    "@emotion/babel-preset-css-prop": "^11.10.0",
+    "@emotion/jest": "^11.10.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "file-loader": "^6.2.0",

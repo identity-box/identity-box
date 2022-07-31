@@ -38,7 +38,7 @@
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
     "commander": "^9.4.0",
-    "ipfs-http-client": "^55.0.0",
+    "ipfs-http-client": "^56.0.0",
     "multiformats": "^9.7.1",
     "tweetnacl": "^1.0.3"
   },
