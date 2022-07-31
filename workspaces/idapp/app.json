@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Identity App",
+    "slug": "idapp",
+    "privacy": "unlisted",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "versionCode": 23
+    },
+    "ios": {
+      "buildNumber": "0.1.23",
+      "bundleIdentifier": "online.idbox.idapp",
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Identity App uses the camera to scan QR codes."
+      }
+    },
+    "packagerOpts": {
+      "config": "metro.config.js"
+    },
+    "extra": {}
+  }
+}
