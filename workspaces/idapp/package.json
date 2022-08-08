@@ -57,7 +57,7 @@
     "expo-cli": "^5.0.5",
     "expo-env": "^1.1.1",
     "expo-yarn-workspaces": "^1.7.0",
-    "jest-expo": "^44.0.0"
+    "jest-expo": "^46.0.1"
   },
   "private": true,
   "installConfig": {
