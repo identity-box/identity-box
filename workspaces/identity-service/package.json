@@ -42,7 +42,7 @@
     "esm": "^3.2.25",
     "firebase-admin": "^11.0.1",
     "glob": "^7.2.3",
-    "ipfs-http-client": "^56.0.0",
+    "ipfs-http-client": "^56.0.3",
     "libp2p-crypto": "^0.21.2",
     "multiformats": "^9.7.1",
     "tweetnacl": "^1.0.3"
@@ -51,7 +51,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.9",
+    "@babel/cli": "^7.18.10",
     "faker": "^6.6.6"
   }
 }

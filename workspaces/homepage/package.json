@@ -16,9 +16,9 @@
     "@confluenza/gatsby-theme-confluenza": "^1.0.39",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
-    "gatsby": "^4.19.2",
-    "gatsby-plugin-catch-links": "^4.19.0",
-    "gatsby-plugin-emotion": "^7.19.0",
+    "gatsby": "^4.20.0",
+    "gatsby-plugin-catch-links": "^4.20.0",
+    "gatsby-plugin-emotion": "^7.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "eslint-config-react-app": "^7.0.1",
-    "gatsby-cli": "^4.19.0",
+    "gatsby-cli": "^4.20.0",
     "gatsby-plugin-root-import": "^2.0.8"
   }
 }
