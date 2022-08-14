@@ -6,7 +6,7 @@
     "production": {
       "node": "16.16.0",
       "cache": {
-        "key": "1"
+        "key": "2"
       }
     },
     "development": {

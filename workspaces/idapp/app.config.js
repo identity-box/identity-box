@@ -28,8 +28,6 @@ function getAndroidPackage (config) {
 }
 
 export default ({ config }) => {
-  console.log('using app.config.js')
-  console.log('process.env.APP_VARIANT=', process.env.APP_VARIANT)
   return {
     ...config,
     name: getName(config),
