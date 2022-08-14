@@ -11,7 +11,6 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "yarn jest",
-    "postinstall": "expo-yarn-workspaces postinstall",
     "env:dev:idbox": "expo-env --env=development-idbox",
     "env:prod": "expo-env --env=production"
   },
@@ -24,7 +23,7 @@
     "@react-native-community/masked-view": "0.1.11",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
-    "expo": "^46.0.7",
+    "expo": "~46.0.7",
     "expo-barcode-scanner": "~11.4.0",
     "expo-clipboard": "~3.1.0",
     "expo-constants": "~13.2.3",
@@ -54,9 +53,9 @@
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/plugin-proposal-decorators": "^7.18.10",
+    "@expo/metro-config": "^0.3.22",
     "babel-preset-expo": "~9.2.0",
     "expo-env": "^1.1.1",
-    "expo-yarn-workspaces": "^2.0.2",
     "jest-expo": "^46.0.1"
   },
   "private": true,
