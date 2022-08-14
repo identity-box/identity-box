@@ -7,19 +7,22 @@
       "node": "16.16.0",
       "cache": {
         "key": "1"
-      },
-      "env": {
-        "ENTRY_FILE": "./index.js"
       }
     },
     "development": {
       "extends": "production",
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_VARIANT": "development"
+      }
     },
     "preview": {
       "extends": "production",
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_VARIANT": "preview"
+      }
     }
   },
   "submit": {

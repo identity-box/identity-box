@@ -4191,22 +4191,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/metro-config@npm:^0.3.22":
-  version: 0.3.22
-  resolution: "@expo/metro-config@npm:0.3.22"
-  dependencies:
-    "@expo/config": 7.0.1
-    "@expo/json-file": 8.2.36
-    chalk: ^4.1.0
-    debug: ^4.3.2
-    find-yarn-workspace-root: ~2.0.0
-    getenv: ^1.0.0
-    resolve-from: ^5.0.0
-    sucrase: ^3.20.0
-  checksum: f0084def2a88fde7aba6044e1680af5e4dfd0f5d201cc2f6402f1febfc2e2f5c489f43fa98792993622e045c2a503a694115c7d469b91bc985126253962ca6ba
-  languageName: node
-  linkType: hard
-
 "@expo/metro-config@npm:~0.3.18":
   version: 0.3.21
   resolution: "@expo/metro-config@npm:0.3.21"
@@ -20751,7 +20735,6 @@ __metadata:
     "@babel/plugin-proposal-decorators": ^7.18.10
     "@emotion/native": ^11.10.0
     "@emotion/react": ^11.10.0
-    "@expo/metro-config": ^0.3.22
     "@identity-box/rendezvous-client": ^0.1.37
     "@react-frontend-developer/buffers": ^2.0.1
     "@react-native-async-storage/async-storage": ~1.17.3

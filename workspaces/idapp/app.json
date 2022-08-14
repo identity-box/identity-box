@@ -18,6 +18,7 @@
       "**/*"
     ],
     "android": {
+      "package": "online.idbox.idapp",
       "versionCode": 23
     },
     "ios": {

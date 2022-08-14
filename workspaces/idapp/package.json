@@ -53,7 +53,6 @@
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/plugin-proposal-decorators": "^7.18.10",
-    "@expo/metro-config": "^0.3.22",
     "babel-preset-expo": "~9.2.0",
     "expo-env": "^1.1.1",
     "jest-expo": "^46.0.1"
