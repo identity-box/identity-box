@@ -1,1 +1,1 @@
-export { IPNS } from './IPNS'
+export { IPNS } from './IPNS.js'

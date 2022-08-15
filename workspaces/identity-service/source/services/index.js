@@ -1,3 +1,3 @@
-export { IdentityService } from './IdentityService'
-export { Dispatcher } from './Dispatcher'
-export { IPNS } from './ipns'
+export { IdentityService } from './IdentityService.js'
+export { Dispatcher } from './Dispatcher.js'
+export { IPNS } from './ipns/index.js'

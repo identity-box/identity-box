@@ -5181,7 +5181,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/identity-service@workspace:workspaces/identity-service"
   dependencies:
-    "@babel/cli": ^7.18.10
     "@identity-box/utils": ^0.1.37
     base32-encode: ^1.2.0
     base64url: ^3.0.1
@@ -5195,8 +5194,7 @@ __metadata:
     multiformats: ^9.7.1
     tweetnacl: ^1.0.3
   bin:
-    identity-service: ./lib/index.js
-    identity-service-esm: ./index.js
+    identity-service: ./source/index.js
   languageName: unknown
   linkType: soft
 

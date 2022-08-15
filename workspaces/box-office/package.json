@@ -6,7 +6,7 @@
   "type": "module",
   "files": [
     "source",
-    "ecosystem.config.js"
+    "ecosystem.config.cjs"
   ],
   "keywords": [
     "ipfs",
