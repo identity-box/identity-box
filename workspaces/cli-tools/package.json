@@ -25,7 +25,7 @@
     "commander": "^9.4.0",
     "esm": "^3.2.25",
     "got": "^12.3.1",
-    "ipfs-http-client": "^56.0.3",
+    "ipfs-http-client": "^57.0.3",
     "ipfs-pubsub-room": "^3.0.0",
     "multiformats": "^9.7.1"
   },

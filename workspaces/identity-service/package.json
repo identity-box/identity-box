@@ -42,7 +42,7 @@
     "esm": "^3.2.25",
     "firebase-admin": "^11.0.1",
     "glob": "^7.2.3",
-    "ipfs-http-client": "^56.0.3",
+    "ipfs-http-client": "^57.0.3",
     "libp2p-crypto": "^0.21.2",
     "multiformats": "^9.7.1",
     "tweetnacl": "^1.0.3"
