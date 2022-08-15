@@ -1,8 +1,9 @@
-import QRCode from 'qrcode.react'
+import { QRCodeCanvas } from 'qrcode.react'
 
 const IdAppQRCode = ({ connectUrl, title = 'IdApp QR Code' }) => (
   <a href={connectUrl} title={title}>
-    <QRCode value={connectUrl} />
+    {/* {connectUrl} */}
+    <QRCodeCanvas value={connectUrl} />
   </a>
 )
 
