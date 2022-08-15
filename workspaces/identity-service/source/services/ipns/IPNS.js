@@ -1,44 +1,47 @@
-import { IPNSPubSub } from './IPNSPubSub'
-import { IPNSFirebase } from './IPNSFirebase'
-
-let ipns = IPNSPubSub
+import { ServiceProxy } from '@identity-box/utils'
 
 class IPNS {
-  static use = ipnsInterfaceName => {
-    switch (ipnsInterfaceName.toLowerCase()) {
-      case 'firebase':
-        ipns = IPNSFirebase
-        break
-      default:
-        ipns = IPNSPubSub
-        break
-    }
+  static sendCommandToNameService = async request => {
+    const serviceProxy = new ServiceProxy('identity-box.nameservice')
+
+    const response = await serviceProxy.send(request)
+    return response.response
   }
 
-  static connect = () => {
-    return ipns.connect()
-  }
-
-  static setIPNSRecord = ({
+  static setIPNSRecord = async ({
     ipnsName,
     cid
   }) => {
-    return ipns.setIPNSRecord({
-      ipnsName,
-      cid
-    })
+    const request = {
+      method: 'publish-name',
+      params: [
+        {
+          ipnsName,
+          cid
+        }
+      ]
+    }
+    return IPNS.sendCommandToNameService(request)
   }
 
-  static getCIDForIPNSName = ({
+  static getCIDForIPNSName = async ({
     ipnsName
   }) => {
-    return ipns.getCIDForIPNSName({ ipnsName })
+    const request = {
+      method: 'resolve-name',
+      params: [{ ipnsName }]
+    }
+    return IPNS.sendCommandToNameService(request)
   }
 
   static deleteIPNSRecord = async ({
     ipnsName
   }) => {
-    return ipns.deleteIPNSRecord({ ipnsName })
+    const request = {
+      method: 'unpublish-name',
+      params: [{ ipnsName }]
+    }
+    return IPNS.sendCommandToNameService(request)
   }
 }
 

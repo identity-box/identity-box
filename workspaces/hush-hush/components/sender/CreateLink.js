@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button } from 'semantic-ui-react'
 import base64url from 'base64url'
 import { FadingValueBox } from '../animations'
@@ -69,7 +69,7 @@ const CreateLink = ({ cid, did, currentDid }) => {
         <InfoBox marginBottom='30px'>
           BTW: you can share this link anyway you like. <Green>It is safe. </Green>
           Only your intended hush buddy will be able to decrypt the secret.
-          And that's gorgeous. Isn't it?
+          And that&apos;s gorgeous. Isn&apos;t it?
         </InfoBox>
         <Textarea id='secret-link' ref={secretField} css={{ height: 'auto' }} readOnly value={link} />
         <MrSpacer space='30px' />

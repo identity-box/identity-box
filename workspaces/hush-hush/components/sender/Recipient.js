@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { FadingValueBox } from '../animations'
 import { InfoBox, MrSpacer, Blue, Green, Centered } from '../ui'
 

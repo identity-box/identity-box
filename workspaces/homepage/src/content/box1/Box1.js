@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Row } from 'src/components/ui-blocks'
 
 import { Box1Content1 } from './Box1Content1'

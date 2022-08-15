@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTheme } from 'react-navigation'
 import * as WebBrowser from 'expo-web-browser'
 import { Button } from 'react-native'

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useTheme } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import { Button } from 'react-native'

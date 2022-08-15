@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { FadingValueBox } from '../animations'
 import { Blue, InfoBox, MrSpacer, Centered } from '../ui'
 

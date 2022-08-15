@@ -1,7 +1,7 @@
 /** @jsx jsx */
+import React from 'react'
 import { jsx } from '@emotion/react'
 import styled from '@emotion/styled'
-import React from 'react'
 
 import { Row, Button } from '../common/ui'
 

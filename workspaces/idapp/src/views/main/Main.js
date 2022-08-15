@@ -1,4 +1,3 @@
-import React from 'react'
 import { StatusBar, useColorScheme } from 'react-native'
 import { createSwitchNavigator, createAppContainer, ThemeColors } from 'react-navigation'
 import { ThemeProvider } from '@emotion/react'
@@ -67,7 +66,7 @@ const MainAppStack = createBottomTabNavigator({
 }, {
   // initialRouteName: 'AddressBookStack',
   defaultNavigationOptions: ({ navigation, theme }) => ({
-    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+    tabBarIcon: ({ tintColor }) => {
       const { routeName } = navigation.state
       let iconName
       if (routeName === 'CurrentIdentityStack') {

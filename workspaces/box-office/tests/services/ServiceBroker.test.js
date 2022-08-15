@@ -117,7 +117,7 @@ describe('ServiceBroker', () => {
 
     const response = await serviceBroker.dispatch(request)
 
-    expect(response).not.toBeDefined()
+    expect(response).toBeUndefined()
   })
 
   it('throws an error if service path is not registered', async () => {

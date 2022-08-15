@@ -1,5 +1,3 @@
-import React from 'react'
-
 const MrSpacer = ({ space }) => (
   <div css={{
     height: space,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import nacl from 'tweetnacl'

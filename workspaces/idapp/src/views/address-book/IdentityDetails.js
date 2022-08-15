@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Themed } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
@@ -167,7 +167,7 @@ const IdentityDetails = ({ navigation }) => {
       } else {
         return (
           <Description>
-            This is your only identity. You can't delete it.
+            This is your only identity. You can&apos;t delete it.
           </Description>
         )
       }

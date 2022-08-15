@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from '@reach/router'
 import { RendezvousClient } from '@identity-box/rendezvous-client'

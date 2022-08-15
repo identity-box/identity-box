@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Button, Row } from '../../common/ui'
 import { Label, Input } from './ui'

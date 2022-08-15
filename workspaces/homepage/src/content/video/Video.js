@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/styled'
 import { Box, Row } from 'src/components/ui-blocks'
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -42,7 +41,7 @@ const P = styled.p({
   margin: 0
 })
 
-const Video = ({ data }) => (
+const Video = () => (
   <Box>
     <Row css={{
       flexFlow: 'column nowrap'

@@ -82,7 +82,7 @@ class Cryptographer {
         }
       })
       this.keyPair = nacl.box.keyPair()
-      nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
+      nacl.setPRNG(() => { throw new Error('no PRNG') })
     } else {
       this.keyPair = nacl.box.keyPair()
     }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button } from 'semantic-ui-react'
 import { FadingValueBox } from '../animations'
 import { Textarea } from '../forms'

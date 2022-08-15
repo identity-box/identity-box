@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { ActivityIndicator, Button } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
@@ -124,7 +124,7 @@ const CreateNewIdentity = ({ navigation }) => {
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
+    nacl.setPRNG(() => { throw new Error('no PRNG') })
   }
 
   const createEncryptionKeyPair = async () => {

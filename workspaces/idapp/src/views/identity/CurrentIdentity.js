@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { Button, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useTheme } from 'react-navigation'
 import nacl from 'tweetnacl'

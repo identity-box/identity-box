@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/native'
 
 import { FlatList } from 'react-native'
@@ -15,7 +14,7 @@ const ConsoleContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
   marginTop: 20
 }))
 
-const Console = ({ navigation }) => {
+const Console = () => {
   const theme = useTheme()
 
   const getItemStyle = index => {

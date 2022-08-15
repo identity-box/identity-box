@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/styled'
 import { getImage } from 'src/assets'
 import { TextBox } from 'src/components/ui-blocks'

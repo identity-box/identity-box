@@ -1,4 +1,3 @@
-import React from 'react'
 import Media from 'react-media'
 import { getImage } from 'src/assets'
 import { MenuLink } from 'src/components/ui-blocks'

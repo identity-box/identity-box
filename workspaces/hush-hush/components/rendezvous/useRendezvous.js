@@ -6,8 +6,7 @@ const useRendezvous = ({
   onReady,
   onMessage,
   onEnd,
-  onError,
-  reset
+  onError
 } = {}, deps = []) => {
   const rendezvousClient = useRef(undefined)
   const rendezvousConnection = useRef(undefined)

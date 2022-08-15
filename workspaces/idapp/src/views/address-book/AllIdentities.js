@@ -1,4 +1,3 @@
-import React from 'react'
 import { ListWithHeader } from 'src/ui'
 
 import { ListContainer } from './ui'

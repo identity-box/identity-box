@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react'
+import { useCallback, useState, useRef, useEffect } from 'react'
 import { ActivityIndicator } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'

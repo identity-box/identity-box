@@ -1,4 +1,3 @@
-import React from 'react'
 import { FadingValueBox } from '../animations'
 import { Red, InfoBox, Centered } from '../ui'
 
