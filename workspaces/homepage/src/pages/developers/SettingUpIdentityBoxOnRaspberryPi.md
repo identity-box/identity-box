@@ -9,7 +9,7 @@ RaspberryPi is a reliable, powerful, and cost-effective platform that can be use
 
 ## Install Node.js and yarn
 
-We currently use Node v14 LTS. We recommend using [Node Version Manager](https://github.com/nvm-sh/nvm). To install Node Version Manager (nvm) on your Raspberry run:
+We currently use Node v16 LTS. We recommend using [Node Version Manager](https://github.com/nvm-sh/nvm). To install Node Version Manager (nvm) on your Raspberry run:
 
 ```bash
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
@@ -31,11 +31,11 @@ Everything should be in place now. At the time of writing of this document we ha
 
 ```bash
 $ node --version
-v16.13.2
+v16.16.0
 $ yarn --version
 1.22.15
 $ git --version
-git version 2.20.1
+git version 2.25.1
 ```
 
 ## Install IPFS
@@ -46,11 +46,11 @@ We will use [IPFS installer](https://github.com/claudiobizzotto/ipfs-rpi):
 $ git clone https://github.com/claudiobizzotto/ipfs-rpi.git
 ```
 
-We install IPFS v0.11.0
+We install IPFS v0.14.0
 
 ```bash
 $ cd ipfs-rpi/
-$ ./install v0.11.0
+$ ./install v0.14.0
 ```
 
 This will install, initialize, and start IPFS. We need to alter configuration a bit, so let's stop IPFS for the moment:
@@ -79,13 +79,13 @@ and change set:
 $ ExecStart=/usr/local/bin/ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc --migrate
 ```
 
-Notice, however, that in order for the changes to take effect, you will need to stop the daemon and run installation script again: `./install v0.7.0`.
+Notice, however, that in order for the changes to take effect, you will need to stop the daemon and run installation script again: `./install v0.14.0`.
 
 So after changing the template file, we run again:
 
 ```bash
 $ cd ipfs-rpi/
-$ ./install v0.11.0
+$ ./install v0.14.0
 >>> Starting IPFS
 >>> All done.
 ```
@@ -120,6 +120,8 @@ Then we limit the maximum size of file storage to `5GB` (default is `10G`):
 "Datastore": {
   "StorageMax": "5GB",
 ```
+
+> You may skip that if you have hardware with more storage available.
 
 We change the `MDNS` discovery:
 
@@ -160,11 +162,11 @@ For reference, below is the whole `~/.ipfs/config`:
 ```json
 {
   "Identity": {
-    "PeerID": "...",
-    "PrivKey": "..."
+    "PeerID": "<...>",
+    "PrivKey": "<...>"
   },
   "Datastore": {
-    "StorageMax": "5GB",
+    "StorageMax": "10GB",
     "StorageGCWatermark": 90,
     "GCPeriod": "1h",
     "Spec": {
@@ -190,7 +192,7 @@ For reference, below is the whole `~/.ipfs/config`:
           "prefix": "leveldb.datastore",
           "type": "measure"
         }
-      ],
+	      ],
       "type": "mount"
     },
     "HashOnRead": false,
@@ -216,12 +218,12 @@ For reference, below is the whole `~/.ipfs/config`:
   },
   "Discovery": {
     "MDNS": {
-      "Enabled": false,
-      "Interval": 10
+      "Enabled": false
     }
   },
   "Routing": {
-    "Type": "dht"
+    "Type": "dht",
+    "Routers": null
   },
   "Ipns": {
     "RepublishPeriod": "",
@@ -229,12 +231,12 @@ For reference, below is the whole `~/.ipfs/config`:
     "ResolveCacheSize": 128
   },
   "Bootstrap": [
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
-    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
     "/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
     "/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-    "/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+    "/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+    "/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb"
   ],
   "Gateway": {
     "HTTPHeaders": {
@@ -277,7 +279,8 @@ For reference, below is the whole `~/.ipfs/config`:
       "LowWater": 100,
       "HighWater": 300,
       "GracePeriod": "20s"
-    }
+    },
+    "ResourceMgr": {}
   },
   "AutoNAT": {},
   "Pubsub": {
@@ -512,13 +515,6 @@ $ pm2 start ecosystem.config.js
 
 Another step is to install and start the Identity Service.
 
-> In the past, we used Firebase as to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
-We currently experiment with using native IPFS _pubsub_ functionality to secure reliable and fast name resolution
-without resorting to external, centralized services. For the time being, as a reference, we keep the documentation
-on how to setup Firebase service in the [appendix](#appendix---ipns-with-firebase).
-The last version of `@identity-box/idservice` that uses Firebase is `0.1.23` and is no longer compatible with the new service
-architecture on the Identity Box. If you have question about using Firebase to mimic IPNS, please contact us.
-
 First please make sure the the following environment variables are defined:
 
 ```bash
@@ -682,6 +678,18 @@ You can remove startup script at any time by running:
 ```bash
 $ pm2 unstartup systemd
 ```
+
+## Upgrading Identity Box Services
+
+For each service follow the steps (we use `box-office` below as an example):
+
+```bash
+$ cd ~/idbox/box-office
+$ yarn up @identity-box/box-office
+$ pm2 reload ecosystem.config.js
+```
+
+Do the same for each single servic replacing `box-office` with the appropriate package name.
 
 ## Appendix - IPNS with Firebase
 

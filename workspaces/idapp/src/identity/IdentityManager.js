@@ -266,8 +266,15 @@ class IdentityManager {
     this.identities = await Promise.all(this.identityNames.map(async idName => {
       const key = base64url.encode(idName)
       const v = await SecureStore.getItemAsync(key)
+      if (v === null) return null
       return JSON.parse(base64url.decode(v))
     }))
+
+    if (this.identities.filter(i => i !== null).length === 0) {
+      this.identities = {}
+      this.identityNames = []
+      return
+    }
 
     this.identities = this.identities.reduce((acc, identity) => {
       const { did, name, encryptionKey, signingKey, keyName } = identity

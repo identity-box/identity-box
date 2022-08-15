@@ -32,6 +32,7 @@
     },
     "packagerOpts": {
       "config": "metro.config.js"
-    }
+    },
+    "extra": {}
   }
 }

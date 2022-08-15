@@ -1,0 +1,31 @@
+{
+  "cli": {
+    "version": ">= 0.56.0"
+  },
+  "build": {
+    "production": {
+      "node": "16.16.0",
+      "cache": {
+        "key": "2"
+      }
+    },
+    "development": {
+      "extends": "production",
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "APP_VARIANT": "development"
+      }
+    },
+    "preview": {
+      "extends": "production",
+      "distribution": "internal",
+      "env": {
+        "APP_VARIANT": "preview"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

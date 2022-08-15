@@ -14,13 +14,13 @@
     "node": "14.x"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
     "@identity-box/idbox-react-ui": "^0.1.37",
     "@identity-box/rendezvous-client": "^0.1.37",
-    "@react-frontend-developer/react-layout-helpers": "^2.0.0",
+    "@react-frontend-developer/react-layout-helpers": "^2.0.1",
     "base64url": "^3.0.1",
-    "next": "^12.1.6",
+    "next": "^12.2.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -35,13 +35,13 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@emotion/jest": "^11.9.3",
-    "@testing-library/jest-dom": "^5.16.4",
+    "@emotion/babel-preset-css-prop": "^11.10.0",
+    "@emotion/jest": "^11.10.0",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "file-loader": "^6.2.0",
     "react-test-renderer": "^18.2.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.73.0"
+    "webpack": "^5.74.0"
   }
 }

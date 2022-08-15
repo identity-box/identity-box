@@ -1,6 +1,5 @@
 import React from 'react'
-import { StatusBar } from 'react-native'
-import { Appearance, useColorScheme } from 'react-native-appearance'
+import { StatusBar, useColorScheme } from 'react-native'
 import { createSwitchNavigator, createAppContainer, ThemeColors } from 'react-navigation'
 import { ThemeProvider } from '@emotion/react'
 import { createStackNavigator } from 'react-navigation-stack'
@@ -127,17 +126,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
 }
 ))
 
-Appearance.getColorScheme()
-
-Appearance.addChangeListener(({ colorScheme }) => {
-  console.log('current color scheme:', colorScheme)
-})
-
 const Main = () => {
-  let colorScheme = useColorScheme()
-  if (colorScheme === 'no-preference' || colorScheme === null || colorScheme === undefined) {
-    colorScheme = 'light'
-  }
+  const colorScheme = useColorScheme()
 
   console.log('colorScheme=', colorScheme)
 
