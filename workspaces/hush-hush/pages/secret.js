@@ -1,4 +1,3 @@
-import React from 'react'
 import { PageCentered } from '@react-frontend-developer/react-layout-helpers'
 import { FadingValueBox } from '../components/animations'
 

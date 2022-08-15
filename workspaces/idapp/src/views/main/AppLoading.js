@@ -1,4 +1,3 @@
-import React from 'react'
 import { ActivityIndicator } from 'react-native'
 
 import { useRendezvous } from 'src/rendezvous'

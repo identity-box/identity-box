@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/styled'
 
 const IntroPanel2 = styled.div({

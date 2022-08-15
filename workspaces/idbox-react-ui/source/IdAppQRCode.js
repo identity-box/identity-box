@@ -1,4 +1,3 @@
-import React from 'react'
 import QRCode from 'qrcode.react'
 
 const IdAppQRCode = ({ connectUrl, title = 'IdApp QR Code' }) => (

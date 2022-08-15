@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/styled'
 import { TextBox } from 'src/components/ui-blocks'
 
@@ -39,7 +38,7 @@ const H3 = styled.h3({
   marginBottom: '50px'
 })
 
-const Box3Content1 = ({ data }) => (
+const Box3Content1 = () => (
   <EnterIdBoxWrapper>
     <H1>Enter Identity Box</H1>
     <div css={{

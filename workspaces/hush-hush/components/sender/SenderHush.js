@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { IdAppConnect } from './IdAppConnect'
 import { Recipient } from './Recipient'
 import { EnterSecret } from './EnterSecret'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { IdAppConnector } from '@identity-box/idbox-react-ui'
 
 const Connector = ({

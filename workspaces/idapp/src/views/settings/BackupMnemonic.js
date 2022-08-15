@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import * as SecureStore from 'expo-secure-store'
 import { Button, ActivityIndicator } from 'react-native'
 import * as Clipboard from 'expo-clipboard'

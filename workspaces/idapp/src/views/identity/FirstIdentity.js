@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
 import { useTheme } from 'react-navigation'
 import base64url from 'base64url'
@@ -100,7 +100,7 @@ const FirstIdentity = ({ navigation }) => {
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG((x, n) => { throw new Error('no PRNG') })
+    nacl.setPRNG(() => { throw new Error('no PRNG') })
   }
 
   const createEncryptionKeyPair = async () => {

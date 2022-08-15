@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from '@emotion/styled'
 import Media from 'react-media'
 import { getImage } from 'src/assets'

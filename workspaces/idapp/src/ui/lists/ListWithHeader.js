@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { useTheme } from 'react-navigation'
 import { Text, View, FlatList } from 'react-native'
 
@@ -6,7 +6,7 @@ import { ThemeConstants } from 'src/theme'
 
 import { IdentityCell, EmptyIdentityCell } from './IdentityCell'
 
-const ListWithHeader = ({ data, headerText, onSelect, width = '100%', headerStyle = {} }) => {
+const ListWithHeader = ({ data, headerText, onSelect, width = '100%' }) => {
   const theme = useTheme()
 
   const getCellBackgroundColor = useCallback((index, theme) => {
@@ -75,7 +75,7 @@ const ListWithHeader = ({ data, headerText, onSelect, width = '100%', headerStyl
           }}
           data={data}
           renderItem={renderItem}
-          keyExtractor={(item, index) => item}
+          keyExtractor={item => item}
         />
       </View>
     </>

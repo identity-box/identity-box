@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Button } from 'react-native'
 import { useTheme } from 'react-navigation'
 import Constants from 'expo-constants'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Themed } from 'react-navigation'
 import styled from '@emotion/native'
@@ -21,7 +20,7 @@ const IdentityCell = ({ children, onSelect, size = 16, textAlign = 'left', backg
   return (
     <TouchableOpacity
       activeOpacity={0.6}
-      onPress={_ => {
+      onPress={() => {
         onSelect && onSelect(children)
       }}
     >
@@ -46,7 +45,7 @@ const HighlightedIdentityCell = ({ children, onSelect }) => {
   return (
     <TouchableHighlight
       underlayColor='#d3d3d3'
-      onPress={_ => {
+      onPress={() => {
         onSelect && onSelect(children)
       }}
     >

@@ -115,7 +115,7 @@ describe('NamePublisher', () => {
       fs.readFileSync.mockReturnValue(JSON.stringify(state))
       namePublisher = new NamePublisher(ipfs)
 
-      expect(publishMock).not.toBeCalled()
+      expect(publishMock).not.toHaveBeenCalled()
       jest.runOnlyPendingTimers()
       expect(publishMock).toHaveBeenCalledTimes(2)
       expect(publishMock).toHaveBeenCalledWith('ipnsName1', Buffer.from('cid1'))
@@ -178,7 +178,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      expect(publishMock).not.toBeCalled()
+      expect(publishMock).not.toHaveBeenCalled()
       jest.runOnlyPendingTimers()
       jest.runOnlyPendingTimers()
       expect(publishMock).toHaveBeenCalledTimes(2)
@@ -191,7 +191,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      expect(publishMock).not.toBeCalled()
+      expect(publishMock).not.toHaveBeenCalled()
       jest.advanceTimersByTime(expectedInterval - 1)
       expect(publishMock).toHaveBeenCalledTimes(0)
       jest.advanceTimersByTime(1)
@@ -227,14 +227,14 @@ describe('NamePublisher', () => {
         cid
       })
 
-      expect(publishMock).not.toBeCalled()
+      expect(publishMock).not.toHaveBeenCalled()
       jest.runOnlyPendingTimers()
       expect(publishMock).toHaveBeenCalledTimes(1)
       publishMock.mockClear()
 
       await namePublisher.unpublish({ ipnsName })
       jest.runOnlyPendingTimers()
-      expect(publishMock).not.toBeCalled()
+      expect(publishMock).not.toHaveBeenCalled()
     })
 
     it('unsubscribes from the topic after name has been unpublished', async () => {
@@ -278,7 +278,7 @@ describe('NamePublisher', () => {
 
     it('does not unsubscribe from the topic if the name was not previously published', async () => {
       await namePublisher.unpublish({ ipnsName })
-      expect(unsubscribeMock).not.toBeCalled()
+      expect(unsubscribeMock).not.toHaveBeenCalled()
     })
   })
 })

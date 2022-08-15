@@ -1,4 +1,3 @@
-import React from 'react'
 import { Main } from 'src/views/main'
 import { LogBox } from 'react-native'
 import { Buffer } from 'buffer'

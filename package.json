@@ -13,13 +13,24 @@
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
     "babel-jest": "^28.1.3",
+    "eslint": "^8.22.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.8.3",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.30.1",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
     "jest-snapshot": "^28.1.3",
-    "lerna": "^5.4.1",
+    "lerna": "^5.4.2",
     "lerna-changelog": "^2.2.0",
-    "standard": "^17.0.0"
+    "standard": "^17.0.0",
+    "typescript": "^4.7.4"
   },
   "workspaces": {
     "packages": [
@@ -30,38 +41,11 @@
     "setup:dev": "yarn && yarn build",
     "test": "yarn lint && yarn jest --colors",
     "test:watch": "yarn jest --watch --colors",
-    "lint": "yarn standard --verbose",
-    "lint:fix": "yarn standard --fix --verbose",
+    "lint": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}' --fix",
     "build": "yarn lerna run build --scope '@identity-box/**'",
     "build:npx": "npx lerna run build --scope @identity-box/**",
     "postinstall": "yarn build"
   },
-  "standard": {
-    "parser": "@babel/eslint-parser",
-    "ignore": [
-      "**/node_modules/**",
-      "**/public/**",
-      "**/.cache/**",
-      "**/.next/**",
-      "**/lib/**",
-      "**/es/**",
-      "workspaces/idapp/__generated__/**",
-      "workspaces/box-office/index.js",
-      "workspaces/nameservice/index.js",
-      "workspaces/identity-service/index.js",
-      "workspaces/rendezvous/index.js",
-      "workspaces/service-tester/index.js",
-      "workspaces/cli-tools/test-ipfs-http-client.js",
-      "workspaces/idapp/__mocks__",
-      "workspaces/idapp/index.js",
-      "workspaces/idapp/metro.config.js",
-      "tools/build.js"
-    ],
-    "envs": [
-      "es6",
-      "browser",
-      "jest"
-    ]
-  },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.2.2"
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 import { TypedArrays } from '@react-frontend-developer/buffers'

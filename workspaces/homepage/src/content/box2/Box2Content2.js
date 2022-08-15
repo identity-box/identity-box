@@ -1,7 +1,6 @@
-import React from 'react'
 import { TextBox } from 'src/components/ui-blocks'
 
-const Box2Content2 = ({ data }) => (
+const Box2Content2 = () => (
   <TextBox>
     The future of the Internet is distributed. Unsupervised,
     unmoderated access, affordable, unlimited storage,

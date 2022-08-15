@@ -1,4 +1,3 @@
-import React from 'react'
 import { Row } from 'src/components/ui-blocks'
 
 const Copyright = () => (

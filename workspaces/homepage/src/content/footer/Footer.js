@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box } from 'src/components/ui-blocks'
 
 import { FooterBody } from './FooterBody'

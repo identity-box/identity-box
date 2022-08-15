@@ -16,7 +16,7 @@ describe('StateSerializer', () => {
 
   it('returns undefined if file does not exist', () => {
     fs.existsSync = jest.fn().mockReturnValue(false)
-    expect(serializer.read()).not.toBeDefined()
+    expect(serializer.read()).toBeUndefined()
   })
 
   it('writes state to a file as JSON string', () => {
