@@ -1,4 +1,4 @@
-import { BoxOfficeService, ServiceRegistry } from '../services'
+import { BoxOfficeService, ServiceRegistry } from '../services/index.js'
 
 class EntryPoint {
   servicePath

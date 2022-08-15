@@ -1,11 +1,12 @@
 import { EntryPoint } from '../../source/entry-point'
 import { ServiceProxy, Service } from '@identity-box/utils'
 import { create } from 'ipfs-http-client'
+import { vi } from 'vitest'
 
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 
-jest.mock('ipfs-http-client')
+vi.mock('ipfs-http-client')
 
 describe('EntryPoint', () => {
   const rpcRequest = {
@@ -30,7 +31,7 @@ describe('EntryPoint', () => {
 
   beforeEach(() => {
     prepareServicePath()
-    console.log = jest.fn()
+    console.log = vi.fn()
   })
 
   afterEach(() => {
@@ -64,7 +65,7 @@ describe('EntryPoint', () => {
     }
     registrationService = await Service.create({
       servicePath: registrationPath,
-      onMessage: jest.fn().mockReturnValue(expectedRegistrationResponse)
+      onMessage: vi.fn().mockReturnValue(expectedRegistrationResponse)
     })
 
     entryPoint = new EntryPoint({
@@ -87,7 +88,7 @@ describe('EntryPoint', () => {
     }
     registrationService = await Service.create({
       servicePath: registrationPath,
-      onMessage: jest.fn().mockReturnValue(expectedRegistrationResponse)
+      onMessage: vi.fn().mockReturnValue(expectedRegistrationResponse)
     })
 
     entryPoint = new EntryPoint({
@@ -106,7 +107,7 @@ describe('EntryPoint', () => {
     beforeEach(() => {
       create.mockImplementation(api => {
         apiUrl = api
-        return jest.fn()
+        return vi.fn()
       })
     })
 

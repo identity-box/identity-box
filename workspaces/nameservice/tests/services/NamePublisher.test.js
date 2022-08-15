@@ -3,8 +3,9 @@ import path from 'path'
 import fs from 'fs'
 import { CID } from 'multiformats/cid'
 import { base36 } from 'multiformats/bases/base36'
+import { vi } from 'vitest'
 
-jest.mock('fs')
+vi.mock('fs')
 
 describe('NamePublisher', () => {
   const filePath = path.resolve(process.cwd(), 'Identities.json')
@@ -36,19 +37,19 @@ describe('NamePublisher', () => {
     fs.writeFileSync.mockReset()
     fs.readFileSync.mockReset()
     fs.existsSync.mockReset()
-    jest.useFakeTimers()
-    publishMock = jest.fn().mockResolvedValue(null)
+    vi.useFakeTimers()
+    publishMock = vi.fn().mockResolvedValue(null)
     ipfs = {
       pubsub: {
         publish: publishMock
       }
     }
-    console.log = jest.fn()
+    console.log = vi.fn()
   })
 
   afterEach(() => {
     namePublisher.reset()
-    jest.useRealTimers()
+    vi.useRealTimers()
     console.log.mockRestore()
   })
 
@@ -116,7 +117,7 @@ describe('NamePublisher', () => {
       namePublisher = new NamePublisher(ipfs)
 
       expect(publishMock).not.toHaveBeenCalled()
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
       expect(publishMock).toHaveBeenCalledTimes(2)
       expect(publishMock).toHaveBeenCalledWith('ipnsName1', Buffer.from('cid1'))
       expect(publishMock).toHaveBeenLastCalledWith('ipnsName2', Buffer.from('cid2'))
@@ -138,7 +139,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
 
       expect(response.ipnsName).toBe(toBase36(qmName1))
       expect(publishMock).toHaveBeenCalledWith(toBase36(qmName1), Buffer.from(cid))
@@ -150,7 +151,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
 
       expect(fs.writeFileSync).toHaveBeenCalledWith(
         filePath,
@@ -164,7 +165,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
 
       expect(fs.writeFileSync).toHaveBeenCalledWith(
         filePath,
@@ -179,8 +180,8 @@ describe('NamePublisher', () => {
       })
 
       expect(publishMock).not.toHaveBeenCalled()
-      jest.runOnlyPendingTimers()
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
       expect(publishMock).toHaveBeenCalledTimes(2)
     })
 
@@ -192,11 +193,11 @@ describe('NamePublisher', () => {
       })
 
       expect(publishMock).not.toHaveBeenCalled()
-      jest.advanceTimersByTime(expectedInterval - 1)
+      vi.advanceTimersByTime(expectedInterval - 1)
       expect(publishMock).toHaveBeenCalledTimes(0)
-      jest.advanceTimersByTime(1)
+      vi.advanceTimersByTime(1)
       expect(publishMock).toHaveBeenCalledTimes(1)
-      jest.advanceTimersByTime(expectedInterval)
+      vi.advanceTimersByTime(expectedInterval)
       expect(publishMock).toHaveBeenCalledTimes(2)
     })
   })
@@ -205,8 +206,8 @@ describe('NamePublisher', () => {
     let unsubscribeMock
 
     beforeEach(() => {
-      publishMock = jest.fn().mockResolvedValue(null)
-      unsubscribeMock = jest.fn().mockResolvedValue(null)
+      publishMock = vi.fn().mockResolvedValue(null)
+      unsubscribeMock = vi.fn().mockResolvedValue(null)
       ipfs = {
         pubsub: {
           publish: publishMock,
@@ -228,12 +229,12 @@ describe('NamePublisher', () => {
       })
 
       expect(publishMock).not.toHaveBeenCalled()
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
       expect(publishMock).toHaveBeenCalledTimes(1)
       publishMock.mockClear()
 
       await namePublisher.unpublish({ ipnsName })
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
       expect(publishMock).not.toHaveBeenCalled()
     })
 
@@ -243,7 +244,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
 
       await namePublisher.unpublish({ ipnsName })
       expect(unsubscribeMock).toHaveBeenCalledTimes(1)
@@ -255,7 +256,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
 
       const response = await namePublisher.unpublish({ ipnsName })
 
@@ -268,7 +269,7 @@ describe('NamePublisher', () => {
         cid
       })
 
-      jest.runOnlyPendingTimers()
+      vi.runOnlyPendingTimers()
 
       const response = await namePublisher.unpublish({ ipnsName: qmName1 })
 

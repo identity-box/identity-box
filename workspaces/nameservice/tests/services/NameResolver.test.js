@@ -1,6 +1,7 @@
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { CID } from 'multiformats/cid'
 import { base36 } from 'multiformats/bases/base36'
+import { vi } from 'vitest'
 
 import { NameResolver } from '../../source/services/NameResolver'
 
@@ -28,10 +29,10 @@ describe('NameResolver', () => {
   }
 
   beforeEach(() => {
-    jest.useFakeTimers()
-    console.log = jest.fn()
-    subscribeMock = jest.fn()
-    unsubscribeMock = jest.fn()
+    vi.useFakeTimers()
+    console.log = vi.fn()
+    subscribeMock = vi.fn()
+    unsubscribeMock = vi.fn()
     ipfs = {
       pubsub: {
         subscribe: subscribeMock,
@@ -42,7 +43,7 @@ describe('NameResolver', () => {
   })
 
   afterEach(() => {
-    jest.runAllTimers()
+    vi.runAllTimers()
     subscribeMock.mockReset()
     unsubscribeMock.mockReset()
     console.log.mockRestore()
@@ -59,7 +60,7 @@ describe('NameResolver', () => {
     })
     unsubscribeMock.mockResolvedValue(null)
     const promise = nameResolver.resolve({ ipnsName })
-    jest.advanceTimersByTime(1)
+    vi.advanceTimersByTime(1)
     const response = await promise
     expect(response.ipnsName).toBe('ipnsName')
     expect(response.cid).toBe(publishedCid)
@@ -78,7 +79,7 @@ describe('NameResolver', () => {
     })
     unsubscribeMock.mockResolvedValue(null)
     const promise = nameResolver.resolve({ ipnsName: qmName })
-    jest.advanceTimersByTime(1)
+    vi.advanceTimersByTime(1)
     const response = await promise
     expect(subscribedIpnsName).toBe(toBase36(qmName))
     expect(response.ipnsName).toBe(toBase36(qmName))
@@ -90,7 +91,7 @@ describe('NameResolver', () => {
   it('returns error when name cannot be resolved', async () => {
     const promise = nameResolver.resolve({ ipnsName })
 
-    jest.advanceTimersByTime(15000)
+    vi.advanceTimersByTime(15000)
 
     const response = await promise
 
@@ -105,7 +106,7 @@ describe('NameResolver', () => {
     })
     const promise = nameResolver.resolve({ ipnsName })
 
-    jest.advanceTimersByTime(15000)
+    vi.advanceTimersByTime(15000)
 
     await promise
 

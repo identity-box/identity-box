@@ -1,5 +1,5 @@
 import { ServiceProxy } from '@identity-box/utils'
-import { ServiceRegistry } from './ServiceRegistry'
+import { ServiceRegistry } from './ServiceRegistry.js'
 
 class ServiceManager {
   serviceRegistry

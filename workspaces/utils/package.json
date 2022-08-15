@@ -2,12 +2,10 @@
   "name": "@identity-box/utils",
   "version": "0.1.37",
   "description": "Common utils for building Identity Box services",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "exports": "./source/index.js",
+  "type": "module",
   "files": [
-    "source",
-    "lib",
-    "es"
+    "source"
   ],
   "keywords": [
     "identity-bix",
@@ -28,15 +26,11 @@
     "koa-body": "^5.0.0",
     "node-ipc": "^10.1.0"
   },
-  "scripts": {
-    "build": "node ./tools/build.js"
-  },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
     "base64url": "^3.0.1",
-    "commander": "^9.4.0",
     "tweetnacl": "^1.0.3"
   }
 }

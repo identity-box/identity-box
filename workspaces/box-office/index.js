@@ -1,11 +1,5 @@
-#!/bin/sh 
-":" //# http://sambal.org/?p=1014 ; exec /usr/bin/env node -r esm "$0" "$@"
+#!/usr/bin/env node
 
-/**
- * This is a convenience file that allows you to run the service in esm mode - so
- * without babel transpilation in between
- */
-
-import { main } from './source/main'
+import { main } from './source/main.js'
 
 main()

@@ -1,7 +1,8 @@
-import { ServiceRegistry } from '../../source/services/ServiceRegistry'
-
 import fs from 'fs-extra'
 import path from 'path'
+import { vi } from 'vitest'
+
+import { ServiceRegistry } from '../../source/services/ServiceRegistry'
 
 describe('ServiceRegistry', () => {
   const servicePath1 = 'service-registry.service-1'
@@ -114,7 +115,7 @@ describe('ServiceRegistry', () => {
     }
 
     beforeEach(() => {
-      console.error = jest.fn()
+      console.error = vi.fn()
     })
 
     afterEach(() => {
