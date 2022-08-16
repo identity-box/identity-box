@@ -5212,8 +5212,7 @@ __metadata:
     shelljs: ^0.8.5
     tweetnacl: ^1.0.3
   bin:
-    nameservice: ./lib/index.js
-    nameservice-esm: ./index.js
+    nameservice: ./source/index.js
   languageName: unknown
   linkType: soft
 

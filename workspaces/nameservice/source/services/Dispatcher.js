@@ -1,8 +1,8 @@
 import { create } from 'ipfs-http-client'
 
-import { NamePublisher } from './NamePublisher'
-import { NameResolver } from './NameResolver'
-import packageJSON from '../../package.json'
+import { NamePublisher } from './NamePublisher.js'
+import { NameResolver } from './NameResolver.js'
+import packageJSON from '../../package.json' assert { type: 'json' }
 
 class Dispatcher {
   ipfs = create(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')

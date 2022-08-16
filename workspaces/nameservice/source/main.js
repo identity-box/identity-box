@@ -1,8 +1,8 @@
-import { EntryPoint } from './entry-point'
-import commander from 'commander'
-import packageJSON from '../package.json'
+import { EntryPoint } from './entry-point/index.js'
+import { Command } from 'commander'
+import packageJSON from '../package.json' assert { type: 'json' }
 
-const program = new commander.Command()
+const program = new Command()
 
 const start = cmdObj => {
   const { servicePath, registrationPath } = cmdObj

@@ -2,15 +2,11 @@
   "name": "@identity-box/nameservice",
   "version": "0.1.37",
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
-  "bin": {
-    "nameservice": "./lib/index.js",
-    "nameservice-esm": "./index.js"
-  },
+  "bin": "./source/index.js",
+  "type": "module",
   "files": [
     "source",
-    "lib",
-    "ecosystem.config.js",
-    "index.js"
+    "ecosystem.config.cjs"
   ],
   "keywords": [
     "ipfs",
@@ -30,7 +26,6 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build": "node ./tools/build.js",
     "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD || true"
   },
   "dependencies": {

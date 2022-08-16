@@ -1,1 +1,1 @@
-export { EntryPoint } from './EntryPoint'
+export { EntryPoint } from './EntryPoint.js'
