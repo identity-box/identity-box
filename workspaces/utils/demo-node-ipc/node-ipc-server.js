@@ -1,4 +1,4 @@
-import ipc from 'node-ipc'
+import ipc from '@node-ipc/node-ipc'
 import commander from 'commander'
 
 const program = new commander.Command()

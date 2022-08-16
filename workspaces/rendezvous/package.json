@@ -35,7 +35,7 @@
     "commander": "^9.4.0",
     "esm": "^3.2.25",
     "express": "^4.18.1",
-    "glob": "^7.2.3",
+    "glob": "^8.0.3",
     "qrcode-terminal": "^0.12.0",
     "socket.io": "^2.5.0",
     "tweetnacl": "^1.0.3"
