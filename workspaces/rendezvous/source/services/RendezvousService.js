@@ -1,8 +1,8 @@
 import express from 'express'
 import http from 'http'
 import socketIO from 'socket.io'
-import { IOSocketServer } from './IOSocketServer'
-import packageJSON from '../../package.json'
+import { IOSocketServer } from './IOSocketServer.js'
+import packageJSON from '../../package.json' assert { type: 'json' }
 class RendezvousService {
   app
   httpServer

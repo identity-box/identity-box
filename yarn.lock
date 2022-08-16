@@ -5242,8 +5242,7 @@ __metadata:
     socket.io: ^2.5.0
     tweetnacl: ^1.0.3
   bin:
-    rendezvous: ./lib/index.js
-    rendezvous-esm: ./index.js
+    rendezvous: ./source/index.js
   languageName: unknown
   linkType: soft
 
