@@ -1,7 +1,6 @@
-import styled from '@emotion/styled'
 import { AnimationBox } from './AnimationBox'
 
-const FadingValueWrapper = styled.div(props => {
+const FadingValueWrapper = ({ children, opacity, duration }) => {
   const style = {
     display: 'flex',
     flexFlow: 'column nowrap',
@@ -9,19 +8,18 @@ const FadingValueWrapper = styled.div(props => {
     justifyContent: 'center',
     width: '100%'
   }
-  if (props.opacity === 0) {
-    return {
-      ...style,
-      opacity: 0
-    }
+  if (opacity === 0) {
+    style.opacity = 0
   } else {
-    return {
-      ...style,
-      opacity: props.opacity,
-      transition: `opacity ${props.duration}s ease-in-out 0s`
-    }
+    style.opacity = opacity
+    style.transition = `opacity ${duration}s ease-in-out 0s`
   }
-})
+  return (
+    <div style={style}>
+      {children}
+    </div>
+  )
+}
 
 const FadingValueBox = ({ trigger, children, duration = 1 }) => (
   <AnimationBox

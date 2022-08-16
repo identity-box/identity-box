@@ -1,5 +1,5 @@
 const Red = ({ children }) => (
-  <span css={{ color: 'red' }}>{children}</span>
+  <span style={{ color: 'red' }}>{children}</span>
 )
 
 export { Red }

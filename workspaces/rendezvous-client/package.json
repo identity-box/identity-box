@@ -2,12 +2,11 @@
   "name": "@identity-box/rendezvous-client",
   "version": "0.1.37",
   "description": "Client library for connecting to the Rendezvous service",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "exports": "./source/index.js",
+  "main": "./source/index.js",
+  "type": "module",
   "files": [
-    "source",
-    "lib",
-    "es"
+    "source"
   ],
   "keywords": [
     "identity-box"
@@ -26,9 +25,6 @@
     "@react-frontend-developer/buffers": "^2.0.1",
     "socket.io-client": "^2.5.0",
     "tweetnacl": "^1.0.3"
-  },
-  "scripts": {
-    "build": "node ./tools/build.js"
   },
   "publishConfig": {
     "access": "public"

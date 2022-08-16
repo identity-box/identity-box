@@ -1,8 +1,6 @@
 import { Header } from 'semantic-ui-react'
-import {
-  Centered,
-  Spacer
-} from '@react-frontend-developer/react-layout-helpers'
+import { Centered } from '../components/Centered'
+import { Spacer } from '../components/Spacer'
 import { IdAppQRCode } from '../IdAppQRCode'
 
 const ConnectorBody = ({ rendezvousUrl }) => {

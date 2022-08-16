@@ -41,7 +41,7 @@ const EnterSecret = ({ did, onSecretReady }) => {
             placeholder='Type your secret here...'
             onChange={onChange}
           />
-          <div css={{ alignSelf: 'center', marginTop: '1rem' }}>
+          <div style={{ alignSelf: 'center', marginTop: '1rem' }}>
             <Button
               primary
               disabled={disabled}

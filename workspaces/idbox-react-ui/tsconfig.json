@@ -1,0 +1,21 @@
+{
+  "exclude": ["**/*.test.js", "**/*.test.jsx"],
+  "include": ["source/**/*.js", "source/**/*.jsx"],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "module": "ES2020",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "target": "ES2019",
+    "strict": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "sourceMap": true
+  }
+}

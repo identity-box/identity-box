@@ -1,8 +1,8 @@
-import { ServiceProxy } from '../../source/services'
-import { IPCTestServer } from '../../source/test-utils'
-
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
+
+import { ServiceProxy } from '../../source/services'
+import { IPCTestServer } from '../../source/test-utils'
 
 describe('ServiceProxy', () => {
   const rpcRequest = {

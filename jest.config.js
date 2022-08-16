@@ -1,26 +1,26 @@
 module.exports = {
   projects: [
-    'workspaces/idbox-react-ui',
-    'workspaces/hush-hush',
-    {
-      rootDir: 'workspaces/utils',
-      testEnvironment: 'node'
-    },
-    {
-      rootDir: 'workspaces/box-office',
-      testEnvironment: 'node'
-    },
-    {
-      rootDir: 'workspaces/nameservice',
-      testEnvironment: 'node'
-    },
-    {
-      rootDir: 'workspaces/identity-service',
-      testEnvironment: 'node'
-    },
-    {
-      testMatch: ['<rootDir>/dummy']
-    }
+    // 'workspaces/idbox-react-ui',
+    'workspaces/hush-hush'
+    // {
+    //   rootDir: 'workspaces/utils',
+    //   testEnvironment: 'node'
+    // },
+    // {
+    //   rootDir: 'workspaces/box-office',
+    //   testEnvironment: 'node'
+    // },
+    // {
+    //   rootDir: 'workspaces/nameservice',
+    //   testEnvironment: 'node'
+    // },
+    // {
+    //   rootDir: 'workspaces/identity-service',
+    //   testEnvironment: 'node'
+    // },
+    // {
+    //   testMatch: ['<rootDir>/dummy']
+    // }
   ],
   collectCoverage: true,
   collectCoverageFrom: [

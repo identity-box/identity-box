@@ -1,6 +1,5 @@
 import { FadingValueBox } from '../animations'
-import { Blue, InfoBox, MrSpacer } from '../ui'
-import { Centered } from '@react-frontend-developer/react-layout-helpers'
+import { Blue, InfoBox, MrSpacer, Centered } from '../ui'
 
 import { Connector } from '../identity'
 

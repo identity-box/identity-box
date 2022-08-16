@@ -1,5 +1,5 @@
 const MrSpacer = ({ space }) => (
-  <div css={{
+  <div style={{
     height: space,
     width: '1px'
   }}

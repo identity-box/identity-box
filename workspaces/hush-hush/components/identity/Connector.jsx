@@ -10,7 +10,7 @@ const Connector = ({
   const [open, setOpen] = useState(false)
 
   return (
-    <div css={{ alignSelf: 'center' }}>
+    <div style={{ alignSelf: 'center' }}>
       <IdAppConnector
         open={open && closeDialog !== true}
         buttonText={title}
