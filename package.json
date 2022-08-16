@@ -1,21 +1,15 @@
 {
   "private": true,
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
-    "@babel/core": "7.18.10",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
-    "@babel/preset-env": "^7.18.10",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
     "@vitejs/plugin-react": "^2.0.1",
-    "babel-jest": "^28.1.3",
     "c8": "^7.12.0",
     "eslint": "^8.22.0",
     "eslint-config-standard": "^17.0.0",
@@ -26,16 +20,10 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.1",
     "happy-dom": "^6.0.4",
-    "jest": "^28.1.3",
-    "jest-environment-jsdom": "^28.1.3",
-    "jest-snapshot": "^28.1.3",
     "lerna": "^5.4.2",
     "lerna-changelog": "^2.2.0",
-    "standard": "^17.0.0",
-    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.7",
-    "vite-tsconfig-paths": "^3.5.0",
     "vitest": "^0.21.1"
   },
   "workspaces": {
@@ -45,8 +33,8 @@
   },
   "scripts": {
     "setup:dev": "yarn && yarn build",
-    "test": "yarn lint && yarn jest --colors",
-    "test:watch": "yarn jest --watch --colors",
+    "test": "yarn lint && yarn vitest",
+    "test:coverage": "yarn vitest run --coverage",
     "lint": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}' --fix",
     "build": "yarn lerna run build --scope '@identity-box/**'",
