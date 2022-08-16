@@ -1,11 +1,11 @@
+import { vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
 import Home from '../../pages/index'
 
 describe('index', () => {
   beforeEach(() => {
-    console.log = jest.fn()
-    jest.useFakeTimers()
+    console.log = vi.fn()
   })
 
   afterEach(() => {
