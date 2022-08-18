@@ -6,19 +6,19 @@ const Wrapper = ({ children, color }) => (
   </div>
 )
 
-const Decor = ({ children, color, borderColor, width }) => {
+const Decor = ({ children, color, width }) => {
   let extraStyles = 'w-0'
   if (width !== 'w-0') {
     extraStyles = `${width} transition-[width] ease-in-out duration-1000]`
   }
   return (
-    <div className={`border-t-[1px] border-solid ${borderColor ?? 'border-black'} ${extraStyles}`}>
+    <div className={`border-t-[1px] border-solid ${color ?? 'border-t-black'} ${extraStyles}`}>
       {children}
     </div>
   )
 }
 
-const HeaderBox = ({ trigger, color, borderColor, children }) => (
+const HeaderBox = ({ trigger, color, children }) => (
   <AnimationBox
     startValue='w-0'
     stopValue='w-full'
@@ -29,7 +29,7 @@ const HeaderBox = ({ trigger, color, borderColor, children }) => (
         <Wrapper>
           <Wrapper color={color}>
             {children}
-            <Decor color={color} borderColor={borderColor} width={width} />
+            <Decor color={color} width={width} />
           </Wrapper>
         </Wrapper>
     }

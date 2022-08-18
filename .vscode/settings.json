@@ -1,6 +1,6 @@
 {
   "tailwindCSS.experimental.configFile": {
-    "workspaces/hush-hush-new/tailwind.config.cjs": "workspaces/hush-hush-new/**"
+    "workspaces/hush-hush/tailwind.config.cjs": "workspaces/hush-hush/**"
   },
   "spellright.language": [
     "en",

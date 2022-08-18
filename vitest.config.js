@@ -13,13 +13,13 @@ export default defineConfig({
     coverage: {
       exclude: ['**/dist']
     },
+    exclude: [
+      'workspaces/homepage',
+      'workspaces/idapp',
+      'workspaces/rendezvous-tester'
+    ],
     include: [
-      'workspaces/box-office/**/*.test.{js,jsx,ts,tsx}',
-      'workspaces/identity-service/**/*.test.{js,jsx,ts,tsx}',
-      'workspaces/nameservice/**/*.test.{js,jsx,ts,tsx}',
-      'workspaces/idbox-react-ui/**/*.test.{js,jsx,ts,tsx}',
-      'workspaces/utils/**/*.test.{js,jsx,ts,tsx}',
-      'workspaces/hush-hush-new/**/*.test.{js,jsx,ts,tsx}'
+      'workspaces/**/*.test.{js,jsx,ts,tsx}'
     ]
   }
 })
