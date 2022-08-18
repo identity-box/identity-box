@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from '@reach/router'
 import { Helmet } from 'react-helmet-async'
@@ -50,8 +48,9 @@ const AppTunnelBrowser = () => {
   }
 
   const newChannel = async () => {
+    rendezvousTunnel.current.closeTunnel()
+    const { tunnelId } = await rendezvousTunnel.current.createNew()
     setReady(false)
-    const tunnelId = await rendezvousTunnel.current.createNew()
     setResponse('')
     setTunnelId(tunnelId)
   }
@@ -73,7 +72,7 @@ const AppTunnelBrowser = () => {
       {ready && response === '' && <EnterMessage onSend={onSend} />}
       {response !== '' && <Response>{response}</Response>}
       <Row>
-        <Link css={{ display: 'block', margin: '20px 20px 20px 0' }} to='/'>Home</Link>
+        <Link style={{ display: 'block', margin: '20px 20px 20px 0' }} to='/'>Home</Link>
         {response !== '' && <ButtonLink onClick={newChannel}>Create New Channel</ButtonLink>}
       </Row>
     </Wrapper>

@@ -3,11 +3,11 @@ import styled from '@emotion/styled'
 export const Message = ({ msg, placeholder }) => {
   if (msg === placeholder) {
     return (
-      <p style={{ border: '1px solid black', maxWidth: '300px', padding: '20px', fontSize: '24px', fontWeight: 'normal', color: '#777' }}>{placeholder}</p>
+      <p style={{ border: '1px solid black', maxWidth: '300px', margin: 0, marginBottom: '10px', padding: '20px', fontSize: '24px', fontWeight: 'normal', color: '#777' }}>{placeholder}</p>
     )
   } else {
     return (
-      <p style={{ border: '1px solid black', maxWidth: '300px', padding: '20px', fontSize: '24px', fontWeight: 'bold' }}>{msg}</p>
+      <p style={{ border: '1px solid black', maxWidth: '300px', margin: 0, marginBottom: '10px', padding: '20px', fontSize: '24px', fontWeight: 'bold' }}>{msg}</p>
     )
   }
 }

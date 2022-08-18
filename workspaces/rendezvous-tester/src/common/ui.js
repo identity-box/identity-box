@@ -25,7 +25,7 @@ export const ButtonLink = styled.button({
   border: 'none',
   cursor: 'pointer',
   textDecoration: 'underline',
-  margin: '20px 0',
+  margin: '10px 0',
   padding: 0
 })
 

@@ -19,7 +19,7 @@ export default defineConfig({
       'workspaces/nameservice/**/*.test.{js,jsx,ts,tsx}',
       'workspaces/idbox-react-ui/**/*.test.{js,jsx,ts,tsx}',
       'workspaces/utils/**/*.test.{js,jsx,ts,tsx}',
-      'workspaces/hush-hush/**/*.test.{js,jsx,ts,tsx}'
+      'workspaces/hush-hush-new/**/*.test.{js,jsx,ts,tsx}'
     ]
   }
 })

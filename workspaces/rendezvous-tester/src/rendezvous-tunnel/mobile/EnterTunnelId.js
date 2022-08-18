@@ -24,7 +24,7 @@ const EnterTunnelId = ({ onConnect }) => {
           <strong>Tunnel id:</strong>
           <Input type='text' value={tunnelId} onChange={onChange} />
         </Label>
-        <Button css={{ marginLeft: '10px' }} disabled={tunnelId === ''} onClick={onClick}>Connect</Button>
+        <Button style={{ marginLeft: '10px' }} disabled={tunnelId === ''} onClick={onClick}>Connect</Button>
       </Row>
     </>
   )

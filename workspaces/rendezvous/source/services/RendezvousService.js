@@ -1,9 +1,10 @@
 import express from 'express'
-import http from 'http'
-import socketIO from 'socket.io'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 import { IOSocketServer } from './IOSocketServer.js'
 import packageJSON from '../../package.json' assert { type: 'json' }
 class RendezvousService {
+  baseUrl
   app
   httpServer
   ioSocketServer
@@ -11,8 +12,13 @@ class RendezvousService {
 
   start = () => {
     this.app = express()
-    this.httpServer = http.Server(this.app)
-    const io = socketIO(this.httpServer, { serveClient: false })
+    this.httpServer = createServer(this.app)
+    const io = new Server(this.httpServer, {
+      serveClient: false,
+      cors: {
+        origin: '*'
+      }
+    })
     this.ioSocketServer = new IOSocketServer(io, this.dispatcher)
     this.ioSocketServer.start()
 

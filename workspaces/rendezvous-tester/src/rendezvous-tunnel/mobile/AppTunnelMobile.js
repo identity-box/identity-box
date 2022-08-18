@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react'
 import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { RendezvousTunnel } from '@identity-box/rendezvous-client'
@@ -75,7 +73,7 @@ const AppTunnelMobile = () => {
       {tunnelReady && <Message msg={msg} placeholder={msgPlaceholder} />}
       <Row>
         <ButtonLink onClick={closeWindow}>Close</ButtonLink>
-        {tunnelReady && <ButtonLink css={{ marginLeft: '20px' }} onClick={reset}>Reset</ButtonLink>}
+        {tunnelReady && <ButtonLink style={{ marginLeft: '20px' }} onClick={reset}>Reset</ButtonLink>}
       </Row>
     </Wrapper>
   )

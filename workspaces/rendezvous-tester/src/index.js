@@ -1,30 +1,33 @@
-/** @jsx jsx */
 import React from 'react'
-import { jsx, Global } from '@emotion/react'
-import ReactDOM from 'react-dom'
+import { Global } from '@emotion/react'
+import { createRoot } from 'react-dom/client';
 import { HelmetProvider, Helmet } from 'react-helmet-async'
 import { Router, Link } from '@reach/router'
 import { App } from './rendezvous'
 import { AppTunnelBrowser, AppTunnelMobile } from './rendezvous-tunnel'
 import * as serviceWorker from './serviceWorker'
+import { Buffer } from 'buffer'
+
+window.Buffer = Buffer
 
 const Home = () => (
-  <div css={{
+  <div style={{
     display: 'flex',
     flexFlow: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh'
-  }}
-  >
+  }}>
     <p>What would you like to test?</p>
-    <Link css={{ marginBottom: '20px' }} to='/rendezvous'>Rendezvous</Link>
-    <Link css={{ marginBottom: '20px' }} to='/rendezvous-tunnel-browser'>Rendezvous Tunnel</Link>
+    <Link style={{ display: 'block', marginBottom: '20px' }} to='/rendezvous'>Rendezvous</Link>
+    <Link style={{ display: 'block', marginBottom: '20px' }} to='/rendezvous-tunnel-browser'>Rendezvous Tunnel</Link>
   </div>
 )
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root')
+const root = createRoot(container)
+root.render(
+  <>
     <Global styles={{
       body: {
         margin: 0,
@@ -44,8 +47,7 @@ ReactDOM.render(
         <AppTunnelMobile path='rendezvous-tunnel-mobile' />
       </Router>
     </HelmetProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </>
 )
 
 // If you want your app to work offline and load faster, you can change

@@ -1,0 +1,82 @@
+// Vitest Snapshot v1
+
+exports[`Home > has proper styling 1`] = `
+<div>
+  <div
+    class="flex flex-nowrap justify-center items-center h-screen w-screen"
+  >
+    <div
+      class="flex flex-col flex-nowrap items-center min-h-[150px] max-w-[550px] w-5/6"
+    >
+      <div
+        class="flex flex-nowrap flex-col justify-center w-full opacity-0"
+      >
+        <div
+          class="flex flex-col flex-nowrap items-center justify-center w-full"
+        >
+          <p
+            class="text-center mt-[0px] mb-[0px] text-blue"
+          >
+            In order to share your secret securely with the intendent (and only intended) recipient, Hush Hush needs to know two things:
+          </p>
+          <p
+            class="text-center mb-[0px] text-white mt-[15px]"
+          >
+            1. The DID of the intended recipient.
+          </p>
+          <p
+            class="text-center mb-[0px] text-white mt-[15px]"
+          >
+            2. Your current DID.
+          </p>
+          <p
+            class="text-center mb-[0px] text-white mt-[20px]"
+          >
+            For this reason, Hush Hush, needs to connect to your mobile where you can then select the intended recipient from your 
+            <span
+              class="text-[#0099FF]"
+            >
+              Identity Box IdApp Address Book
+            </span>
+            .
+          </p>
+          <div
+            class="w-[1px]"
+            style="height: 20px;"
+          />
+          <p
+            class="text-center mt-[0px] mb-[0px] text-white"
+          >
+            Please make sure that you have your 
+            <span
+              class="text-[#0099FF]"
+            >
+              IdApp
+            </span>
+             ready and that you have selected the identity you want to use before hitting 
+            <span
+              class="text-[#0099FF]"
+            >
+              connect
+            </span>
+             below.
+          </p>
+          <div
+            class="w-[1px]"
+            style="height: 50px;"
+          />
+          <div
+            class="self-center"
+          >
+            <button
+              class="ui primary button"
+            >
+              Connect...
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

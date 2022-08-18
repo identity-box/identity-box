@@ -1,5 +1,4 @@
 class Tunnel {
-  socket
   socketSender
   socketReceiver
   tunnel
@@ -18,16 +17,12 @@ class Tunnel {
       console.log('SENDER')
       this.socketSender = socket
     } else if (!this.socketReceiver) {
-      if (this.tunnelIdFromSocketId(this.socketSender.id) === this.tunnelIdFromSocketId(socket.id)) {
-        console.log('RECEIVER')
-        this.socketReceiver = socket
-        this.socketReceiver.on('publicKey', encodedPublicKey => {
-          this.socketSender.emit('ready', encodedPublicKey)
-          this.socketReceiver.emit('ready')
-        })
-      } else {
-        throw new Error('The sockets at both ends of the tunnel are not having the same tunnel id!')
-      }
+      console.log('RECEIVER')
+      this.socketReceiver = socket
+      this.socketReceiver.on('publicKey', encodedPublicKey => {
+        this.socketSender.emit('ready', encodedPublicKey)
+        this.socketReceiver.emit('ready')
+      })
     } else {
       throw new Error('Both ends are already connected!!!!')
     }

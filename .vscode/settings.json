@@ -1,4 +1,7 @@
 {
+  "tailwindCSS.experimental.configFile": {
+    "workspaces/hush-hush-new/tailwind.config.cjs": "workspaces/hush-hush-new/**"
+  },
   "spellright.language": [
     "en",
     "pl"
@@ -7,6 +10,5 @@
     "markdown",
     "latex",
     "plaintext"
-  ],
-  "jest.jestCommandLine": "yarn test"
+  ]
 }

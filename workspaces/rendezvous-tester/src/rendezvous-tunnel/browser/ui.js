@@ -37,6 +37,8 @@ export const TunnelId = styled.p({
 export const Response = styled.p({
   border: '1px solid black',
   maxWidth: '300px',
+  margin: 0,
+  marginTop: '10px',
   padding: '20px',
   fontSize: '24px',
   fontWeight: 'bold'
