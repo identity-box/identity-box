@@ -1,6 +1,7 @@
 {
   "tailwindCSS.experimental.configFile": {
-    "workspaces/hush-hush/tailwind.config.cjs": "workspaces/hush-hush/**"
+    "workspaces/hush-hush/tailwind.config.cjs": "workspaces/hush-hush/**",
+    "workspaces/rendezvous-tester-new/tailwind.config.cjs": "workspaces/rendezvous-tester-new/**"
   },
   "spellright.language": [
     "en",

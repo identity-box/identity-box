@@ -20118,9 +20118,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hush-hush-new@workspace:workspaces/hush-hush":
+"hush-hush@workspace:workspaces/hush-hush":
   version: 0.0.0-use.local
-  resolution: "hush-hush-new@workspace:workspaces/hush-hush"
+  resolution: "hush-hush@workspace:workspaces/hush-hush"
   dependencies:
     "@types/react": ^18.0.17
     "@types/react-dom": ^18.0.6
@@ -29457,7 +29457,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^3.0.1, react-fast-compare@npm:^3.2.0":
+"react-fast-compare@npm:^3.0.1, react-fast-compare@npm:^3.1.1, react-fast-compare@npm:^3.2.0":
   version: 3.2.0
   resolution: "react-fast-compare@npm:3.2.0"
   checksum: 8ef272c825ae329f61633ce4ce7f15aa5b84e5214d88bc0823880236e03e985a13195befa2c7a4eda7db3b017dc7985729152d88445823f652403cf36c2b86aa
@@ -29486,6 +29486,20 @@ __metadata:
     react: ^16.6.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
   checksum: 7ca7e47f8af14ea186688b512a87ab912bf6041312b297f92516341b140b3f0f8aedf5a44d226d99e69ed067b0cc106e38aeb9c9b738ffcc63d10721c844db90
+  languageName: node
+  linkType: hard
+
+"react-helmet@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "react-helmet@npm:6.1.0"
+  dependencies:
+    object-assign: ^4.1.1
+    prop-types: ^15.7.2
+    react-fast-compare: ^3.1.1
+    react-side-effect: ^2.1.0
+  peerDependencies:
+    react: ">=16.3.0"
+  checksum: a4998479dab7fc1c2799eddefb1870a9d881b5f71cfdf97979a9882e42f4bb50402d55335f308f461e735e01a06f46b16cc7b4e6bcb22c7a4a6f85a753c5c106
   languageName: node
   linkType: hard
 
@@ -29956,6 +29970,15 @@ __metadata:
   peerDependencies:
     react: ^16.0.0 || ^17.0.0
   checksum: f344c663c48720d19559b4198b1f63ad47a3f11bedc92ede053a6c0706b5209e6110086f3ccc6db04eda9f0d1a415845956ddfb6ce09a922167d4831fcba9314
+  languageName: node
+  linkType: hard
+
+"react-side-effect@npm:^2.1.0":
+  version: 2.1.2
+  resolution: "react-side-effect@npm:2.1.2"
+  peerDependencies:
+    react: ^16.3.0 || ^17.0.0 || ^18.0.0
+  checksum: c5eb1f42b464fb093bca59aaae0f1b2060373a2aaff95275b8781493628cdbbb6acdd6014e7883782c65c361f35a30f28cc515d68a1263ddb39cbbc47110be53
   languageName: node
   linkType: hard
 
@@ -30635,6 +30658,29 @@ __metadata:
   checksum: 77162b62d6f33ab81f337c39efce0439ff0d1f6d441e29c35183151f83041c7850774fb904da163d6c844264d440d10557714e6daa0b19e4561a5cd4ef305d41
   languageName: node
   linkType: hard
+
+"rendezvous-tester-new@workspace:workspaces/rendezvous-tester-new":
+  version: 0.0.0-use.local
+  resolution: "rendezvous-tester-new@workspace:workspaces/rendezvous-tester-new"
+  dependencies:
+    "@identity-box/rendezvous-client": ^0.1.37
+    "@react-frontend-developer/buffers": ^2.0.1
+    "@types/react": ^18.0.17
+    "@types/react-dom": ^18.0.6
+    "@vitejs/plugin-react": ^2.0.1
+    autoprefixer: ^10.4.8
+    base64url: ^3.0.1
+    buffer: ^6.0.3
+    postcss: ^8.4.16
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-helmet: ^6.1.0
+    react-router-dom: ^6.3.0
+    tailwind-merge: ^1.5.1
+    tailwindcss: ^3.1.8
+    vite: ^3.0.7
+  languageName: unknown
+  linkType: soft
 
 "rendezvous-tester@workspace:workspaces/rendezvous-tester":
   version: 0.0.0-use.local
