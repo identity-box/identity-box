@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/rendezvous-client",
-  "version": "0.1.37",
+  "version": "0.1.38",
   "description": "Client library for connecting to the Rendezvous service",
   "type": "module",
   "exports": "./source/index.js",
