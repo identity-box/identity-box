@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@confluenza/gatsby-theme-confluenza": "^1.0.40",
-    "gatsby": "^4.21.0",
+    "gatsby": "^4.21.1",
     "gatsby-plugin-provide-react": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
