@@ -1,10 +1,12 @@
-import { ServiceRegistry } from '../../source/services/ServiceRegistry'
-import { ServiceProxy } from '@identity-box/utils'
-import nacl from 'tweetnacl'
-
 import fs from 'fs-extra'
 import path from 'path'
 import base64url from 'base64url'
+import nacl from 'tweetnacl'
+import { vi } from 'vitest'
+
+import { ServiceProxy } from '@identity-box/utils'
+import { ServiceRegistry } from '../../source/services/ServiceRegistry'
+
 import { BoxOfficeService } from '../../source/services/BoxOfficeService'
 
 describe('BoxOfficeService', () => {
@@ -37,7 +39,7 @@ describe('BoxOfficeService', () => {
   }
 
   beforeEach(async () => {
-    console.log = jest.fn()
+    console.log = vi.fn()
     prepareServicePath()
     prepareFixtureFile()
     serviceRegistry = new ServiceRegistry({

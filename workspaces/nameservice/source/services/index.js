@@ -1,2 +1,2 @@
-export { NameService } from './NameService'
-export { Dispatcher } from './Dispatcher'
+export { NameService } from './NameService.js'
+export { Dispatcher } from './Dispatcher.js'

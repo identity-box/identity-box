@@ -493,7 +493,7 @@ We start the Box Office service with pm2:
 
 ```bash
 $ cd ~/idbox/box-office
-$ pm2 start ecosystem.config.js
+$ pm2 start ecosystem.config.cjs
 ```
 
 ## Name service
@@ -508,7 +508,7 @@ After this start the Name Service using pm2:
 
 ```bash
 $ cd ~/idbox/nameservice
-$ pm2 start ecosystem.config.js
+$ pm2 start ecosystem.config.cjs
 ```
 
 ## Identity Service
@@ -538,7 +538,7 @@ We start Identity Service with pm2:
 
 ```bash
 $ cd ~/idbox/identity-service
-$ pm2 start ecosystem.config.js
+$ pm2 start ecosystem.config.cjs
 ```
 
 ## Rendezvous
@@ -551,7 +551,7 @@ We start with:
 $ npx github:/identity-box/cli install-service rendezvous
 ```
 
-Then, we open `ecosystem.config.js` and change the `args` parameter to include the external domain name
+Then, we open `ecosystem.config.cjs` and change the `args` parameter to include the external domain name
 to be used as your rendezvous url:
 
 ```javascript
@@ -650,7 +650,7 @@ Finally, start the Rendezvous service:
 
 ```bash
 $ cd ~/idbox/rendezvous
-$ pm2 start ecosystem.config.js
+$ pm2 start ecosystem.config.cjs
 ```
 
 At this point your Identity Box should be correctly set up and you can start experimenting with it.
@@ -686,7 +686,7 @@ For each service follow the steps (we use `box-office` below as an example):
 ```bash
 $ cd ~/idbox/box-office
 $ yarn up @identity-box/box-office
-$ pm2 reload ecosystem.config.js
+$ pm2 reload ecosystem.config.cjs
 ```
 
 Do the same for each single servic replacing `box-office` with the appropriate package name.

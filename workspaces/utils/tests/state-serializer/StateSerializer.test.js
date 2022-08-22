@@ -1,7 +1,9 @@
-import { StateSerializer } from '../../source/state-serializer'
 import fs from 'fs'
+import { vi } from 'vitest'
 
-jest.mock('fs')
+import { StateSerializer } from '../../source/state-serializer'
+
+vi.mock('fs')
 
 describe('StateSerializer', () => {
   const testPath = 'test-path'
@@ -11,11 +13,11 @@ describe('StateSerializer', () => {
     fs.writeFileSync.mockReset()
     fs.readFileSync.mockReset()
     serializer = new StateSerializer(testPath)
-    fs.existsSync = jest.fn().mockReturnValue(true)
+    fs.existsSync = vi.fn().mockReturnValue(true)
   })
 
   it('returns undefined if file does not exist', () => {
-    fs.existsSync = jest.fn().mockReturnValue(false)
+    fs.existsSync = vi.fn().mockReturnValue(false)
     expect(serializer.read()).toBeUndefined()
   })
 

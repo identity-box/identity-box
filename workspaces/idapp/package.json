@@ -55,6 +55,7 @@
     "@babel/plugin-proposal-decorators": "^7.18.10",
     "babel-preset-expo": "~9.2.0",
     "expo-env": "^1.1.1",
+    "jest": "^28.1.3",
     "jest-expo": "^46.0.1"
   },
   "private": true,

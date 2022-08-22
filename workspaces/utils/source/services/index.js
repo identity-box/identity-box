@@ -1,2 +1,2 @@
-export { ServiceProxy } from './ServiceProxy'
-export { Service } from './Service'
+export { ServiceProxy } from './ServiceProxy.js'
+export { Service } from './Service.js'

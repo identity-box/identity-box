@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-white bg-black m-0 p-0;
+  }
+  html {
+    @apply m-0 p-0;
+  }
+  @font-face {
+    font-family: 'Roboto Mono';
+    font-weight: 200;
+    src: url('/fonts/RobotoMono-VariableFont_wght.ttf') format('ttf')
+  }
+}

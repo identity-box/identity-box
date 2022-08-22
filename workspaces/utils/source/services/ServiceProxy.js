@@ -1,4 +1,4 @@
-import ipc from 'node-ipc'
+import ipc from '@node-ipc/node-ipc'
 
 class ServiceProxy {
   ipc

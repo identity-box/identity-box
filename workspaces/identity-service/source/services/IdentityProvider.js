@@ -5,7 +5,7 @@ import crypto from 'libp2p-crypto'
 import base32encode from 'base32-encode'
 import { CID } from 'multiformats/cid'
 import { base32 } from 'multiformats/bases/base32'
-import { IPNS } from './ipns'
+import { IPNS } from './ipns/index.js'
 
 class IdentityProvider {
   password = process.env.IDBOX_BACKUP_PASSWORD

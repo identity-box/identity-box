@@ -4,39 +4,31 @@
   "description": "Identity Box React library",
   "homepage": "https://idbox.online/components/idbox-react-ui",
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "scripts": {
-    "build": "node ./tools/build.js"
-  },
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
   "engines": {
     "node": ">=16.0.0"
   },
   "files": [
-    "lib",
-    "es",
-    "source"
+    "dist"
   ],
   "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "@react-frontend-developer/react-layout-helpers": "^2.0.1",
-    "qrcode.react": "^1.0.1",
+    "qrcode.react": "^3.1.0"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.3"
   },
-  "peerDependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
-  },
-  "devDependencies": {
-    "@emotion/babel-preset-css-prop": "^11.10.0",
-    "@emotion/jest": "^11.10.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
-    "jest-canvas-mock": "^2.4.0"
+  "scripts": {
+    "build": "tsc"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4"
   }
 }

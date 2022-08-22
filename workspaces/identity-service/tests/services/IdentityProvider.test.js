@@ -1,11 +1,12 @@
 import path from 'path'
 import base32encode from 'base32-encode'
+import { vi } from 'vitest'
 
 import { IdentityProvider } from '../../source/services/IdentityProvider'
 
 describe('Identity Provider', () => {
   it('produces correct key path given a name', () => {
-    const ipfs = jest.fn()
+    const ipfs = vi.fn()
     process.env.IPFS_PATH = '/some-base-path'
     const identityProvider = new IdentityProvider(ipfs)
 

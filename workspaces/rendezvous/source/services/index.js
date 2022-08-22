@@ -1,2 +1,2 @@
-export { RendezvousService } from './RendezvousService'
-export { Dispatcher } from './Dispatcher'
+export { RendezvousService } from './RendezvousService.js'
+export { Dispatcher } from './Dispatcher.js'

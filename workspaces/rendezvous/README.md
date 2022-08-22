@@ -2,17 +2,14 @@
 
 A service to provide external connectivity to the box from the browsers and mobile devices.
 
+> Since version `0.1.38` all Identity Box services are ESM-only. No building is required.
+
 ## Installation
 
 On your identity-box, first create a folder where you want your service to be installed (we recommend that you use the name of the service as the name of the folder). Then install the service as follows:
 
 ```bash
-$ mkdir rendezvous
-$ cd rendezvous
-$ yarn set version berry
-$ echo 'nodeLinker: node-modules' >> .yarnrc.yml
-$ yarn init
-$ yarn add @identity-box/rendezvous
+$ npx github:/identity-box/cli install-service rendezvous
 ```
 
 ## Usage
@@ -34,7 +31,7 @@ $ npm install pm2 -g
 ### Start service
 
 ```bash
-$ pm2 start ecosystem.config.js
+$ pm2 start ecosystem.config.cjs
 ```
 
 ### List all services
@@ -68,23 +65,6 @@ $ pm2 logs rendezvous --out --lines 150
 ### Restart process after editing ecosystem
 
 ```bash
-$ pm2 delete ecosystem.config.js
-$ pm2 start ecosystem.config.js
-```
-
-## Compatibility with ESM
-
-We used to supply the package in the ECMAScript module format, so without babel transpilation. Unfortunately, it was making it hard to run with pm2 in the service mode. For this reason, now, before the package can be published it needs to be transpiled and include the default commonjs version in the package.
-
-For those who would prefer to run the service with ESM, this is still possible. In the development just do:
-
-```bash
-$ cd workspaces/rendezvous
-$ ./index.js start
-```
-
-in production:
-
-```bash
-$ ./node_modules/.bin/rendezvous-esm start
+$ pm2 delete ecosystem.config.cjs
+$ pm2 start ecosystem.config.cjs
 ```

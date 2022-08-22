@@ -1,4 +1,4 @@
-import { RendezvousClientSession } from './RendezvousClientSession'
+import { RendezvousClientSession } from './RendezvousClientSession.js'
 
 class RendezvousClientConnection {
   session

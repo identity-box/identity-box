@@ -1,1 +1,1 @@
-export { IPCTestServer } from './IPCTestServer'
+export { IPCTestServer } from './IPCTestServer.js'

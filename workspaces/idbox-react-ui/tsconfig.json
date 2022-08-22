@@ -1,0 +1,21 @@
+{
+  "exclude": ["**/*.test.js", "**/*.test.jsx"],
+  "include": ["source/**/*.js", "source/**/*.jsx"],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "isolatedModules": true,
+    "esModuleInterop": false,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "target": "ESNext",
+    "strict": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "sourceMap": false
+  }
+}

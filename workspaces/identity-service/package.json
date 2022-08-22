@@ -2,16 +2,11 @@
   "name": "@identity-box/identity-service",
   "version": "0.1.37",
   "description": "Service to handle identity based operations",
-  "bin": {
-    "identity-service": "./lib/index.js",
-    "identity-service-esm": "./index.js"
-  },
+  "bin": "./source/index.js",
+  "type": "module",
   "files": [
     "source",
-    "lib",
-    "ecosystem.config.js",
-    "setup.sh",
-    "index.js"
+    "ecosystem.config.cjs"
   ],
   "keywords": [
     "ipfs",
@@ -31,18 +26,17 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build": "yarn node ./tools/build.js",
-    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD || true"
+    "postinstall": "cp -n ./ecosystem.config.cjs $INIT_CWD || true"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.37",
-    "base32-encode": "^1.2.0",
+    "base32-encode": "^2.0.0",
     "base64url": "^3.0.1",
     "commander": "^9.4.0",
     "esm": "^3.2.25",
     "firebase-admin": "^11.0.1",
-    "glob": "^7.2.3",
-    "ipfs-http-client": "^56.0.3",
+    "glob": "^8.0.3",
+    "ipfs-http-client": "^57.0.3",
     "libp2p-crypto": "^0.21.2",
     "multiformats": "^9.7.1",
     "tweetnacl": "^1.0.3"
@@ -51,7 +45,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
     "faker": "^6.6.6"
   }
 }

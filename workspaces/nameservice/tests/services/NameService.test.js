@@ -1,6 +1,7 @@
 import { ServiceProxy } from '@identity-box/utils'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
+import { vi } from 'vitest'
 
 import { NameService } from '../../source/services/NameService'
 
@@ -37,7 +38,7 @@ describe('NameService', () => {
       ]
     }
     const dispatcher = {
-      dispatch: jest.fn().mockReturnValueOnce(expectedResponse)
+      dispatch: vi.fn().mockReturnValueOnce(expectedResponse)
     }
     nameService = await NameService.create({
       servicePath,
@@ -58,7 +59,7 @@ describe('NameService', () => {
       ]
     }
     const dispatcher = {
-      dispatch: jest.fn().mockReturnValueOnce(expectedResponse)
+      dispatch: vi.fn().mockReturnValueOnce(expectedResponse)
     }
     nameService = await NameService.create({
       servicePath,

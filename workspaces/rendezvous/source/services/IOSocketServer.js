@@ -1,5 +1,5 @@
-import { Session } from './Session'
-import { Tunnel } from './Tunnel'
+import { Session } from './Session.js'
+import { Tunnel } from './Tunnel.js'
 
 class IOSocketServer {
   io

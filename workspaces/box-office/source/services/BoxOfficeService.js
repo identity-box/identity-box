@@ -1,7 +1,7 @@
 import { Service } from '@identity-box/utils'
-import { ServiceBroker } from './ServiceBroker'
+import { ServiceBroker } from './ServiceBroker.js'
 
-import packageJSON from '../../package.json'
+import packageJSON from '../../package.json' assert { type: 'json' }
 
 class BoxOfficeService {
   serviceRegistry

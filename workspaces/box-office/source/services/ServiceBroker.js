@@ -1,4 +1,4 @@
-import { ServiceManager } from './ServiceManager'
+import { ServiceManager } from './ServiceManager.js'
 
 class ServiceBroker {
   serviceManager

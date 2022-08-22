@@ -1,4 +1,4 @@
-import { RendezvousClientConnection } from './RendezvousClientConnection'
+import { RendezvousClientConnection } from './RendezvousClientConnection.js'
 
 class RendezvousClient {
   baseUrl

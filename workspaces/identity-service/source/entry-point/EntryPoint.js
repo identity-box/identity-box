@@ -1,4 +1,4 @@
-import { IdentityService, Dispatcher } from '../services'
+import { IdentityService, Dispatcher } from '../services/index.js'
 import { ServiceProxy } from '@identity-box/utils'
 
 class EntryPoint {

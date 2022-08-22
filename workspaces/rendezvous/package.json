@@ -2,16 +2,11 @@
   "name": "@identity-box/rendezvous",
   "version": "0.1.37",
   "description": "Service to provide external connectivity to the box from the browsers and mobile devices",
-  "bin": {
-    "rendezvous": "./lib/index.js",
-    "rendezvous-esm": "./index.js"
-  },
+  "bin": "./source/index.js",
+  "type": "module",
   "files": [
     "source",
-    "lib",
-    "ecosystem.config.js",
-    "setup.sh",
-    "index.js"
+    "ecosystem.config.cjs"
   ],
   "keywords": [
     "ipfs",
@@ -31,8 +26,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "build": "node ./tools/build.js",
-    "postinstall": "cp -n ./ecosystem.config.js $INIT_CWD || true"
+    "postinstall": "cp -n ./ecosystem.config.cjs $INIT_CWD || true"
   },
   "dependencies": {
     "@identity-box/utils": "^0.1.37",
@@ -41,9 +35,9 @@
     "commander": "^9.4.0",
     "esm": "^3.2.25",
     "express": "^4.18.1",
-    "glob": "^7.2.3",
+    "glob": "^8.0.3",
     "qrcode-terminal": "^0.12.0",
-    "socket.io": "^2.5.0",
+    "socket.io": "^4.5.1",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {

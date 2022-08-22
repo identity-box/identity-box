@@ -13,15 +13,11 @@
     "url": "https://github.com/identity-box/identity-box.git"
   },
   "dependencies": {
-    "@confluenza/gatsby-theme-confluenza": "^1.0.39",
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "gatsby": "^4.20.0",
-    "gatsby-plugin-catch-links": "^4.20.0",
-    "gatsby-plugin-emotion": "^7.20.0",
+    "@confluenza/gatsby-theme-confluenza": "^1.0.40",
+    "gatsby": "^4.21.0",
+    "gatsby-plugin-provide-react": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
     "react-media": "^1.10.0"
   },
   "keywords": [
@@ -40,7 +36,7 @@
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "eslint-config-react-app": "^7.0.1",
-    "gatsby-cli": "^4.20.0",
+    "gatsby-cli": "^4.21.0",
     "gatsby-plugin-root-import": "^2.0.8"
   }
 }

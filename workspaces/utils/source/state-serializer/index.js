@@ -1,1 +1,1 @@
-export { StateSerializer } from './StateSerializer'
+export { StateSerializer } from './StateSerializer.js'

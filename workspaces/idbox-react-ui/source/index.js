@@ -1,2 +1,2 @@
-export { IdAppConnector } from './connector'
+export { IdAppConnector } from './connector/IdAppConnector'
 export { IdAppQRCode } from './IdAppQRCode'

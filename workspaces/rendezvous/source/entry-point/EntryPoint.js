@@ -1,4 +1,4 @@
-import { RendezvousService, Dispatcher } from '../services'
+import { RendezvousService, Dispatcher } from '../services/index.js'
 import qrcodeTerminal from 'qrcode-terminal'
 
 class EntryPoint {
