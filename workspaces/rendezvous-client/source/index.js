@@ -1,2 +1,2 @@
-export { RendezvousClient } from './RendezvousClient'
-export { RendezvousTunnel } from './RendezvousTunnel'
+export { RendezvousClient } from './RendezvousClient.js'
+export { RendezvousTunnel } from './RendezvousTunnel.js'

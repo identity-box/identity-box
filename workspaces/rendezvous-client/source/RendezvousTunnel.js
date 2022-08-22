@@ -1,7 +1,7 @@
 import io from 'socket.io-client'
 import base64url from 'base64url'
 
-import { Cryptographer } from './Cryptographer'
+import { Cryptographer } from './Cryptographer.js'
 
 class RendezvousTunnel {
   baseUrl
