@@ -2,7 +2,7 @@
   "private": true,
   "name": "homepage",
   "description": "Identity Box homepage",
-  "version": "0.1.38",
+  "version": "0.1.39",
   "author": "Marcin Czenko <marcin@everydayproductive.com>",
   "engines": {
     "node": "14.x"

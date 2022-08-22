@@ -1,7 +1,7 @@
 {
   "name": "rendezvous-tester",
   "private": true,
-  "version": "0.1.38",
+  "version": "0.1.39",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@identity-box/rendezvous-client": "^0.1.38",
+    "@identity-box/rendezvous-client": "^0.1.39",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",

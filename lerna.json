@@ -3,7 +3,7 @@
   "packages": [
     "workspaces/*"
   ],
-  "version": "0.1.38",
+  "version": "0.1.39",
   "changelog": {
     "repo": "identity-box/identity-box",
     "ignoreCommitters": [
