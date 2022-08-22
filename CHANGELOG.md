@@ -1,3 +1,11 @@
+## v0.1.39 (2022-08-23)
+
+#### :heart_eyes_cat: Enhancement
+* [#128](https://github.com/identity-box/identity-box/pull/128) Fix deps ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.38 (2022-08-22)
 
 #### :heart_eyes_cat: Enhancement
