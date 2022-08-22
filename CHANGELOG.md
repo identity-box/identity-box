@@ -1,3 +1,19 @@
+## v0.1.38 (2022-08-22)
+
+#### :heart_eyes_cat: Enhancement
+* [#123](https://github.com/identity-box/identity-box/pull/123) Switch to ESM and vitest ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#110](https://github.com/identity-box/identity-box/pull/110) Bump actions/setup-node from 3.3.0 to 3.4.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#111](https://github.com/identity-box/identity-box/pull/111) Bump JamesIves/github-pages-deploy-action from 4.2.5 to 4.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+- [@dependabot[bot]](https://github.com/apps/dependabot)
+
 ## v0.1.36 (2022-07-30)
 
 #### :bomb: Breaking Change

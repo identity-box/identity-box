@@ -4194,7 +4194,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/box-office@workspace:workspaces/box-office"
   dependencies:
-    "@identity-box/utils": ^0.1.37
+    "@identity-box/utils": ^0.1.38
     "@react-frontend-developer/buffers": ^2.0.1
     base64url: ^3.0.1
     commander: ^9.4.0
@@ -4239,7 +4239,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/identity-service@workspace:workspaces/identity-service"
   dependencies:
-    "@identity-box/utils": ^0.1.37
+    "@identity-box/utils": ^0.1.38
     base32-encode: ^2.0.0
     base64url: ^3.0.1
     commander: ^9.4.0
@@ -4260,7 +4260,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/nameservice@workspace:workspaces/nameservice"
   dependencies:
-    "@identity-box/utils": ^0.1.37
+    "@identity-box/utils": ^0.1.38
     "@react-frontend-developer/buffers": ^2.0.1
     base64url: ^3.0.1
     commander: ^9.4.0
@@ -4274,7 +4274,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/rendezvous-client@^0.1.37, @identity-box/rendezvous-client@workspace:workspaces/rendezvous-client":
+"@identity-box/rendezvous-client@^0.1.38, @identity-box/rendezvous-client@workspace:workspaces/rendezvous-client":
   version: 0.0.0-use.local
   resolution: "@identity-box/rendezvous-client@workspace:workspaces/rendezvous-client"
   dependencies:
@@ -4288,7 +4288,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/rendezvous@workspace:workspaces/rendezvous"
   dependencies:
-    "@identity-box/utils": ^0.1.37
+    "@identity-box/utils": ^0.1.38
     "@react-frontend-developer/buffers": ^2.0.1
     base64url: ^3.0.1
     commander: ^9.4.0
@@ -4304,7 +4304,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/utils@^0.1.37, @identity-box/utils@workspace:workspaces/utils":
+"@identity-box/utils@^0.1.38, @identity-box/utils@workspace:workspaces/utils":
   version: 0.0.0-use.local
   resolution: "@identity-box/utils@workspace:workspaces/utils"
   dependencies:
@@ -18873,7 +18873,7 @@ __metadata:
     "@babel/plugin-proposal-decorators": ^7.18.10
     "@emotion/native": ^11.10.0
     "@emotion/react": ^11.10.0
-    "@identity-box/rendezvous-client": ^0.1.37
+    "@identity-box/rendezvous-client": ^0.1.38
     "@react-frontend-developer/buffers": ^2.0.1
     "@react-native-async-storage/async-storage": ~1.17.3
     "@react-native-community/masked-view": 0.1.11
@@ -28141,7 +28141,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "rendezvous-tester@workspace:workspaces/rendezvous-tester"
   dependencies:
-    "@identity-box/rendezvous-client": ^0.1.37
+    "@identity-box/rendezvous-client": ^0.1.38
     "@react-frontend-developer/buffers": ^2.0.1
     "@vitejs/plugin-react": ^2.0.1
     autoprefixer: ^10.4.8
