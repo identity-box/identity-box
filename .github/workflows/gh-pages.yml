@@ -31,7 +31,7 @@ jobs:
       - name: Build Homepage 📦
         run: yarn workspace homepage build
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: gh-pages
           folder: workspaces/homepage/public
