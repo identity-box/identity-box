@@ -24,37 +24,86 @@ Here we take advantage of the scalable architecture and we run only one instance
 
 A computer (we work on a MAC), a local network with access to the Internet, and an iOS mobile device.
 
-Also, the `ipfs-http-client` package currently does not work on Node 13 (see https://github.com/ipfs/js-ipfs-http-client/issues/1194). We are using Node 14 LTS for testing.
-
-> This has to be re-evaluated. Maybe it is already supported.
-
 Let's start with IPFS node on your computer.
 
 ## IPFS node
 
-If you do not have IPFS installed, you have to install it now. You can find the instructions at https://docs.ipfs.io/guides/guides/install/. We recommend using `ipfs-update`. It is a bit more complex at first, but then it is way easier to switch between ipfs versions:
+There are a few ways of installing IPFS. Follow the instructions [Install IPS (Command Line)](https://docs.ipfs.tech/install/command-line/) to install IPFS if you do not have any version installed yet. To update an existing installation you can check [IPFS Updater](https://docs.ipfs.tech/install/ipfs-updater/). IPFS can also be installed directly using IPFS Updater. We used this approach successfully with the previous versions, and in this tutorial we install IPFS using this method. The instructions how to use IPFS Updater directly to install IPFS can be found at [ipfs/ipfs-update](https://github.com/ipfs/ipfs-update). Here we need to apply some corrections, as the GO installer changed a bit in the meantime, and so slightly modified steps need to be followed.
+
+First, make sure you have go installed:
 
 ```bash
-# first install go
 $ brew install go
+$ go version
+go version go1.19.2 darwin/arm64
+```
 
-# install ipfs-update
-$ GO111MODULE=on go get github.com/ipfs/ipfs-update
+> In this tutorial we use M2 laptop. If you have an intel-based machine, the output will be different but everything should work pretty much the same.
 
-# check that $HOME/go/bin is in your PATH - othrwise the following command will fail
-$ ipfs-update --version
-ipfs-update version 1.5.3-dev
+Now create a folder (somewhere), eg:
 
-# install ipfs - currently we use version 0.4.20
-$ ipfs-update install v0.7.0
+```bash
+$ mkdir ~/go
+$ cd ~/go
+```
+
+and then run:
+
+```bash
+$ GO111MODULE=on go install github.com/ipfs/ipfs-update@latest
+```
+
+You need to add `$HOME/go/bin` to your `PATH`. Then (in a new terminal or after sourcing your shell config) run:
+
+```bash
+$ ipfs-update --version                                                                                                    130 ↵
+ipfs-update version v1.9.0
+```
+
+Finally, install IPFS:
+
+```bash
+$ ipfs-update install v0.16.0
+fetching go-ipfs version v0.16.0
+Error fetching: open /Users/mczenko/.ipfs/api: no such file or directory
+Fetching with HTTP: "https://ipfs.io/ipns/dist.ipfs.tech/go-ipfs/v0.16.0/go-ipfs_v0.16.0_darwin-arm64.tar.gz"
+binary downloaded, verifying...
+success! tests all passed.
+stashing old binary
+installing new binary to /Users/mczenko/go/bin/ipfs
+checking if repo migration is needed...
+
+Installation complete!
 $ ipfs --version
-ipfs version 0.7.0
+ipfs version 0.16.0
+```
+
+> Seems like sometimes ipfs-update faces some problems to fetch the source package from the gateway. What may help sometimes is to try to download the source file via browser and then try again from command line. Otherwise, try using version `0.14.0` or `0.15.0`.
+
+IPFS uses a repository in the local file system. By default, the repo is located at `~/.ipfs`. To change the repo location, set the `$IPFS_PATH` environment variable. For the sake of completeness we set `$IPFS_PATH` to the default value and we also set two other variables which we will need for our Identity Box (local) backups:
+
+```bash
+export IPFS_PATH=$HOME/.ipfs
+export IDBOX_BACKUP=$HOME/idbox/backup
+export IDBOX_BACKUP_PASSWORD=password
+```
+
+Also, make sure that the path indicated by `$IDBOX_BACKUP` exists:
+
+```bash
+$ mkdir -p idbox/backup
 ```
 
 You can init and start IPFS node with the following commands:
 
 ```bash
 $ ipfs init
+generating ED25519 keypair...done
+peer identity: 12D3KooWPPRYkHgfCNrut8cVKsEFzP3VgzRuRUNKiAKsNhHNNo7T
+initializing IPFS node at /Users/mczenko/.ipfs
+to get started, enter:
+
+	ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme
 $ ipfs daemon --enable-namesys-pubsub --enable-pubsub-experiment --enable-gc
 ```
 
