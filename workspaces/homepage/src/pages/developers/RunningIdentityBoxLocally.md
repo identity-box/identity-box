@@ -135,7 +135,7 @@ In order to start a local instance of the Name Service, in a new terminal do:
 
 ```bash
 $ cd workspaces/nameservice
-$ ./index.js start
+$ source/index.js start
 ```
 
 That's it. Use `--help` to see all available options.
@@ -146,7 +146,7 @@ In a similar way we start Identity Service:
 
 ```bash
 $ cd workspaces/identity-service
-$ ./index.js start
+$ source/index.js start
 ```
 
 ### Box Office
@@ -155,7 +155,7 @@ Then, to tie everything up, we start the Box Office service:
 
 ```bash
 $ cd workspaces/box-office
-$ ./index.js start
+$ source/index.js start
 ```
 
 ### Rendezvous
@@ -163,7 +163,7 @@ $ ./index.js start
 Finally, to provide external connectivity, we start the Rendezvous service:
 
 ```bash
-$ ./index.js start -b http://192.168.1.15:3100
+$ source/index.js start -b http://192.168.1.15:3100
 ```
 
 With the `-b` or `--baseUrl` option we provide the rendezvous url, which we want to be used externally. Using this option, Rendezvous service will generate a QR code that has to be scanned when associating the box with the user's Identity App. Rendezvous service listens on port `3100` by default and if you want to use different port you can use `-p` option. Use `./index.js start --help` to learn more about available options.
