@@ -5,7 +5,7 @@ import { InfoBox, MrSpacer, Blue, Green, Centered } from '../ui'
 const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
   const [currentDid, setCurrentDid] = useState(undefined)
 
-  const requestCurrentDid = async () => {
+  const requestCurrentDid = useCallback(async () => {
     const message = {
       method: 'get_current_identity',
       params: []
@@ -15,9 +15,9 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
     } catch (e) {
       console.log(e.message)
     }
-  }
+  }, [rendezvousTunnel])
 
-  const requestRecipient = async () => {
+  const requestRecipient = useCallback(async () => {
     const message = {
       method: 'select_identity',
       params: []
@@ -27,22 +27,25 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
     } catch (e) {
       console.log(e.message)
     }
-  }
+  }, [rendezvousTunnel])
 
-  const process = useCallback(message => {
-    console.log('received message: ', message)
-    const { method, params } = message
-    if (params && params.length > 0) {
-      if (method === 'select_identity_response') {
-        const { did } = params[0]
-        did && onRecipientReady && onRecipientReady({ did, currentDid })
-      } else if (method === 'get_current_identity_response') {
-        const { currentDid } = params[0]
-        setCurrentDid(currentDid)
-        requestRecipient()
+  const process = useCallback(
+    (message) => {
+      console.log('received message: ', message)
+      const { method, params } = message
+      if (params && params.length > 0) {
+        if (method === 'select_identity_response') {
+          const { did } = params[0]
+          did && onRecipientReady && onRecipientReady({ did, currentDid })
+        } else if (method === 'get_current_identity_response') {
+          const { currentDid } = params[0]
+          setCurrentDid(currentDid)
+          requestRecipient()
+        }
       }
-    }
-  }, [currentDid])
+    },
+    [currentDid, onRecipientReady, requestRecipient]
+  )
 
   useEffect(() => {
     rendezvousTunnel.onMessage = process
@@ -52,7 +55,7 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
     return () => {
       rendezvousTunnel.onMessage = undefined
     }
-  }, [process, currentDid])
+  }, [process, currentDid, rendezvousTunnel, requestCurrentDid])
 
   if (currentDid) {
     return (
@@ -66,7 +69,8 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
           </InfoBox>
           <MrSpacer space='50px' />
           <InfoBox>
-            Please select the intended recipient from the address book on your <Blue>IdApp</Blue>...
+            Please select the intended recipient from the address book on your{' '}
+            <Blue>IdApp</Blue>...
           </InfoBox>
         </Centered>
       </FadingValueBox>
@@ -75,12 +79,18 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
     return (
       <FadingValueBox>
         <Centered>
-          <InfoBox>Hush Hush <Green>successfully</Green> connected to your mobile!</InfoBox>
-          <MrSpacer space='50px' />
-          <InfoBox>Now, Hush Hush is retrieving your current identity from your mobile app....</InfoBox>
+          <InfoBox>
+            Hush Hush <Green>successfully</Green> connected to your mobile!
+          </InfoBox>
           <MrSpacer space='50px' />
           <InfoBox>
-            Please make sure that your Identity Box IdApp is <Green>open</Green>.
+            Now, Hush Hush is retrieving your current identity from your mobile
+            app....
+          </InfoBox>
+          <MrSpacer space='50px' />
+          <InfoBox>
+            Please make sure that your Identity Box IdApp is <Green>open</Green>
+            .
           </InfoBox>
         </Centered>
       </FadingValueBox>

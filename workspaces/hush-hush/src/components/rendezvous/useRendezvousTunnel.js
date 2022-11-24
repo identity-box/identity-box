@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { RendezvousTunnel } from '@identity-box/rendezvous-client'
 
 const useRendezvousTunnel = ({
@@ -9,17 +9,17 @@ const useRendezvousTunnel = ({
   onMessage,
   onEnd,
   onError
-} = {}, deps = []) => {
+} = {}) => {
   const rendezvousTunnel = useRef(undefined)
   const tunnelId = useRef(undefined)
   const tunnelUrl = useRef(undefined)
 
-  const startRendezvous = async () => {
+  const startRendezvous = useCallback(async () => {
     try {
       console.log('baseUrl=', url)
       rendezvousTunnel.current = new RendezvousTunnel({
         baseUrl: url,
-        onMessage: msg => {
+        onMessage: (msg) => {
           console.log('msg response:', msg)
           // rendezvousTunnel.current.closeTunnel()
           onMessage && onMessage(msg)
@@ -36,19 +36,21 @@ const useRendezvousTunnel = ({
         }
       })
 
-      const { tunnelId: tId, tunnelUrl: tUrl } = await rendezvousTunnel.current.createNew()
+      const { tunnelId: tId, tunnelUrl: tUrl } =
+        await rendezvousTunnel.current.createNew()
       tunnelId.current = tId
       tunnelUrl.current = tUrl
-      onCreated && onCreated({
-        rendezvousTunnel: rendezvousTunnel.current,
-        rendezvousTunnelId: tunnelId.current,
-        rendezvousTunnelUrl: tunnelUrl.current
-      })
+      onCreated &&
+        onCreated({
+          rendezvousTunnel: rendezvousTunnel.current,
+          rendezvousTunnelId: tunnelId.current,
+          rendezvousTunnelUrl: tunnelUrl.current
+        })
     } catch (e) {
       console.log(e.message)
       onError && onError(e)
     }
-  }
+  }, [url, onCreated, onReady, onOtherEndNotReady, onMessage, onEnd, onError])
 
   const unsubscribe = () => {
     rendezvousTunnel.current && rendezvousTunnel.current.closeTunnel()
@@ -61,7 +63,7 @@ const useRendezvousTunnel = ({
     return () => {
       unsubscribe()
     }
-  }, deps)
+  }, [url, startRendezvous])
 
   return {
     rendezvousTunnel: rendezvousTunnel.current,

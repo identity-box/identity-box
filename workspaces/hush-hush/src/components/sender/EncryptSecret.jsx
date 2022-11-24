@@ -7,17 +7,25 @@ import { Blue, InfoBox, Centered } from '../ui'
 
 import { useRendezvous } from '../rendezvous'
 
-const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappRendezvousTunnel, baseUrl }) => {
+const EncryptSecret = ({
+  onEncryptedCIDRetrieved,
+  encryptionKey,
+  secret,
+  idappRendezvousTunnel,
+  baseUrl
+}) => {
   const [symmetricKey, setSymmetricKey] = useState(undefined)
   const rendezvousConnection = useRef(undefined)
 
-  const storeJSON = async json => {
+  const storeJSON = async (json) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'store-json',
-      params: [{
-        json
-      }]
+      params: [
+        {
+          json
+        }
+      ]
     }
     try {
       await rendezvousConnection.current.send(message)
@@ -26,38 +34,43 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappRe
     }
   }
 
-  const encryptSymmetricKey = async () => {
+  const encryptSymmetricKey = useCallback(async () => {
     const symmetricKey = nacl.randomBytes(nacl.secretbox.keyLength)
     setSymmetricKey(symmetricKey)
     const message = {
       method: 'encrypt-content',
-      params: [{
-        content: base64url.encode(symmetricKey),
-        theirPublicKey: encryptionKey
-      }]
+      params: [
+        {
+          content: base64url.encode(symmetricKey),
+          theirPublicKey: encryptionKey
+        }
+      ]
     }
     try {
       await idappRendezvousTunnel.send(message)
     } catch (e) {
       console.log(e.message)
     }
-  }
+  }, [encryptionKey, idappRendezvousTunnel])
 
-  const encryptSecret = () => {
+  const encryptSecret = useCallback(() => {
     const nonce = nacl.randomBytes(nacl.secretbox.nonceLength)
     const message = TypedArrays.string2Uint8Array(secret)
     const encryptedSecret = nacl.secretbox(message, nonce, symmetricKey)
 
     return { encryptedSecret, nonce }
-  }
+  }, [secret, symmetricKey])
 
-  const onReady = useCallback(async rc => {
-    rendezvousConnection.current = rc
-    encryptSymmetricKey()
-  }, [])
+  const onReady = useCallback(
+    async (rc) => {
+      rendezvousConnection.current = rc
+      encryptSymmetricKey()
+    },
+    [encryptSymmetricKey]
+  )
 
   useEffect(() => {
-    idappRendezvousTunnel.onMessage = async message => {
+    idappRendezvousTunnel.onMessage = async (message) => {
       console.log('idappRendezvousTunnel[message]=', message)
       if (symmetricKey === undefined) return
       console.log('received message: ', message)
@@ -75,33 +88,45 @@ const EncryptSecret = ({ onEncryptedCIDRetrieved, encryptionKey, secret, idappRe
         }
       }
     }
-    idappRendezvousTunnel.onError = error => {
+    idappRendezvousTunnel.onError = (error) => {
       console.log('error: ', error)
     }
     return () => {
       idappRendezvousTunnel.onMessage = undefined
       idappRendezvousTunnel.onError = undefined
     }
-  }, [symmetricKey])
+  }, [symmetricKey, encryptSecret, idappRendezvousTunnel])
 
-  useRendezvous({
-    url: baseUrl,
-    onReady,
-    onMessage: message => {
-      if (message.method === 'store-json-response' && message.params.length > 0) {
+  const onMessage = useCallback(
+    (message) => {
+      if (
+        message.method === 'store-json-response' &&
+        message.params.length > 0
+      ) {
         const { cid } = message.params[0]
         onEncryptedCIDRetrieved && onEncryptedCIDRetrieved(cid)
       }
     },
-    onError: error => {
-      console.log(error)
-    }
+    [onEncryptedCIDRetrieved]
+  )
+
+  const onError = useCallback((error) => {
+    console.log(error)
+  }, [])
+
+  useRendezvous({
+    url: baseUrl,
+    onReady,
+    onMessage,
+    onError
   })
 
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox>Encrypting secret. Please keep your IdApp <Blue>open</Blue>.</InfoBox>
+        <InfoBox>
+          Encrypting secret. Please keep your IdApp <Blue>open</Blue>.
+        </InfoBox>
       </Centered>
     </FadingValueBox>
   )

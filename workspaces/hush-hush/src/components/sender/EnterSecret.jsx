@@ -10,16 +10,19 @@ const EnterSecret = ({ did, onSecretReady }) => {
   const [disabled, setDisabled] = useState(true)
   const secretField = useRef(undefined)
 
-  const onChange = useCallback(event => {
+  const onChange = useCallback((event) => {
     const secret = event.target.value
     setSecret(secret)
     setDisabled(secret === '')
   }, [])
 
-  const onSubmit = useCallback(event => {
-    event.preventDefault()
-    onSecretReady && onSecretReady({ secret })
-  }, [secret])
+  const onSubmit = useCallback(
+    (event) => {
+      event.preventDefault()
+      onSecretReady && onSecretReady({ secret })
+    },
+    [secret, onSecretReady]
+  )
 
   useEffect(() => {
     secretField.current.focus()
@@ -28,25 +31,22 @@ const EnterSecret = ({ did, onSecretReady }) => {
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox><Green>You</Green> are sending secret to <Blue>{did}</Blue></InfoBox>
-        <MrSpacer space='50px' />
         <InfoBox>
-          Enter your secret below:
+          <Green>You</Green> are sending secret to <Blue>{did}</Blue>
         </InfoBox>
+        <MrSpacer space='50px' />
+        <InfoBox>Enter your secret below:</InfoBox>
         <Form onSubmit={onSubmit}>
           <Label htmlFor='secret'>Your secret</Label>
           <Textarea
-            id='secret' ref={secretField}
+            id='secret'
+            ref={secretField}
             value={secret}
             placeholder='Type your secret here...'
             onChange={onChange}
           />
           <div className='self-center mt-4'>
-            <Button
-              primary
-              disabled={disabled}
-              onClick={onSubmit}
-            >
+            <Button primary disabled={disabled} onClick={onSubmit}>
               Send...
             </Button>
           </div>
