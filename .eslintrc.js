@@ -20,13 +20,14 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'standard',
     'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:react/jsx-runtime',
     'plugin:jest/recommended',
-    'plugin:jest/style'
+    'plugin:jest/style',
+    'prettier'
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -36,11 +37,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: [
-    '@typescript-eslint',
-    'react',
-    'jest'
-  ],
+  plugins: ['@typescript-eslint', 'react', 'jest'],
   rules: {
     'react/prop-types': 0,
     'jsx-quotes': ['error', 'prefer-single'],
