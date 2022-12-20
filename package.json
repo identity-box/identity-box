@@ -5,29 +5,29 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
-    "@typescript-eslint/eslint-plugin": "5.33.1",
-    "@typescript-eslint/parser": "5.33.1",
-    "@vitejs/plugin-react": "^2.0.1",
-    "@vitest/coverage-c8": "^0.22.1",
-    "eslint": "^8.22.0",
+    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/parser": "5.47.0",
+    "@vitejs/plugin-react": "^3.0.0",
+    "@vitest/coverage-c8": "^0.26.0",
+    "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.8.7",
-    "eslint-plugin-n": "^15.2.5",
+    "eslint-plugin-jest": "^27.1.7",
+    "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "happy-dom": "^6.0.4",
-    "lerna": "^5.4.3",
+    "happy-dom": "^8.1.0",
+    "lerna": "5.6.2",
     "lerna-changelog": "^2.2.0",
-    "prettier-plugin-tailwindcss": "^0.1.13",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.9",
-    "vitest": "^0.22.1"
+    "prettier-plugin-tailwindcss": "^0.2.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.2",
+    "vitest": "^0.26.0"
   },
   "workspaces": {
     "packages": [
@@ -41,8 +41,7 @@
     "lint": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}' --fix",
     "build": "yarn lerna run build --scope '@identity-box/**'",
-    "build:npx": "npx lerna run build --scope @identity-box/**",
-    "postinstall": "yarn build"
+    "build:npx": "npx lerna run build --scope @identity-box/**"
   },
-  "packageManager": "yarn@3.2.2"
+  "packageManager": "yarn@3.3.0"
 }

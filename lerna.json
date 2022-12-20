@@ -1,5 +1,4 @@
 {
-  "lerna": "5.4.3",
   "packages": [
     "workspaces/*"
   ],
@@ -26,5 +25,6 @@
       "registry": "https://registry.npmjs.org/"
     }
   },
-  "useWorkspaces": true
+  "useWorkspaces": true,
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

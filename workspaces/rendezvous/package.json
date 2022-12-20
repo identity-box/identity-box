@@ -32,12 +32,12 @@
     "@identity-box/utils": "^0.1.39",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
-    "commander": "^9.4.0",
+    "commander": "^9.4.1",
     "esm": "^3.2.25",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "glob": "^8.0.3",
     "qrcode-terminal": "^0.12.0",
-    "socket.io": "^4.5.1",
+    "socket.io": "^4.5.4",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {

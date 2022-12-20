@@ -32,13 +32,13 @@
     "@identity-box/utils": "^0.1.39",
     "base32-encode": "^2.0.0",
     "base64url": "^3.0.1",
-    "commander": "^9.4.0",
+    "commander": "^9.4.1",
     "esm": "^3.2.25",
-    "firebase-admin": "^11.0.1",
+    "firebase-admin": "^11.4.0",
     "glob": "^8.0.3",
-    "ipfs-http-client": "^57.0.3",
+    "ipfs-http-client": "^59.0.0",
     "libp2p-crypto": "^0.21.2",
-    "multiformats": "^9.7.1",
+    "multiformats": "^10.0.3",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {

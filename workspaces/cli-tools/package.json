@@ -22,12 +22,12 @@
   },
   "dependencies": {
     "cids": "1.1.9",
-    "commander": "^9.4.0",
+    "commander": "^9.4.1",
     "esm": "^3.2.25",
-    "got": "^12.3.1",
-    "ipfs-http-client": "^57.0.3",
+    "got": "^12.5.3",
+    "ipfs-http-client": "^59.0.0",
     "ipfs-pubsub-room": "^3.0.0",
-    "multiformats": "^9.7.1"
+    "multiformats": "^10.0.3"
   },
   "publishConfig": {
     "access": "public"
