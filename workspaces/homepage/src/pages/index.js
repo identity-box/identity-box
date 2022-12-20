@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { css } from '@emotion/css'
 import { graphql } from 'gatsby'
 
 import { Header } from 'src/components/header'
@@ -19,7 +20,9 @@ const useUnusualReloader = (location, onReady) => {
 }
 
 const Home = ({ data, location }) => {
-  console.log('                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future \n ')
+  console.log(
+    '                IDENTITY BOX \n\n\n\n               *************,\n             *************,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,,,\n                          ,  \n\n\n\n       Decentralized Web of the Future \n '
+  )
 
   const onReady = useCallback(() => {
     setTimeout(() => {
@@ -38,7 +41,7 @@ const Home = ({ data, location }) => {
   return (
     <>
       <Header />
-      <BodyFrame css={{ visibility }}>
+      <BodyFrame className={css({ visibility })}>
         <IntroPanel data={data} />
         <Video />
         <Box1 data={data} />
@@ -51,7 +54,7 @@ const Home = ({ data, location }) => {
 
 export const query = graphql`
   query {
-    allFile(filter: {relativeDirectory: {glob: "**/homepage/src/images"}}) {
+    allFile(filter: { relativeDirectory: { glob: "**/homepage/src/images" } }) {
       edges {
         node {
           publicURL
@@ -65,9 +68,18 @@ export const query = graphql`
 export const Head = () => (
   <>
     <title>Identity Box</title>
-    <meta name='description' content='Identity Box - Decentralized Web of the Future' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap' rel='stylesheet' />
+    <meta
+      name='description'
+      content='Identity Box - Decentralized Web of the Future'
+    />
+    <meta
+      name='viewport'
+      content='width=device-width, initial-scale=1.0, maximum-scale=1.0'
+    />
+    <link
+      href='https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap'
+      rel='stylesheet'
+    />
   </>
 )
 

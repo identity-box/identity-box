@@ -1,20 +1,24 @@
+import { css } from '@emotion/css'
 import { Row } from 'src/components/ui-blocks'
 
 const Copyright = () => (
   <Row>
-    <p css={{
-      color: 'white',
-      fontFamily: 'Roboto Mono, monospace',
-      fontSize: '10pt',
-      margin: 0
-    }}
+    <p
+      className={css({
+        color: 'white',
+        fontFamily: 'Roboto Mono, monospace',
+        fontSize: '10pt',
+        margin: 0
+      })}
     >
-      <span css={{
-        fontSize: '14pt'
-      }}
+      <span
+        className={css({
+          fontSize: '14pt'
+        })}
       >
         &copy;
-      </span> 2022 Identity Box
+      </span>{' '}
+      2022 Identity Box
     </p>
   </Row>
 )

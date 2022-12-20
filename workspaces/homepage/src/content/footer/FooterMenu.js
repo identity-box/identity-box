@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { css } from '@emotion/css'
 
 const Li = styled.li({
   listStyleType: 'none',
@@ -16,24 +17,27 @@ const Items = styled.ul({
 
 const FooterMenu = ({ title, children, ...props }) => (
   <div
-    css={{
+    className={css({
       display: 'flex',
       flexFlow: 'column',
       fontFamily: 'Roboto Mono, monospace',
       fontSize: '10pt'
-    }} {...props}
+    })}
+    {...props}
   >
-    <h3 css={{
-      margin: 0,
-      color: 'white',
-      fontFamily: 'Roboto Mono, monospace',
-      fontSize: '10pt',
-      fontWeight: 400
-    }}
-    >{title}
+    <h3
+      className={css({
+        margin: 0,
+        color: 'white',
+        fontFamily: 'Roboto Mono, monospace',
+        fontSize: '10pt',
+        fontWeight: 400
+      })}
+    >
+      {title}
     </h3>
     <Items>
-      {React.Children.map(children, child => (
+      {React.Children.map(children, (child) => (
         <Li>{child}</Li>
       ))}
     </Items>

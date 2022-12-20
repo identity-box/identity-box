@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { css } from '@emotion/css'
 import { getImage } from 'src/assets'
 
 const SocialIconsRow = styled.div({
@@ -13,7 +14,7 @@ const SocialIconsRow = styled.div({
 
 const SocialIcon = ({ imageUrl, ...props }) => (
   <div
-    css={{
+    className={css({
       margin: 0,
       width: '32px',
       height: '32px',
@@ -21,21 +22,27 @@ const SocialIcon = ({ imageUrl, ...props }) => (
       backgroundSize: 'auto 100%',
       backgroundPosition: 'center center',
       backgroundRepeat: 'no-repeat'
-    }} {...props}
+    })}
+    {...props}
   />
 )
 
 const SocialIcons = ({ data }) => (
-  <SocialIconsRow css={{
-    '@media (min-width: 568px)': {
-      alignSelf: 'flex-start',
-      marginLeft: '55px'
-    }
-  }}
+  <SocialIconsRow
+    className={css({
+      '@media (min-width: 568px)': {
+        alignSelf: 'flex-start',
+        marginLeft: '55px'
+      }
+    })}
   >
-    <a aria-label='Twitter' href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Twitter')} /></a>
-    {/* <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Youtube')} css={{ width: '46px' }} /></a> */}
-    <a aria-label='GitHub' href='https://github.com/identity-box/identity-box'><SocialIcon imageUrl={getImage(data, 'GitHub')} /></a>
+    <a aria-label='Twitter' href='https://twitter.com/identity_box'>
+      <SocialIcon imageUrl={getImage(data, 'Twitter')} />
+    </a>
+    {/* <a href='https://twitter.com/identity_box'><SocialIcon imageUrl={getImage(data, 'Youtube')} className={css({ width: '46px' })} /></a> */}
+    <a aria-label='GitHub' href='https://github.com/identity-box/identity-box'>
+      <SocialIcon imageUrl={getImage(data, 'GitHub')} />
+    </a>
   </SocialIconsRow>
 )
 

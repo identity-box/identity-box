@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { css } from '@emotion/css'
 import { TextBox } from 'src/components/ui-blocks'
 
 const EnterIdBoxWrapper = styled.div({
@@ -41,30 +42,32 @@ const H3 = styled.h3({
 const Box3Content1 = () => (
   <EnterIdBoxWrapper>
     <H1>Enter Identity Box</H1>
-    <div css={{
-      display: 'flex'
-    }}
+    <div
+      className={css({
+        display: 'flex'
+      })}
     >
       <H3>and start building the decentralized web of the future today</H3>
     </div>
-    <div css={{
-      display: 'flex'
-    }}
+    <div
+      className={css({
+        display: 'flex'
+      })}
     >
-      <TextBox css={{
-        width: 0,
-        '@media (max-width: 1100px)': {
-          width: 0
-        },
-        flexGrow: 1
-      }}
+      <TextBox
+        className={css({
+          width: 0,
+          '@media (max-width: 1100px)': {
+            width: 0
+          },
+          flexGrow: 1
+        })}
       >
-        Identity Box is your personal P2P networking node giving you
-        access to the global network of distributed storage, digital
-        identity, and even more in the future.
+        Identity Box is your personal P2P networking node giving you access to
+        the global network of distributed storage, digital identity, and even
+        more in the future.
       </TextBox>
     </div>
-
   </EnterIdBoxWrapper>
 )
 

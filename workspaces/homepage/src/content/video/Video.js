@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import { css } from '@emotion/css'
 import { Box, Row } from 'src/components/ui-blocks'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import Captions from 'file-loader!./IdentityBox-FOSDEM20-en.vtt'
@@ -9,17 +10,28 @@ import CaptionsRo from 'file-loader!./IdentityBox-FOSDEM20-ro.vtt'
 import VideoPoster from './video_poster.jpg'
 
 const Fallback = () => (
-  <div css={{
-    color: 'white',
-    width: '80%'
-  }}
+  <div
+    className={css({
+      color: 'white',
+      width: '80%'
+    })}
   >
     <p>
-      Here, you should see the video recording of our FOSDEM20 talk about Identity Box,
-      but it looks like your browser does not support embedded videos.
+      Here, you should see the video recording of our FOSDEM20 talk about
+      Identity Box, but it looks like your browser does not support embedded
+      videos.
     </p>
     <p>
-      You can find the full recording of our talk at <a href='https://fosdem.org/2020/schedule/event/dip_identity_box/' alt='Link to FOSDEM20 page about Identity Box' target='_blank' rel='noopener noreferrer'>FOSDEM20 website</a>.
+      You can find the full recording of our talk at{' '}
+      <a
+        href='https://fosdem.org/2020/schedule/event/dip_identity_box/'
+        alt='Link to FOSDEM20 page about Identity Box'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        FOSDEM20 website
+      </a>
+      .
     </p>
   </div>
 )
@@ -43,30 +55,48 @@ const P = styled.p({
 
 const Video = () => (
   <Box>
-    <Row css={{
-      flexFlow: 'column nowrap'
-    }}
+    <Row
+      className={css({
+        flexFlow: 'column nowrap'
+      })}
     >
-      <Title>
-        Identity Box at FOSDEM 2020
-      </Title>
+      <Title>Identity Box at FOSDEM 2020</Title>
       <P>
-        Edited version with an extended transcript for the users with hearing impaired or
-        when you want to watch the video in silent areas.
+        Edited version with an extended transcript for the users with hearing
+        impaired or when you want to watch the video in silent areas.
       </P>
-      <P css={{ marginBottom: '28px' }}>
-        The original recording can be accessed from the <a target='_blank' alt='Link to FOSDEM20 page about Identity Box' rel='noopener noreferrer' href='https://fosdem.org/2020/schedule/event/dip_identity_box/'>FOSDEM website</a>.
+      <P className={css({ marginBottom: '28px' })}>
+        The original recording can be accessed from the{' '}
+        <a
+          target='_blank'
+          alt='Link to FOSDEM20 page about Identity Box'
+          rel='noopener noreferrer'
+          href='https://fosdem.org/2020/schedule/event/dip_identity_box/'
+        >
+          FOSDEM website
+        </a>
+        .
       </P>
       <video
-        css={{
+        className={css({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           outline: 'none'
-        }} controls width='80%' preload='metadata' poster={VideoPoster}
+        })}
+        controls
+        width='80%'
+        preload='metadata'
+        poster={VideoPoster}
       >
-        <source src='https://ipfs.io/ipfs/QmbpqgXBCZtFrBqzjWEm1mTJWYkL4ze32JTjsEqaMzAhMH' type='video/webm' />
-        <source src='https://ipfs.io/ipfs/QmNV9VystxzqotyQaadmK1kk9JUpuuez2BtC72rwY141hj' type='video/mp4' />
+        <source
+          src='https://ipfs.io/ipfs/QmbpqgXBCZtFrBqzjWEm1mTJWYkL4ze32JTjsEqaMzAhMH'
+          type='video/webm'
+        />
+        <source
+          src='https://ipfs.io/ipfs/QmNV9VystxzqotyQaadmK1kk9JUpuuez2BtC72rwY141hj'
+          type='video/mp4'
+        />
         <track kind='captions' srcLang='en' src={Captions} />
         <track kind='captions' srcLang='pl' src={CaptionsPl} />
         <track kind='captions' srcLang='ro' src={CaptionsRo} />
