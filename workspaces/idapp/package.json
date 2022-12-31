@@ -23,7 +23,7 @@
     "@react-native-community/masked-view": "0.1.11",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
-    "expo": "^47.0.0",
+    "expo": "~47.0.8",
     "expo-barcode-scanner": "~12.1.0",
     "expo-clipboard": "~4.0.1",
     "expo-constants": "~14.0.2",

@@ -13373,7 +13373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:^47.0.0":
+"expo@npm:~47.0.8":
   version: 47.0.8
   resolution: "expo@npm:47.0.8"
   dependencies:
@@ -16332,7 +16332,7 @@ __metadata:
     babel-preset-expo: ~9.2.2
     base64url: ^3.0.1
     buffer: ^6.0.3
-    expo: ^47.0.0
+    expo: ~47.0.8
     expo-barcode-scanner: ~12.1.0
     expo-clipboard: ~4.0.1
     expo-constants: ~14.0.2
