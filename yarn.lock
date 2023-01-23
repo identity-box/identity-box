@@ -18993,7 +18993,7 @@ __metadata:
     react-native-qrcode-svg: ^6.1.2
     react-native-reanimated: ~2.9.1
     react-native-safe-area-context: 4.3.1
-    react-native-screens: ~3.15.0
+    react-native-screens: ~3.19.0
     react-native-svg: 12.3.0
     react-native-swipe-list-view: ^2.5.0
     react-native-web: ~0.18.7
@@ -27357,16 +27357,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-screens@npm:~3.15.0":
-  version: 3.15.0
-  resolution: "react-native-screens@npm:3.15.0"
+"react-native-screens@npm:~3.19.0":
+  version: 3.19.0
+  resolution: "react-native-screens@npm:3.19.0"
   dependencies:
     react-freeze: ^1.0.0
     warn-once: ^0.1.0
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: ebc3cded19d594aafa748d5ab6e237533f68dc33e28a584c99b8a6cac993585919f01413b94e9801f01af4a138810575f55ee25f90d7a77cb13c49d3252edb2a
+  checksum: 3a0116bf0628a735bdb87d7e4648f4bbac278152599a2bdd973e4dec92f87cb2c805dd7adb844d01236c7c92bab017ea8de59bea44d9f58397fddb6f9f3077c5
   languageName: node
   linkType: hard
 
