@@ -32,6 +32,11 @@
     },
     "packagerOpts": {
       "config": "metro.config.js"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "245dd760-cb76-11e9-9a82-0d0aebe5d6fa"
+      }
     }
   }
 }
