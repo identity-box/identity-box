@@ -1,7 +1,7 @@
-import * as Random from 'expo-random'
+import * as Crypto from 'expo-crypto'
 
-const randomBytes = async byteCount => {
-  return Random.getRandomBytesAsync(byteCount)
+const randomBytes = async (byteCount) => {
+  return Crypto.getRandomBytesAsync(byteCount)
 }
 
 export { randomBytes }

@@ -6,13 +6,14 @@ import { Wrapper, Header, Description } from './ui'
 const FactoryReset = ({ navigation }) => {
   const onFactoryReset = useCallback(() => {
     navigation.navigate('ConfirmFactoryReset')
-  }, [])
+  }, [navigation])
 
   return (
     <Wrapper>
       <Header>Factory Reset</Header>
       <Description>
-        Performing factory reset will erase all your identities, private keys, and will also clear your personal data on the identity box.
+        Performing factory reset will erase all your identities, private keys,
+        and will also clear your personal data on the identity box.
       </Description>
       <Button
         color='red'
