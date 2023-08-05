@@ -34,7 +34,7 @@
     "base64url": "^3.0.1",
     "commander": "^9.4.1",
     "esm": "^3.2.25",
-    "firebase-admin": "^11.4.0",
+    "firebase-admin": "^11.10.1",
     "glob": "^8.0.3",
     "ipfs-http-client": "^59.0.0",
     "libp2p-crypto": "^0.21.2",
