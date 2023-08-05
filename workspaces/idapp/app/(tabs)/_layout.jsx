@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react'
-import { DarkTheme, DefaultTheme } from '@react-navigation/native'
+import { DarkTheme } from '@react-navigation/native'
 import { Tabs } from 'expo-router'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 
