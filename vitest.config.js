@@ -18,8 +18,6 @@ export default defineConfig({
       'workspaces/idapp',
       'workspaces/rendezvous-tester'
     ],
-    include: [
-      'workspaces/**/*.test.{js,jsx,ts,tsx}'
-    ]
+    include: ['workspaces/**/*.test.{js,jsx,ts,tsx}']
   }
 })
