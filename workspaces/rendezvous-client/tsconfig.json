@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "exclude": ["./source/*.test.ts"],
+  "include": ["source"],
+  "compilerOptions": {
+    "rootDir": "source",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+
+    /* Emit */
+    "noEmit": false,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./dist"
+  }
+}
