@@ -6,8 +6,8 @@ import { useTheme } from 'react-navigation'
 import styled from '@emotion/native'
 // import { useRecoilValue } from 'recoil'
 
-import { useIdentity } from 'src/identity'
-import { MrSpacer } from 'src/ui'
+import { useIdentity } from '~/identity'
+import { MrSpacer } from '~/ui'
 
 // import { rendezvousTunnelRecoilState } from 'src/app-state'
 
