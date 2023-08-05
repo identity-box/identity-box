@@ -4,9 +4,6 @@
   "include": ["source"],
   "compilerOptions": {
     "rootDir": "source",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": true,
 
     /* Emit */
     "noEmit": false,

@@ -1,21 +1,21 @@
 {
-  "exclude": ["**/*.test.js", "**/*.test.jsx"],
-  "include": ["source/**/*.js", "source/**/*.jsx"],
+  "extends": "../../tsconfig.json",
+  "exclude": [
+    "./source/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.test.js",
+    "**/*.test.jsx"
+  ],
+  "include": ["source"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "isolatedModules": true,
-    "esModuleInterop": false,
+    "rootDir": "source",
     "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "target": "ESNext",
-    "strict": true,
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "skipLibCheck": true,
-    "outDir": "dist",
-    "sourceMap": false
+    "checkJs": false,
+
+    /* Emit */
+    "noEmit": false,
+    "declaration": false,
+    "sourceMap": true,
+    "outDir": "./dist"
   }
 }
