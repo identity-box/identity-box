@@ -20,7 +20,9 @@ describe('Home', () => {
 
   it('displays welcome text', async () => {
     render(<Home />)
-    expect(screen.getByText(/Hush Hush needs to know two things/i)).toBeInTheDocument()
+    expect(
+      screen.getByText(/Hush Hush needs to know two things/i)
+    ).toBeInTheDocument()
     await screen.findByText(/^Connect\.\.\./i)
   })
 })
