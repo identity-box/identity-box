@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   RendezvousClient,
@@ -11,7 +11,7 @@ import { randomBytes } from '../crypto'
 
 type UseRendezvousDescriptor = {
   name: string
-  url: string
+  url?: string
   onReady?: (connection: RendezvousClientConnection) => void
   onMessage?: (msg: RendezvousMessage) => void
   onEnd?: (reason: string) => void
@@ -19,24 +19,21 @@ type UseRendezvousDescriptor = {
   reset: boolean
 }
 
-const useRendezvous = (
-  {
-    name,
-    url,
-    onReady,
-    onMessage,
-    onEnd,
-    onError,
-    reset
-  }: UseRendezvousDescriptor,
-  deps = []
-) => {
+const useRendezvous = ({
+  name,
+  url,
+  onReady,
+  onMessage,
+  onEnd,
+  onError,
+  reset = false
+}: UseRendezvousDescriptor) => {
   const rendezvousClient = useRef<RendezvousClient | undefined>(undefined)
   const rendezvousConnection = useRef<RendezvousClientConnection | undefined>(
     undefined
   )
 
-  const getUrl = async () => {
+  const getUrl = useCallback(async () => {
     const rendezvousConfigurationProvider =
       await MultiRendezvousConfiguration.instance(name)
     const { url } = await rendezvousConfigurationProvider.get()
@@ -48,9 +45,9 @@ const useRendezvous = (
     }
 
     return url
-  }
+  }, [name])
 
-  const startRendezvous = async () => {
+  const startRendezvous = useCallback(async () => {
     try {
       if (reset) {
         await AsyncStorage.removeItem('identityNames')
@@ -90,7 +87,7 @@ const useRendezvous = (
         onError && onError(new Error('unknown error'))
       }
     }
-  }
+  }, [name, url, onReady, onMessage, onEnd, onError, reset, getUrl])
 
   const unsubscribe = () => {
     rendezvousConnection.current && rendezvousConnection.current.end()
@@ -103,8 +100,7 @@ const useRendezvous = (
     return () => {
       unsubscribe()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps)
+  }, [name, startRendezvous])
 
   return rendezvousConnection.current
 }
