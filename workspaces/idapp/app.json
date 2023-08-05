@@ -8,6 +8,16 @@
       "android",
       "web"
     ],
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "scheme": "idapp",
+    "web": {
+      "bundler": "metro"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

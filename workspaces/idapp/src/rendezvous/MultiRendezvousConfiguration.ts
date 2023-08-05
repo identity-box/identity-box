@@ -1,12 +1,10 @@
 import * as SecureStore from 'expo-secure-store'
 
-const _instances = {}
-
 class MultiRendezvousConfiguration {
-  name
-  url
+  name: string
+  url: string | null = null
 
-  static instance = async name => {
+  static instance = async (name: string) => {
     if (!_instances[name]) {
       await MultiRendezvousConfiguration.upgradeToRendezvous(name)
       _instances[name] = new MultiRendezvousConfiguration(name)
@@ -14,16 +12,13 @@ class MultiRendezvousConfiguration {
     return _instances[name]
   }
 
-  static upgradeToRendezvous = async name => {
-    console.log(`Upgrading from Telepath to Rendezvous for telepath name: ${name}`)
+  static upgradeToRendezvous = async (name: string) => {
+    console.log(
+      `Upgrading from Telepath to Rendezvous for telepath name: ${name}`
+    )
     let somethingDeleted = false
-    const {
-      id,
-      key,
-      appName,
-      clientId,
-      servicePointId
-    } = await MultiRendezvousConfiguration.recallLegacy(name)
+    const { id, key, appName, clientId, servicePointId } =
+      await MultiRendezvousConfiguration.recallLegacy(name)
 
     if (id) {
       console.log(`Deleting telepathChannelId-${name}`)
@@ -58,11 +53,13 @@ class MultiRendezvousConfiguration {
     if (!somethingDeleted) {
       console.log('[!!] Already upgraded!')
     } else {
-      console.log(`Finished upgrading from Telepath to Rendezvous for telepath name: ${name}.`)
+      console.log(
+        `Finished upgrading from Telepath to Rendezvous for telepath name: ${name}.`
+      )
     }
   }
 
-  static recall = async name => {
+  static recall = async (name: string) => {
     const url = await SecureStore.getItemAsync(`rendezvousUrl-${name}`)
 
     return {
@@ -70,12 +67,18 @@ class MultiRendezvousConfiguration {
     }
   }
 
-  static recallLegacy = async name => {
+  static recallLegacy = async (name: string) => {
     const id = await SecureStore.getItemAsync(`telepathChannelId-${name}`)
     const key = await SecureStore.getItemAsync(`telepathChannelKey-${name}`)
-    const appName = await SecureStore.getItemAsync(`telepathChannelAppName-${name}`)
-    const clientId = await SecureStore.getItemAsync(`telepathChannelClientId-${name}`)
-    const servicePointId = await SecureStore.getItemAsync(`telepathChannelServicePointId-${name}`)
+    const appName = await SecureStore.getItemAsync(
+      `telepathChannelAppName-${name}`
+    )
+    const clientId = await SecureStore.getItemAsync(
+      `telepathChannelClientId-${name}`
+    )
+    const servicePointId = await SecureStore.getItemAsync(
+      `telepathChannelServicePointId-${name}`
+    )
 
     return {
       id,
@@ -86,7 +89,7 @@ class MultiRendezvousConfiguration {
     }
   }
 
-  constructor (name) {
+  constructor(name: string) {
     this.name = name
   }
 
@@ -94,11 +97,13 @@ class MultiRendezvousConfiguration {
     return this.url
   }
 
-  set = async ({ url }) => {
+  set = async ({ url }: { url?: string }) => {
     if (!url) {
       throw new Error('missing rendezvous url')
     }
-    console.log(`setting rendezvous url for the configuration with name <<${this.name}>>`)
+    console.log(
+      `setting rendezvous url for the configuration with name <<${this.name}>>`
+    )
     await this.remember({ url })
   }
 
@@ -109,7 +114,9 @@ class MultiRendezvousConfiguration {
       }
     }
 
-    console.log(`No active rendezvous configuration with name ${this.name}. Restoring...`)
+    console.log(
+      `No active rendezvous configuration with name ${this.name}. Restoring...`
+    )
 
     const { url } = await MultiRendezvousConfiguration.recall(this.name)
 
@@ -117,7 +124,9 @@ class MultiRendezvousConfiguration {
 
     if (url === null) {
       console.log(`Restoring configuration with name ${this.name} failed.`)
-      console.log(`Did you ever create a configuration with name <<${this.name}>>?`)
+      console.log(
+        `Did you ever create a configuration with name <<${this.name}>>?`
+      )
       return {}
     }
 
@@ -128,11 +137,11 @@ class MultiRendezvousConfiguration {
     }
   }
 
-  configurationChanged = ({ url }) => {
-    return (this.url !== url)
+  configurationChanged = ({ url }: { url: string }) => {
+    return this.url !== url
   }
 
-  remember = async ({ url }) => {
+  remember = async ({ url }: { url: string }) => {
     if (this.configurationChanged({ url })) {
       this.url = url
       await SecureStore.setItemAsync(`rendezvousUrl-${this.name}`, this.url)
@@ -141,8 +150,10 @@ class MultiRendezvousConfiguration {
 
   reset = async () => {
     await SecureStore.deleteItemAsync(`rendezvousUrl-${this.name}`)
-    this.url = undefined
+    this.url = null
   }
 }
+
+const _instances: Record<string, MultiRendezvousConfiguration> = {}
 
 export { MultiRendezvousConfiguration }

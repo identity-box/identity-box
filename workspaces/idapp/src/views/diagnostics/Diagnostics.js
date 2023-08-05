@@ -1,14 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from 'react-native'
 
-import { MultiRendezvousConfiguration } from 'src/rendezvous'
+import { MultiRendezvousConfiguration } from '../../rendezvous'
 import { Console } from './Console'
 
 import { NameValue } from './NameValue'
-import {
-  PageContainer,
-  Container
-} from './ui'
+import { PageContainer, Container } from './ui'
 
 const Diagnostics = ({ navigation }) => {
   const [values, setValues] = useState({})
@@ -20,7 +17,7 @@ const Diagnostics = ({ navigation }) => {
     onExit && onExit()
   }, [])
 
-  const valueToString = name => {
+  const valueToString = (name) => {
     const value = values[name]
     if (value === undefined) {
       return 'undefined'
@@ -33,11 +30,14 @@ const Diagnostics = ({ navigation }) => {
 
   const readValues = async () => {
     const values = {}
-    rendezvousConfiguration.current = await MultiRendezvousConfiguration.instance('idbox')
+    rendezvousConfiguration.current =
+      await MultiRendezvousConfiguration.instance('idbox')
     const { url } = await rendezvousConfiguration.current.get()
     values.rendezvousUrl = url
 
-    const { url: directUrl } = await MultiRendezvousConfiguration.recall('idbox')
+    const { url: directUrl } = await MultiRendezvousConfiguration.recall(
+      'idbox'
+    )
     values.rendezvousUrlDirect = directUrl
 
     setValues(values)
@@ -50,8 +50,14 @@ const Diagnostics = ({ navigation }) => {
   return (
     <PageContainer>
       <Container>
-        <NameValue name='rendezvousUrl' value={valueToString('rendezvousUrl')} />
-        <NameValue name='rendezvousUrl[direct]' value={valueToString('rendezvousUrlDirect')} />
+        <NameValue
+          name='rendezvousUrl'
+          value={valueToString('rendezvousUrl')}
+        />
+        <NameValue
+          name='rendezvousUrl[direct]'
+          value={valueToString('rendezvousUrlDirect')}
+        />
         <Console />
       </Container>
       <Button
