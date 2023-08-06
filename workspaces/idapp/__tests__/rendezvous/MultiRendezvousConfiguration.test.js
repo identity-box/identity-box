@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store'
-import { MultiRendezvousConfiguration } from 'src/rendezvous'
+import { MultiRendezvousConfiguration } from '~/rendezvous'
 
 jest.mock('expo-secure-store')
 
@@ -43,6 +43,8 @@ describe('MultiRendezvousConfiguration', () => {
     ;({ url } = await multiRendezvousConfiguration.get())
     expect(url).toBeUndefined()
     expect(SecureStore.deleteItemAsync).toHaveBeenCalledTimes(1)
-    expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith(`rendezvousUrl-${name}`)
+    expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith(
+      `rendezvousUrl-${name}`
+    )
   })
 })
