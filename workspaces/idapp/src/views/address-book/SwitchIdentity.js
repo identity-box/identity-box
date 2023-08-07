@@ -1,11 +1,11 @@
 import { useState, useCallback, useRef } from 'react'
 import { Button } from 'react-native'
-import { useTheme } from 'react-navigation'
+import { useTheme } from '@emotion/react'
 import Constants from 'expo-constants'
 import styled from '@emotion/native'
 
-import { useIdentity } from 'src/identity'
-import { ListWithHeader, MrSpacer } from 'src/ui'
+import { useIdentity } from '~/identity'
+import { ListWithHeader, MrSpacer } from '~/ui'
 
 const Container = styled.View({
   flex: 1
@@ -14,10 +14,10 @@ const Container = styled.View({
 const SwitchIdentity = ({ navigation }) => {
   const identityManager = useRef(undefined)
   const [identityNames, setIdentityNames] = useState([])
-  const theme = useTheme()
+  const { colorScheme: theme } = useTheme()
 
   useIdentity({
-    onReady: idManager => {
+    onReady: (idManager) => {
       identityManager.current = idManager
       setIdentityNames(idManager.identityNames)
     }
@@ -34,9 +34,10 @@ const SwitchIdentity = ({ navigation }) => {
   }, [])
 
   return (
-    <Container style={{
-      backgroundColor: theme === 'light' ? 'white' : '#111'
-    }}
+    <Container
+      style={{
+        backgroundColor: theme === 'light' ? 'white' : '#111'
+      }}
     >
       <MrSpacer space={20 + Constants.statusBarHeight} />
       <ListWithHeader

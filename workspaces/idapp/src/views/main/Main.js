@@ -12,23 +12,23 @@ import {
   FirstIdentity,
   CurrentIdentity,
   CreateNewIdentity
-} from 'src/views/identity'
+} from '~/views/identity'
 import {
   Settings,
   BackupMnemonic,
   ConfirmFactoryReset,
   RestoreFromBackup,
   BackupNotFound
-} from 'src/views/settings'
-import { Diagnostics } from 'src/views/diagnostics'
+} from '~/views/settings'
+import { Diagnostics } from '~/views/diagnostics'
 import {
   AddressBook,
   IdentityDetails,
   AddNewIdentity,
   SelectIdentity,
   SwitchIdentity
-} from 'src/views/address-book'
-import { IdBoxKeyNaming } from 'src/views/migrations'
+} from '~/views/address-book'
+import { IdBoxKeyNaming } from '~/views/migrations'
 import { AppLoading } from './AppLoading'
 import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'

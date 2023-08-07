@@ -1,4 +1,4 @@
-import { ListWithHeader } from 'src/ui'
+import { ListWithHeader } from '~/ui'
 
 import { ListContainer } from './ui'
 
@@ -12,7 +12,9 @@ const AllIdentities = ({
     <>
       <ListContainer>
         <ListWithHeader
-          data={identityNames.length > 0 ? identityNames : ['No identities yet!']}
+          data={
+            identityNames.length > 0 ? identityNames : ['No identities yet!']
+          }
           headerText='Your identities'
           onSelect={onSelectOwnIdentity}
           width='90%'
@@ -20,7 +22,11 @@ const AllIdentities = ({
       </ListContainer>
       <ListContainer>
         <ListWithHeader
-          data={Object.keys(peerIdentities).length > 0 ? Object.keys(peerIdentities) : ['No identities yet!']}
+          data={
+            Object.keys(peerIdentities).length > 0
+              ? Object.keys(peerIdentities)
+              : ['No identities yet!']
+          }
           headerText='Peer identities'
           onSelect={onSelectPeerIdentity}
           width='90%'

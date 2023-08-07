@@ -1,22 +1,17 @@
 import { useState, useCallback, useEffect } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
-import { useTheme } from 'react-navigation'
+import { useTheme } from '@emotion/react'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
-import { MultiRendezvousConfiguration } from 'src/rendezvous'
-import { DiagnosticsSensor } from 'src/views/diagnostics'
+import { MultiRendezvousConfiguration } from '~/rendezvous'
+import { DiagnosticsSensor } from '~/views/diagnostics'
 
-import {
-  PageContainer,
-  Container,
-  Description,
-  Welcome
-} from './ui'
+import { PageContainer, Container, Description, Welcome } from './ui'
 
 const ScanIdBoxTelepath = ({ navigation }) => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
-  const theme = useTheme()
+  const { colorScheme: theme } = useTheme()
 
   const enableCamera = async () => {
     const { status } = await BarCodeScanner.requestPermissionsAsync()
@@ -44,37 +39,43 @@ const ScanIdBoxTelepath = ({ navigation }) => {
   const handleBarCodeScanned = useCallback(async ({ type, data: url }) => {
     console.log(`Code scanned. Type: ${type}, url: ${url}`)
     setScanning(false)
-    const rendezvousConfiguration = await MultiRendezvousConfiguration.instance('idbox')
+    const rendezvousConfiguration = await MultiRendezvousConfiguration.instance(
+      'idbox'
+    )
     await rendezvousConfiguration.set({ url })
     navigation.navigate('AppLoading')
   })
 
   return (
     <PageContainer>
-      <View style={{
-        flexGrow: 1,
-        height: 0
-      }}
+      <View
+        style={{
+          flexGrow: 1,
+          height: 0
+        }}
       />
       <Container>
         <Welcome>Identity Box</Welcome>
-        <Description style={{
-          flexGrow: 1
-        }}
+        <Description
+          style={{
+            flexGrow: 1
+          }}
         >
           Scan your Identity Box QR-Code to connect...
         </Description>
-        {scanning &&
-          <View style={{
-            width: 200,
-            height: 200
-          }}
+        {scanning && (
+          <View
+            style={{
+              width: 200,
+              height: 200
+            }}
           >
             <BarCodeScanner
               onBarCodeScanned={handleBarCodeScanned}
               style={StyleSheet.absoluteFillObject}
             />
-          </View>}
+          </View>
+        )}
         <Button
           title={scanning ? 'Cancel' : 'Scan...'}
           color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}

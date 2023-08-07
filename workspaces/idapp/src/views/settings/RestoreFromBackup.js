@@ -4,10 +4,10 @@ import { TypedArrays } from '@react-frontend-developer/buffers'
 import nacl from 'tweetnacl'
 import base64url from 'base64url'
 
-import { ThemedButton } from 'src/theme'
-import { mnemonicToEntropy } from 'src/crypto'
-import { IdentityManager } from 'src/identity'
-import { useRendezvous } from 'src/rendezvous'
+import { ThemedButton } from '~/theme'
+import { mnemonicToEntropy } from '~/crypto'
+import { IdentityManager } from '~/identity'
+import { useRendezvous } from '~/rendezvous'
 import {
   Container,
   Subcontainer,
@@ -30,9 +30,11 @@ const RestoreFromBackup = ({ navigation }) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'restore',
-      params: [{
-        backupId
-      }]
+      params: [
+        {
+          backupId
+        }
+      ]
     }
     try {
       await rendezvousConnection.send(message)
@@ -43,10 +45,10 @@ const RestoreFromBackup = ({ navigation }) => {
 
   useRendezvous({
     name: 'idbox',
-    onReady: async rc => {
+    onReady: async (rc) => {
       rendezvousConnection.current = rc
     },
-    onMessage: async message => {
+    onMessage: async (message) => {
       console.log('received message: ', message)
       if (message.method === 'restore-response') {
         const { encryptedBackup } = message.params[0]
@@ -54,12 +56,15 @@ const RestoreFromBackup = ({ navigation }) => {
           navigation.navigate('BackupNotFound')
         } else {
           const identityManager = await IdentityManager.instance()
-          await identityManager.initFromEncryptedBackup(encryptedBackup, backupKey.current)
+          await identityManager.initFromEncryptedBackup(
+            encryptedBackup,
+            backupKey.current
+          )
           navigation.navigate('CurrentIdentity')
         }
       }
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error: ', error)
       setInProgress(false)
     }
@@ -78,12 +83,12 @@ const RestoreFromBackup = ({ navigation }) => {
     }
   }
 
-  const backupIdFromMnemonic = mnemonic => {
+  const backupIdFromMnemonic = (mnemonic) => {
     const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
     return base64url.encode(nacl.hash(mnemonicUint8Array))
   }
 
-  const onChangeText = useCallback(text => {
+  const onChangeText = useCallback((text) => {
     setMnemonic(text)
   }, [])
 
@@ -105,9 +110,10 @@ const RestoreFromBackup = ({ navigation }) => {
 
   return (
     <Container>
-      <Subcontainer style={{
-        justifyContent: 'flex-start'
-      }}
+      <Subcontainer
+        style={{
+          justifyContent: 'flex-start'
+        }}
       >
         <Header style={{ fontSize: 14 }}>
           Enter your secret passphrase mnemonic below:
@@ -125,24 +131,26 @@ const RestoreFromBackup = ({ navigation }) => {
             onFocus={() => setFocused(true)}
           />
         </PassphraseMnemonicContainer>
-        {!focused && !passphraseValid && <Description>Invalid Mnemonic</Description>}
-        {!inProgress
-          ? (
-            <Row style={{ justifyContent: 'space-around' }}>
-              <ThemedButton
-                onPress={onRestore}
-                disabled={!passphraseValid}
-                title='Restore'
-                accessibilityLabel='Restore'
-              />
-              <Button
-                onPress={onCancel}
-                title='Cancel'
-                accessibilityLabel='Cancel'
-              />
-            </Row>
-            )
-          : <ActivityIndicator />}
+        {!focused && !passphraseValid && (
+          <Description>Invalid Mnemonic</Description>
+        )}
+        {!inProgress ? (
+          <Row style={{ justifyContent: 'space-around' }}>
+            <ThemedButton
+              onPress={onRestore}
+              disabled={!passphraseValid}
+              title='Restore'
+              accessibilityLabel='Restore'
+            />
+            <Button
+              onPress={onCancel}
+              title='Cancel'
+              accessibilityLabel='Cancel'
+            />
+          </Row>
+        ) : (
+          <ActivityIndicator />
+        )}
       </Subcontainer>
     </Container>
   )

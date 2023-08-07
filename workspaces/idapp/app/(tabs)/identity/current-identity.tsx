@@ -1,4 +1,4 @@
-import { CurrentIdentity } from '../../../src/views/identity/CurrentIdentity'
+import { CurrentIdentity } from '~/views/identity/CurrentIdentity'
 
 export default function CurrentIdentityRoute() {
   return <CurrentIdentity />

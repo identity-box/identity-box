@@ -1,6 +1,6 @@
 import { View } from 'react-native'
 
-import { DiagnosticsSensor } from 'src/views/diagnostics'
+import { DiagnosticsSensor } from '~/views/diagnostics'
 import { Container, Subcontainer } from './ui'
 import { Backup } from './Backup'
 import { FactoryReset } from './FactoryReset'
@@ -12,10 +12,11 @@ const Settings = ({ navigation }) => {
 
   return (
     <Container>
-      <View style={{
-        flexGrow: 1,
-        height: 0
-      }}
+      <View
+        style={{
+          flexGrow: 1,
+          height: 0
+        }}
       />
       <Subcontainer>
         <Backup navigation={navigation} />

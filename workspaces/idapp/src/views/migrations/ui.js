@@ -1,12 +1,11 @@
 import styled from '@emotion/native'
-import { Themed, ThemeColors } from 'react-navigation'
 
-const Container = styled.View(({ theme: { colorScheme: theme } }) => ({
+const Container = styled.View(({ theme: { theme } }) => ({
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: ThemeColors[theme].body
+  backgroundColor: theme.colors.background
 }))
 
 const Subcontainer = styled.View({
@@ -17,7 +16,7 @@ const Subcontainer = styled.View({
   height: '80%'
 })
 
-const Header = styled(Themed.Text)({
+const Header = styled.Text({
   fontSize: 20,
   textAlign: 'center',
   marginBottom: 20
@@ -37,10 +36,4 @@ const Row = styled.View({
   alignItems: 'center'
 })
 
-export {
-  Container,
-  Subcontainer,
-  Header,
-  Description,
-  Row
-}
+export { Container, Subcontainer, Header, Description, Row }

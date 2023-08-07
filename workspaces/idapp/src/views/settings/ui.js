@@ -1,12 +1,11 @@
 import styled from '@emotion/native'
-import { Themed, ThemeColors } from 'react-navigation'
 
-const Container = styled.View(({ theme: { colorScheme: theme } }) => ({
+const Container = styled.View(({ theme: { theme } }) => ({
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: ThemeColors[theme].body
+  backgroundColor: theme.colors.background
 }))
 
 const Subcontainer = styled.View({
@@ -24,7 +23,7 @@ const Wrapper = styled.View({
   width: '100%'
 })
 
-const Header = styled(Themed.Text)({
+const Header = styled.Text({
   fontSize: 20,
   textAlign: 'center',
   marginBottom: 20
@@ -58,26 +57,30 @@ const PassphraseMnemonicContainer = styled.View({
   paddingRight: 5
 })
 
-const PassphraseMnemonic = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
-  fontSize: 12,
-  color: theme === 'light' ? 'black' : 'white',
-  textAlignVertical: 'top',
-  height: '100%',
-  width: '100%',
-  textAlign: 'left',
-  backgroundColor: theme === 'light' ? 'white' : '#1a1a1a'
-}))
+const PassphraseMnemonic = styled.TextInput(
+  ({ theme: { colorScheme: theme } }) => ({
+    fontSize: 12,
+    color: theme === 'light' ? 'black' : 'white',
+    textAlignVertical: 'top',
+    height: '100%',
+    width: '100%',
+    textAlign: 'left',
+    backgroundColor: theme === 'light' ? 'white' : '#1a1a1a'
+  })
+)
 
-const MnemonicText = styled(Themed.Text)(({ theme: { colorScheme: theme } }) => ({
-  paddingTop: 5,
-  paddingRight: 5,
-  paddingBottom: 5,
-  paddingLeft: 5,
-  borderWidth: 1,
-  borderColor: theme === 'light' ? 'black' : 'white',
-  textAlign: 'center',
-  marginBottom: 50
-}))
+const MnemonicText = styled(Themed.Text)(
+  ({ theme: { colorScheme: theme } }) => ({
+    paddingTop: 5,
+    paddingRight: 5,
+    paddingBottom: 5,
+    paddingLeft: 5,
+    borderWidth: 1,
+    borderColor: theme === 'light' ? 'black' : 'white',
+    textAlign: 'center',
+    marginBottom: 50
+  })
+)
 
 export {
   Container,

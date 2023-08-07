@@ -1,19 +1,16 @@
-import { useState, useRef } from 'react'
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import { useState, useRef, useCallback } from 'react'
+import { useLocalSearchParams, router } from 'expo-router'
 import Constants from 'expo-constants'
 import { Button } from 'react-native'
-import { useTheme } from 'react-navigation'
+import { useTheme } from '@emotion/react'
 import styled from '@emotion/native'
-// import { useRecoilValue } from 'recoil'
 
-import { useIdentity } from '~/identity'
+import { IdentityManager, useIdentity } from '~/identity'
 import { MrSpacer } from '~/ui'
 
-// import { rendezvousTunnelRecoilState } from 'src/app-state'
+import { AllIdentities } from '~/views/address-book/AllIdentities'
 
-import { AllIdentities } from 'src/views/address-book/AllIdentities'
-
-import { useRendezvousTunnel } from '../../../src/rendezvous'
+import { useRendezvousTunnel } from '~/rendezvous'
 
 const Container = styled.View({
   flex: 1
@@ -30,18 +27,27 @@ const SubContainer = styled.View({
 })
 
 const SelectIdentity = () => {
-  const router = useRouter()
-  // const { send } = useRecoilValue(rendezvousTunnelRecoilState)
-  const identityManager = useRef(undefined)
-  const [identityNames, setIdentityNames] = useState([])
-  const [identities, setIdentities] = useState({})
-  const [peerIdentities, setPeerIdentities] = useState({})
-  // const rendezvousTunnel = useRef(undefined)
-  const theme = useTheme()
+  const identityManager = useRef<IdentityManager | undefined>(undefined)
+  const [identityNames, setIdentityNames] = useState<Array<string>>([])
+  const [identities, setIdentities] = useState<
+    Record<
+      string,
+      {
+        name: string
+        did: string
+      }
+    >
+  >({})
+  const [peerIdentities, setPeerIdentities] = useState<Record<string, string>>(
+    {}
+  )
+  const { colorScheme: theme } = useTheme()
 
-  // rendezvousTunnel.current = useMemo(() => navigation.getParam('rendezvousTunnel', undefined), [])
+  const { rendezvousUrl: url, tunnelId } = useLocalSearchParams<{
+    rendezvousUrl: string
+    tunnelId: string
+  }>()
 
-  const { rendezvousUrl: url, tunnelId } = useLocalSearchParams()
   const rendezvousTunnel = useRendezvousTunnel(
     {
       url,
@@ -50,16 +56,18 @@ const SelectIdentity = () => {
     true
   )
 
+  const onIdentityManagerReady = useCallback((idManager: IdentityManager) => {
+    identityManager.current = idManager
+    setIdentities(idManager.identities)
+    setPeerIdentities(idManager.peerIdentities)
+    setIdentityNames(idManager.identityNames)
+  }, [])
+
   useIdentity({
-    onReady: (idManager) => {
-      identityManager.current = idManager
-      setIdentities(idManager.identities)
-      setPeerIdentities(idManager.peerIdentities)
-      setIdentityNames(idManager.identityNames)
-    }
+    onReady: onIdentityManagerReady
   })
 
-  const sendIdentity = async ({ did }) => {
+  const sendIdentity = async ({ did }: { did: string }) => {
     const message = {
       method: 'select_identity_response',
       params: [
@@ -72,21 +80,23 @@ const SelectIdentity = () => {
       if (rendezvousTunnel) {
         await rendezvousTunnel.send(message)
       }
-      // await send(message)
-      // await rendezvousTunnel.current.send(message)
-    } catch (e) {
-      console.warn(e.message)
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn(e.message)
+      } else {
+        console.warn('unknown error!')
+      }
     }
   }
 
-  const onSelectPeerIdentity = async (item) => {
+  const onSelectPeerIdentity = async (item: string) => {
     const identity = { name: item, did: peerIdentities[item] }
     console.log('selected identity:', identity)
     await sendIdentity(identity)
     router.back()
   }
 
-  const onSelectOwnIdentity = async (item) => {
+  const onSelectOwnIdentity = async (item: string) => {
     const id = identities[item]
     const identity = { name: id.name, did: id.did, isOwn: true }
     console.log('selected identity:', identity)
@@ -96,7 +106,6 @@ const SelectIdentity = () => {
 
   const onCancel = () => {
     console.log('cancel')
-    router.replace('/')
     router.back()
   }
 
@@ -123,4 +132,4 @@ const SelectIdentity = () => {
   )
 }
 
-export default SelectIdentity
+export { SelectIdentity }

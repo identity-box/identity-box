@@ -1,7 +1,7 @@
 import styled from '@emotion/native'
 
 import { FlatList } from 'react-native'
-import { useTheme } from 'react-navigation'
+import { useTheme } from '@emotion/react'
 
 import { LogDb } from './LogDb'
 import { LogItem } from './ui'
@@ -15,9 +15,9 @@ const ConsoleContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
 }))
 
 const Console = () => {
-  const theme = useTheme()
+  const { colorScheme: theme } = useTheme()
 
-  const getItemStyle = index => {
+  const getItemStyle = (index) => {
     let backgroundColor
     if (index % 2 === 0) {
       backgroundColor = theme === 'dark' ? '#111' : '#eee'
@@ -32,11 +32,9 @@ const Console = () => {
   return (
     <ConsoleContainer>
       <FlatList
-        data={LogDb.lastN(50).map(i => ({ key: i }))}
+        data={LogDb.lastN(50).map((i) => ({ key: i }))}
         renderItem={({ item, index }) => {
-          return (
-            <LogItem style={getItemStyle(index)}>{item.key}</LogItem>
-          )
+          return <LogItem style={getItemStyle(index)}>{item.key}</LogItem>
         }}
       />
     </ConsoleContainer>

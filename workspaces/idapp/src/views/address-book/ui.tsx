@@ -1,8 +1,7 @@
 import { View } from 'react-native'
-import { Themed } from 'react-navigation'
 import styled from '@emotion/native'
 import QRCode from 'react-native-qrcode-svg'
-import { ThemeConstants } from 'src/theme'
+import { ThemeConstants } from '~/theme'
 
 const Container = styled.View({
   flex: 1,
@@ -18,7 +17,7 @@ const SubContainer = styled.View({
   height: '80%'
 })
 
-const Header = styled(Themed.Text)({
+const Header = styled.Text({
   fontSize: 20,
   textAlign: 'center',
   color: 'white'
@@ -57,21 +56,19 @@ const Row = styled.View({
   alignItems: 'center'
 })
 
-const QRCodeThemed = ({ value, size }) => {
+const QRCodeThemed = ({ value, size }: { value: string; size: number }) => {
   return (
-    <View style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'white',
-      width: size + 10,
-      height: size + 10
-    }}
+    <View
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        width: size + 10,
+        height: size + 10
+      }}
     >
-      <QRCode
-        value={value}
-        size={150}
-      />
+      <QRCode value={value} size={150} />
     </View>
   )
 }

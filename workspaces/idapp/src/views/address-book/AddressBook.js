@@ -1,13 +1,11 @@
 import { useRef, useState, useCallback } from 'react'
-import { useTheme } from 'react-navigation'
+import { useTheme } from '@emotion/react'
 
 import styled from '@emotion/native'
 
-import { useIdentity } from 'src/identity'
+import { useIdentity } from '~/identity'
 import { AllIdentities } from './AllIdentities'
-// import { ListWithHeader } from 'src/ui'
 
-// import { ListContainer } from './ui'
 import { AddIdentityButton } from './AddIdentityButton'
 
 const Container = styled.View({
@@ -24,10 +22,10 @@ const AddressBook = ({ navigation }) => {
   const [identityNames, setIdentityNames] = useState([])
   const [identities, setIdentities] = useState({})
   const [peerIdentities, setPeerIdentities] = useState({})
-  const theme = useTheme()
+  const { colorScheme: theme } = useTheme()
 
   useIdentity({
-    onReady: idManager => {
+    onReady: (idManager) => {
       identityManager.current = idManager
       setIdentities(idManager.identities)
       setPeerIdentities(idManager.peerIdentities)
@@ -42,21 +40,33 @@ const AddressBook = ({ navigation }) => {
     }
   })
 
-  const onSelectPeerIdentity = useCallback((item) => {
-    const identity = { name: item, did: peerIdentities[item] }
-    navigation.navigate('IdentityDetails', identity)
-  }, [peerIdentities])
+  const onSelectPeerIdentity = useCallback(
+    (item) => {
+      const identity = { name: item, did: peerIdentities[item] }
+      navigation.navigate('IdentityDetails', identity)
+    },
+    [peerIdentities]
+  )
 
-  const onSelectOwnIdentity = useCallback(item => {
-    const id = identities[item]
-    const identity = { name: id.name, did: id.did, keyName: id.keyName, isOwn: true }
-    navigation.navigate('IdentityDetails', identity)
-  }, [identities])
+  const onSelectOwnIdentity = useCallback(
+    (item) => {
+      const id = identities[item]
+      const identity = {
+        name: id.name,
+        did: id.did,
+        keyName: id.keyName,
+        isOwn: true
+      }
+      navigation.navigate('IdentityDetails', identity)
+    },
+    [identities]
+  )
 
   return (
-    <Container style={{
-      backgroundColor: theme === 'light' ? 'white' : '#111'
-    }}
+    <Container
+      style={{
+        backgroundColor: theme === 'light' ? 'white' : '#111'
+      }}
     >
       <AllIdentities
         identityNames={identityNames}

@@ -1,6 +1,11 @@
 import { useColorScheme } from 'react-native'
 import { Slot } from 'expo-router'
-import { ThemeProvider } from '@emotion/react'
+import { ThemeProvider as ThemeProviderEmotion } from '@emotion/react'
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider
+} from '@react-navigation/native'
 import { Buffer } from 'buffer'
 import { RecoilRoot } from 'recoil'
 
@@ -13,12 +18,15 @@ export default function HomeLayout() {
 
   return (
     <RecoilRoot>
-      <ThemeProvider
-        theme={{
-          colorScheme
-        }}
-      >
-        <Slot />
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <ThemeProviderEmotion
+          theme={{
+            colorScheme,
+            theme: colorScheme === 'dark' ? DarkTheme : DefaultTheme
+          }}
+        >
+          <Slot />
+        </ThemeProviderEmotion>
       </ThemeProvider>
     </RecoilRoot>
   )

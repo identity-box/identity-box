@@ -1,13 +1,13 @@
 import { useState, useRef, useCallback } from 'react'
 import { Button, ActivityIndicator } from 'react-native'
-import { useTheme } from 'react-navigation'
+import { useTheme } from '@emotion/react'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
 
-import { ThemeConstants, ThemedButton } from 'src/theme'
-import { randomBytes } from 'src/crypto'
-import { useIdentity } from 'src/identity'
-import { useRendezvous } from 'src/rendezvous'
+import { ThemeConstants, ThemedButton } from '~/theme'
+import { randomBytes } from '~/crypto'
+import { useIdentity } from '~/identity'
+import { useRendezvous } from '~/rendezvous'
 
 import { createIdentity } from './createIdentity'
 
@@ -28,9 +28,9 @@ const FirstIdentity = ({ navigation }) => {
   const nameRef = useRef(undefined)
   const [inProgress, setInProgress] = useState(false)
   const [backupAvailable, setBackupAvailable] = useState(false)
-  const theme = useTheme()
+  const { colorScheme: theme } = useTheme()
 
-  const checkForBackup = async rendezvousConnection => {
+  const checkForBackup = async (rendezvousConnection) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'has-backup',
@@ -45,27 +45,35 @@ const FirstIdentity = ({ navigation }) => {
 
   useRendezvous({
     name: 'idbox',
-    onReady: rc => {
+    onReady: (rc) => {
       rendezvousConnection.current = rc
       checkForBackup(rc)
     },
-    onMessage: message => {
+    onMessage: (message) => {
       console.log('received message: ', message)
-      if (message.method === 'create-identity-response' && message.params && message.params.length === 1) {
+      if (
+        message.method === 'create-identity-response' &&
+        message.params &&
+        message.params.length === 1
+      ) {
         const { identity } = message.params[0]
         persistIdentity(identity)
-      } else if (message.method === 'has-backup-response' && message.params && message.params.length === 1) {
+      } else if (
+        message.method === 'has-backup-response' &&
+        message.params &&
+        message.params.length === 1
+      ) {
         const { hasBackup } = message.params[0]
         setBackupAvailable(hasBackup || false)
       }
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error: ', error)
     }
   })
 
   useIdentity({
-    onReady: idManager => {
+    onReady: (idManager) => {
       identityManager.current = idManager
     }
   })
@@ -93,14 +101,18 @@ const FirstIdentity = ({ navigation }) => {
     const secret = await randomBytes(nacl.sign.publicKeyLength)
     nacl.setPRNG((x, n) => {
       if (n !== nacl.sign.publicKeyLength) {
-        throw new Error(`PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`)
+        throw new Error(
+          `PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`
+        )
       }
       for (let i = 0; i < n; i++) {
         x[i] = secret[i]
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG(() => { throw new Error('no PRNG') })
+    nacl.setPRNG(() => {
+      throw new Error('no PRNG')
+    })
   }
 
   const createEncryptionKeyPair = async () => {
@@ -121,7 +133,9 @@ const FirstIdentity = ({ navigation }) => {
 
     nameRef.current = name.trim()
     const keyName = await createRandomIdentityKeyName()
-    const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
+    const publicEncryptionKey = base64url.encode(
+      encryptionKeyPair.current.publicKey
+    )
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
       rendezvousConnection: rendezvousConnection.current,
@@ -141,13 +155,15 @@ const FirstIdentity = ({ navigation }) => {
 
   return (
     <PageContainer>
-      <Container style={{
-        justifyContent: 'center'
-      }}
+      <Container
+        style={{
+          justifyContent: 'center'
+        }}
       >
         <Welcome>Create your first identity</Welcome>
         <Description>
-          Give your identity an easy to remember name. This name will not be shared.
+          Give your identity an easy to remember name. This name will not be
+          shared.
         </Description>
         <IdentityName
           placeholder='Identity name...'
@@ -160,29 +176,31 @@ const FirstIdentity = ({ navigation }) => {
           disabled={name.length === 0}
           accessibilityLabel='Create an identity...'
         />
-        {
-          backupAvailable && (
-            <>
-              <Description style={{
+        {backupAvailable && (
+          <>
+            <Description
+              style={{
                 marginTop: 20,
                 marginBottom: 20
               }}
-              >- OR -
-              </Description>
-              <Button
-                color={ThemeConstants[theme].accentColor}
-                onPress={onRestoreFromBackup}
-                title='Restore from backup...'
-                accessibilityLabel='Restore identities from backup'
-              />
-            </>
-          )
-        }
-        <Description style={{
-          marginTop: 20,
-          marginBottom: 20
-        }}
-        >- OR -
+            >
+              - OR -
+            </Description>
+            <Button
+              color={ThemeConstants[theme].accentColor}
+              onPress={onRestoreFromBackup}
+              title='Restore from backup...'
+              accessibilityLabel='Restore identities from backup'
+            />
+          </>
+        )}
+        <Description
+          style={{
+            marginTop: 20,
+            marginBottom: 20
+          }}
+        >
+          - OR -
         </Description>
         <Button
           color={ThemeConstants[theme].accentColor}

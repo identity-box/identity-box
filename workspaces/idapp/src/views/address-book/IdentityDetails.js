@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef } from 'react'
-import { Themed } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
@@ -7,10 +6,10 @@ import { Button, ActivityIndicator } from 'react-native'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
-import { entropyToMnemonic } from 'src/crypto'
+import { entropyToMnemonic } from '~/crypto'
 
-import { useIdentity } from 'src/identity'
-import { useRendezvous } from 'src/rendezvous'
+import { useIdentity } from '~/identity'
+import { useRendezvous } from '~/rendezvous'
 
 import { QRCodeThemed, Description } from './ui'
 
@@ -28,7 +27,7 @@ const SubContainer = styled.View({
   height: '80%'
 })
 
-const IdentityName = styled(Themed.Text)({
+const IdentityName = styled.Text({
   fontSize: 32,
   fontWeight: 'bold',
   marginBottom: 20
@@ -39,7 +38,7 @@ const Separator = styled.View(({ size }) => ({
   height: size
 }))
 
-const Did = styled(Themed.Text)({
+const Did = styled.Text({
   fontSize: 12,
   marginBottom: 50,
   textAlign: 'center',
@@ -56,7 +55,7 @@ const IdentityDetails = ({ navigation }) => {
   const [inProgress, setInProgress] = useState(false)
   const [identityManagerReady, setIdentityManagerReady] = useState(false)
 
-  const backupIdFromBackupKey = useCallback(backupKey => {
+  const backupIdFromBackupKey = useCallback((backupKey) => {
     const mnemonic = entropyToMnemonic(backupKey)
     const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
     return base64url.encode(nacl.hash(mnemonicUint8Array))
@@ -65,17 +64,25 @@ const IdentityDetails = ({ navigation }) => {
   const doBackup = useCallback(async () => {
     const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
     if (backupEnabled) {
-      const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
-      const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
+      const backupKey = base64url.toBuffer(
+        await SecureStore.getItemAsync('backupKey')
+      )
+      const encryptedBackup =
+        await identityManager.current.createEncryptedBackupWithKey(backupKey)
       const backupId = backupIdFromBackupKey(backupKey)
-      writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
+      writeBackupToIdBox(
+        rendezvousConnection.current,
+        encryptedBackup,
+        backupId,
+        identityManager.current.keyNames
+      )
     } else {
       navigation.navigate('AddressBook')
     }
   }, [])
 
   const { deletePeerIdentity, deleteOwnIdentity } = useIdentity({
-    onReady: idManager => {
+    onReady: (idManager) => {
       identityManager.current = idManager
       setIdentityManagerReady(true)
     },
@@ -89,7 +96,9 @@ const IdentityDetails = ({ navigation }) => {
   })
 
   const deleteIdentity = useCallback(() => {
-    console.log(`deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`)
+    console.log(
+      `deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`
+    )
     setInProgress(true)
     if (isOwn) {
       deleteIdentityOnIdBox(rendezvousConnection.current, keyName)
@@ -98,15 +107,22 @@ const IdentityDetails = ({ navigation }) => {
     }
   }, [])
 
-  const writeBackupToIdBox = async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = async (
+    rendezvousConnection,
+    encryptedBackup,
+    backupId,
+    identityNames
+  ) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'backup',
-      params: [{
-        encryptedBackup,
-        backupId,
-        identityNames
-      }]
+      params: [
+        {
+          encryptedBackup,
+          backupId,
+          identityNames
+        }
+      ]
     }
     try {
       await rendezvousConnection.send(message)
@@ -119,9 +135,11 @@ const IdentityDetails = ({ navigation }) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'delete',
-      params: [{
-        identityName: name
-      }]
+      params: [
+        {
+          identityName: name
+        }
+      ]
     }
     try {
       await rendezvousConnection.send(message)
@@ -132,10 +150,10 @@ const IdentityDetails = ({ navigation }) => {
 
   useRendezvous({
     name: 'idbox',
-    onReady: rc => {
+    onReady: (rc) => {
       rendezvousConnection.current = rc
     },
-    onMessage: message => {
+    onMessage: (message) => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
         console.log('Will navigate to AddressBook')
@@ -144,7 +162,7 @@ const IdentityDetails = ({ navigation }) => {
         deleteOwnIdentity({ name })
       }
     },
-    onError: async error => {
+    onError: async (error) => {
       console.log('error: ', error)
       await SecureStore.deleteItemAsync('backupEnabled')
       navigation.navigate('AddressBook')
@@ -179,10 +197,7 @@ const IdentityDetails = ({ navigation }) => {
       <SubContainer>
         <IdentityName>{name}</IdentityName>
         <Did>{did}</Did>
-        <QRCodeThemed
-          value={did}
-          size={150}
-        />
+        <QRCodeThemed value={did} size={150} />
         <Separator size={40} />
         {identityManagerReady && renderButtonIfAppropriate()}
       </SubContainer>

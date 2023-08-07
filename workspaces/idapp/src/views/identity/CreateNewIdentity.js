@@ -6,11 +6,11 @@ import base64url from 'base64url'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
-import { ThemedButton } from 'src/theme'
-import { randomBytes, entropyToMnemonic } from 'src/crypto'
-import { useRendezvous } from 'src/rendezvous'
-import { useIdentity } from 'src/identity'
-import { MrSpacer } from 'src/ui'
+import { ThemedButton } from '~/theme'
+import { randomBytes, entropyToMnemonic } from '~/crypto'
+import { useRendezvous } from '~/rendezvous'
+import { useIdentity } from '~/identity'
+import { MrSpacer } from '~/ui'
 import { createIdentity } from './createIdentity'
 
 import {
@@ -34,38 +34,49 @@ const CreateNewIdentity = ({ navigation }) => {
 
   useRendezvous({
     name: 'idbox',
-    onReady: rc => {
+    onReady: (rc) => {
       rendezvousConnection.current = rc
     },
-    onMessage: message => {
+    onMessage: (message) => {
       console.log('received message: ', message)
-      if (message.method === 'create-identity-response' && message.params && message.params.length === 1) {
+      if (
+        message.method === 'create-identity-response' &&
+        message.params &&
+        message.params.length === 1
+      ) {
         const { identity } = message.params[0]
         persistIdentity(identity)
       } else if (message.method === 'backup-response') {
         navigation.navigate('CurrentIdentity')
       }
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error: ', error)
     }
   })
 
   useIdentity({
-    onReady: idManager => {
+    onReady: (idManager) => {
       identityManager.current = idManager
     }
   })
 
-  const writeBackupToIdBox = async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
+  const writeBackupToIdBox = async (
+    rendezvousConnection,
+    encryptedBackup,
+    backupId,
+    identityNames
+  ) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'backup',
-      params: [{
-        encryptedBackup,
-        backupId,
-        identityNames
-      }]
+      params: [
+        {
+          encryptedBackup,
+          backupId,
+          identityNames
+        }
+      ]
     }
     try {
       await rendezvousConnection.send(message)
@@ -96,10 +107,18 @@ const CreateNewIdentity = ({ navigation }) => {
       await identityManager.current.setCurrent(name)
       const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
       if (backupEnabled) {
-        const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
-        const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
+        const backupKey = base64url.toBuffer(
+          await SecureStore.getItemAsync('backupKey')
+        )
+        const encryptedBackup =
+          await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
+        writeBackupToIdBox(
+          rendezvousConnection.current,
+          encryptedBackup,
+          backupId,
+          identityManager.current.keyNames
+        )
       }
       goHomeAndResetNavigation()
     } catch (e) {
@@ -107,7 +126,7 @@ const CreateNewIdentity = ({ navigation }) => {
     }
   }
 
-  const backupIdFromBackupKey = backupKey => {
+  const backupIdFromBackupKey = (backupKey) => {
     const mnemonic = entropyToMnemonic(backupKey)
     const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
     return base64url.encode(nacl.hash(mnemonicUint8Array))
@@ -117,14 +136,18 @@ const CreateNewIdentity = ({ navigation }) => {
     const secret = await randomBytes(nacl.sign.publicKeyLength)
     nacl.setPRNG((x, n) => {
       if (n !== nacl.sign.publicKeyLength) {
-        throw new Error(`PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`)
+        throw new Error(
+          `PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`
+        )
       }
       for (let i = 0; i < n; i++) {
         x[i] = secret[i]
       }
     })
     signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG(() => { throw new Error('no PRNG') })
+    nacl.setPRNG(() => {
+      throw new Error('no PRNG')
+    })
   }
 
   const createEncryptionKeyPair = async () => {
@@ -145,7 +168,9 @@ const CreateNewIdentity = ({ navigation }) => {
 
     nameRef.current = name.trim()
     const keyName = await createRandomIdentityKeyName()
-    const publicEncryptionKey = base64url.encode(encryptionKeyPair.current.publicKey)
+    const publicEncryptionKey = base64url.encode(
+      encryptionKeyPair.current.publicKey
+    )
     const publicSigningKey = base64url.encode(signingKeyPair.current.publicKey)
     createIdentity({
       rendezvousConnection: rendezvousConnection.current,
@@ -155,7 +180,7 @@ const CreateNewIdentity = ({ navigation }) => {
     })
   }, [name])
 
-  const onNameChanged = useCallback(name => {
+  const onNameChanged = useCallback((name) => {
     if (identityManager.current.identityNames.includes(name.trim())) {
       setNameAlreadyExists(true)
     } else {
@@ -169,41 +194,47 @@ const CreateNewIdentity = ({ navigation }) => {
   }, [])
 
   return (
-    <PageContainer style={{
-      justifyContent: 'flex-start',
-      paddingTop: 30
-    }}
+    <PageContainer
+      style={{
+        justifyContent: 'flex-start',
+        paddingTop: 30
+      }}
     >
       <Container>
         <Welcome>Create new identity</Welcome>
         <Description>
-          Give your identity an easy to remember name. This name will not be shared.
+          Give your identity an easy to remember name. This name will not be
+          shared.
         </Description>
         <IdentityName
           placeholder='Identity name...'
           onChangeText={onNameChanged}
           value={name}
         />
-        {nameAlreadyExists
-          ? <Description style={{ color: 'red', marginBottom: 10 }}>You already have identity with that name...</Description>
-          : <MrSpacer space={25} />}
-        {inProgress
-          ? <ActivityIndicator />
-          : (
-            <Row style={{ justifyContent: 'space-around' }}>
-              <ThemedButton
-                onPress={onCreateIdentity}
-                title='Create...'
-                disabled={name.length === 0 || nameAlreadyExists}
-                accessibilityLabel='Create an identity...'
-              />
-              <Button
-                onPress={onCancel}
-                title='Cancel'
-                accessibilityLabel='Cancel'
-              />
-            </Row>
-            )}
+        {nameAlreadyExists ? (
+          <Description style={{ color: 'red', marginBottom: 10 }}>
+            You already have identity with that name...
+          </Description>
+        ) : (
+          <MrSpacer space={25} />
+        )}
+        {inProgress ? (
+          <ActivityIndicator />
+        ) : (
+          <Row style={{ justifyContent: 'space-around' }}>
+            <ThemedButton
+              onPress={onCreateIdentity}
+              title='Create...'
+              disabled={name.length === 0 || nameAlreadyExists}
+              accessibilityLabel='Create an identity...'
+            />
+            <Button
+              onPress={onCancel}
+              title='Cancel'
+              accessibilityLabel='Cancel'
+            />
+          </Row>
+        )}
       </Container>
     </PageContainer>
   )

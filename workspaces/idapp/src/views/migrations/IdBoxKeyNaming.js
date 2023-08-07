@@ -5,12 +5,12 @@ import base64url from 'base64url'
 import nacl from 'tweetnacl'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
-import { randomBytes, entropyToMnemonic } from 'src/crypto'
+import { randomBytes, entropyToMnemonic } from '~/crypto'
 
-import { useIdentity } from 'src/identity'
-import { useRendezvous } from 'src/rendezvous'
+import { useIdentity } from '~/identity'
+import { useRendezvous } from '~/rendezvous'
 
-import { ThemedButton } from 'src/theme'
+import { ThemedButton } from '~/theme'
 import { Container, Subcontainer, Description } from './ui'
 
 const createRandomIdentityKeyName = async () => {
@@ -26,26 +26,28 @@ const IdBoxKeyNaming = ({ navigation }) => {
   const [migrationStarted, setMigrationStarted] = useState(false)
 
   useIdentity({
-    onReady: idManager => {
+    onReady: (idManager) => {
       identityManager.current = idManager
     }
   })
 
   useRendezvous({
     name: 'idbox',
-    onReady: rc => {
+    onReady: (rc) => {
       rendezvousConnection.current = rc
     },
-    onMessage: async message => {
+    onMessage: async (message) => {
       console.log('received message: ', message)
       if (message.method === 'migrate-response') {
-        await identityManager.current.migrateIdentityNames(migration.current.migrationData)
+        await identityManager.current.migrateIdentityNames(
+          migration.current.migrationData
+        )
         doBackup()
       } else if (message.method === 'backup-response') {
         navigation.navigate('AppLoading')
       }
     },
-    onError: error => {
+    onError: (error) => {
       console.log('error: ', error)
     }
   })
@@ -56,9 +58,11 @@ const IdBoxKeyNaming = ({ navigation }) => {
     const message = {
       servicePath: 'identity-box.identity-service',
       method: 'migrate',
-      params: [{
-        migration: migration.current
-      }]
+      params: [
+        {
+          migration: migration.current
+        }
+      ]
     }
     try {
       await rendezvousConnection.current.send(message)
@@ -67,24 +71,29 @@ const IdBoxKeyNaming = ({ navigation }) => {
     }
   }, [])
 
-  const writeBackupToIdBox = useCallback(async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
-    const message = {
-      servicePath: 'identity-box.identity-service',
-      method: 'backup',
-      params: [{
-        encryptedBackup,
-        backupId,
-        identityNames
-      }]
-    }
-    try {
-      await rendezvousConnection.send(message)
-    } catch (e) {
-      console.warn(e.message)
-    }
-  }, [])
+  const writeBackupToIdBox = useCallback(
+    async (rendezvousConnection, encryptedBackup, backupId, identityNames) => {
+      const message = {
+        servicePath: 'identity-box.identity-service',
+        method: 'backup',
+        params: [
+          {
+            encryptedBackup,
+            backupId,
+            identityNames
+          }
+        ]
+      }
+      try {
+        await rendezvousConnection.send(message)
+      } catch (e) {
+        console.warn(e.message)
+      }
+    },
+    []
+  )
 
-  const backupIdFromBackupKey = useCallback(backupKey => {
+  const backupIdFromBackupKey = useCallback((backupKey) => {
     const mnemonic = entropyToMnemonic(backupKey)
     const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
     return base64url.encode(nacl.hash(mnemonicUint8Array))
@@ -93,10 +102,18 @@ const IdBoxKeyNaming = ({ navigation }) => {
   const doBackup = useCallback(async () => {
     const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
     if (backupEnabled) {
-      const backupKey = base64url.toBuffer(await SecureStore.getItemAsync('backupKey'))
-      const encryptedBackup = await identityManager.current.createEncryptedBackupWithKey(backupKey)
+      const backupKey = base64url.toBuffer(
+        await SecureStore.getItemAsync('backupKey')
+      )
+      const encryptedBackup =
+        await identityManager.current.createEncryptedBackupWithKey(backupKey)
       const backupId = backupIdFromBackupKey(backupKey)
-      writeBackupToIdBox(rendezvousConnection.current, encryptedBackup, backupId, identityManager.current.keyNames)
+      writeBackupToIdBox(
+        rendezvousConnection.current,
+        encryptedBackup,
+        backupId,
+        identityManager.current.keyNames
+      )
     } else {
       navigation.navigate('AppLoading')
     }
@@ -106,13 +123,15 @@ const IdBoxKeyNaming = ({ navigation }) => {
     const idManager = identityManager.current
     const identityNames = idManager.identityNames
 
-    const migrationData = await Promise.all(identityNames.map(async name => {
-      const keyName = await createRandomIdentityKeyName()
-      return {
-        oldName: name,
-        newName: keyName
-      }
-    }))
+    const migrationData = await Promise.all(
+      identityNames.map(async (name) => {
+        const keyName = await createRandomIdentityKeyName()
+        return {
+          oldName: name,
+          newName: keyName
+        }
+      })
+    )
 
     return {
       migrationType: 'KEY-NAMING',
@@ -133,32 +152,30 @@ const IdBoxKeyNaming = ({ navigation }) => {
 
   return (
     <Container>
-      <Subcontainer style={{
-        justifyContent: 'center'
-      }}
+      <Subcontainer
+        style={{
+          justifyContent: 'center'
+        }}
       >
-        {migrationStarted
-          ? (
-            <>
-              <Description>
-                Migration in progress. Please wait...
-              </Description>
-              <ActivityIndicator />
-            </>
-            )
-          : (
-            <>
-              <Description>
-                We need to update your identities to a new, more privacy-respecting format before continuing.
-                Please keep the app open and connected during the update.
-              </Description>
-              <ThemedButton
-                onPress={onStartMigration}
-                title='Start...'
-                accessibilityLabel='Start migration now!'
-              />
-            </>
-            )}
+        {migrationStarted ? (
+          <>
+            <Description>Migration in progress. Please wait...</Description>
+            <ActivityIndicator />
+          </>
+        ) : (
+          <>
+            <Description>
+              We need to update your identities to a new, more
+              privacy-respecting format before continuing. Please keep the app
+              open and connected during the update.
+            </Description>
+            <ThemedButton
+              onPress={onStartMigration}
+              title='Start...'
+              accessibilityLabel='Start migration now!'
+            />
+          </>
+        )}
       </Subcontainer>
     </Container>
   )

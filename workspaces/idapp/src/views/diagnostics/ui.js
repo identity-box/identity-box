@@ -1,33 +1,28 @@
 import styled from '@emotion/native'
-import { Themed, ThemeColors } from 'react-navigation'
 
-const PageContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
+const PageContainer = styled.View(({ theme: { theme } }) => ({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: ThemeColors[theme].body
+  backgroundColor: theme.colors.background
 }))
 
-const Container = styled.View(({ theme: { colorScheme: theme } }) => ({
+const Container = styled.View(({ theme: { theme } }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
   height: '70%',
   width: '80%',
-  backgroundColor: ThemeColors[theme].body
+  backgroundColor: theme.colors.background
 }))
 
-const LogItem = styled(Themed.Text)({
+const LogItem = styled.Text({
   fontSize: 12,
   padding: 5,
   textAlign: 'left'
 })
 
-export {
-  PageContainer,
-  Container,
-  LogItem
-}
+export { PageContainer, Container, LogItem }
