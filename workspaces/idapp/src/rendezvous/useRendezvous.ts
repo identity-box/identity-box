@@ -90,6 +90,7 @@ const useRendezvous = ({
   }, [name, url, onReady, onMessage, onEnd, onError, reset, getUrl])
 
   const unsubscribe = () => {
+    console.log('UNSUBSCRIBE (useRendezvous)')
     rendezvousConnection.current && rendezvousConnection.current.end()
   }
 

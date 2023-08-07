@@ -12,7 +12,7 @@ export default function SettingsStack() {
         name='backup-mnemonic'
         options={{
           headerShown: false,
-          presentation: 'modal'
+          presentation: 'fullScreenModal'
         }}
       />
     </Stack>

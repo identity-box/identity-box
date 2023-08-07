@@ -17,17 +17,20 @@ import {
   RendezvousClientConnection,
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
-import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary'
-import { Diagnostics, LogDb } from '../diagnostics'
+import { useErrorBoundary } from 'react-error-boundary'
+import { LogDb } from '../diagnostics'
+import { useRecoilState } from 'recoil'
+import { applicationConfig } from '~/app-state'
 
 const BackupMnemonic = () => {
   const { showBoundary } = useErrorBoundary()
   const [mnemonic, setMnemonic] = useState<string>()
-  const [backupReady, setBackupReady] = useState(false)
+  const [appConfig, updateAppConfig] = useRecoilState(applicationConfig)
+  const { backupEnabled } = appConfig
   const { colorScheme: theme } = useTheme()
 
   const onDismiss = useCallback(() => {
-    router.back()
+    router.push('/settings')
   }, [])
 
   const backupIdFromMnemonic = (mnemonic: string) => {
@@ -58,10 +61,13 @@ const BackupMnemonic = () => {
       console.log('received message: ', message)
       if (message.method === 'backup-response') {
         await SecureStore.setItemAsync('backupEnabled', 'true')
-        setBackupReady(true)
+        updateAppConfig((appConfig) => ({
+          ...appConfig,
+          backupEnabled: true
+        }))
       }
     },
-    []
+    [updateAppConfig]
   )
 
   const onRendezvousError = useCallback(
@@ -81,41 +87,39 @@ const BackupMnemonic = () => {
   })
 
   return (
-    <ErrorBoundary FallbackComponent={Diagnostics}>
-      <Container>
-        <Subcontainer
-          style={{
-            justifyContent: 'center'
-          }}
-        >
-          {backupReady ? (
-            <>
-              <Description>
-                Below is your passphrase mnemonic (it is also already copied to
-                your clipboard). You will need it if you ever need to restore
-                your identities.
-              </Description>
-              <Description style={{ color: 'red' }}>
-                Keep your passphrase off-line and safe. We will not be able to
-                restore it for you if you loose it.
-              </Description>
-              <MnemonicText>{mnemonic}</MnemonicText>
-              <Button
-                color={ThemeConstants[theme].accentColor}
-                onPress={onDismiss}
-                title='Got it'
-                accessibilityLabel='Got it'
-              />
-            </>
-          ) : (
-            <>
-              <Description>Enabling backup...</Description>
-              <ActivityIndicator />
-            </>
-          )}
-        </Subcontainer>
-      </Container>
-    </ErrorBoundary>
+    <Container>
+      <Subcontainer
+        style={{
+          justifyContent: 'center'
+        }}
+      >
+        {backupEnabled ? (
+          <>
+            <Description>
+              Below is your passphrase mnemonic (it is also already copied to
+              your clipboard). You will need it if you ever need to restore your
+              identities.
+            </Description>
+            <Description style={{ color: 'red' }}>
+              Keep your passphrase off-line and safe. We will not be able to
+              restore it for you if you loose it.
+            </Description>
+            <MnemonicText>{mnemonic}</MnemonicText>
+            <Button
+              color={ThemeConstants[theme].accentColor}
+              onPress={onDismiss}
+              title='Got it'
+              accessibilityLabel='Got it'
+            />
+          </>
+        ) : (
+          <>
+            <Description>Enabling backup...</Description>
+            <ActivityIndicator />
+          </>
+        )}
+      </Subcontainer>
+    </Container>
   )
 }
 
