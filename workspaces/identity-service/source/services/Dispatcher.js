@@ -6,14 +6,14 @@ class Dispatcher {
   ipfs = create(process.env.IPFS_ADDR || '/ip4/127.0.0.1/tcp/5001')
   identityProvider
 
-  constructor () {
+  constructor() {
     this.identityProvider = new IdentityProvider(this.ipfs)
   }
 
-  dispatch = async message => {
+  dispatch = async (message) => {
     console.log('**!!** DISPATCHER **!!**')
     console.log('received:')
-    console.log('message:', message)
+    console.log('message:', JSON.stringify(message, undefined, '  '))
     switch (message.method) {
       case 'about':
         return {
