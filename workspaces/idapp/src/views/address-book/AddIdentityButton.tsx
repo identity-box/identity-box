@@ -1,7 +1,7 @@
 import { TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-const AddIdentityButton = ({ navigation }) => (
+const AddIdentityButton = () => (
   <TouchableOpacity
     style={{
       aspectRatio: 1,
@@ -10,7 +10,7 @@ const AddIdentityButton = ({ navigation }) => (
       justifyContent: 'center',
       alignItems: 'center'
     }}
-    onPress={() => navigation.navigate('CreateNewIdentity')}
+    onPress={() => console.log("navigation.navigate('CreateNewIdentity')")}
   >
     <MaterialCommunityIcons
       name='account-plus-outline'

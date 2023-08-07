@@ -1,4 +1,5 @@
 export { AddressBook } from './AddressBook'
+export { AddIdentityButton } from './AddIdentityButton'
 export { IdentityDetails } from './IdentityDetails'
 export { AddNewIdentity } from './AddNewIdentity'
 export { SelectIdentity } from './SelectIdentity'
