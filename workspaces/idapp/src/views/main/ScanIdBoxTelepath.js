@@ -63,7 +63,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
         >
           Scan your Identity Box QR-Code to connect...
         </Description>
-        {scanning && (
+        {scanning ? (
           <View
             style={{
               width: 200,
@@ -75,7 +75,7 @@ const ScanIdBoxTelepath = ({ navigation }) => {
               style={StyleSheet.absoluteFillObject}
             />
           </View>
-        )}
+        ) : null}
         <Button
           title={scanning ? 'Cancel' : 'Scan...'}
           color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}

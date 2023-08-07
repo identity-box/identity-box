@@ -1,12 +1,11 @@
 import { ErrorBoundary } from 'react-error-boundary'
 import { Diagnostics } from '~/views/diagnostics'
+import { BackupMnemonic } from '~/views/settings'
 
-import { IdentityDetails } from '~/views/address-book'
-
-export default function Identities() {
+export default function BackupMnemonicRoute() {
   return (
     <ErrorBoundary FallbackComponent={Diagnostics}>
-      <IdentityDetails />
+      <BackupMnemonic />
     </ErrorBoundary>
   )
 }

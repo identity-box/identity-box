@@ -134,11 +134,11 @@ const useBrowserConnection = ({
           const { content, theirPublicKey } = message.params[0]
           const nonce = await randomBytes(nacl.box.nonceLength)
           const mySecretKey = identity.encryptionKey.secretKey
-          const messageBuffer = base64url.toBuffer(content)
+          const messageBuffer = base64url.toBuffer(content as string)
           const encryptedContent = nacl.box(
             messageBuffer,
             nonce,
-            base64url.toBuffer(theirPublicKey),
+            base64url.toBuffer(theirPublicKey as string),
             mySecretKey
           )
           await sendEncryptedContent({
@@ -157,10 +157,14 @@ const useBrowserConnection = ({
             theirPublicKeyBase64,
             didRecipient
           } = message.params[0]
-          const box = base64url.toBuffer(encryptedContentBase64)
-          const nonce = base64url.toBuffer(nonceBase64)
-          const theirPublicKey = base64url.toBuffer(theirPublicKeyBase64)
-          const myIdentity = identityManager.current.fromDID(didRecipient)
+          const box = base64url.toBuffer(encryptedContentBase64 as string)
+          const nonce = base64url.toBuffer(nonceBase64 as string)
+          const theirPublicKey = base64url.toBuffer(
+            theirPublicKeyBase64 as string
+          )
+          const myIdentity = identityManager.current.fromDID(
+            didRecipient as string
+          )
           if (myIdentity) {
             const mySecretKey = myIdentity.encryptionKey.secretKey
             console.log('box=', box)

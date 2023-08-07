@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { router } from 'expo-router'
 import { useTheme } from '@emotion/react'
 import * as SecureStore from 'expo-secure-store'
 import { Button } from 'react-native'
@@ -8,17 +9,17 @@ import { ThemeConstants } from '~/theme'
 import { Wrapper, Header, Description, Row } from './ui'
 
 const Backup = () => {
-  const [backupEnabled, setBackupEnabled] = useState()
+  const [backupEnabled, setBackupEnabled] = useState(false)
   const { colorScheme: theme } = useTheme()
 
   const readBackupStatus = async () => {
     const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
     console.log('backupEnabled=', backupEnabled)
-    setBackupEnabled(backupEnabled)
+    setBackupEnabled(backupEnabled === 'true')
   }
 
   const onEnableBackup = useCallback(() => {
-    navigation.navigate('BackupMnemonic')
+    router.push('/settings/backup-mnemonic')
   }, [])
 
   const onDisableBackup = useCallback(async () => {

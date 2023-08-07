@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from 'react-native'
+import { router } from 'expo-router'
 
 import { MultiRendezvousConfiguration } from '../../rendezvous'
 import { Console } from './Console'
@@ -7,17 +8,20 @@ import { Console } from './Console'
 import { NameValue } from './NameValue'
 import { PageContainer, Container } from './ui'
 
-const Diagnostics = ({ navigation }) => {
-  const [values, setValues] = useState({})
-  const rendezvousConfiguration = useRef(undefined)
-
-  const onExit = navigation.getParam('onExit', undefined)
+const Diagnostics = ({ error }: { error?: Error }) => {
+  const [values, setValues] = useState<
+    Record<string, string | null | undefined>
+  >({})
 
   const exitDiagnostics = useCallback(() => {
-    onExit && onExit()
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      router.push('/')
+    }
   }, [])
 
-  const valueToString = (name) => {
+  const valueToString = (name: string) => {
     const value = values[name]
     if (value === undefined) {
       return 'undefined'
@@ -29,10 +33,11 @@ const Diagnostics = ({ navigation }) => {
   }
 
   const readValues = async () => {
-    const values = {}
-    rendezvousConfiguration.current =
-      await MultiRendezvousConfiguration.instance('idbox')
-    const { url } = await rendezvousConfiguration.current.get()
+    const values: Record<string, string | null | undefined> = {}
+    const rendezvousConfiguration = await MultiRendezvousConfiguration.instance(
+      'idbox'
+    )
+    const { url } = await rendezvousConfiguration.get()
     values.rendezvousUrl = url
 
     const { url: directUrl } = await MultiRendezvousConfiguration.recall(
@@ -50,6 +55,9 @@ const Diagnostics = ({ navigation }) => {
   return (
     <PageContainer>
       <Container>
+        {error ? (
+          <NameValue name='Error' value={error?.message || 'undefined'} />
+        ) : null}
         <NameValue
           name='rendezvousUrl'
           value={valueToString('rendezvousUrl')}
@@ -60,12 +68,14 @@ const Diagnostics = ({ navigation }) => {
         />
         <Console />
       </Container>
-      <Button
-        title='Exit diagnostics'
-        color='#FF6699'
-        accessibilityLabel='Exit diagnostics'
-        onPress={exitDiagnostics}
-      />
+      {!router.canGoBack() ? (
+        <Button
+          title='Exit diagnostics'
+          color='#FF6699'
+          accessibilityLabel='Exit diagnostics'
+          onPress={exitDiagnostics}
+        />
+      ) : null}
     </PageContainer>
   )
 }

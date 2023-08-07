@@ -131,9 +131,9 @@ const RestoreFromBackup = ({ navigation }) => {
             onFocus={() => setFocused(true)}
           />
         </PassphraseMnemonicContainer>
-        {!focused && !passphraseValid && (
+        {!focused && !passphraseValid ? (
           <Description>Invalid Mnemonic</Description>
-        )}
+        ) : null}
         {!inProgress ? (
           <Row style={{ justifyContent: 'space-around' }}>
             <ThemedButton

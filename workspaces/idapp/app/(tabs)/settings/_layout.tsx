@@ -8,6 +8,13 @@ export default function SettingsStack() {
       }}
     >
       <Stack.Screen name='index' />
+      <Stack.Screen
+        name='backup-mnemonic'
+        options={{
+          headerShown: false,
+          presentation: 'modal'
+        }}
+      />
     </Stack>
   )
 }

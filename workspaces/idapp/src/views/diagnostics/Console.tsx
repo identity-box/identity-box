@@ -6,8 +6,8 @@ import { useTheme } from '@emotion/react'
 import { LogDb } from './LogDb'
 import { LogItem } from './ui'
 
-const ConsoleContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
-  borderColor: theme === 'dark' ? 'white' : 'black',
+const ConsoleContainer = styled.View(({ theme: { theme } }) => ({
+  borderColor: theme.dark ? 'white' : 'black',
   borderWidth: 1,
   width: '100%',
   flexGrow: 1,
@@ -15,14 +15,14 @@ const ConsoleContainer = styled.View(({ theme: { colorScheme: theme } }) => ({
 }))
 
 const Console = () => {
-  const { colorScheme: theme } = useTheme()
+  const { theme } = useTheme()
 
-  const getItemStyle = (index) => {
+  const getItemStyle = (index: number) => {
     let backgroundColor
     if (index % 2 === 0) {
-      backgroundColor = theme === 'dark' ? '#111' : '#eee'
+      backgroundColor = theme.dark ? '#111' : '#eee'
     } else {
-      backgroundColor = theme === 'dark' ? '#333' : '#ccc'
+      backgroundColor = theme.dark ? '#333' : '#ccc'
     }
     return {
       backgroundColor

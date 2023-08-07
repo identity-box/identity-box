@@ -152,7 +152,7 @@ const CurrentIdentity = () => {
             <Description>{identity.did}</Description>
           </TouchableOpacity>
         </View>
-        {scanning && (
+        {scanning ? (
           <View
             style={{
               justifyContent: 'center',
@@ -166,7 +166,7 @@ const CurrentIdentity = () => {
               style={StyleSheet.absoluteFillObject}
             />
           </View>
-        )}
+        ) : null}
       </Container>
       <Button
         title={scanning ? 'Cancel' : 'Scan...'}

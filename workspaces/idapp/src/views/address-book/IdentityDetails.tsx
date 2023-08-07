@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
 import { useLocalSearchParams, router } from 'expo-router'
+import { useErrorBoundary } from 'react-error-boundary'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
@@ -17,6 +18,8 @@ import {
   RendezvousClientConnection,
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
+import { BoxServices } from '~/box-services'
+import { LogDb } from '~/views/diagnostics'
 
 const Container = styled.View({
   flex: 1,
@@ -51,10 +54,9 @@ const Did = styled.Text({
 })
 
 const IdentityDetails = () => {
-  const identityManager = useRef<IdentityManager | undefined>(undefined)
-  const rendezvousConnection = useRef<RendezvousClientConnection | undefined>(
-    undefined
-  )
+  const { showBoundary } = useErrorBoundary()
+  const identityManager = useRef<IdentityManager>()
+  const boxServices = useRef<BoxServices>()
   const {
     name = '',
     keyName = '',
@@ -77,33 +79,43 @@ const IdentityDetails = () => {
   }, [])
 
   const doBackup = useCallback(async () => {
-    const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
-    const backupKeyBase64 = await SecureStore.getItemAsync('backupKey')
-    if (backupEnabled && backupKeyBase64) {
-      if (!rendezvousConnection.current) {
-        throw new Error(
-          'fatal error: rendezvousConnection.current is undefined!'
-        )
-      }
-      if (!identityManager.current) {
-        throw new Error('fatal error: identityManager.current is undefined!')
-      }
+    try {
+      const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
+      const backupKeyBase64 = await SecureStore.getItemAsync('backupKey')
+      if (backupEnabled && backupKeyBase64) {
+        if (!boxServices.current) {
+          LogDb.log(
+            'IdentityDetails#doBackup: boxServices.current is undefined!'
+          )
+          throw new Error('FATAL: No Active Identity Present!')
+        }
+        if (!identityManager.current) {
+          LogDb.log(
+            'IdentityDetails#doBackup: identityManager.current is undefined!'
+          )
+          throw new Error('FATAL: Cannot Access Identities!')
+        }
 
-      const backupKey = base64url.toBuffer(backupKeyBase64)
-      const encryptedBackup =
-        await identityManager.current.createEncryptedBackupWithKey(backupKey)
-      const backupId = backupIdFromBackupKey(backupKey)
-      writeBackupToIdBox(
-        rendezvousConnection.current,
-        encryptedBackup,
-        backupId,
-        identityManager.current?.keyNames
-      )
-    } else {
-      router.back()
-      // navigation.navigate('AddressBook')
+        const backupKey = base64url.toBuffer(backupKeyBase64)
+        const encryptedBackup =
+          await identityManager.current.createEncryptedBackupWithKey(backupKey)
+        const backupId = backupIdFromBackupKey(backupKey)
+        boxServices.current.writeBackupToIdBox(
+          encryptedBackup,
+          backupId,
+          identityManager.current?.keyNames
+        )
+      } else {
+        router.back()
+      }
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        showBoundary(e)
+      } else {
+        showBoundary(new Error('unknown error!'))
+      }
     }
-  }, [backupIdFromBackupKey])
+  }, [backupIdFromBackupKey, showBoundary])
 
   const onIdentityManagerReady = useCallback((idManager: IdentityManager) => {
     identityManager.current = idManager
@@ -127,74 +139,31 @@ const IdentityDetails = () => {
   })
 
   const deleteIdentity = useCallback(() => {
-    console.log(
-      `deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`
-    )
-    if (!rendezvousConnection.current) {
-      throw new Error('fatal error: rendezvousConnection.current is undefined!')
-    }
-    setInProgress(true)
-    if (isOwn) {
-      deleteIdentityOnIdBox(rendezvousConnection.current, keyName)
-    } else {
-      deletePeerIdentity({ name })
-    }
-  }, [name, keyName, isOwn, deletePeerIdentity])
-
-  const writeBackupToIdBox = async (
-    rendezvousConnection: RendezvousClientConnection,
-    encryptedBackup: string,
-    backupId: string,
-    identityNames: string[]
-  ) => {
-    const message = {
-      servicePath: 'identity-box.identity-service',
-      method: 'backup',
-      params: [
-        {
-          encryptedBackup,
-          backupId,
-          identityNames: JSON.stringify(identityNames)
-        }
-      ]
-    }
     try {
-      await rendezvousConnection.send(message)
+      console.log(
+        `deleting ${isOwn ? 'own' : 'peer'} identity with name: ${name}`
+      )
+      if (!boxServices.current) {
+        LogDb.log('IdentityDetails#doBackup: boxServices.current is undefined!')
+        throw new Error('FATAL: No Active Identity Present!')
+      }
+      setInProgress(true)
+      if (isOwn) {
+        boxServices.current.deleteIdentityOnIdBox(keyName)
+      } else {
+        deletePeerIdentity({ name })
+      }
     } catch (e: unknown) {
       if (e instanceof Error) {
-        console.warn(e.message)
+        showBoundary(e)
       } else {
-        console.warn('unknown error!')
+        showBoundary(new Error('unknown error!'))
       }
     }
-  }
-
-  const deleteIdentityOnIdBox = async (
-    rendezvousConnection: RendezvousClientConnection,
-    name: string
-  ) => {
-    const message = {
-      servicePath: 'identity-box.identity-service',
-      method: 'delete',
-      params: [
-        {
-          identityName: name
-        }
-      ]
-    }
-    try {
-      await rendezvousConnection.send(message)
-    } catch (e: unknown) {
-      if (e instanceof Error) {
-        console.warn(e.message)
-      } else {
-        console.warn('unknown error!')
-      }
-    }
-  }
+  }, [name, keyName, isOwn, deletePeerIdentity, showBoundary])
 
   const onRendezvousReady = useCallback((rc: RendezvousClientConnection) => {
-    rendezvousConnection.current = rc
+    boxServices.current = BoxServices.withConnection(rc)
   }, [])
 
   const onRendezvousMessage = useCallback(

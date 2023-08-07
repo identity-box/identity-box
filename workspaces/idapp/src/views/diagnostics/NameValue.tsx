@@ -9,17 +9,24 @@ const Container = styled.View(({ theme: { theme } }) => ({
   backgroundColor: theme.colors.background
 }))
 
-const Name = styled.Text({
+const Name = styled.Text(({ theme: { theme } }) => ({
   fontSize: 12,
-  textAlign: 'left'
-})
+  textAlign: 'left',
+  color: theme.colors.text
+}))
 
-const Value = styled.Text({
+const Value = styled.Text(({ theme: { theme } }) => ({
   fontSize: 12,
-  textAlign: 'left'
-})
+  textAlign: 'left',
+  color: theme.colors.text
+}))
 
-const NameValue = ({ name, value }) => {
+type NameValueProps = {
+  name: string
+  value: string
+}
+
+const NameValue = ({ name, value }: NameValueProps) => {
   return (
     <Container>
       <Name>{name}</Name>

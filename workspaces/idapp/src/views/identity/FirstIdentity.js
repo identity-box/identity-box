@@ -176,7 +176,7 @@ const FirstIdentity = ({ navigation }) => {
           disabled={name.length === 0}
           accessibilityLabel='Create an identity...'
         />
-        {backupAvailable && (
+        {backupAvailable ? (
           <>
             <Description
               style={{
@@ -193,7 +193,7 @@ const FirstIdentity = ({ navigation }) => {
               accessibilityLabel='Restore identities from backup'
             />
           </>
-        )}
+        ) : null}
         <Description
           style={{
             marginTop: 20,
@@ -208,7 +208,7 @@ const FirstIdentity = ({ navigation }) => {
           title='(Re)Scan Identity Box...'
           accessibilityLabel='(Re)Scan Identity Box...'
         />
-        {inProgress && <ActivityIndicator />}
+        {inProgress ? <ActivityIndicator /> : null}
       </Container>
     </PageContainer>
   )

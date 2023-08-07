@@ -1,8 +1,8 @@
 class LogDb {
-  static logdb = []
+  static logdb: Array<string> = []
 
-  static log = event => {
-    const timestamp = (new Date()).toLocaleString()
+  static log = (event: string) => {
+    const timestamp = new Date().toLocaleString()
 
     this.logdb.push(`${timestamp}: ${event}`)
 
@@ -15,7 +15,7 @@ class LogDb {
     this.logdb = []
   }
 
-  static lastN = n => {
+  static lastN = (n: number) => {
     if (n === 0) {
       return []
     }
