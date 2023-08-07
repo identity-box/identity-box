@@ -7,7 +7,7 @@ import { ThemeConstants } from '~/theme'
 
 import { Wrapper, Header, Description, Row } from './ui'
 
-const Backup = ({ navigation }) => {
+const Backup = () => {
   const [backupEnabled, setBackupEnabled] = useState()
   const { colorScheme: theme } = useTheme()
 

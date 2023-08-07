@@ -5,11 +5,7 @@ import { Container, Subcontainer } from './ui'
 import { Backup } from './Backup'
 import { FactoryReset } from './FactoryReset'
 
-const Settings = ({ navigation }) => {
-  const exitDiagnostics = () => {
-    navigation.navigate('Settings')
-  }
-
+const Settings = () => {
   return (
     <Container>
       <View
@@ -19,10 +15,10 @@ const Settings = ({ navigation }) => {
         }}
       />
       <Subcontainer>
-        <Backup navigation={navigation} />
-        <FactoryReset navigation={navigation} />
+        <Backup />
+        <FactoryReset />
       </Subcontainer>
-      <DiagnosticsSensor navigation={navigation} onExit={exitDiagnostics} />
+      <DiagnosticsSensor />
     </Container>
   )
 }

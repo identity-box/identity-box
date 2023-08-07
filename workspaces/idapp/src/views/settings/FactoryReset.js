@@ -1,12 +1,14 @@
 import { useCallback } from 'react'
 import { Button } from 'react-native'
+import { router } from 'expo-router'
 
 import { Wrapper, Header, Description } from './ui'
 
-const FactoryReset = ({ navigation }) => {
+const FactoryReset = () => {
   const onFactoryReset = useCallback(() => {
-    navigation.navigate('ConfirmFactoryReset')
-  }, [navigation])
+    // navigation.navigate('ConfirmFactoryReset')
+    router.push('/settings/confirm-factory-reset')
+  }, [])
 
   return (
     <Wrapper>

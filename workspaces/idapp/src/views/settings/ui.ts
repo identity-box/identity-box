@@ -69,18 +69,16 @@ const PassphraseMnemonic = styled.TextInput(
   })
 )
 
-const MnemonicText = styled(Themed.Text)(
-  ({ theme: { colorScheme: theme } }) => ({
-    paddingTop: 5,
-    paddingRight: 5,
-    paddingBottom: 5,
-    paddingLeft: 5,
-    borderWidth: 1,
-    borderColor: theme === 'light' ? 'black' : 'white',
-    textAlign: 'center',
-    marginBottom: 50
-  })
-)
+const MnemonicText = styled.Text(({ theme: { colorScheme: theme } }) => ({
+  paddingTop: 5,
+  paddingRight: 5,
+  paddingBottom: 5,
+  paddingLeft: 5,
+  borderWidth: 1,
+  borderColor: theme === 'light' ? 'black' : 'white',
+  textAlign: 'center',
+  marginBottom: 50
+}))
 
 export {
   Container,
