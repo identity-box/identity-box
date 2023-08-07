@@ -1,5 +1,4 @@
 import { useRef, useState, useCallback } from 'react'
-// import { router } from 'expo-router'
 import { useTheme } from '@emotion/react'
 
 import styled from '@emotion/native'
@@ -11,6 +10,7 @@ import {
   OnOwnIdentitiesChangedFunctionParams,
   OnPeerIdentitiesChangedFunctionParams
 } from '~/identity/IdentityManager'
+import { router } from 'expo-router'
 
 const Container = styled.View({
   flex: 1,
@@ -78,15 +78,20 @@ const AddressBook = () => {
 
   const onSelectOwnIdentity = useCallback(
     (item: string) => {
-      console.log('selected:', item, identities[item])
-      // const id = identities[item]
-      // const identity = {
-      //   name: id.name,
-      //   did: id.did,
-      //   keyName: id.keyName,
-      //   isOwn: true
-      // }
-      // navigation.navigate('IdentityDetails', identity)
+      console.log('selected:', item)
+      const id = identities[item]
+      const identity = {
+        name: id.name,
+        did: id.did,
+        keyName: id.keyName,
+        isOwnString: 'true'
+      }
+      router.push({
+        pathname: '/address-book/identity-details',
+        params: {
+          ...identity
+        }
+      })
     },
     [identities]
   )

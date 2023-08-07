@@ -8,6 +8,13 @@ export default function AddressBookStack() {
       }}
     >
       <Stack.Screen name='identities' />
+      <Stack.Screen
+        name='identity-details'
+        options={{
+          headerShown: false,
+          presentation: 'modal'
+        }}
+      />
     </Stack>
   )
 }

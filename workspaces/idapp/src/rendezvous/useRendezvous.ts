@@ -16,7 +16,7 @@ type UseRendezvousDescriptor = {
   onMessage?: (msg: RendezvousMessage) => void
   onEnd?: (reason: string) => void
   onError?: (error: Error) => void
-  reset: boolean
+  reset?: boolean
 }
 
 const useRendezvous = ({
