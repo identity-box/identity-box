@@ -87,7 +87,7 @@ const IdentityDetails = () => {
           LogDb.log(
             'IdentityDetails#doBackup: boxServices.current is undefined!'
           )
-          throw new Error('FATAL: No Active Identity Present!')
+          throw new Error('FATAL: No Connection to Identity Box device!')
         }
         if (!identityManager.current) {
           LogDb.log(
@@ -145,7 +145,7 @@ const IdentityDetails = () => {
       )
       if (!boxServices.current) {
         LogDb.log('IdentityDetails#doBackup: boxServices.current is undefined!')
-        throw new Error('FATAL: No Active Identity Present!')
+        throw new Error('FATAL: No Connection to Identity Box device!')
       }
       setInProgress(true)
       if (isOwn) {

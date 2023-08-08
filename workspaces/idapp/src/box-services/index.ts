@@ -57,6 +57,65 @@ class BoxServices {
     }
     this.sendMessageToIdBox(message)
   }
+
+  resetIdBox = async (identityNames: Array<string>) => {
+    const message = {
+      servicePath: 'identity-box.identity-service',
+      method: 'reset',
+      params: [
+        {
+          identityNames
+        }
+      ]
+    }
+    this.sendMessageToIdBox(message)
+  }
+
+  checkForBackup = async () => {
+    const message = {
+      servicePath: 'identity-box.identity-service',
+      method: 'has-backup',
+      params: []
+    }
+    this.sendMessageToIdBox(message)
+  }
+
+  createIdentity = async ({
+    keyName,
+    publicEncryptionKey,
+    publicSigningKey
+  }: {
+    keyName: string
+    publicEncryptionKey: string
+    publicSigningKey: string
+  }) => {
+    console.log(`Creating identity: ${keyName}`)
+    const message = {
+      servicePath: 'identity-box.identity-service',
+      method: 'create-identity',
+      params: [
+        {
+          name: keyName,
+          publicEncryptionKey,
+          publicSigningKey
+        }
+      ]
+    }
+    this.sendMessageToIdBox(message)
+  }
+
+  restoreIdBox = async (backupId: string) => {
+    const message = {
+      servicePath: 'identity-box.identity-service',
+      method: 'restore',
+      params: [
+        {
+          backupId
+        }
+      ]
+    }
+    this.sendMessageToIdBox(message)
+  }
 }
 
 export { BoxServices }

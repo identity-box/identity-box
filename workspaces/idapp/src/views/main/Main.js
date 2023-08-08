@@ -30,7 +30,7 @@ import {
 } from '~/views/address-book'
 import { IdBoxKeyNaming } from '~/views/migrations'
 import { AppLoading } from './AppLoading'
-import { ScanIdBoxTelepath } from './ScanIdBoxTelepath'
+import { ScanIdBox } from './ScanIdBox'
 import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 
 // const DefaultAppStack = createStackNavigator({ CurrentIdentity }, { headerMode: 'none' })
@@ -138,7 +138,7 @@ const AppContainer = createAppContainer(
   createSwitchNavigator(
     {
       AppLoading,
-      ScanIdBoxTelepath,
+      ScanIdBox,
       DefaultApp: DefaultAppStack,
       FirstIdentity: FirstIdentityStack,
       BackupMnemonic,

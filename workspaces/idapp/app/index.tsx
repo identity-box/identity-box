@@ -34,7 +34,7 @@ export default function Index() {
   }, [])
 
   const onError = useCallback(async (err: Error) => {
-    console.warn('AppLoading:onError:', err.message)
+    console.log('AppLoading:onError:', err.message)
     LogDb.log(`AppLoading:onError: ${err.message}`)
     if (
       err.message ===

@@ -6,7 +6,6 @@ import { Wrapper, Header, Description } from './ui'
 
 const FactoryReset = () => {
   const onFactoryReset = useCallback(() => {
-    // navigation.navigate('ConfirmFactoryReset')
     router.push('/settings/confirm-factory-reset')
   }, [])
 

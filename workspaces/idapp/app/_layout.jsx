@@ -1,5 +1,5 @@
 import { useColorScheme } from 'react-native'
-import { Slot } from 'expo-router'
+import { Stack } from 'expo-router'
 import { ThemeProvider as ThemeProviderEmotion } from '@emotion/react'
 import {
   DarkTheme,
@@ -25,7 +25,35 @@ export default function HomeLayout() {
             theme: colorScheme === 'dark' ? DarkTheme : DefaultTheme
           }}
         >
-          <Slot />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: 'fade'
+            }}
+          >
+            <Stack.Screen name='index' />
+            <Stack.Screen
+              name='scan-idbox'
+              options={{
+                animation: 'slide_from_bottom',
+                presentation: 'fullScreenModal'
+              }}
+            />
+            <Stack.Screen
+              name='first-identity'
+              options={{
+                animation: 'fade',
+                presentation: 'fullScreenModal'
+              }}
+            />
+            <Stack.Screen
+              name='restore-from-backup'
+              options={{
+                animation: 'fade',
+                presentation: 'modal'
+              }}
+            />
+          </Stack>
         </ThemeProviderEmotion>
       </ThemeProvider>
     </RecoilRoot>

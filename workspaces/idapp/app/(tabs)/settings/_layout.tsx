@@ -12,7 +12,24 @@ export default function SettingsStack() {
         name='backup-mnemonic'
         options={{
           headerShown: false,
+          animation: 'fade',
           presentation: 'fullScreenModal'
+        }}
+      />
+      <Stack.Screen
+        name='confirm-factory-reset'
+        options={{
+          headerShown: false,
+          animation: 'fade',
+          presentation: 'fullScreenModal'
+        }}
+      />
+      <Stack.Screen
+        name='diagnostics'
+        options={{
+          headerShown: false,
+          animation: 'slide_from_bottom',
+          presentation: 'modal'
         }}
       />
     </Stack>

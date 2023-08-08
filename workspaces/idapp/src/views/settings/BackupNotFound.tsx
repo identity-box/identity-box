@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import { useTheme } from '@emotion/react'
 import * as WebBrowser from 'expo-web-browser'
 import { Button } from 'react-native'
@@ -5,10 +6,10 @@ import { ThemeConstants } from '~/theme'
 
 import { Container, Subcontainer, Header, Description, Row } from './ui'
 
-const BackupNotFound = ({ navigation }) => {
+const BackupNotFound = () => {
   const { colorScheme: theme } = useTheme()
   const onGotIt = () => {
-    navigation.navigate('RestoreFromBackup')
+    router.replace('/restore-from-backup')
   }
 
   const onLearnMore = () => {

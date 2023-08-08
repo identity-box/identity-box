@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { router } from 'expo-router'
 import { Button, View, StyleSheet } from 'react-native'
 import { useTheme } from '@emotion/react'
 import { BarCodeScanner } from 'expo-barcode-scanner'
@@ -8,10 +9,10 @@ import { DiagnosticsSensor } from '~/views/diagnostics'
 
 import { PageContainer, Container, Description, Welcome } from './ui'
 
-const ScanIdBoxTelepath = ({ navigation }) => {
+const ScanIdBox = () => {
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
-  const { colorScheme: theme } = useTheme()
+  const { theme } = useTheme()
 
   const enableCamera = async () => {
     const { status } = await BarCodeScanner.requestPermissionsAsync()
@@ -20,10 +21,6 @@ const ScanIdBoxTelepath = ({ navigation }) => {
 
   useEffect(() => {
     enableCamera()
-  }, [])
-
-  const exitDiagnostics = useCallback(() => {
-    navigation.navigate('ScanIdBoxTelepath')
   }, [])
 
   const scanQRCode = useCallback(async () => {
@@ -36,15 +33,17 @@ const ScanIdBoxTelepath = ({ navigation }) => {
     setScanning(false)
   }, [])
 
-  const handleBarCodeScanned = useCallback(async ({ type, data: url }) => {
-    console.log(`Code scanned. Type: ${type}, url: ${url}`)
-    setScanning(false)
-    const rendezvousConfiguration = await MultiRendezvousConfiguration.instance(
-      'idbox'
-    )
-    await rendezvousConfiguration.set({ url })
-    navigation.navigate('AppLoading')
-  })
+  const handleBarCodeScanned = useCallback(
+    async ({ type, data: url }: { type: string; data: string }) => {
+      console.log(`Code scanned. Type: ${type}, url: ${url}`)
+      setScanning(false)
+      const rendezvousConfiguration =
+        await MultiRendezvousConfiguration.instance('idbox')
+      await rendezvousConfiguration.set({ url })
+      router.replace('/')
+    },
+    []
+  )
 
   return (
     <PageContainer>
@@ -78,15 +77,15 @@ const ScanIdBoxTelepath = ({ navigation }) => {
         ) : null}
         <Button
           title={scanning ? 'Cancel' : 'Scan...'}
-          color={scanning ? (theme === 'light' ? 'black' : 'white') : '#FF6699'}
+          color={scanning ? (theme.dark ? 'white' : 'black') : '#FF6699'}
           disabled={!cameraEnabled}
           accessibilityLabel='Scan QR-Code'
           onPress={scanning ? cancel : scanQRCode}
         />
       </Container>
-      <DiagnosticsSensor navigation={navigation} onExit={exitDiagnostics} />
+      <DiagnosticsSensor />
     </PageContainer>
   )
 }
 
-export { ScanIdBoxTelepath }
+export { ScanIdBox }

@@ -1,9 +1,8 @@
-type Json = string | number
-type JsonArray = Array<string> | Array<number>
+type Json = string | number | boolean | null | Json[] | { [key: string]: Json }
 
 type RendezvousMessage = {
   method: string
-  params: Array<Record<string, Json | JsonArray>>
+  params: Array<Json>
 }
 
 export type { RendezvousMessage }
