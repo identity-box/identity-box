@@ -40,20 +40,36 @@ const BackupMnemonic = () => {
 
   const onRendezvousReady = useCallback(
     async (rendezvousConnection: RendezvousClientConnection) => {
-      const identityManager = await IdentityManager.instance()
-      const { encryptedBackup, mnemonic } =
-        await identityManager.createEncryptedBackup()
-      const backupId = backupIdFromMnemonic(mnemonic)
-      setMnemonic(mnemonic)
-      await Clipboard.setStringAsync(mnemonic)
-      console.log('encryptedBackup=', encryptedBackup)
-      BoxServices.withConnection(rendezvousConnection).writeBackupToIdBox(
-        encryptedBackup,
-        backupId,
-        identityManager.keyNames
-      )
+      try {
+        const identityManager = await IdentityManager.instance()
+        const { encryptedBackup, mnemonic } =
+          await identityManager.createEncryptedBackup()
+        if (!mnemonic) {
+          LogDb.log(
+            'BackupMnemonic#onRendezvousReady: identityManager.createEncryptedBackup() returns undefined mnemonic!'
+          )
+          throw new Error(
+            'FATAL: error creating mnemonic when creating encrypted backup!'
+          )
+        }
+        const backupId = backupIdFromMnemonic(mnemonic)
+        setMnemonic(mnemonic)
+        await Clipboard.setStringAsync(mnemonic)
+        console.log('encryptedBackup=', encryptedBackup)
+        BoxServices.withConnection(rendezvousConnection).writeBackupToIdBox(
+          encryptedBackup,
+          backupId,
+          identityManager.keyNames
+        )
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          showBoundary(e)
+        } else {
+          showBoundary(new Error('unknown error!'))
+        }
+      }
     },
-    []
+    [showBoundary]
   )
 
   const onRendezvousMessage = useCallback(

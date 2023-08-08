@@ -73,7 +73,7 @@ const CurrentIdentity = () => {
   }, [])
 
   const addNewIdentity = useCallback(({ did }: { did: string }) => {
-    router.push({ pathname: '/add-new-identity', params: { did } })
+    router.push({ pathname: '/identity/add-new-identity', params: { did } })
     // navigation.navigate('AddNewIdentity', { did })
   }, [])
 

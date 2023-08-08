@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
-import { TypedArrays } from '@react-frontend-developer/buffers'
+import { Buffers, TypedArrays } from '@react-frontend-developer/buffers'
 
 import { randomBytes, entropyToMnemonic } from '~/crypto'
 
@@ -101,9 +101,10 @@ const IdBoxKeyNaming = ({ navigation }) => {
 
   const doBackup = useCallback(async () => {
     const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
+    const backupKeyBase64 = await SecureStore.getItemAsync('backupKey')
     if (backupEnabled) {
-      const backupKey = base64url.toBuffer(
-        await SecureStore.getItemAsync('backupKey')
+      const backupKey = Buffers.copyToUint8Array(
+        base64url.toBuffer(backupKeyBase64)
       )
       const encryptedBackup =
         await identityManager.current.createEncryptedBackupWithKey(backupKey)

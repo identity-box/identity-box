@@ -12,6 +12,13 @@ export default function CurrentIdentityStack() {
         name='select-identity'
         options={{ presentation: 'modal' }}
       />
+      <Stack.Screen
+        name='add-new-identity'
+        options={{
+          animation: 'slide_from_bottom',
+          presentation: 'fullScreenModal'
+        }}
+      />
     </Stack>
   )
 }

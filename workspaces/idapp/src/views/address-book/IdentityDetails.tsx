@@ -5,10 +5,7 @@ import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
 import { Button, ActivityIndicator, DimensionValue } from 'react-native'
-import nacl from 'tweetnacl'
-import { TypedArrays } from '@react-frontend-developer/buffers'
-
-import { entropyToMnemonic } from '~/crypto'
+import { Buffers } from '@react-frontend-developer/buffers'
 
 import { IdentityManager, useIdentity } from '~/identity'
 import { useRendezvous } from '~/rendezvous'
@@ -20,6 +17,7 @@ import {
 } from '@identity-box/rendezvous-client'
 import { BoxServices } from '~/box-services'
 import { LogDb } from '~/views/diagnostics'
+import { backupIdFromBackupKey } from '~/crypto/backupIdFromBackupKey'
 
 const Container = styled.View({
   flex: 1,
@@ -72,12 +70,6 @@ const IdentityDetails = () => {
   const [inProgress, setInProgress] = useState(false)
   const [identityManagerReady, setIdentityManagerReady] = useState(false)
 
-  const backupIdFromBackupKey = useCallback((backupKey: Buffer) => {
-    const mnemonic = entropyToMnemonic(backupKey)
-    const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
-    return base64url.encode(Buffer.from(nacl.hash(mnemonicUint8Array)))
-  }, [])
-
   const doBackup = useCallback(async () => {
     try {
       const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
@@ -96,7 +88,9 @@ const IdentityDetails = () => {
           throw new Error('FATAL: Cannot Access Identities!')
         }
 
-        const backupKey = base64url.toBuffer(backupKeyBase64)
+        const backupKey = Buffers.copyToUint8Array(
+          base64url.toBuffer(backupKeyBase64)
+        )
         const encryptedBackup =
           await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
@@ -115,7 +109,7 @@ const IdentityDetails = () => {
         showBoundary(new Error('unknown error!'))
       }
     }
-  }, [backupIdFromBackupKey, showBoundary])
+  }, [showBoundary])
 
   const onIdentityManagerReady = useCallback((idManager: IdentityManager) => {
     identityManager.current = idManager

@@ -4,7 +4,7 @@ import { StackActions, NavigationActions } from 'react-navigation'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
-import { TypedArrays } from '@react-frontend-developer/buffers'
+import { Buffers, TypedArrays } from '@react-frontend-developer/buffers'
 
 import { ThemedButton } from '~/theme'
 import { randomBytes, entropyToMnemonic } from '~/crypto'
@@ -106,9 +106,10 @@ const CreateNewIdentity = ({ navigation }) => {
       await identityManager.current.addIdentity(identity)
       await identityManager.current.setCurrent(name)
       const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
-      if (backupEnabled) {
-        const backupKey = base64url.toBuffer(
-          await SecureStore.getItemAsync('backupKey')
+      const backupKeyBase64 = await SecureStore.getItemAsync('backupKey')
+      if (backupEnabled && backupKeyBase64) {
+        const backupKey = Buffers.copyToUint8Array(
+          base64url.toBuffer(backupKeyBase64)
         )
         const encryptedBackup =
           await identityManager.current.createEncryptedBackupWithKey(backupKey)
