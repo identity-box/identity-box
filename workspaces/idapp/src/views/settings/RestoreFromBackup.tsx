@@ -100,6 +100,7 @@ const RestoreFromBackup = () => {
 
   const validateMnemonic = useCallback(() => {
     try {
+      if (!mnemonic) return
       const entropy = mnemonicToEntropy(mnemonic)
       console.log('entropy=', entropy)
       const key = TypedArrays.string2Uint8Array(entropy, 'hex')

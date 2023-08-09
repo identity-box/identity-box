@@ -37,7 +37,10 @@ const IdBoxKeyNaming = ({ navigation }) => {
       rendezvousConnection.current = rc
     },
     onMessage: async (message) => {
-      console.log('received message: ', message)
+      console.log(
+        'received message: ',
+        JSON.stringify(message, undefined, '  ')
+      )
       if (message.method === 'migrate-response') {
         await identityManager.current.migrateIdentityNames(
           migration.current.migrationData

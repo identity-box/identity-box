@@ -90,7 +90,10 @@ const FirstIdentity = () => {
 
   const onRendezvousMessage = useCallback(
     (message: RendezvousMessage) => {
-      console.log('received message: ', message)
+      console.log(
+        'received message: ',
+        JSON.stringify(message, undefined, '  ')
+      )
       if (
         message.method === 'create-identity-response' &&
         message.params &&

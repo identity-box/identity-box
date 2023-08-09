@@ -162,7 +162,10 @@ const IdentityDetails = () => {
 
   const onRendezvousMessage = useCallback(
     (message: RendezvousMessage) => {
-      console.log('received message: ', message)
+      console.log(
+        'received message: ',
+        JSON.stringify(message, undefined, '  ')
+      )
       if (message.method === 'backup-response') {
         router.back()
       } else if (message.method === 'delete-response') {

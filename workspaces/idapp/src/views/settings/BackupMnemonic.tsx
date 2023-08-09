@@ -74,7 +74,10 @@ const BackupMnemonic = () => {
 
   const onRendezvousMessage = useCallback(
     async (message: RendezvousMessage) => {
-      console.log('received message: ', message)
+      console.log(
+        'received message: ',
+        JSON.stringify(message, undefined, '  ')
+      )
       if (message.method === 'backup-response') {
         await SecureStore.setItemAsync('backupEnabled', 'true')
         updateAppConfig((appConfig) => ({

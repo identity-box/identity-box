@@ -150,7 +150,7 @@ const AddNewIdentity = () => {
   }, [])
 
   const onRendezvousMessage = useCallback((message: RendezvousMessage) => {
-    console.log('received message: ', message)
+    console.log('received message: ', JSON.stringify(message, undefined, '  '))
     setInProgress(false)
     if (message.method === 'backup-response') {
       if (router.canGoBack()) {

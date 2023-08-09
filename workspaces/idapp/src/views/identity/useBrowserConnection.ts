@@ -119,7 +119,10 @@ const useBrowserConnection = ({
             'fatal error: identityManager.current.getCurrent() returns undefined'
           )
         }
-        console.log('received message: ', message)
+        console.log(
+          'received message: ',
+          JSON.stringify(message, undefined, '  ')
+        )
         if (message.method === 'get_current_identity') {
           sendCurrentIdentity(identity.did)
         } else if (message.method === 'select_identity') {
@@ -131,7 +134,10 @@ const useBrowserConnection = ({
           message.method === 'encrypt-content' &&
           message.params.length > 0
         ) {
-          const { content, theirPublicKey } = message.params[0]
+          const { content, theirPublicKey } = message.params[0] as {
+            content: string
+            theirPublicKey: string
+          }
           const nonce = await randomBytes(nacl.box.nonceLength)
           const mySecretKey = identity.encryptionKey.secretKey
           const messageBuffer = base64url.toBuffer(content as string)
@@ -156,7 +162,12 @@ const useBrowserConnection = ({
             nonceBase64,
             theirPublicKeyBase64,
             didRecipient
-          } = message.params[0]
+          } = message.params[0] as {
+            encryptedContentBase64: string
+            nonceBase64: string
+            theirPublicKeyBase64: string
+            didRecipient: string
+          }
           const box = base64url.toBuffer(encryptedContentBase64 as string)
           const nonce = base64url.toBuffer(nonceBase64 as string)
           const theirPublicKey = base64url.toBuffer(
