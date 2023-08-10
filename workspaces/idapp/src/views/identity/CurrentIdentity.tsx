@@ -74,7 +74,6 @@ const CurrentIdentity = () => {
 
   const addNewIdentity = useCallback(({ did }: { did: string }) => {
     router.push({ pathname: '/identity/add-new-identity', params: { did } })
-    // navigation.navigate('AddNewIdentity', { did })
   }, [])
 
   const scanQRCode = useCallback(() => {

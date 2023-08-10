@@ -34,7 +34,7 @@ export default function HomeLayout() {
             <Stack.Screen
               name='first-identity'
               options={{
-                animation: 'slide_from_bottom',
+                animation: 'fade',
                 presentation: 'card'
               }}
             />
@@ -55,22 +55,22 @@ export default function HomeLayout() {
             <Stack.Screen
               name='scan-idbox'
               options={{
-                animation: 'slide_from_bottom',
-                presentation: 'fullScreenModal'
+                animation: 'fade',
+                presentation: 'card'
               }}
             />
             <Stack.Screen
               name='restore-from-backup'
               options={{
-                animation: 'slide_from_bottom',
-                presentation: 'fullScreenModal'
+                animation: 'fade',
+                presentation: 'card'
               }}
             />
             <Stack.Screen
               name='app-loading'
               options={{
                 animation: 'fade',
-                presentation: 'fullScreenModal'
+                presentation: 'card'
               }}
             />
           </Stack>

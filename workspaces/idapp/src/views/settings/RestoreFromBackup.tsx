@@ -60,7 +60,7 @@ const RestoreFromBackup = () => {
             encryptedBackup: string
           }
           if (encryptedBackup === 'not found') {
-            router.push('/backup-not-found')
+            router.replace('/backup-not-found')
           } else {
             const identityManager = await IdentityManager.instance()
             await identityManager.initFromEncryptedBackup(

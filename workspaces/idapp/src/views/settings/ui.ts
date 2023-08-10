@@ -1,11 +1,12 @@
 import styled from '@emotion/native'
+import { ThemeConstants } from '~/theme'
 
-const Container = styled.View(({ theme: { theme } }) => ({
+const Container = styled.View(({ theme: { colorScheme } }) => ({
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: theme.colors.background
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
 const Subcontainer = styled.View({
@@ -29,9 +30,9 @@ const Header = styled.Text({
   marginBottom: 20
 })
 
-const Description = styled.Text(({ theme: { colorScheme: theme } }) => ({
+const Description = styled.Text(({ theme: { colorScheme } }) => ({
   fontSize: 12,
-  color: theme === 'light' ? '#555' : '#ccc',
+  color: ThemeConstants[colorScheme].dimmedTextColor,
   textAlign: 'center',
   marginBottom: 20
 }))
@@ -57,25 +58,23 @@ const PassphraseMnemonicContainer = styled.View({
   paddingRight: 5
 })
 
-const PassphraseMnemonic = styled.TextInput(
-  ({ theme: { colorScheme: theme } }) => ({
-    fontSize: 12,
-    color: theme === 'light' ? 'black' : 'white',
-    textAlignVertical: 'top',
-    height: '100%',
-    width: '100%',
-    textAlign: 'left',
-    backgroundColor: theme === 'light' ? 'white' : '#1a1a1a'
-  })
-)
+const PassphraseMnemonic = styled.TextInput(({ theme: { colorScheme } }) => ({
+  fontSize: 12,
+  color: ThemeConstants[colorScheme].textColor,
+  textAlignVertical: 'top',
+  height: '100%',
+  width: '100%',
+  textAlign: 'left',
+  backgroundColor: colorScheme === 'light' ? 'white' : '#1a1a1a'
+}))
 
-const MnemonicText = styled.Text(({ theme: { colorScheme: theme } }) => ({
+const MnemonicText = styled.Text(({ theme: { colorScheme } }) => ({
   paddingTop: 5,
   paddingRight: 5,
   paddingBottom: 5,
   paddingLeft: 5,
   borderWidth: 1,
-  borderColor: theme === 'light' ? 'black' : 'white',
+  borderColor: colorScheme === 'light' ? 'black' : 'white',
   textAlign: 'center',
   marginBottom: 50
 }))

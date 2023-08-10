@@ -1,22 +1,23 @@
 import styled from '@emotion/native'
+import { ThemeConstants } from '~/theme'
 
-const PageContainer = styled.View(({ theme: { theme } }) => ({
+const PageContainer = styled.View(({ theme: { colorScheme } }) => ({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: theme.colors.background
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
-const Container = styled.View(({ theme: { theme } }) => ({
+const Container = styled.View(({ theme: { colorScheme } }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
   height: '70%',
   width: '80%',
-  backgroundColor: theme.colors.background
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
 const Welcome = styled.Text({
