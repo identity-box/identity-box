@@ -17,7 +17,7 @@ const Diagnostics = ({ error }: { error?: Error }) => {
     if (router.canGoBack()) {
       router.back()
     } else {
-      router.push('/')
+      router.push('/app-loading')
     }
   }, [])
 

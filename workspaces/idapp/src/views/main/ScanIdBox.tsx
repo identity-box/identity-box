@@ -40,7 +40,7 @@ const ScanIdBox = () => {
       const rendezvousConfiguration =
         await MultiRendezvousConfiguration.instance('idbox')
       await rendezvousConfiguration.set({ url })
-      router.replace('/')
+      router.replace('/app-loading')
     },
     []
   )

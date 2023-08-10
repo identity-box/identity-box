@@ -120,7 +120,7 @@ const CurrentIdentity = () => {
             const rendezvousConfiguration =
               await MultiRendezvousConfiguration.instance('idbox')
             await rendezvousConfiguration.set({ url: baseUrl })
-            router.replace('/')
+            router.replace('/app-loading')
           }
         }
       }

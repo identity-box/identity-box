@@ -27,11 +27,31 @@ export default function HomeLayout() {
         >
           <Stack
             screenOptions={{
-              headerShown: false,
-              animation: 'fade'
+              headerShown: false
             }}
           >
             <Stack.Screen name='index' />
+            <Stack.Screen
+              name='first-identity'
+              options={{
+                animation: 'slide_from_bottom',
+                presentation: 'card'
+              }}
+            />
+            <Stack.Screen
+              name='(tabs)'
+              options={{
+                animation: 'fade',
+                presentation: 'card'
+              }}
+            />
+            <Stack.Screen
+              name='scan-idbox-modal'
+              options={{
+                animation: 'slide_from_bottom',
+                presentation: 'modal'
+              }}
+            />
             <Stack.Screen
               name='scan-idbox'
               options={{
@@ -40,17 +60,17 @@ export default function HomeLayout() {
               }}
             />
             <Stack.Screen
-              name='first-identity'
+              name='restore-from-backup'
               options={{
-                animation: 'fade',
-                presentation: 'fullScreenModal'
+                animation: 'slide_from_bottom',
+                presentation: 'modal'
               }}
             />
             <Stack.Screen
-              name='restore-from-backup'
+              name='app-loading'
               options={{
                 animation: 'fade',
-                presentation: 'modal'
+                presentation: 'fullScreenModal'
               }}
             />
           </Stack>

@@ -6,8 +6,6 @@ import { FontAwesome, MaterialIcons, Feather } from '@expo/vector-icons'
 export default function MainLayout() {
   const { colorScheme } = useTheme()
 
-  console.log('MainLayout Theme=', colorScheme)
-
   return (
     <Tabs
       screenOptions={{

@@ -20,8 +20,8 @@ export default function SettingsStack() {
         name='confirm-factory-reset'
         options={{
           headerShown: false,
-          animation: 'fade',
-          presentation: 'fullScreenModal'
+          animation: 'slide_from_bottom',
+          presentation: 'modal'
         }}
       />
       <Stack.Screen

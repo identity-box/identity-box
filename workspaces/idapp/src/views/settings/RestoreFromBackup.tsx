@@ -122,7 +122,11 @@ const RestoreFromBackup = () => {
   }, [])
 
   const onCancel = useCallback(() => {
-    router.replace('/first-identity')
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      router.replace('/first-identity')
+    }
   }, [])
 
   const onRestore = useCallback(() => {

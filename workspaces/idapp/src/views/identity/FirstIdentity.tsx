@@ -210,11 +210,11 @@ const FirstIdentity = () => {
   }, [name, showBoundary])
 
   const onRestoreFromBackup = () => {
-    router.replace('/restore-from-backup')
+    router.push('/restore-from-backup')
   }
 
   const onScanIdBox = () => {
-    router.replace('/scan-idbox')
+    router.push('/scan-idbox-modal')
   }
 
   return (
