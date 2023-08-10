@@ -63,7 +63,7 @@ export default function HomeLayout() {
               name='restore-from-backup'
               options={{
                 animation: 'slide_from_bottom',
-                presentation: 'modal'
+                presentation: 'fullScreenModal'
               }}
             />
             <Stack.Screen
