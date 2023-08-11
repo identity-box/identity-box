@@ -89,15 +89,15 @@ const SelectIdentity = () => {
     }
   }
 
-  const onSelectPeerIdentity = async (item: string) => {
-    const identity = { name: item, did: peerIdentities[item] }
+  const onSelectPeerIdentity = async (item: React.ReactNode) => {
+    const identity = { name: item, did: peerIdentities[item as string] }
     console.log('selected identity:', identity)
     await sendIdentity(identity)
     router.back()
   }
 
-  const onSelectOwnIdentity = async (item: string) => {
-    const id = identities[item]
+  const onSelectOwnIdentity = async (item: React.ReactNode) => {
+    const id = identities[item as string]
     const identity = { name: id.name, did: id.did, isOwn: true }
     console.log('selected identity:', identity)
     await sendIdentity(identity)

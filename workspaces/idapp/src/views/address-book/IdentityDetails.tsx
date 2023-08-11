@@ -30,11 +30,12 @@ import { backupIdFromBackupKey } from '~/crypto/backupIdFromBackupKey'
 import { ThemeConstants } from '~/theme'
 import { useTheme } from '@emotion/react'
 
-const Container = styled.View({
+const Container = styled.View(({ theme: { colorScheme } }) => ({
   flex: 1,
   alignItems: 'center',
-  justifyContent: 'center'
-})
+  justifyContent: 'center',
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
+}))
 
 const SubContainer = styled.View({
   flexDirection: 'column',

@@ -129,7 +129,7 @@ const CurrentIdentity = () => {
 
   const switchIdentity = useCallback(() => {
     console.log('switching identity')
-    router.replace('/switch-identity')
+    router.push('/identity/switch-identity')
   }, [])
 
   return (
