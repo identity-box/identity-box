@@ -68,18 +68,17 @@ const AddressBook = () => {
   })
 
   const onSelectPeerIdentity = useCallback(
-    (item: string) => {
-      const identity = { name: item, did: peerIdentities[item] }
+    (item: React.ReactNode) => {
+      const identity = { name: item, did: peerIdentities[item as string] }
       console.log("navigation.navigate('IdentityDetails', identity):", identity)
-      // navigation.navigate('IdentityDetails', identity)
     },
     [peerIdentities]
   )
 
   const onSelectOwnIdentity = useCallback(
-    (item: string) => {
+    (item: React.ReactNode) => {
       console.log('selected:', item)
-      const id = identities[item]
+      const id = identities[item as string]
       const identity = {
         name: id.name,
         did: id.did,

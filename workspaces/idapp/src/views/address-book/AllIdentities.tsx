@@ -2,12 +2,19 @@ import { ListWithHeader } from '~/ui'
 
 import { ListContainer } from './ui'
 
+type AllIdentitiesProps = {
+  identityNames: Array<string>
+  peerIdentities: Record<string, string>
+  onSelectPeerIdentity: (identityName?: React.ReactNode) => void
+  onSelectOwnIdentity: (identityName?: React.ReactNode) => void
+}
+
 const AllIdentities = ({
   identityNames,
   peerIdentities,
   onSelectPeerIdentity,
   onSelectOwnIdentity
-}) => {
+}: AllIdentitiesProps) => {
   return (
     <>
       <ListContainer>
