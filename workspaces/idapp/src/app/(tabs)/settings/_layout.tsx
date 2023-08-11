@@ -21,7 +21,7 @@ export default function SettingsStack() {
         options={{
           headerShown: false,
           animation: 'slide_from_bottom',
-          presentation: 'modal'
+          presentation: 'fullScreenModal'
         }}
       />
       <Stack.Screen
