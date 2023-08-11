@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import { TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -10,7 +11,7 @@ const AddIdentityButton = () => (
       justifyContent: 'center',
       alignItems: 'center'
     }}
-    onPress={() => console.log("navigation.navigate('CreateNewIdentity')")}
+    onPress={() => router.push('/address-book/create-new-identity')}
   >
     <MaterialCommunityIcons
       name='account-plus-outline'

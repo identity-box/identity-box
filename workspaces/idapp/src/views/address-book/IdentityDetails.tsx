@@ -1,10 +1,19 @@
 import { useState, useCallback, useRef } from 'react'
-import { useLocalSearchParams, router } from 'expo-router'
+import {
+  Button,
+  ActivityIndicator,
+  DimensionValue,
+  TouchableOpacity,
+  Text,
+  View
+} from 'react-native'
+import type { TouchableOpacityProps } from 'react-native'
+import { useLocalSearchParams, router, Stack } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
 import { useErrorBoundary } from 'react-error-boundary'
 import * as SecureStore from 'expo-secure-store'
 import base64url from 'base64url'
 import styled from '@emotion/native'
-import { Button, ActivityIndicator, DimensionValue } from 'react-native'
 import { Buffers } from '@react-frontend-developer/buffers'
 
 import { IdentityManager, useIdentity } from '~/identity'
@@ -18,6 +27,8 @@ import {
 import { BoxServices } from '~/box-services'
 import { LogDb } from '~/views/diagnostics'
 import { backupIdFromBackupKey } from '~/crypto/backupIdFromBackupKey'
+import { ThemeConstants } from '~/theme'
+import { useTheme } from '@emotion/react'
 
 const Container = styled.View({
   flex: 1,
@@ -50,6 +61,48 @@ const Did = styled.Text({
   textAlign: 'center',
   flexGrow: 1
 })
+
+interface BackButtonProps extends TouchableOpacityProps {
+  title: string
+  disabled: boolean
+}
+
+const BackButton = ({ title, disabled, ...props }: BackButtonProps) => {
+  const { colorScheme } = useTheme()
+
+  return (
+    <TouchableOpacity {...props} disabled={disabled}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+        }}
+      >
+        <Ionicons
+          name='ios-chevron-back'
+          size={24}
+          color={
+            disabled
+              ? ThemeConstants[colorScheme].disabledColor
+              : ThemeConstants[colorScheme].accentColor
+          }
+        />
+        <Text
+          style={{
+            textAlign: 'left',
+            fontSize: 18,
+            color: disabled
+              ? ThemeConstants[colorScheme].disabledColor
+              : ThemeConstants[colorScheme].accentColor
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 const IdentityDetails = () => {
   const { showBoundary } = useErrorBoundary()
@@ -217,15 +270,31 @@ const IdentityDetails = () => {
   }, [isOwn, inProgress, deleteIdentity])
 
   return (
-    <Container>
-      <SubContainer>
-        <IdentityName>{name}</IdentityName>
-        <Did>{did}</Did>
-        <QRCodeThemed value={did} size={150} />
-        <Separator size={40} />
-        {identityManagerReady && renderButtonIfAppropriate()}
-      </SubContainer>
-    </Container>
+    <>
+      <Stack.Screen
+        options={{
+          gestureEnabled: false,
+          headerLeft: () => {
+            return (
+              <BackButton
+                title='Identities'
+                disabled={inProgress}
+                onPress={() => router.back()}
+              />
+            )
+          }
+        }}
+      />
+      <Container>
+        <SubContainer>
+          <IdentityName>{name}</IdentityName>
+          <Did>{did}</Did>
+          <QRCodeThemed value={did} size={150} />
+          <Separator size={40} />
+          {identityManagerReady && renderButtonIfAppropriate()}
+        </SubContainer>
+      </Container>
+    </>
   )
 }
 
