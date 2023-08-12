@@ -61,7 +61,7 @@ const useRendezvous = ({
       if (!baseUrl) {
         baseUrl = await getUrl()
       }
-      console.log('baseUrl=', baseUrl)
+      console.log('baseUrl[rendezvous]=', baseUrl)
       rendezvousClient.current = new RendezvousClient({
         baseUrl,
         onMessage: (msg) => {

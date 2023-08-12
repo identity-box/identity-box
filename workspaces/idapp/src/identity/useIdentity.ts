@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { IdentityManager } from './IdentityManager'
 
 import type {
@@ -29,23 +29,20 @@ const useIdentity = ({
   const identityManager = useRef<IdentityManager | undefined>(undefined)
   const subscription = useRef<number | undefined>(undefined)
 
-  const addPeerIdentity = async ({
-    name,
-    did
-  }: {
-    name: string
-    did: string
-  }) => {
-    await identityManager.current?.addPeerIdentity({ name, did })
-  }
+  const addPeerIdentity = useCallback(
+    async ({ name, did }: { name: string; did: string }) => {
+      await identityManager.current?.addPeerIdentity({ name, did })
+    },
+    []
+  )
 
-  const deletePeerIdentity = async ({ name }: { name: string }) => {
+  const deletePeerIdentity = useCallback(async ({ name }: { name: string }) => {
     await identityManager.current?.deletePeerIdentity({ name })
-  }
+  }, [])
 
-  const deleteOwnIdentity = async ({ name }: { name: string }) => {
+  const deleteOwnIdentity = useCallback(async ({ name }: { name: string }) => {
     await identityManager.current?.deleteIdentity({ name })
-  }
+  }, [])
 
   useEffect(() => {
     const getIdentityManager = async () => {
