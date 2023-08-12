@@ -1,11 +1,12 @@
 import styled from '@emotion/native'
+import { ThemeConstants } from '~/theme'
 
-const Container = styled.View(({ theme: { theme } }) => ({
+const Container = styled.View(({ theme: { colorScheme } }) => ({
   display: 'flex',
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: theme.colors.background
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
 const Subcontainer = styled.View({
@@ -16,15 +17,16 @@ const Subcontainer = styled.View({
   height: '80%'
 })
 
-const Header = styled.Text({
+const Header = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 20,
   textAlign: 'center',
   marginBottom: 20
-})
+}))
 
-const Description = styled.Text(({ theme: { colorScheme: theme } }) => ({
+const Description = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].dimmedTextColor,
   fontSize: 12,
-  color: theme === 'light' ? '#333' : '#ccc',
   textAlign: 'center',
   marginBottom: 20
 }))

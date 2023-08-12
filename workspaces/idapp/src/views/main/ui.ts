@@ -20,15 +20,17 @@ const Container = styled.View(({ theme: { colorScheme } }) => ({
   backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
-const Welcome = styled.Text({
+const Welcome = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 20,
   textAlign: 'center',
   margin: 10
-})
+}))
 
-const Description = styled.Text({
+const Description = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].dimmedTextColor,
   fontSize: 12,
   textAlign: 'center'
-})
+}))
 
 export { PageContainer, Container, Welcome, Description }

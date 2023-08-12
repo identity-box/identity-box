@@ -24,15 +24,16 @@ const Wrapper = styled.View({
   width: '100%'
 })
 
-const Header = styled.Text({
+const Header = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 20,
   textAlign: 'center',
   marginBottom: 20
-})
+}))
 
 const Description = styled.Text(({ theme: { colorScheme } }) => ({
-  fontSize: 12,
   color: ThemeConstants[colorScheme].dimmedTextColor,
+  fontSize: 12,
   textAlign: 'center',
   marginBottom: 20
 }))
@@ -69,6 +70,7 @@ const PassphraseMnemonic = styled.TextInput(({ theme: { colorScheme } }) => ({
 }))
 
 const MnemonicText = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   paddingTop: 5,
   paddingRight: 5,
   paddingBottom: 5,

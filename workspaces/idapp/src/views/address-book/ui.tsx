@@ -17,20 +17,20 @@ const SubContainer = styled.View({
   height: '80%'
 })
 
-const Header = styled.Text({
+const Header = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 20,
-  textAlign: 'center',
-  color: 'white'
-})
-
-const Description = styled.Text(({ theme: { colorScheme: theme } }) => ({
-  fontSize: 12,
-  color: ThemeConstants[theme].dimmedTextColor,
   textAlign: 'center'
 }))
 
-const IdentityName = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
-  color: theme === 'light' ? 'black' : 'white',
+const Description = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].dimmedTextColor,
+  fontSize: 12,
+  textAlign: 'center'
+}))
+
+const IdentityName = styled.TextInput(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 24,
   fontWeight: 'bold',
   marginTop: 30,
@@ -39,13 +39,13 @@ const IdentityName = styled.TextInput(({ theme: { colorScheme: theme } }) => ({
   textAlign: 'center'
 }))
 
-const Did = styled.Text(({ theme: { colorScheme: theme } }) => ({
+const Did = styled.Text(({ theme: { colorScheme } }) => ({
   fontSize: 12,
   marginTop: 20,
   width: 150,
   flexGrow: 1,
   textAlign: 'center',
-  color: ThemeConstants[theme].dimmedTextColor
+  color: ThemeConstants[colorScheme].dimmedTextColor
 }))
 
 const Row = styled.View({

@@ -45,23 +45,25 @@ const SubContainer = styled.View({
   height: '80%'
 })
 
-const IdentityName = styled.Text({
+const IdentityName = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 32,
   fontWeight: 'bold',
   marginBottom: 20
-})
+}))
 
 const Separator = styled.View(({ size }: { size: DimensionValue }) => ({
   width: 1,
   height: size
 }))
 
-const Did = styled.Text({
+const Did = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 12,
   marginBottom: 50,
   textAlign: 'center',
   flexGrow: 1
-})
+}))
 
 interface BackButtonProps extends TouchableOpacityProps {
   title: string
@@ -274,7 +276,7 @@ const IdentityDetails = () => {
     <>
       <Stack.Screen
         options={{
-          gestureEnabled: false,
+          gestureEnabled: !inProgress,
           headerLeft: () => {
             return (
               <BackButton

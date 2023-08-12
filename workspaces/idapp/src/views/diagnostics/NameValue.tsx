@@ -1,24 +1,25 @@
 import styled from '@emotion/native'
+import { ThemeConstants } from '~/theme'
 
-const Container = styled.View(({ theme: { theme } }) => ({
+const Container = styled.View(({ theme: { colorScheme } }) => ({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
   width: '100%',
-  backgroundColor: theme.colors.background
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
-const Name = styled.Text(({ theme: { theme } }) => ({
+const Name = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 12,
-  textAlign: 'left',
-  color: theme.colors.text
+  textAlign: 'left'
 }))
 
-const Value = styled.Text(({ theme: { theme } }) => ({
+const Value = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 12,
-  textAlign: 'left',
-  color: theme.colors.text
+  textAlign: 'left'
 }))
 
 type NameValueProps = {

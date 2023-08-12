@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import type { ColorValue } from 'react-native'
 import styled from '@emotion/native'
+import { useTheme } from '@emotion/react'
+import { ThemeConstants } from '~/theme'
 
 const TouchableHighlight = styled.TouchableHighlight({
   paddingTop: 10,
@@ -31,6 +33,7 @@ const IdentityCell = ({
   textAlign = 'left',
   backgroundColor = 'transparent'
 }: IdentityCellProps) => {
+  const { colorScheme } = useTheme()
   return (
     <TouchableOpacity
       activeOpacity={0.6}
@@ -46,6 +49,7 @@ const IdentityCell = ({
       >
         <Text
           style={{
+            color: ThemeConstants[colorScheme].textColor,
             fontSize: size,
             textAlign
           }}

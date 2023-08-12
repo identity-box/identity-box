@@ -1,4 +1,5 @@
 import styled from '@emotion/native'
+import { ThemeConstants } from '~/theme'
 
 const PageContainer = styled.View(({ theme: { theme } }) => ({
   flex: 1,
@@ -9,20 +10,21 @@ const PageContainer = styled.View(({ theme: { theme } }) => ({
   backgroundColor: theme.colors.background
 }))
 
-const Container = styled.View(({ theme: { theme } }) => ({
+const Container = styled.View(({ theme: { colorScheme } }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
   alignItems: 'center',
   height: '70%',
   width: '80%',
-  backgroundColor: theme.colors.background
+  backgroundColor: ThemeConstants[colorScheme].backgroundColor
 }))
 
-const LogItem = styled.Text({
+const LogItem = styled.Text(({ theme: { colorScheme } }) => ({
+  color: ThemeConstants[colorScheme].textColor,
   fontSize: 12,
   padding: 5,
   textAlign: 'left'
-})
+}))
 
 export { PageContainer, Container, LogItem }
