@@ -483,5 +483,6 @@ export type {
   IdentityType,
   OnOwnIdentitiesChangedFunctionParams,
   OnPeerIdentitiesChangedFunctionParams,
-  CurrentIdentityChangedFunctionParams
+  CurrentIdentityChangedFunctionParams,
+  MigrationData
 }

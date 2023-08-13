@@ -19,7 +19,7 @@ import {
   Row,
   QRCodeThemed
 } from './ui'
-import { LogDb } from '../diagnostics'
+import { LogDb } from '../diagnostics/LogDb'
 import { useErrorBoundary } from 'react-error-boundary'
 import { BoxServices } from '~/box-services'
 import { backupIdFromBackupKey } from '~/crypto/backupIdFromBackupKey'
@@ -73,7 +73,7 @@ const AddNewIdentity = () => {
         const encryptedBackup =
           await identityManager.current.createEncryptedBackupWithKey(backupKey)
         const backupId = backupIdFromBackupKey(backupKey)
-        boxServices.current.writeBackupToIdBox(
+        await boxServices.current.writeBackupToIdBox(
           encryptedBackup,
           backupId,
           identityManager.current.keyNames

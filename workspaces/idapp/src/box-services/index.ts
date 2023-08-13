@@ -3,6 +3,14 @@ import {
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
 
+type Migration = {
+  migrationType: 'KEY-NAMING'
+  migrationData: Array<{
+    oldName: string
+    newName: string
+  }>
+}
+
 class BoxServices {
   rendezvousConnection
 
@@ -116,6 +124,20 @@ class BoxServices {
     }
     this.sendMessageToIdBox(message)
   }
+
+  migrate = async (migration: Migration) => {
+    const message = {
+      servicePath: 'identity-box.identity-service',
+      method: 'migrate',
+      params: [
+        {
+          migration
+        }
+      ]
+    }
+    this.sendMessageToIdBox(message)
+  }
 }
 
 export { BoxServices }
+export type { Migration }

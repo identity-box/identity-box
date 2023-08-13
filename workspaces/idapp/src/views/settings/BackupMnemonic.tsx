@@ -18,7 +18,7 @@ import {
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
 import { useErrorBoundary } from 'react-error-boundary'
-import { LogDb } from '../diagnostics'
+import { LogDb } from '../diagnostics/LogDb'
 import { useRecoilState } from 'recoil'
 import { applicationConfig } from '~/app-state'
 
@@ -56,7 +56,9 @@ const BackupMnemonic = () => {
         setMnemonic(mnemonic)
         await Clipboard.setStringAsync(mnemonic)
         console.log('encryptedBackup=', encryptedBackup)
-        BoxServices.withConnection(rendezvousConnection).writeBackupToIdBox(
+        await BoxServices.withConnection(
+          rendezvousConnection
+        ).writeBackupToIdBox(
           encryptedBackup,
           backupId,
           identityManager.keyNames

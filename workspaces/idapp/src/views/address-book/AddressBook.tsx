@@ -70,7 +70,12 @@ const AddressBook = () => {
   const onSelectPeerIdentity = useCallback(
     (item: React.ReactNode) => {
       const identity = { name: item, did: peerIdentities[item as string] }
-      console.log("navigation.navigate('IdentityDetails', identity):", identity)
+      router.push({
+        pathname: '/address-book/identity-details',
+        params: {
+          ...identity
+        }
+      })
     },
     [peerIdentities]
   )

@@ -7,9 +7,9 @@ import { ThemeConstants } from '~/theme'
 import { Container, Subcontainer, Header, Description, Row } from './ui'
 
 const BackupNotFound = () => {
-  const { colorScheme: theme } = useTheme()
+  const { colorScheme } = useTheme()
   const onGotIt = () => {
-    router.replace('/restore-from-backup')
+    router.back()
   }
 
   const onLearnMore = () => {
@@ -35,7 +35,7 @@ const BackupNotFound = () => {
         </Description>
         <Row style={{ justifyContent: 'space-around' }}>
           <Button
-            color={ThemeConstants[theme].accentColor}
+            color={ThemeConstants[colorScheme].accentColor}
             onPress={onGotIt}
             title='Got it'
             accessibilityLabel='Got it!'

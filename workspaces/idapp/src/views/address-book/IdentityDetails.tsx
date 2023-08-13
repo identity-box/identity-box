@@ -12,9 +12,7 @@ import { useLocalSearchParams, router, Stack } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { useErrorBoundary } from 'react-error-boundary'
 import * as SecureStore from 'expo-secure-store'
-import base64url from 'base64url'
 import styled from '@emotion/native'
-import { Buffers } from '@react-frontend-developer/buffers'
 
 import { IdentityManager, useIdentity } from '~/identity'
 import { useRendezvous } from '~/rendezvous'
@@ -26,9 +24,9 @@ import {
 } from '@identity-box/rendezvous-client'
 import { BoxServices } from '~/box-services'
 import { LogDb } from '~/views/diagnostics'
-import { backupIdFromBackupKey } from '~/crypto/backupIdFromBackupKey'
 import { ThemeConstants } from '~/theme'
 import { useTheme } from '@emotion/react'
+import { initiateBackup } from '~/crypto'
 
 const Container = styled.View(({ theme: { colorScheme } }) => ({
   flex: 1,
@@ -128,34 +126,19 @@ const IdentityDetails = () => {
 
   const doBackup = useCallback(async () => {
     try {
-      const backupEnabled = await SecureStore.getItemAsync('backupEnabled')
-      const backupKeyBase64 = await SecureStore.getItemAsync('backupKey')
-      if (backupEnabled && backupKeyBase64) {
-        if (!boxServices.current) {
-          LogDb.log(
-            'IdentityDetails#doBackup: boxServices.current is undefined!'
-          )
-          throw new Error('FATAL: No Connection to Identity Box device!')
-        }
-        if (!identityManager.current) {
-          LogDb.log(
-            'IdentityDetails#doBackup: identityManager.current is undefined!'
-          )
-          throw new Error('FATAL: Cannot Access Identities!')
-        }
-
-        const backupKey = Buffers.copyToUint8Array(
-          base64url.toBuffer(backupKeyBase64)
+      if (!boxServices.current) {
+        LogDb.log('IdentityDetails#doBackup: boxServices.current is undefined!')
+        throw new Error('FATAL: No Connection to Identity Box device!')
+      }
+      if (!identityManager.current) {
+        LogDb.log(
+          'IdentityDetails#doBackup: identityManager.current is undefined!'
         )
-        const encryptedBackup =
-          await identityManager.current.createEncryptedBackupWithKey(backupKey)
-        const backupId = backupIdFromBackupKey(backupKey)
-        boxServices.current.writeBackupToIdBox(
-          encryptedBackup,
-          backupId,
-          identityManager.current?.keyNames
-        )
-      } else {
+        throw new Error('FATAL: Cannot Access Identities!')
+      }
+      if (
+        !(await initiateBackup(boxServices.current, identityManager.current))
+      ) {
         router.back()
       }
     } catch (e: unknown) {

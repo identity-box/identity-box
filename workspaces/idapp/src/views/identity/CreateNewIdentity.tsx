@@ -6,7 +6,7 @@ import nacl from 'tweetnacl'
 import { Buffers } from '@react-frontend-developer/buffers'
 
 import { ThemedButton } from '~/theme'
-import { randomBytes } from '~/crypto'
+import { CryptoUtils } from '~/crypto'
 import { useRendezvous } from '~/rendezvous'
 import { IdentityManager, useIdentity } from '~/identity'
 import { MrSpacer } from '~/ui'
@@ -24,7 +24,7 @@ import {
   RendezvousClientConnection,
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
-import { LogDb } from '../diagnostics'
+import { LogDb } from '../diagnostics/LogDb'
 import { useErrorBoundary } from 'react-error-boundary'
 import { router } from 'expo-router'
 import { backupIdFromBackupKey } from '~/crypto/backupIdFromBackupKey'
@@ -90,7 +90,7 @@ const CreateNewIdentity = () => {
               backupKey
             )
           const backupId = backupIdFromBackupKey(backupKey)
-          boxServices.current.writeBackupToIdBox(
+          await boxServices.current.writeBackupToIdBox(
             encryptedBackup,
             backupId,
             identityManager.current.keyNames
@@ -167,35 +167,6 @@ const CreateNewIdentity = () => {
     onReady: onIdentityManagerReady
   })
 
-  const createSigningKeyPair = async () => {
-    const secret = await randomBytes(nacl.sign.publicKeyLength)
-    nacl.setPRNG((x, n) => {
-      if (n !== nacl.sign.publicKeyLength) {
-        throw new Error(
-          `PRNG: invalid length! Expected: ${nacl.sign.publicKeyLength}, received: ${n}`
-        )
-      }
-      for (let i = 0; i < n; i++) {
-        x[i] = secret[i]
-      }
-    })
-    signingKeyPair.current = nacl.sign.keyPair()
-    nacl.setPRNG(() => {
-      throw new Error('no PRNG')
-    })
-  }
-
-  const createEncryptionKeyPair = async () => {
-    const secretKey = await randomBytes(nacl.box.secretKeyLength)
-    encryptionKeyPair.current = nacl.box.keyPair.fromSecretKey(secretKey)
-  }
-
-  const createRandomIdentityKeyName = async () => {
-    const randomValue = await randomBytes(10)
-    const timestamp = Date.now()
-    return `${timestamp}${base64url.encode(Buffer.from(randomValue))}`
-  }
-
   const onCreateIdentity = useCallback(async () => {
     try {
       if (!boxServices.current) {
@@ -206,8 +177,8 @@ const CreateNewIdentity = () => {
       }
 
       setInProgress(true)
-      await createSigningKeyPair()
-      await createEncryptionKeyPair()
+      signingKeyPair.current = await CryptoUtils.createSigningKeyPair()
+      encryptionKeyPair.current = await CryptoUtils.createEncryptionKeyPair()
 
       if (!(encryptionKeyPair.current && signingKeyPair.current)) {
         LogDb.log(
@@ -216,7 +187,7 @@ const CreateNewIdentity = () => {
         throw new Error('FATAL: encryption and signing keys are undefined!')
       }
       nameRef.current = name.trim()
-      const keyName = await createRandomIdentityKeyName()
+      const keyName = await CryptoUtils.createRandomIdentityKeyName()
       const publicEncryptionKey = base64url.encode(
         Buffer.from(encryptionKeyPair.current.publicKey)
       )

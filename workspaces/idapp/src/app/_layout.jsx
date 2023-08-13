@@ -67,6 +67,20 @@ export default function HomeLayout() {
               }}
             />
             <Stack.Screen
+              name='backup-not-found'
+              options={{
+                animation: 'slide_from_bottom',
+                presentation: 'modal'
+              }}
+            />
+            <Stack.Screen
+              name='idbox-key-naming'
+              options={{
+                animation: 'fade',
+                presentation: 'card'
+              }}
+            />
+            <Stack.Screen
               name='app-loading'
               options={{
                 animation: 'fade',

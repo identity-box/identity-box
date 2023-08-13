@@ -11,7 +11,7 @@ import {
   RendezvousClientConnection,
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
-import { LogDb } from '../diagnostics'
+import { LogDb } from '../diagnostics/LogDb'
 import { useErrorBoundary } from 'react-error-boundary'
 
 const ConfirmFactoryReset = () => {

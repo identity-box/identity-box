@@ -6,10 +6,14 @@ import { ThemeConstants } from './ThemeConstants'
 
 interface ThemedButtonProps extends TouchableOpacityProps {
   title: string
-  disabled: boolean
+  disabled?: boolean
 }
 
-const ThemedButton = ({ title, disabled, ...props }: ThemedButtonProps) => {
+const ThemedButton = ({
+  title,
+  disabled = false,
+  ...props
+}: ThemedButtonProps) => {
   const { colorScheme: theme } = useTheme()
 
   return (

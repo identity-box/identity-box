@@ -5,7 +5,7 @@ import { ActivityIndicator } from 'react-native'
 
 import { useRendezvous } from '~/rendezvous'
 import { IdentityManager } from '~/identity'
-import { LogDb } from '~/views/diagnostics'
+import { LogDb } from '~/views/diagnostics/LogDb'
 
 import { PageContainer, Container, Welcome, Description } from './ui'
 

@@ -24,7 +24,7 @@ import {
   RendezvousMessage
 } from '@identity-box/rendezvous-client'
 import { useErrorBoundary } from 'react-error-boundary'
-import { LogDb } from '../diagnostics'
+import { LogDb } from '../diagnostics/LogDb'
 
 const RestoreFromBackup = () => {
   const { showBoundary } = useErrorBoundary()
@@ -60,7 +60,8 @@ const RestoreFromBackup = () => {
             encryptedBackup: string
           }
           if (encryptedBackup === 'not found') {
-            router.replace('/backup-not-found')
+            setInProgress(false)
+            router.push('/backup-not-found')
           } else {
             const identityManager = await IdentityManager.instance()
             await identityManager.initFromEncryptedBackup(

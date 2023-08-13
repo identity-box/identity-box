@@ -1,6 +1,6 @@
 import base64url from 'base64url'
 import nacl from 'tweetnacl'
-import { LogDb } from '~/views/diagnostics'
+import { LogDb } from '~/views/diagnostics/LogDb'
 import { entropyToMnemonic } from './mnemonic/entropyToMnemonic'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 
