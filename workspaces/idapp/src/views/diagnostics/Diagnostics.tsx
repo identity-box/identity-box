@@ -68,14 +68,12 @@ const Diagnostics = ({ error }: { error?: Error }) => {
         />
         <Console />
       </Container>
-      {!router.canGoBack() ? (
-        <Button
-          title='Exit diagnostics'
-          color='#FF6699'
-          accessibilityLabel='Exit diagnostics'
-          onPress={exitDiagnostics}
-        />
-      ) : null}
+      <Button
+        title='Exit diagnostics'
+        color='#FF6699'
+        accessibilityLabel='Exit diagnostics'
+        onPress={exitDiagnostics}
+      />
     </PageContainer>
   )
 }

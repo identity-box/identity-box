@@ -8,6 +8,7 @@ import type {
 } from './IdentityManager'
 
 type IdentityObserverType = {
+  name?: string
   onReady?: (identityManager: IdentityManager) => void
   onOwnIdentitiesChanged?: (
     params: OnOwnIdentitiesChangedFunctionParams
@@ -21,6 +22,7 @@ type IdentityObserverType = {
 }
 
 const useIdentity = ({
+  name,
   onReady,
   onPeerIdentitiesChanged,
   onOwnIdentitiesChanged,
@@ -28,6 +30,7 @@ const useIdentity = ({
 }: IdentityObserverType = {}) => {
   const identityManager = useRef<IdentityManager | undefined>(undefined)
   const subscription = useRef<number | undefined>(undefined)
+  const reRenderedBeforeSubscribing = useRef(false)
 
   const addPeerIdentity = useCallback(
     async ({ name, did }: { name: string; did: string }) => {
@@ -46,32 +49,41 @@ const useIdentity = ({
 
   useEffect(() => {
     const getIdentityManager = async () => {
-      identityManager.current = await IdentityManager.instance()
-      subscription.current = identityManager.current.subscribe({
-        onOwnIdentitiesChanged: (params) => {
-          onOwnIdentitiesChanged && onOwnIdentitiesChanged(params)
+      identityManager.current = await IdentityManager.instance(name)
+      if (reRenderedBeforeSubscribing.current) {
+        return
+      }
+      subscription.current = identityManager.current.subscribe(
+        {
+          onOwnIdentitiesChanged: (params) => {
+            onOwnIdentitiesChanged && onOwnIdentitiesChanged(params)
+          },
+          onPeerIdentitiesChanged: (params) => {
+            onPeerIdentitiesChanged && onPeerIdentitiesChanged(params)
+          },
+          currentIdentityChanged: (params) => {
+            currentIdentityChanged && currentIdentityChanged(params)
+          }
         },
-        onPeerIdentitiesChanged: (params) => {
-          onPeerIdentitiesChanged && onPeerIdentitiesChanged(params)
-        },
-        currentIdentityChanged: (params) => {
-          currentIdentityChanged && currentIdentityChanged(params)
-        }
-      })
+        name
+      )
       onReady && onReady(identityManager.current)
     }
 
     getIdentityManager()
     return () => {
       if (identityManager.current && subscription.current !== undefined) {
-        identityManager.current.unsubscribe(subscription.current)
+        identityManager.current.unsubscribe(subscription.current, name)
+      } else {
+        reRenderedBeforeSubscribing.current = true
       }
     }
   }, [
     onReady,
     onOwnIdentitiesChanged,
     onPeerIdentitiesChanged,
-    currentIdentityChanged
+    currentIdentityChanged,
+    name
   ])
 
   return {

@@ -96,6 +96,7 @@ const AddNewIdentity = () => {
   }, [showBoundary])
 
   const { addPeerIdentity } = useIdentity({
+    name: 'AddNewIdentity',
     onReady: onIdentityManagerReady,
     onPeerIdentitiesChanged
   })

@@ -29,6 +29,7 @@ const IdBoxKeyNaming = () => {
   }, [])
 
   useIdentity({
+    name: 'IdBoxKeyNaming',
     onReady: onIdentityManagerReady
   })
 

@@ -136,6 +136,7 @@ const FirstIdentity = () => {
   }, [])
 
   useIdentity({
+    name: 'FirstIdentity',
     onReady: onIdentityManagerReady
   })
 

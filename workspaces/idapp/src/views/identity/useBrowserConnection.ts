@@ -17,11 +17,13 @@ type BrowserConnectionDesciptor = {
   url: string | undefined
   tunnelId: string | undefined
   onConnectionClosed?: ({ status }: { status?: string }) => void
+  name?: string
 }
 
 const useBrowserConnection = ({
   url,
   tunnelId,
+  name,
   onConnectionClosed
 }: BrowserConnectionDesciptor) => {
   const identityManager = useRef<IdentityManager | undefined>(undefined)
@@ -225,6 +227,7 @@ const useBrowserConnection = ({
   }, [])
 
   useIdentity({
+    name,
     onReady: onIdentityManagerReady
   })
 

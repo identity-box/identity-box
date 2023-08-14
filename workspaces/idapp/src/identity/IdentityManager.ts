@@ -34,12 +34,12 @@ type OnOwnIdentitiesChangedFunctionParams = {
 
 type OnPeerIdentitiesAddedFunctionParams = {
   peerIdentities: Record<string, string>
-  addedIdentity: { name: string; did: string }
+  // addedIdentity: { name: string; did: string }
 }
 
 type OnPeerIdentitiesDeletedFunctionParams = {
   peerIdentities: Record<string, string>
-  deletedIdentity: { name: string }
+  // deletedIdentity: { name: string }
 }
 
 type OnPeerIdentitiesChangedFunctionParams =
@@ -84,12 +84,36 @@ class IdentityManager {
 
   current?: IdentityType
 
-  static instance = async () => {
+  _ready = false
+
+  static instance = async (name?: string) => {
     if (!_instance) {
+      console.log('Initializing Identity Manager for:', name)
       _instance = new IdentityManager()
+      _instance._ready = false
       await _instance.readIdentities()
       await _instance.readPeerIdentities()
+      _instance._ready = true
+      console.log(`${name}: Identity Manager READY`)
+      return _instance
+    } else if (!_instance._ready) {
+      const wait = () =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve()
+          }, 100)
+        })
+      for (let i = 0; i < 20; i++) {
+        await wait()
+        console.log(`${name}:waiting for Identity Manager:`, i)
+        if (_instance?._ready) {
+          console.log(`${name}: Identity Manager READY`)
+          return _instance
+        }
+      }
+      throw new Error('FATAL, Cannot initialize IdentityManager!')
     }
+    console.log(`${name}: Identity Manager (directly) AVAILABLE`)
     return _instance
   }
 
@@ -296,8 +320,8 @@ class IdentityManager {
     this.notify({
       observerName: 'onPeerIdentitiesChanged',
       params: {
-        peerIdentities: this.peerIdentities,
-        addedIdentity: { name, did }
+        peerIdentities: this.peerIdentities
+        // addedIdentity: { name, did }
       }
     })
     return this.peerIdentities
@@ -313,41 +337,64 @@ class IdentityManager {
     this.notify({
       observerName: 'onPeerIdentitiesChanged',
       params: {
-        peerIdentities: this.peerIdentities,
-        deletedIdentity: { name }
+        peerIdentities: this.peerIdentities
+        // deletedIdentity: { name }
       }
     })
     return this.peerIdentities
   }
 
   notify = (args: NotifyFunctionArgs) => {
+    if (!this._ready) return
     const { observerName, params } = args
     const activeSubscriptions = <Array<Subscription>>(
       this.subscriptions.filter((s) => s !== 'free')
     )
+    console.log(
+      '[IdentityManager#notify]activeSubcriptions=',
+      activeSubscriptions.length
+    )
+    const badSubscriptions = activeSubscriptions.filter(
+      (s) =>
+        s.onOwnIdentitiesChanged === undefined ||
+        s.onPeerIdentitiesChanged === undefined ||
+        s.currentIdentityChanged === undefined
+    )
+    if (badSubscriptions.length > 0) {
+      console.log('[IdentityManager#notify]: FOUND BD SUBSCRIPTIONS!!!')
+      badSubscriptions.forEach((s, index) => {
+        console.log(`[${index}]:`, s)
+      })
+    }
     activeSubscriptions.forEach((s) => {
       if (observerName === 'onOwnIdentitiesChanged') {
-        s.onOwnIdentitiesChanged(params)
+        s.onOwnIdentitiesChanged && s.onOwnIdentitiesChanged(params)
       } else if (observerName === 'onPeerIdentitiesChanged') {
-        s.onPeerIdentitiesChanged(params)
+        s.onPeerIdentitiesChanged && s.onPeerIdentitiesChanged(params)
       } else if (observerName === 'currentIdentityChanged') {
-        s.currentIdentityChanged(params)
+        s.currentIdentityChanged && s.currentIdentityChanged(params)
       }
     })
   }
 
-  subscribe = (subscription: Subscription) => {
+  subscribe = (subscription: Subscription, name?: string) => {
     const firstFreePosition = this.subscriptions.indexOf('free')
     if (firstFreePosition === -1) {
       this.subscriptions = [...this.subscriptions, subscription]
+      console.log(
+        `IdentityManager#subscribe[${name}]: `,
+        this.subscriptions.length - 1
+      )
       return this.subscriptions.length - 1
     } else {
       this.subscriptions[firstFreePosition] = subscription
+      console.log(`IdentityManager#subscribe[${name}]: `, firstFreePosition)
       return firstFreePosition
     }
   }
 
-  unsubscribe = (subscriptionId: number) => {
+  unsubscribe = (subscriptionId: number, name?: string) => {
+    console.log(`IdentityManager#unsubscribe[${name}]: `, subscriptionId)
     this.subscriptions[subscriptionId] = 'free'
   }
 

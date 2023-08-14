@@ -64,6 +64,7 @@ const SelectIdentity = () => {
   }, [])
 
   useIdentity({
+    name: 'SelectIdentity',
     onReady: onIdentityManagerReady
   })
 

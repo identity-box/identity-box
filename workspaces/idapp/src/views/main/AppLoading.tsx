@@ -13,7 +13,7 @@ const AppLoading = () => {
   const { showBoundary } = useErrorBoundary()
   const onRendezvousReady = useCallback(async () => {
     try {
-      const identityManager = await IdentityManager.instance()
+      const identityManager = await IdentityManager.instance('AppLoading')
 
       if (identityManager.hasIdentities()) {
         console.log('has identities')

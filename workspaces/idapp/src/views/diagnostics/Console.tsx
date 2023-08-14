@@ -32,9 +32,9 @@ const Console = () => {
   return (
     <ConsoleContainer>
       <FlatList
-        data={LogDb.lastN(50).map((i) => ({ key: i }))}
+        data={LogDb.lastN(50).map((i, index) => ({ key: index, value: i }))}
         renderItem={({ item, index }) => {
-          return <LogItem style={getItemStyle(index)}>{item.key}</LogItem>
+          return <LogItem style={getItemStyle(index)}>{item.value}</LogItem>
         }}
       />
     </ConsoleContainer>

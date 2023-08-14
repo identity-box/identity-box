@@ -164,6 +164,7 @@ const CreateNewIdentity = () => {
   }, [])
 
   useIdentity({
+    name: 'CreateNewIdentity',
     onReady: onIdentityManagerReady
   })
 

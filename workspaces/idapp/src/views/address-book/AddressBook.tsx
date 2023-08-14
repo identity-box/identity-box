@@ -44,6 +44,7 @@ const AddressBook = () => {
     setIdentities(idManager.identities)
     setPeerIdentities(idManager.peerIdentities)
     setIdentityNames(idManager.identityNames)
+    console.log('onIdentityManagerReady[AddressBook]:', idManager.identityNames)
   }, [])
 
   const onPeerIdentitiesChanged = useCallback(
@@ -55,6 +56,11 @@ const AddressBook = () => {
 
   const onOwnIdentitiesChanged = useCallback(
     (params: OnOwnIdentitiesChangedFunctionParams) => {
+      console.log(
+        '------------- AddressBook#onOwnIdentitiesChanged: -----------------'
+      )
+      // console.log('params.identities:', params.identities)
+      console.log('params.identityNames:', params.identityNames)
       setIdentities(params.identities)
       setIdentityNames(params.identityNames)
     },
@@ -62,6 +68,7 @@ const AddressBook = () => {
   )
 
   useIdentity({
+    name: 'AddressBook',
     onReady: onIdentityManagerReady,
     onPeerIdentitiesChanged,
     onOwnIdentitiesChanged

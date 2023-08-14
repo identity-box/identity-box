@@ -25,6 +25,7 @@ const ConfirmFactoryReset = () => {
   }, [])
 
   useIdentity({
+    name: 'ConfirmFactoryReset',
     onReady: onIdentityManagerReady
   })
 

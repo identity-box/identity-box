@@ -22,6 +22,7 @@ const SwitchIdentity = () => {
   }, [])
 
   useIdentity({
+    name: 'SwitchIdentity',
     onReady: onIdentityManagerReady
   })
 

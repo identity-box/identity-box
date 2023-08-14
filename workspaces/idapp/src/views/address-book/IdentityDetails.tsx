@@ -166,6 +166,7 @@ const IdentityDetails = () => {
   }, [doBackup])
 
   const { deletePeerIdentity, deleteOwnIdentity } = useIdentity({
+    name: 'IdentityDetails',
     onReady: onIdentityManagerReady,
     onPeerIdentitiesChanged,
     onOwnIdentitiesChanged

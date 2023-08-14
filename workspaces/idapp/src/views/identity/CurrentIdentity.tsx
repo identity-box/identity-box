@@ -52,6 +52,7 @@ const CurrentIdentity = () => {
   )
 
   useIdentity({
+    name: 'CurrentIdentity',
     onReady: onIdentityManagerReady,
     currentIdentityChanged
   })
@@ -65,6 +66,7 @@ const CurrentIdentity = () => {
   useBrowserConnection({
     url: rendezvousUrl,
     tunnelId,
+    name: 'CurrentIdentity[useBrowserConnection]',
     onConnectionClosed
   })
 
