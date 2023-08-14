@@ -32,9 +32,9 @@
     "@identity-box/utils": "^0.1.39",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
-    "commander": "^9.4.1",
-    "ipfs-http-client": "^59.0.0",
-    "multiformats": "^10.0.3",
+    "commander": "^11.0.0",
+    "ipfs-http-client": "^60.0.1",
+    "multiformats": "^12.0.1",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
