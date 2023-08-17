@@ -49,11 +49,11 @@ const useIdentity = ({
 
   useEffect(() => {
     const getIdentityManager = async () => {
-      identityManager.current = await IdentityManager.instance(name)
+      const idManager = await IdentityManager.instance(name)
       if (reRenderedBeforeSubscribing.current) {
         return
       }
-      subscription.current = identityManager.current.subscribe(
+      subscription.current = idManager.subscribe(
         {
           onOwnIdentitiesChanged: (params) => {
             onOwnIdentitiesChanged && onOwnIdentitiesChanged(params)
@@ -67,6 +67,7 @@ const useIdentity = ({
         },
         name
       )
+      identityManager.current = idManager
       onReady && onReady(identityManager.current)
     }
 
@@ -77,6 +78,8 @@ const useIdentity = ({
       } else {
         reRenderedBeforeSubscribing.current = true
       }
+      identityManager.current = undefined
+      subscription.current = undefined
     }
   }, [
     onReady,
