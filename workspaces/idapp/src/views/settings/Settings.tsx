@@ -4,6 +4,7 @@ import { DiagnosticsSensor } from '~/views/diagnostics'
 import { Container, Subcontainer } from './ui'
 import { Backup } from './Backup'
 import { FactoryReset } from './FactoryReset'
+import { Version } from './Version'
 
 const Settings = () => {
   return (
@@ -18,6 +19,7 @@ const Settings = () => {
         <Backup />
         <FactoryReset />
       </Subcontainer>
+      <Version />
       <DiagnosticsSensor />
     </Container>
   )
