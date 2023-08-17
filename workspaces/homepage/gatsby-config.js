@@ -9,7 +9,7 @@ module.exports = {
       resolve: '@confluenza/gatsby-theme-confluenza',
       options: {
         mdx: true,
-        ignore: ['**/dist/**', '**/ios/**']
+        ignore: ['**/dist/**', '**/ios*/**']
       }
     },
     'gatsby-plugin-root-import'
