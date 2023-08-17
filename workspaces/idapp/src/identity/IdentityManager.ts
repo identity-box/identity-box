@@ -4,6 +4,7 @@ import base64url from 'base64url'
 import nacl from 'tweetnacl'
 import { Buffers, TypedArrays } from '@react-frontend-developer/buffers'
 import { randomBytes, entropyToMnemonic } from '~/crypto'
+import { LogDb } from '~/views/diagnostics'
 
 type IdentityType = {
   did: string
@@ -32,19 +33,9 @@ type OnOwnIdentitiesChangedFunctionParams = {
   identityNames: Array<string>
 }
 
-type OnPeerIdentitiesAddedFunctionParams = {
+type OnPeerIdentitiesChangedFunctionParams = {
   peerIdentities: Record<string, string>
-  // addedIdentity: { name: string; did: string }
 }
-
-type OnPeerIdentitiesDeletedFunctionParams = {
-  peerIdentities: Record<string, string>
-  // deletedIdentity: { name: string }
-}
-
-type OnPeerIdentitiesChangedFunctionParams =
-  | OnPeerIdentitiesAddedFunctionParams
-  | OnPeerIdentitiesDeletedFunctionParams
 
 type CurrentIdentityChangedFunctionParams = {
   currentIdentity: IdentityType
@@ -321,7 +312,6 @@ class IdentityManager {
       observerName: 'onPeerIdentitiesChanged',
       params: {
         peerIdentities: this.peerIdentities
-        // addedIdentity: { name, did }
       }
     })
     return this.peerIdentities
@@ -338,7 +328,6 @@ class IdentityManager {
       observerName: 'onPeerIdentitiesChanged',
       params: {
         peerIdentities: this.peerIdentities
-        // deletedIdentity: { name }
       }
     })
     return this.peerIdentities
@@ -361,10 +350,11 @@ class IdentityManager {
         s.currentIdentityChanged === undefined
     )
     if (badSubscriptions.length > 0) {
-      console.log('[IdentityManager#notify]: FOUND BD SUBSCRIPTIONS!!!')
+      LogDb.log('[IdentityManager#notify]: FOUND BD SUBSCRIPTIONS!!!')
       badSubscriptions.forEach((s, index) => {
-        console.log(`[${index}]:`, s)
+        LogDb.log(`[${index}]: ${s}`)
       })
+      throw new Error('[IdentityManager#notify]: FOUND BAD SUBSCRIPTIONS!!!')
     }
     activeSubscriptions.forEach((s) => {
       if (observerName === 'onOwnIdentitiesChanged') {
