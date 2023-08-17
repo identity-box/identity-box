@@ -45,7 +45,8 @@
     "lint:fix": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}' --fix",
     "build": "yarn lerna run build --scope '@identity-box/**'",
     "build:npx": "npx lerna run build --scope @identity-box/**",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "postinstall": "yarn build"
   },
   "changelog": {
     "repo": "identity-box/identity-box",
