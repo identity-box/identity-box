@@ -61,14 +61,18 @@ const Header = () => (
         <LogoText>Identity Box</LogoText>
       </Logo>
       <Menu>
-        <MenuLinkExternal href='https://github.com/identity-box/identity-box' target='_blank'>Github</MenuLinkExternal>
-        <MenuLinkExternal href='https://twitter.com/identity_box' target='_blank'>Twitter</MenuLinkExternal>
-        {/* <MenuLink
-        css={{
-          margin: '5px 20px'
-        }} to='/developers/contributing' target='_blank'
-      >Blog
-      </MenuLink> */}
+        <MenuLinkExternal
+          href='https://github.com/identity-box/identity-box'
+          target='_blank'
+        >
+          Github
+        </MenuLinkExternal>
+        <MenuLinkExternal
+          href='https://twitter.com/identity_box'
+          target='_blank'
+        >
+          Twitter
+        </MenuLinkExternal>
       </Menu>
     </Wrapper>
   </HyperWrapper>

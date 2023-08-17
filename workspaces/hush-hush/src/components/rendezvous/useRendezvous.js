@@ -1,26 +1,20 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { RendezvousClient } from '@identity-box/rendezvous-client'
 
-const useRendezvous = ({
-  url,
-  onReady,
-  onMessage,
-  onEnd,
-  onError
-} = {}, deps = []) => {
+const useRendezvous = ({ url, onReady, onMessage, onEnd, onError } = {}) => {
   const rendezvousClient = useRef(undefined)
   const rendezvousConnection = useRef(undefined)
 
-  const startRendezvous = async () => {
+  const startRendezvous = useCallback(async () => {
     try {
       console.log('baseUrl=', url)
       rendezvousClient.current = new RendezvousClient({
         baseUrl: url,
-        onMessage: msg => {
+        onMessage: (msg) => {
           console.log('msg response:', msg)
           onMessage && onMessage(msg)
         },
-        onSessionEnded: reason => {
+        onSessionEnded: (reason) => {
           console.log('Session ended:', reason)
           onEnd && onEnd(reason)
         }
@@ -33,7 +27,7 @@ const useRendezvous = ({
       console.log(e.message)
       onError && onError(e)
     }
-  }
+  }, [url, onReady, onMessage, onEnd, onError])
 
   const unsubscribe = () => {
     rendezvousConnection.current && rendezvousConnection.current.end()
@@ -46,7 +40,7 @@ const useRendezvous = ({
     return () => {
       unsubscribe()
     }
-  }, deps)
+  }, [startRendezvous, url])
 
   return rendezvousConnection.current
 }

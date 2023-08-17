@@ -4,27 +4,33 @@
     "node": ">=16.0.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@typescript-eslint/eslint-plugin": "5.33.1",
-    "@typescript-eslint/parser": "5.33.1",
-    "@vitejs/plugin-react": "^2.0.1",
-    "@vitest/coverage-c8": "^0.22.1",
-    "eslint": "^8.22.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.8.7",
-    "eslint-plugin-n": "^15.2.5",
+    "@types/eslint": "^8.44.2",
+    "@types/node": "^20.5.0",
+    "@typescript-eslint/eslint-plugin": "6.3.0",
+    "@typescript-eslint/parser": "6.3.0",
+    "@vitejs/plugin-react": "^4.0.4",
+    "@vitest/coverage-c8": "^0.33.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.30.1",
-    "happy-dom": "^6.0.4",
-    "lerna": "^5.4.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "happy-dom": "^10.9.0",
+    "lerna": "7.1.5",
     "lerna-changelog": "^2.2.0",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.9",
-    "vitest": "^0.22.1"
+    "prettier-plugin-tailwindcss": "^0.5.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.1"
   },
   "workspaces": {
     "packages": [
@@ -39,7 +45,23 @@
     "lint:fix": "eslint 'workspaces/**/*.{js,jsx,ts,tsx}' --fix",
     "build": "yarn lerna run build --scope '@identity-box/**'",
     "build:npx": "npx lerna run build --scope @identity-box/**",
+    "typecheck": "tsc -b",
     "postinstall": "yarn build"
   },
-  "packageManager": "yarn@3.2.2"
+  "changelog": {
+    "repo": "identity-box/identity-box",
+    "ignoreCommitters": [
+      "allcontributors"
+    ],
+    "labels": {
+      "PR: Breaking Change :bomb:": ":bomb: Breaking Change",
+      "PR: New Feature :rocket:": ":rocket: New Feature",
+      "PR: Enhancement :heart_eyes_cat:": ":heart_eyes_cat: Enhancement",
+      "PR: Bug Fix :bug:": ":bug: Bug Fix",
+      "PR: Documentation :book:": ":book: Documentation",
+      "PR: Refactoring :hammer:": ":hammer: Refactoring",
+      "PR: Project Dependencies :building_construction:": ":building_construction: Project Dependencies"
+    }
+  },
+  "packageManager": "yarn@3.3.0"
 }

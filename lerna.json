@@ -1,24 +1,8 @@
 {
-  "lerna": "5.4.3",
   "packages": [
     "workspaces/*"
   ],
   "version": "0.1.39",
-  "changelog": {
-    "repo": "identity-box/identity-box",
-    "ignoreCommitters": [
-      "allcontributors"
-    ],
-    "labels": {
-      "PR: Breaking Change :bomb:": ":bomb: Breaking Change",
-      "PR: New Feature :rocket:": ":rocket: New Feature",
-      "PR: Enhancement :heart_eyes_cat:": ":heart_eyes_cat: Enhancement",
-      "PR: Bug Fix :bug:": ":bug: Bug Fix",
-      "PR: Documentation :book:": ":book: Documentation",
-      "PR: Refactoring :hammer:": ":hammer: Refactoring",
-      "PR: Project Dependencies :building_construction:": ":building_construction: Project Dependencies"
-    }
-  },
   "npmClient": "yarn",
   "command": {
     "publish": {
@@ -26,5 +10,5 @@
       "registry": "https://registry.npmjs.org/"
     }
   },
-  "useWorkspaces": true
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

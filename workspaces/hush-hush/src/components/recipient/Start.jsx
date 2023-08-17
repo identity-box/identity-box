@@ -8,11 +8,13 @@ const Start = ({ next }) => {
     setTimeout(() => {
       next()
     }, 2000)
-  }, [])
+  }, [next])
   return (
     <FadingValueBox>
       <Centered>
-        <InfoBox>Your link looks <Green>good</Green>.</InfoBox>
+        <InfoBox>
+          Your link looks <Green>good</Green>.
+        </InfoBox>
       </Centered>
     </FadingValueBox>
   )

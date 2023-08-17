@@ -5,21 +5,21 @@ class Tunnel {
   tunnelId
   onTunnelEnded
 
-  constructor ({ tunnelId, socket }, onTunnelEnded) {
+  constructor({ tunnelId, socket }, onTunnelEnded) {
     this.tunnelId = tunnelId
     this.onTunnelEnded = onTunnelEnded
     this.tunnel = socket.nsp
     this.start(socket)
   }
 
-  verifyTunnel = socket => {
+  verifyTunnel = (socket) => {
     if (!this.socketSender) {
       console.log('SENDER')
       this.socketSender = socket
     } else if (!this.socketReceiver) {
       console.log('RECEIVER')
       this.socketReceiver = socket
-      this.socketReceiver.on('publicKey', encodedPublicKey => {
+      this.socketReceiver.on('publicKey', (encodedPublicKey) => {
         this.socketSender.emit('ready', encodedPublicKey)
         this.socketReceiver.emit('ready')
       })
@@ -28,17 +28,20 @@ class Tunnel {
     }
   }
 
-  start = socket => {
-    console.log(`namespace connection on socket ${socket.id} from namespace:`, socket.nsp.name)
+  start = (socket) => {
+    console.log(
+      `namespace connection on socket ${socket.id} from namespace:`,
+      socket.nsp.name
+    )
     try {
       this.verifyTunnel(socket)
-      socket.on('message', msg => {
+      socket.on('message', (msg) => {
         this.onMessage(socket, msg)
       })
       socket.on('end', () => {
         this.endTunnel(socket)
       })
-      socket.on('disconnect', reason => {
+      socket.on('disconnect', (reason) => {
         this.onDisconnect(reason, socket)
       })
     } catch (e) {
@@ -47,11 +50,11 @@ class Tunnel {
     }
   }
 
-  addReceiver = socket => {
+  addReceiver = (socket) => {
     this.start(socket)
   }
 
-  tunnelIdFromSocketId = id => {
+  tunnelIdFromSocketId = (id) => {
     // socket id has the form of /tunnel-mnyiWEL4AbBJWUkpnIfc-k4hgHFOdnz8JHyjNDOTpG4#HxDrrxGFfCSa8YgHAAAB
     // we first split on "#" and then ignore leading slash
     return id.split('#')[0].slice(1)
@@ -67,7 +70,7 @@ class Tunnel {
     // this.tunnel.emit('message', msg)
   }
 
-  endTunnel = socket => {
+  endTunnel = (socket) => {
     console.log('endTunnel from:', socket.id)
     this.socketReceiver = undefined
     this.socketSender = undefined

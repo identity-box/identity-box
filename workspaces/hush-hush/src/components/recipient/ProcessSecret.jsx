@@ -41,11 +41,14 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     setWorkflow(Stages.DecryptSecret)
   }, [])
 
-  const onCreated = useCallback(({ rendezvousTunnel: rt, rendezvousTunnelUrl: rendezvousUrl }) => {
-    console.log('Tunnel to IdApp created')
-    rendezvousTunnel.current = rt
-    setRendezvousUrl(rendezvousUrl)
-  }, [])
+  const onCreated = useCallback(
+    ({ rendezvousTunnel: rt, rendezvousTunnelUrl: rendezvousUrl }) => {
+      console.log('Tunnel to IdApp created')
+      rendezvousTunnel.current = rt
+      setRendezvousUrl(rendezvousUrl)
+    },
+    []
+  )
 
   useRendezvousTunnel({
     url: rendezvousUrlGlobal,
@@ -53,16 +56,20 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     onReady
   })
 
-  const processLink = () => {
-    const [cidEncryptedSecret, didRecipient, didSender] = base64url.decode(senderTagBase64).split('.')
+  const processLink = useCallback(() => {
+    const [cidEncryptedSecret, didRecipient, didSender] = base64url
+      .decode(senderTagBase64)
+      .split('.')
 
     setCid(cidEncryptedSecret)
     setDidRecipient(didRecipient)
     setDidSender(didSender)
-  }
+  }, [senderTagBase64])
 
-  const processDIDDocument = didDocument => {
-    const publicEncryptionKeys = didDocument.publicKey.filter(pk => pk.type === 'ECDHPublicKey' && pk.status !== 'revoked')
+  const processDIDDocument = (didDocument) => {
+    const publicEncryptionKeys = didDocument.publicKey.filter(
+      (pk) => pk.type === 'ECDHPublicKey' && pk.status !== 'revoked'
+    )
     if (publicEncryptionKeys && publicEncryptionKeys.length > 0) {
       const publicEncryptionKey = publicEncryptionKeys[0].publicKeyBase64
       console.log('publicEncryptionKey:', publicEncryptionKey)
@@ -70,53 +77,66 @@ const ProcessSecret = ({ senderTagBase64 }) => {
     }
   }
 
+  const next1 = useCallback(() => {
+    processLink()
+    setWorkflow(Stages.FetchSecret)
+  }, [processLink])
+
   const renderStart = useCallback(() => {
-    return (
-      <Start next={() => {
-        processLink()
-        setWorkflow(Stages.FetchSecret)
-      }}
-      />
-    )
+    return <Start next={next1} />
+  }, [next1])
+
+  const next2 = useCallback((json) => {
+    console.log('json=', json)
+    setEncryptedSecret(json)
+    setTimeout(() => {
+      setWorkflow(Stages.SenderPublicKey)
+    }, 2000)
   }, [])
 
   const renderFetchSecret = useCallback(() => {
-    return (
-      <FetchSecret
-        cid={cid}
-        baseUrl={rendezvousUrlGlobal}
-        next={json => {
-          console.log('json=', json)
-          setEncryptedSecret(json)
-          setTimeout(() => {
-            setWorkflow(Stages.SenderPublicKey)
-          }, 2000)
-        }}
-      />
-    )
-  }, [cid])
+    return <FetchSecret cid={cid} baseUrl={rendezvousUrlGlobal} next={next2} />
+  }, [cid, next2])
+
+  const next3 = useCallback((didDocument) => {
+    console.log('didDocument=', didDocument)
+    processDIDDocument(didDocument)
+    setTimeout(() => {
+      setWorkflow(Stages.ConnectIdApp)
+    }, 2000)
+  }, [])
 
   const renderSenderPublicKey = useCallback(() => {
     return (
       <SenderPublicKey
         did={didSender}
         baseUrl={rendezvousUrlGlobal}
-        next={didDocument => {
-          console.log('didDocument=', didDocument)
-          processDIDDocument(didDocument)
-          setTimeout(() => {
-            setWorkflow(Stages.ConnectIdApp)
-          }, 2000)
-        }}
+        next={next3}
       />
     )
-  }, [didSender])
+  }, [didSender, next3])
 
   const renderConnectIdApp = useCallback(() => {
     return (
       <ConnectIdApp rendezvousUrl={rendezvousUrl} closeDialog={closeDialog} />
     )
   }, [rendezvousUrl, closeDialog])
+
+  const next4 = useCallback(({ secret, errorID }) => {
+    if (errorID) {
+      console.log('errorID=', errorID)
+      setErrorID(errorID)
+      setTimeout(() => {
+        setWorkflow(Stages.PresentError)
+      }, 2000)
+    } else {
+      console.log('secret=', secret)
+      setSecret(secret)
+      setTimeout(() => {
+        setWorkflow(Stages.PresentSecret)
+      }, 2000)
+    }
+  }, [])
 
   const renderDecryptSecret = useCallback(() => {
     return (
@@ -125,35 +145,17 @@ const ProcessSecret = ({ senderTagBase64 }) => {
         encryptedSecret={encryptedSecret}
         didRecipient={didRecipient}
         theirPublicKey={publicEncryptionKey}
-        next={({ secret, errorID }) => {
-          if (errorID) {
-            console.log('errorID=', errorID)
-            setErrorID(errorID)
-            setTimeout(() => {
-              setWorkflow(Stages.PresentError)
-            }, 2000)
-          } else {
-            console.log('secret=', secret)
-            setSecret(secret)
-            setTimeout(() => {
-              setWorkflow(Stages.PresentSecret)
-            }, 2000)
-          }
-        }}
+        next={next4}
       />
     )
-  }, [rendezvousTunnel.current, encryptedSecret, didRecipient, publicEncryptionKey])
+  }, [encryptedSecret, didRecipient, publicEncryptionKey, next4])
 
   const renderPresentSecret = useCallback(() => {
-    return (
-      <PresentSecret secret={secret} />
-    )
+    return <PresentSecret secret={secret} />
   }, [secret])
 
   const renderPresentError = useCallback(() => {
-    return (
-      <PresentError errorID={errorID} />
-    )
+    return <PresentError errorID={errorID} />
   }, [errorID])
 
   switch (workflow) {

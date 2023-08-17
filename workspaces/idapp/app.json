@@ -8,6 +8,16 @@
       "android",
       "web"
     ],
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "scheme": "idapp",
+    "web": {
+      "bundler": "metro"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,10 +29,10 @@
     ],
     "android": {
       "package": "online.idbox.idapp",
-      "versionCode": 25
+      "versionCode": 27
     },
     "ios": {
-      "buildNumber": "0.1.25",
+      "buildNumber": "27",
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",

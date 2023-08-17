@@ -13,3 +13,8 @@ coverage/
 !.yarn/versions
 .pnp.*
 yarn-error.log
+
+# EXPO
+ios
+ios-pre
+ios-dev
