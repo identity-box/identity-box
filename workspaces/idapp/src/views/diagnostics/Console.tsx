@@ -10,6 +10,7 @@ const ConsoleContainer = styled.View(({ theme: { theme } }) => ({
   borderColor: theme.dark ? 'white' : 'black',
   borderWidth: 1,
   width: '100%',
+  flexBasis: 0,
   flexGrow: 1,
   marginTop: 20
 }))

@@ -2,9 +2,13 @@ class LogDb {
   static logdb: Array<string> = []
 
   static log = (event: string) => {
-    const timestamp = new Date().toLocaleString()
+    const timestamp = new Date().toISOString()
 
-    this.logdb.push(`${timestamp}: ${event}`)
+    const logItem = `${timestamp}: ${event}`
+
+    this.logdb.unshift(logItem)
+
+    console.log(logItem)
 
     if (this.logdb.length > 100) {
       this.logdb = this.logdb.slice(this.logdb.length - 100)
