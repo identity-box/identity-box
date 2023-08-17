@@ -163,49 +163,43 @@ $ source/index.js start
 Finally, to provide external connectivity, we start the Rendezvous service:
 
 ```bash
-$ source/index.js start -b http://192.168.1.15:3100
+$ source/index.js start -b http://192.168.1.24:3100
 ```
 
 With the `-b` or `--baseUrl` option we provide the rendezvous url, which we want to be used externally. Using this option, Rendezvous service will generate a QR code that has to be scanned when associating the box with the user's Identity App. Rendezvous service listens on port `3100` by default and if you want to use different port you can use `-p` option. Use `./index.js start --help` to learn more about available options.
 
 ## Hush-Hush
 
-In order to start the Hush Hush client, first, we need to provide a local `.env.local` configuration file:
+In order to start the Hush Hush client in development mode, first, we need to make sure the `.env.development` is up to date. For instance:
 
 ```bash
-$ cd workspaces/hush-hush
-$ touch .env.local
+VITE_HUSH_HUSH_RENDEZVOUS_URL=http://192.168.1.24:3100
+VITE_HUSH_HUSH_BASEURL=http://localhost:5173
 ```
 
-> Do not commit `.env.local` to the repo. We already added it to the .gitignore in `workspaces/hush-hush/.gitignore`.
+The `VITE_HUSH_HUSH_RENDEZVOUS_URL` has to be the same address you used for your rendezvous service (provided with the `-b` option).
+The `VITE_HUSH_HUSH_BASEURL` is used when generating local hush links.
 
-In this file we need to set the `NEXT_PUBLIC_HUSH_HUSH_RENDEZVOUS_URL` to hold the same value we provided when starting the Rendezvous service using the `-b` option. In our example this would be then: `http://192.168.1.15:3100`. Thus, the content of the `.env.local` should be:
-
-```bash
-NEXT_PUBLIC_HUSH_HUSH_RENDEZVOUS_URL=http://192.168.1.15:3100
-```
-
-Having this, we can start the Hush Hush service as follows:
+Having this correctly set, we can start the Hush Hush service as follows:
 
 ```bash
 $ cd workspaces/hush-hush
 $ yarn dev
 ```
 
-You can then access Hush Hush at http://localhost:3000.
+You can then access Hush Hush at http://localhost:5173/.
 
 ## Identity App
 
-To start Identity App, from `workspaces/idapp` run:
+To start Identity App, from `workspaces/idapp`, you may first need to build the so-called development build (for more information take a look at [How to create a development build](/services/idapp/#how-to-create-a-development-build)). This assumes you have Xcode correctly setup on your machine.
 
 ```bash
-$ yarn start --clear
+$ APP_VARIANT=development yarn expo run:ios -d
 ```
 
-This will open a page in a browser, where you can find a QR Code (it should also show up in the terminal).
-Make sure that you have the _Expo_ app installed on your mobile, and then scan the QR Code directly from the Expo app or with the camera on your mobile - it should present you with an option to open the Expo app.
+This should build and install an iOS app on your iOS device (the name of the app will be _Identity App (Dev)_). With this app your can conveniently work on your Identity App in the same way you used the former Expo Go app.
 
-The Identity App app should start and now you can follow the steps from [Experience Identity Box](/experience-identity-box) to test that your setup is working correctly.
+You can now follow the steps from [Experience Identity Box](/experience-identity-box) to test that your setup is working correctly.
 
 ## Appendix - IPNS with Firebase
 
