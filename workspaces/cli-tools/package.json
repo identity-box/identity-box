@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/cli-tools",
-  "version": "0.1.39",
+  "version": "0.1.40",
   "description": "Some handy CLI Tools",
   "type": "module",
   "keywords": [

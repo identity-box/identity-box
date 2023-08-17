@@ -1,6 +1,6 @@
 {
   "name": "idapp",
-  "version": "0.1.39",
+  "version": "0.1.40",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start --dev-client",
@@ -15,7 +15,7 @@
   "dependencies": {
     "@emotion/native": "^11.11.0",
     "@emotion/react": "^11.11.1",
-    "@identity-box/rendezvous-client": "^0.1.39",
+    "@identity-box/rendezvous-client": "^0.1.40",
     "@react-frontend-developer/buffers": "^2.0.1",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/masked-view": "0.1.11",
