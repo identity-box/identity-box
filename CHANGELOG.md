@@ -1,3 +1,11 @@
+## v0.1.40 (2023-08-17)
+
+#### :heart_eyes_cat: Enhancement
+* [#150](https://github.com/identity-box/identity-box/pull/150) Update idapp to new expo-router and typescript ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 1
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+
 ## v0.1.39 (2022-08-23)
 
 #### :heart_eyes_cat: Enhancement
