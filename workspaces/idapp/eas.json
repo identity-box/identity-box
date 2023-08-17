@@ -4,7 +4,7 @@
   },
   "build": {
     "production": {
-      "node": "18.12.1",
+      "node": "18.17.0",
       "cache": {
         "key": "2"
       }
