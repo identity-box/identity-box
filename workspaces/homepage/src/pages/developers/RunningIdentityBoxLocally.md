@@ -201,6 +201,8 @@ This should build and install an iOS app on your iOS device (the name of the app
 
 You can now follow the steps from [Experience Identity Box](/experience-identity-box) to test that your setup is working correctly.
 
+Once you have the development build app installed, you can just run ` yarn expo start [--clear]` from your terminal and start the previously built iOS development build app on your iOS device.
+
 ## Appendix - IPNS with Firebase
 
 First, you need to create a Firebase account. Once you have it and you are logged in, create a new project and name it anyway you like. Then create a _Cloud Firestore_ (as opposite to the legacy _Realtime Database_) and thene create a collection named _ipns_. In the rules tab you can place something like this:
