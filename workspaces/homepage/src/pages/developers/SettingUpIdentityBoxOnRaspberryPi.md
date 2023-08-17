@@ -1,9 +1,11 @@
 ---
 path: /developers/idbox-raspberry-pi
-title: Identity Box on Raspberry Pi
+title: Identity Box on Raspberry Pi (or other custom hardware)
 tag: developer
 sortIndex: 30
 ---
+
+> Those instruction was initially written to support setting up an Identity Box on a _Raspberry Pi_ device, but now it also includes information on using other, often more generic hardware (e.g. IntelNUC).
 
 RaspberryPi is a reliable, powerful, and cost-effective platform that can be used to run Identity Box. In this document we describe how to setup a an Identity Box on Raspberry Pi. We will be using [Raspberry Pi 4](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/) with 4GB RAM. Please follow the standard instructions at [Setting up your Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up) and make sure you [enable ssh access](https://www.raspberrypi.org/documentation/remote-access/ssh/). [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) comes with git already installed.
 
@@ -31,16 +33,16 @@ Everything should be in place now. At the time of writing of this document we ha
 
 ```bash
 $ node --version
-v16.16.0
+v18.17.1
 $ yarn --version
-1.22.15
+1.22.19
 $ git --version
 git version 2.25.1
 ```
 
 ## Install IPFS
 
-We will use [IPFS installer](https://github.com/claudiobizzotto/ipfs-rpi):
+For ARM based hardware we will use [IPFS installer](https://github.com/claudiobizzotto/ipfs-rpi):
 
 ```bash
 $ git clone https://github.com/claudiobizzotto/ipfs-rpi.git
@@ -50,10 +52,31 @@ We install IPFS v0.14.0
 
 ```bash
 $ cd ipfs-rpi/
-$ ./install v0.14.0
+$ ./install v0.22.0
 ```
 
-This will install, initialize, and start IPFS. We need to alter configuration a bit, so let's stop IPFS for the moment:
+This will install, initialize, and start IPFS.
+
+If you are using a more generic hardware, you may just follow the instructions from IPFS website: [Install official binary distributions](https://docs.ipfs.tech/install/command-line/#install-official-binary-distributions):
+
+```bash
+$ wget https://dist.ipfs.tech/kubo/v0.22.0/kubo_v0.22.0_linux-amd64.tar.gz
+$ tar -xvzf kubo_v0.22.0_linux-amd64.tar.gz
+> x kubo/install.sh
+> x kubo/ipfs
+> x kubo/LICENSE
+> x kubo/LICENSE-APACHE
+> x kubo/LICENSE-MIT
+> x kubo/README.md
+$ cd kubo
+$ sudo bash install.sh
+> Moved ./ipfs to /usr/local/bin
+$ ipfs --version
+
+> ipfs version 0.22.0
+```
+
+We need to alter configuration a bit, so let's stop IPFS for the moment:
 
 ```bash
 $ sudo systemctl stop ipfs-daemon.service
@@ -481,6 +504,21 @@ $ pm2 set pm2-logrotate:workerInterval 300
 The last command above sets the interval at which the logs will be checked to 5min.
 To learn more about pm2-logrotate, please consult https://www.npmjs.com/package/pm2-logrotate.
 
+## .yarnrc.yaml
+
+In your home directory in `~/.yarnrc.yml` we need to add the following configuration option:
+
+```yml
+{
+  initFields: {
+    type: "module"
+  }
+}
+```
+
+With this option set, when running `yarn init` (used by our supporting CLI described below), the generated
+`package.json` will include `"type": "module"`.
+
 ## Box Office
 
 Finally, we install and start the Box Office service:
@@ -655,6 +693,74 @@ $ pm2 start ecosystem.config.cjs
 
 At this point your Identity Box should be correctly set up and you can start experimenting with it.
 
+## Hush-hush
+
+The new rewritten hush-hush is a bit rough at the moment. We extracted hush-hush out of the monorepo to
+[https://github.com/identity-box/hush-hush](https://github.com/identity-box/hush-hush).
+
+To run it on your machine, first clone it to a folder of choice (e.g. `~/idbox/hush-hush`):
+
+```bash
+$ cd ~/idbox
+$ git clone https://github.com/identity-box/hush-hush.git hush-hush
+$ cd hush-hush
+```
+
+Then make sure you update the `.env.production` to something meaningful to you, e.g.:
+
+```
+VITE_HUSH_HUSH_RENDEZVOUS_URL=https://rendezvous.idbox.online
+VITE_HUSH_HUSH_BASEURL=https://hush.idbox.online
+```
+
+Then, install [bun](https://bun.sh):
+
+```bash
+$ curl -fsSL https://bun.sh/install | bash
+$ bun --version
+0.7.3
+```
+
+Finally run:
+
+```bash
+$ bun install
+$ NODE_ENV=production bun run build
+```
+
+This will create `dist` folder.
+
+Now add the corresponding configuration to NGINX (adjust accordingly):
+
+```bash
+$ cat /etc/nginx/sites-enabled/hush.idbox.online
+server {
+  listen 80;
+  server_name hush.idbox.online;
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  server_name hush.idbox.online;
+  ssl_certificate /etc/letsencrypt/live/idbox.online/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/idbox.online/privkey.pem;
+
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+
+	root /home/idbox/idbox/hush-hush/dist;
+  index index.html;
+
+  location / {
+    try_files $uri /index.html;
+  }
+}
+```
+
+Restart NGINX and hush-hush should be available on your domain address (make sure you have opened your router ports accordingly to your NGINX setup).
+
 ## Running services as a daemon
 
 To make pm2 running as daemon:
@@ -690,6 +796,55 @@ $ pm2 reload ecosystem.config.cjs
 ```
 
 Do the same for each single servic replacing `box-office` with the appropriate package name.
+
+## Securing your Identity Box
+
+This section is still under revision, yet, you may consider the following notes.
+
+In `/etc/ssh/sshd_config.d/disable_root_login.conf` you may consider:
+
+```
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+UsePAM no
+PermitRootLogin no
+PrintMotd yes
+```
+
+The you may like to install [fail2ban](https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-20-04): 
+
+```bash
+$ sudo apt update
+$ sudo apt install fail2ban
+```
+
+then do:
+
+```bash
+$ cd /etc/fail2ban
+$ sudo cp jail.conf jail.local
+```
+
+and change the following option in `jail.local`:
+
+```
+maxretry = 1
+```
+
+Then run:
+
+```bash
+$ sudo systemctl enable fail2ban
+$ sudo systemctl start fail2ban
+```
+
+Finally in your `~/.bash_profile` (or whatever you use for your shell config) add:
+
+```bash
+run-parts /etc/update-motd.d/
+```
+
+This is to make your ssh login message more informative. `motd` stands for _Message of the Day_.
 
 ## Appendix - IPNS with Firebase
 
