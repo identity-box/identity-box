@@ -24138,8 +24138,8 @@ __metadata:
   linkType: hard
 
 "prettier-plugin-tailwindcss@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "prettier-plugin-tailwindcss@npm:0.5.2"
+  version: 0.5.4
+  resolution: "prettier-plugin-tailwindcss@npm:0.5.4"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-pug": "*"
@@ -24186,7 +24186,7 @@ __metadata:
       optional: true
     prettier-plugin-twig-melody:
       optional: true
-  checksum: 2ad02b96e31dfccb2a2717aa5fb6b2e43313d40a86e227464a0051b8fc7db18cfdb17a50a6739da2392fa56f4679356adc4a24ad36a8f47d0170ea3fad4dd442
+  checksum: b4380e03a9f7aaf25f5d352fd145618497b5e9281bbd8c1a43e90a9a72daaf0585f8ac8bf5608e41481441caa4eb568c74556164a384de6a5533a196edab52b0
   languageName: node
   linkType: hard
 
