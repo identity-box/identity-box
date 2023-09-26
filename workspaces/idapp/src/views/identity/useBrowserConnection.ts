@@ -109,6 +109,18 @@ const useBrowserConnection = ({
     }
   }
 
+  const sendTunnelErrorMessage = async (message: RendezvousMessage) => {
+    try {
+      await rendezvousTunnel.current?.send(message)
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn(e.message)
+      } else {
+        console.warn('Unknown Error!')
+      }
+    }
+  }
+
   const onMessage = useCallback(
     async (message: RendezvousMessage) => {
       try {
@@ -125,7 +137,9 @@ const useBrowserConnection = ({
           'received message: ',
           JSON.stringify(message, undefined, '  ')
         )
-        if (message.method === 'get_current_identity') {
+        if (message.method === 'tunnel-message-decrypt-error') {
+          sendTunnelErrorMessage(message)
+        } else if (message.method === 'get_current_identity') {
           sendCurrentIdentity(identity.did)
         } else if (message.method === 'select_identity') {
           router.push({
@@ -208,9 +222,27 @@ const useBrowserConnection = ({
       } catch (e: unknown) {
         if (e instanceof Error) {
           console.warn(e.message)
+          const message = {
+            method: 'tunnel-message-decrypt-error',
+            params: [
+              {
+                errorID: e.message
+              }
+            ]
+          }
+          await sendTunnelErrorMessage(message)
           onConnectionClosed && onConnectionClosed({ status: e.message })
         } else {
           console.warn('Unknown Error!')
+          const message = {
+            method: 'tunnel-message-decrypt-error',
+            params: [
+              {
+                errorID: 'Unknown Error!'
+              }
+            ]
+          }
+          await sendTunnelErrorMessage(message)
           onConnectionClosed && onConnectionClosed({ status: 'Unknown Error!' })
         }
       }
