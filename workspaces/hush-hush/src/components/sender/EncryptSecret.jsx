@@ -3,7 +3,7 @@ import nacl from 'tweetnacl'
 import base64url from 'base64url'
 import { TypedArrays } from '@react-frontend-developer/buffers'
 import { FadingValueBox } from '../animations'
-import { Blue, InfoBox, Centered } from '../ui'
+import { Red, MrSpacer, Blue, InfoBox, Centered } from '../ui'
 
 import { useRendezvous } from '../rendezvous'
 
@@ -15,6 +15,7 @@ const EncryptSecret = ({
   baseUrl
 }) => {
   const [symmetricKey, setSymmetricKey] = useState(undefined)
+  const [errorID, setErrorID] = useState(undefined)
   const rendezvousConnection = useRef(undefined)
 
   const storeJSON = async (json) => {
@@ -72,7 +73,10 @@ const EncryptSecret = ({
   useEffect(() => {
     idappRendezvousTunnel.onMessage = async (message) => {
       console.log('idappRendezvousTunnel[message]=', message)
-      if (symmetricKey === undefined) return
+      if (symmetricKey === undefined) {
+        setErrorID('symmetricKey is undefined!')
+        return
+      }
       console.log('received message: ', message)
       const { method, params } = message
       if (method === 'encrypt_content_response' && params) {
@@ -86,6 +90,10 @@ const EncryptSecret = ({
             boxNonce
           })
         }
+      } else if (method === 'tunnel-message-decrypt-error') {
+        const { errorID } = params[0]
+        console.log('errorID=', errorID)
+        setErrorID(errorID)
       }
     }
     idappRendezvousTunnel.onError = (error) => {
@@ -120,6 +128,24 @@ const EncryptSecret = ({
     onMessage,
     onError
   })
+
+  if (errorID) {
+    return (
+      <FadingValueBox>
+        <Centered>
+          <InfoBox>Something did not went well:</InfoBox>
+          <InfoBox css='mt-[15px]'>
+            <Red>{errorID}</Red>
+          </InfoBox>
+          <MrSpacer space='50px' />
+          <InfoBox>
+            Please record the above mentioned error message and contact us. We
+            will try our best to help.
+          </InfoBox>
+        </Centered>
+      </FadingValueBox>
+    )
+  }
 
   return (
     <FadingValueBox>

@@ -141,11 +141,37 @@ class RendezvousTunnel {
   }
 
   onMessageHandler = (msg: string) => {
-    const decryptedMessage = this.cryptographer.decrypt(msg)
-    if (!decryptedMessage) {
-      throw new Error('fatal error: Rendezvous Tunnel: cannot decrypt message!')
+    try {
+      const decryptedMessage = this.cryptographer.decrypt(msg)
+      if (!decryptedMessage) {
+        throw new Error(
+          'fatal error: Rendezvous Tunnel: cannot decrypt message!'
+        )
+      }
+      this.onMessage && this.onMessage(decryptedMessage)
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        this.onMessage &&
+          this.onMessage({
+            method: 'tunnel-message-decrypt-error',
+            params: [
+              {
+                errorID: e.message
+              }
+            ]
+          })
+      } else {
+        this.onMessage &&
+          this.onMessage({
+            method: 'tunnel-message-decrypt-error',
+            params: [
+              {
+                errorID: 'unknown error!'
+              }
+            ]
+          })
+      }
     }
-    this.onMessage && this.onMessage(decryptedMessage)
   }
 
   onReady = (encodedPublicKey: string) => {

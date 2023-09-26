@@ -62,6 +62,12 @@ const DecryptSecret = ({
           console.log('errorID=', errorID)
           next({ errorID })
         }
+      } else if (method === 'tunnel-message-decrypt-error' && params) {
+        if (params.length > 0) {
+          const { errorID } = params[0]
+          console.log('errorID=', errorID)
+          next({ errorID })
+        }
       }
     }
     rendezvousTunnel.onError = (error) => {

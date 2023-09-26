@@ -16,7 +16,13 @@ import { IdentityManager, useIdentity } from '~/identity'
 type BrowserConnectionDesciptor = {
   url: string | undefined
   tunnelId: string | undefined
-  onConnectionClosed?: ({ status }: { status?: string }) => void
+  onConnectionClosed?: ({
+    status,
+    error
+  }: {
+    status?: string
+    error?: string
+  }) => void
   name?: string
 }
 
@@ -109,6 +115,18 @@ const useBrowserConnection = ({
     }
   }
 
+  const sendTunnelErrorMessage = async (message: RendezvousMessage) => {
+    try {
+      await rendezvousTunnel.current?.send(message)
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn(e.message)
+      } else {
+        console.warn('Unknown Error!')
+      }
+    }
+  }
+
   const onMessage = useCallback(
     async (message: RendezvousMessage) => {
       try {
@@ -125,8 +143,10 @@ const useBrowserConnection = ({
           'received message: ',
           JSON.stringify(message, undefined, '  ')
         )
-        if (message.method === 'get_current_identity') {
-          sendCurrentIdentity(identity.did)
+        if (message.method === 'tunnel-message-decrypt-error') {
+          await sendTunnelErrorMessage(message)
+        } else if (message.method === 'get_current_identity') {
+          await sendCurrentIdentity(identity.did)
         } else if (message.method === 'select_identity') {
           router.push({
             pathname: '/identity/select-identity',
@@ -208,10 +228,28 @@ const useBrowserConnection = ({
       } catch (e: unknown) {
         if (e instanceof Error) {
           console.warn(e.message)
-          onConnectionClosed && onConnectionClosed({ status: e.message })
+          const message = {
+            method: 'tunnel-message-decrypt-error',
+            params: [
+              {
+                errorID: e.message
+              }
+            ]
+          }
+          await sendTunnelErrorMessage(message)
+          onConnectionClosed && onConnectionClosed({ error: e.message })
         } else {
           console.warn('Unknown Error!')
-          onConnectionClosed && onConnectionClosed({ status: 'Unknown Error!' })
+          const message = {
+            method: 'tunnel-message-decrypt-error',
+            params: [
+              {
+                errorID: 'Unknown Error!'
+              }
+            ]
+          }
+          await sendTunnelErrorMessage(message)
+          onConnectionClosed && onConnectionClosed({ error: 'Unknown Error!' })
         }
       }
     },
