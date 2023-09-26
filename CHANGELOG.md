@@ -1,3 +1,23 @@
+## v0.1.41 (2023-09-26)
+
+#### :heart_eyes_cat: Enhancement
+* [#177](https://github.com/identity-box/identity-box/pull/177) Improves tunnel error reporting ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#165](https://github.com/identity-box/identity-box/pull/165) Bump protobufjs from 6.11.3 to 6.11.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#166](https://github.com/identity-box/identity-box/pull/166) Bump JamesIves/github-pages-deploy-action from 4.4.0 to 4.4.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#167](https://github.com/identity-box/identity-box/pull/167) Bump actions/setup-node from 3.4.1 to 3.8.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#169](https://github.com/identity-box/identity-box/pull/169) Bump eslint-plugin-react from 7.33.1 to 7.33.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#171](https://github.com/identity-box/identity-box/pull/171) Bump eslint-plugin-import from 2.28.0 to 2.28.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#173](https://github.com/identity-box/identity-box/pull/173) Bump @adobe/css-tools from 4.2.0 to 4.3.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#174](https://github.com/identity-box/identity-box/pull/174) Bump prettier-plugin-tailwindcss from 0.5.2 to 0.5.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#175](https://github.com/identity-box/identity-box/pull/175) Bump actions/checkout from 3 to 4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#176](https://github.com/identity-box/identity-box/pull/176) Bump react-native-svg from 13.9.0 to 13.14.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+- [@dependabot[bot]](https://github.com/apps/dependabot)
+
 ## v0.1.40 (2023-08-17)
 
 #### :heart_eyes_cat: Enhancement
