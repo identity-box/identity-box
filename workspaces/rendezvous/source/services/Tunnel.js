@@ -61,7 +61,7 @@ class Tunnel {
   }
 
   onMessage = async (socket, msg) => {
-    console.log(`received message from socket with is ${socket.id}: ${msg}`)
+    console.log(`received message from socket with id ${socket.id}: ${msg}`)
     // all but sender
     socket.broadcast.emit('message', msg)
     // only sender (represented by socket)
