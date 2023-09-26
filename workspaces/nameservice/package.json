@@ -1,6 +1,6 @@
 {
   "name": "@identity-box/nameservice",
-  "version": "0.1.40",
+  "version": "0.1.41",
   "description": "IdBox name service to handle name resolution requests in a fully distributed way",
   "bin": "./source/index.js",
   "type": "module",
@@ -29,7 +29,7 @@
     "postinstall": "cp -n ./ecosystem.config.cjs $INIT_CWD || true"
   },
   "dependencies": {
-    "@identity-box/utils": "^0.1.40",
+    "@identity-box/utils": "^0.1.41",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
     "commander": "^11.0.0",

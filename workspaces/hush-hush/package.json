@@ -1,7 +1,7 @@
 {
   "name": "hush-hush",
   "private": true,
-  "version": "0.1.40",
+  "version": "0.1.41",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@identity-box/idbox-react-ui": "^0.1.40",
-    "@identity-box/rendezvous-client": "^0.1.40",
+    "@identity-box/idbox-react-ui": "^0.1.41",
+    "@identity-box/rendezvous-client": "^0.1.41",
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
