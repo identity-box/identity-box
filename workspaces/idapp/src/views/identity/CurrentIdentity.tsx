@@ -4,6 +4,8 @@ import { router } from 'expo-router'
 import { useTheme } from '@emotion/react'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 
+import { useErrorBoundary } from 'react-error-boundary'
+
 import { IdentityManager, useIdentity } from '~/identity'
 import { MultiRendezvousConfiguration } from '~/rendezvous'
 
@@ -11,6 +13,7 @@ import { useBrowserConnection } from './useBrowserConnection'
 
 import { PageContainer, Container, Description, Welcome } from './ui'
 import { CurrentIdentityChangedFunctionParams } from '~/identity/IdentityManager'
+import { LogDb } from '../diagnostics/LogDb'
 
 type IdentityForUI = {
   name: string
@@ -18,6 +21,7 @@ type IdentityForUI = {
 }
 
 const CurrentIdentity = () => {
+  const { showBoundary } = useErrorBoundary()
   const [identity, setIdentity] = useState<IdentityForUI>({ name: '', did: '' })
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [scanning, setScanning] = useState(false)
@@ -57,11 +61,20 @@ const CurrentIdentity = () => {
     currentIdentityChanged
   })
 
-  const onConnectionClosed = useCallback(({ status }: { status?: string }) => {
-    console.log(`onConnectionClosed: ${status}`)
-    setTunnelId(undefined)
-    setRendezvousUrl(undefined)
-  }, [])
+  const onConnectionClosed = useCallback(
+    ({ status, error }: { status?: string; error?: string }) => {
+      if (error) {
+        console.log(`onConnectionClosed: ${error}`)
+        LogDb.log(error)
+        showBoundary(new Error(error))
+      } else {
+        console.log(`onConnectionClosed: ${status}`)
+      }
+      setTunnelId(undefined)
+      setRendezvousUrl(undefined)
+    },
+    [showBoundary]
+  )
 
   useBrowserConnection({
     url: rendezvousUrl,

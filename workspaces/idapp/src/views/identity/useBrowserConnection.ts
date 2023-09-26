@@ -16,7 +16,13 @@ import { IdentityManager, useIdentity } from '~/identity'
 type BrowserConnectionDesciptor = {
   url: string | undefined
   tunnelId: string | undefined
-  onConnectionClosed?: ({ status }: { status?: string }) => void
+  onConnectionClosed?: ({
+    status,
+    error
+  }: {
+    status?: string
+    error?: string
+  }) => void
   name?: string
 }
 
@@ -138,9 +144,9 @@ const useBrowserConnection = ({
           JSON.stringify(message, undefined, '  ')
         )
         if (message.method === 'tunnel-message-decrypt-error') {
-          sendTunnelErrorMessage(message)
+          await sendTunnelErrorMessage(message)
         } else if (message.method === 'get_current_identity') {
-          sendCurrentIdentity(identity.did)
+          await sendCurrentIdentity(identity.did)
         } else if (message.method === 'select_identity') {
           router.push({
             pathname: '/identity/select-identity',
@@ -231,7 +237,7 @@ const useBrowserConnection = ({
             ]
           }
           await sendTunnelErrorMessage(message)
-          onConnectionClosed && onConnectionClosed({ status: e.message })
+          onConnectionClosed && onConnectionClosed({ error: e.message })
         } else {
           console.warn('Unknown Error!')
           const message = {
@@ -243,7 +249,7 @@ const useBrowserConnection = ({
             ]
           }
           await sendTunnelErrorMessage(message)
-          onConnectionClosed && onConnectionClosed({ status: 'Unknown Error!' })
+          onConnectionClosed && onConnectionClosed({ error: 'Unknown Error!' })
         }
       }
     },
