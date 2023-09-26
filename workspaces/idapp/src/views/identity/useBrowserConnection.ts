@@ -29,8 +29,7 @@ type BrowserConnectionDesciptor = {
 const useBrowserConnection = ({
   url,
   tunnelId,
-  name,
-  onConnectionClosed
+  name
 }: BrowserConnectionDesciptor) => {
   const identityManager = useRef<IdentityManager | undefined>(undefined)
   const rendezvousTunnel = useRef<RendezvousTunnel | undefined>(undefined)
@@ -173,8 +172,6 @@ const useBrowserConnection = ({
             encryptedContent: base64url.encode(Buffer.from(encryptedContent)),
             nonce: base64url.encode(Buffer.from(nonce))
           })
-          onConnectionClosed &&
-            onConnectionClosed({ status: 'encypt-content successful' })
         } else if (
           message.method === 'decrypt-content' &&
           message.params.length > 0
@@ -217,12 +214,8 @@ const useBrowserConnection = ({
             await sendDecryptedContent(
               base64url.encode(Buffer.from(decryptedContent))
             )
-            onConnectionClosed &&
-              onConnectionClosed({ status: 'decrypt-content successful' })
           } else {
             await sendErrorMessage('NO-MATCHING-IDENTITY-FOUND')
-            onConnectionClosed &&
-              onConnectionClosed({ status: 'NO-MATCHING-IDENTITY-FOUND' })
           }
         }
       } catch (e: unknown) {
@@ -237,7 +230,6 @@ const useBrowserConnection = ({
             ]
           }
           await sendTunnelErrorMessage(message)
-          onConnectionClosed && onConnectionClosed({ error: e.message })
         } else {
           console.warn('Unknown Error!')
           const message = {
@@ -249,11 +241,10 @@ const useBrowserConnection = ({
             ]
           }
           await sendTunnelErrorMessage(message)
-          onConnectionClosed && onConnectionClosed({ error: 'Unknown Error!' })
         }
       }
     },
-    [tunnelId, url, onConnectionClosed]
+    [tunnelId, url]
   )
 
   const onError = useCallback((error: Error) => {
