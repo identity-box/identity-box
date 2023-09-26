@@ -21,7 +21,6 @@ const useRendezvousTunnel = ({
         baseUrl: url,
         onMessage: (msg) => {
           console.log('msg response:', msg)
-          // rendezvousTunnel.current.closeTunnel()
           onMessage && onMessage(msg)
         },
         onTunnelReady: () => {
