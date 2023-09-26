@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { FadingValueBox } from '../animations'
-import { InfoBox, MrSpacer, Blue, Green, Centered } from '../ui'
+import { InfoBox, MrSpacer, Blue, Green, Red, Centered } from '../ui'
 
 const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
   const [currentDid, setCurrentDid] = useState(undefined)
+  const [errorID, setErrorID] = useState(undefined)
 
   const requestCurrentDid = useCallback(async () => {
     const message = {
@@ -41,6 +42,10 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
           const { currentDid } = params[0]
           setCurrentDid(currentDid)
           requestRecipient()
+        } else if (method === 'tunnel-message-decrypt-error') {
+          const { errorID } = params[0]
+          console.log('errorID=', errorID)
+          setErrorID(errorID)
         }
       }
     },
@@ -56,6 +61,24 @@ const Recipient = ({ onRecipientReady, rendezvousTunnel }) => {
       rendezvousTunnel.onMessage = undefined
     }
   }, [process, currentDid, rendezvousTunnel, requestCurrentDid])
+
+  if (errorID) {
+    return (
+      <FadingValueBox>
+        <Centered>
+          <InfoBox>Something did not went well:</InfoBox>
+          <InfoBox css='mt-[15px]'>
+            <Red>{errorID}</Red>
+          </InfoBox>
+          <MrSpacer space='50px' />
+          <InfoBox>
+            Please record the above mentioned error message and contact us. We
+            will try our best to help.
+          </InfoBox>
+        </Centered>
+      </FadingValueBox>
+    )
+  }
 
   if (currentDid) {
     return (
