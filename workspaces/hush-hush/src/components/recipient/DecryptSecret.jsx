@@ -43,6 +43,7 @@ const DecryptSecret = ({
   useEffect(() => {
     rendezvousTunnel.onMessage = async (message) => {
       console.log('received message: ', message)
+      rendezvousTunnel.closeTunnel()
       const { method, params } = message
       if (method === 'decrypt_content_response' && params) {
         if (params.length > 0) {

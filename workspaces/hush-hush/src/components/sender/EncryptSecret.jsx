@@ -72,6 +72,7 @@ const EncryptSecret = ({
 
   useEffect(() => {
     idappRendezvousTunnel.onMessage = async (message) => {
+      idappRendezvousTunnel.closeTunnel()
       console.log('idappRendezvousTunnel[message]=', message)
       if (symmetricKey === undefined) {
         setErrorID('symmetricKey is undefined!')
