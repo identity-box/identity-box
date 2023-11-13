@@ -9,9 +9,9 @@ if (process.argv.length < 3) {
 
 const mnemonic = process.argv[2].trim()
 
-const backupIdFromMnemonic = mnemonic => {
+const backupIdFromMnemonic = (mnemonic) => {
   const mnemonicUint8Array = TypedArrays.string2Uint8Array(mnemonic)
-  return base64url.encode(nacl.hash(mnemonicUint8Array))
+  return base64url.encode(Buffer.from(nacl.hash(mnemonicUint8Array)))
 }
 
 console.log(backupIdFromMnemonic(mnemonic))
