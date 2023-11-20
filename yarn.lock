@@ -17609,7 +17609,7 @@ __metadata:
     react-native-reanimated: ~3.3.0
     react-native-safe-area-context: 4.6.3
     react-native-screens: ~3.22.0
-    react-native-svg: 13.9.0
+    react-native-svg: 14.0.0
     react-native-swipe-list-view: ^3.2.9
     react-native-web: ~0.19.9
     react-navigation: ^5.0.0
@@ -26335,16 +26335,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-svg@npm:13.9.0":
-  version: 13.9.0
-  resolution: "react-native-svg@npm:13.9.0"
+"react-native-svg@npm:14.0.0":
+  version: 14.0.0
+  resolution: "react-native-svg@npm:14.0.0"
   dependencies:
     css-select: ^5.1.0
     css-tree: ^1.1.3
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: f4fe1c9e802d7ea86b9efef74313a80fb75d486f40ca79aaa04d42ffd3f6e462a3f37ee54018fae9fd1efdc2d8b005d1e71b02bb266c0ab8baec70d9a5730892
+  checksum: fd83f7671f44785d7d013db7ae47768e2f415fc9a37ae19b15045693b7c84f7ee0f6ab4ede34b8c8002d94780362448efac4f077c43c9f39f154e03eef3d8207
   languageName: node
   linkType: hard
 
