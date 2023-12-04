@@ -221,6 +221,28 @@ The additional installation instructions can be found on page [Installation of P
 
 > When using a separate installation of *pgAdmin 4*, the command line tools can be accessed at `/Applications/pgAdmin\ 4.app/Contents/SharedSupport/`.
 
+In order to perform database activities on macos in the same way we did it above on Ubuntu, notice that all relevant executables are located in `/Library/PostgreSQL/16/bin`. On macos this location is not added to your PATH by default. It means that in order to execute `psql` or other postresql utilities like `createdb` you will need to either add `/Library/PostgreSQL/16/bin/` to your `PATH` or run:
+
+```bash
+sudo -u postgres /Library/PostgreSQL/16/bin/psql
+```
+
+You will be first asked for your user password (it needs to have admin privileges) and the for the postgres superuser password that you set when installing postgresql on macos.
+
+Alternatively you can also run:
+
+```bash
+sudo su - postgres
+```
+
+You will be logged as `postgres` user with `HOME` set to `/Library/PostgreSQL/16`. Thus, you can do:
+
+```bash
+cd bin
+./psql
+```
+
+> [What is the difference between su username and sudo su - username?](https://unix.stackexchange.com/a/384704)
 
 ## Enabling remote connections
 
