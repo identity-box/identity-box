@@ -846,6 +846,21 @@ run-parts /etc/update-motd.d/
 
 This is to make your ssh login message more informative. `motd` stands for _Message of the Day_.
 
+If you are getting an error message while loging like this:
+
+```bash
+/etc/update-motd.d//50-landscape-sysinfo: 17: cannot create /var/lib/landscape/landscape-sysinfo.cache: Permission denied
+```
+
+You may try opening `sudo nano /etc/update-motd.d/50-landscape-sysinfo` and changing value of `stamp` variable to:
+
+```bash
+# stamp="/var/lib/landscape/landscape-sysinfo.cache"
+stamp="/tmp/landscape-sysinfo.cache"
+```
+
+For more info you may like to check [landscape-sysinfo.cache: Permission denied when I start Ubuntu 22.04 in WSL](https://askubuntu.com/questions/1414483/landscape-sysinfo-cache-permission-denied-when-i-start-ubuntu-22-04-in-wsl).
+
 ## Appendix - IPNS with Firebase
 
 Until recently, we used Firebase to _fake_ IPNS name resolution (a temporary solution to IPNS resolution problems).
