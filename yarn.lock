@@ -14293,6 +14293,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-file-system@npm:~15.4.5":
+  version: 15.4.5
+  resolution: "expo-file-system@npm:15.4.5"
+  dependencies:
+    uuid: ^3.4.0
+  peerDependencies:
+    expo: "*"
+  checksum: 3507f872a111dc2a603632d89c8c798f87927e2ab57bcd0afae34cd34423195ea8fc38a9bdceecb647f64333c6acdd9926722a43627cf5d6cdfbb204f4a0d10b
+  languageName: node
+  linkType: hard
+
 "expo-font@npm:~11.4.0":
   version: 11.4.0
   resolution: "expo-font@npm:11.4.0"
@@ -17591,7 +17602,7 @@ __metadata:
     expo-dev-client: ~2.4.12
     expo-device: ~5.4.0
     expo-env: ^1.1.1
-    expo-file-system: ~15.4.4
+    expo-file-system: ~15.4.5
     expo-linking: ~5.0.2
     expo-router: 2.0.12
     expo-secure-store: ~12.3.1
