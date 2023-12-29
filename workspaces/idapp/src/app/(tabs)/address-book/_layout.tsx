@@ -3,11 +3,17 @@ import { Stack } from 'expo-router'
 import { ThemeConstants } from '~/theme'
 
 export default function AddressBookStack() {
-  const { colorScheme } = useTheme()
+  const { colorScheme, theme } = useTheme()
   return (
     <Stack
       screenOptions={{
-        headerTitle: 'Identities'
+        headerTitle: 'Identities',
+        headerStyle: {
+          backgroundColor: theme.colors.background
+        },
+        headerTitleStyle: {
+          color: theme.colors.text
+        }
       }}
     >
       <Stack.Screen name='identities' />

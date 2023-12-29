@@ -13,6 +13,7 @@ export default function MainLayout() {
         tabBarActiveTintColor: '#FF6699',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
+          borderTopColor: DarkTheme.colors.border,
           backgroundColor:
             colorScheme === 'light' ? 'black' : DarkTheme.colors.background
         }
