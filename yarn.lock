@@ -14477,15 +14477,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-web-browser@npm:~12.3.2":
-  version: 12.3.2
-  resolution: "expo-web-browser@npm:12.3.2"
+"expo-web-browser@npm:~12.8.2":
+  version: 12.8.2
+  resolution: "expo-web-browser@npm:12.8.2"
   dependencies:
     compare-urls: ^2.0.0
     url: ^0.11.0
   peerDependencies:
     expo: "*"
-  checksum: 2ebf97510b33ca1fa4fc5062dc5ac927b36a6111a51168d732cf5790802d93fda159daf90fdc6fa6fadd9c3367c3e33e39ce9fa9a04421ea774d3f9aec901f4a
+  checksum: 774dd599cb1feb56283c0d4a1c55798c2fbba74dfd4c5c265d75a5f91557b9d4df685322f57d0bf362d9e45cb16b184d88105c9e89119d346e56427c9fed6eba
   languageName: node
   linkType: hard
 
@@ -17613,7 +17613,7 @@ __metadata:
     expo-secure-store: ~12.3.1
     expo-splash-screen: ~0.20.5
     expo-status-bar: ~1.6.0
-    expo-web-browser: ~12.3.2
+    expo-web-browser: ~12.8.2
     jest: ^29.7.0
     jest-expo: ^49.0.0
     react: 18.2.0
