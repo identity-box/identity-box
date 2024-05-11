@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@node-ipc/node-ipc": "^11.0.3",
-    "koa": "^2.14.2",
+    "koa": "^2.15.3",
     "koa-body": "^6.0.1"
   },
   "publishConfig": {

@@ -9,7 +9,8 @@
       "web"
     ],
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-secure-store"
     ],
     "experiments": {
       "tsconfigPaths": true
@@ -29,10 +30,10 @@
     ],
     "android": {
       "package": "online.idbox.idapp",
-      "versionCode": 32
+      "versionCode": 33
     },
     "ios": {
-      "buildNumber": "32",
+      "buildNumber": "33",
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",
