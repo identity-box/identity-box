@@ -1,9 +1,12 @@
 {
   "private": true,
+  "type": "module",
   "engines": {
     "node": ">=16.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.2.0",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.5.2",
@@ -29,6 +32,7 @@
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5",
+    "typescript-eslint": "^7.8.0",
     "vite": "^5.2.11",
     "vitest": "^1.6.0"
   },
@@ -63,5 +67,5 @@
       "PR: Project Dependencies :building_construction:": ":building_construction: Project Dependencies"
     }
   },
-  "packageManager": "yarn@3.3.0"
+  "packageManager": "yarn@4.2.2"
 }
