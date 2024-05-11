@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { Button, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { router } from 'expo-router'
 import { useTheme } from '@emotion/react'
-import { BarCodeScanner } from 'expo-barcode-scanner'
+import { CameraView, Camera } from 'expo-camera'
 
 import { useErrorBoundary } from 'react-error-boundary'
 
@@ -34,7 +34,7 @@ const CurrentIdentity = () => {
   const { colorScheme: theme } = useTheme()
 
   const enableCamera = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync()
+    const { status } = await Camera.requestCameraPermissionsAsync()
     setCameraEnabled(status === 'granted')
   }
 
@@ -175,8 +175,11 @@ const CurrentIdentity = () => {
               height: cameraSize
             }}
           >
-            <BarCodeScanner
-              onBarCodeScanned={scanning ? handleBarCodeScanned : undefined}
+            <CameraView
+              onBarcodeScanned={scanning ? handleBarCodeScanned : undefined}
+              barcodeScannerSettings={{
+                barcodeTypes: ['qr']
+              }}
               style={StyleSheet.absoluteFillObject}
             />
           </View>

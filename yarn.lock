@@ -13640,14 +13640,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-barcode-scanner@npm:~13.0.1":
-  version: 13.0.1
-  resolution: "expo-barcode-scanner@npm:13.0.1"
+"expo-camera@npm:~15.0.6":
+  version: 15.0.6
+  resolution: "expo-camera@npm:15.0.6"
   dependencies:
-    expo-image-loader: "npm:~4.7.0"
+    invariant: "npm:^2.2.4"
   peerDependencies:
     expo: "*"
-  checksum: 10/8218ef88fb7fd8eef7a8e17bef21ec087158426c9ccc2842ff9dd2346486ed27023b909a9717207140e0965e3bc272dda1dd888548e3723d38d7c8be0fedea86
+  checksum: 10/ce0dde09f035520e0e0e99a02cd7b9b37068ecc892d8db3e0c6834f75f03a8a17418a71655452fc50621c6e69085108889be2899c2ef05340d5e16659536cd8b
   languageName: node
   linkType: hard
 
@@ -13772,15 +13772,6 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10/29dffe27bf6e324e0e8113d0e751846a6ca6a8ab77f8c1eee58208f45915647d7c11507084f76f1d2d5c9e40b70b0e9d3a1d2a1405ff2d06881ea4366b1a61ab
-  languageName: node
-  linkType: hard
-
-"expo-image-loader@npm:~4.7.0":
-  version: 4.7.0
-  resolution: "expo-image-loader@npm:4.7.0"
-  peerDependencies:
-    expo: "*"
-  checksum: 10/dbd87fdbf3e50b8c459e5ea985bfd20d77462229e46edefbd62b68e1676416f8608c16cf09103c2fef1bd84ecf55a1fd48f38e1954a2dd535e6f9beef04785bb
   languageName: node
   linkType: hard
 
@@ -16937,7 +16928,7 @@ __metadata:
     buffer: "npm:^6.0.3"
     expo: "npm:51.0.3"
     expo-application: "npm:~5.9.1"
-    expo-barcode-scanner: "npm:~13.0.1"
+    expo-camera: "npm:~15.0.6"
     expo-clipboard: "npm:~6.0.3"
     expo-constants: "npm:~16.0.1"
     expo-crypto: "npm:~13.0.2"
