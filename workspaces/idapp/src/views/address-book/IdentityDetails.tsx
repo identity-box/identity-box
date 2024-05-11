@@ -81,7 +81,7 @@ const BackButton = ({ title, disabled, ...props }: BackButtonProps) => {
         }}
       >
         <Ionicons
-          name='ios-chevron-back'
+          name='chevron-back'
           size={24}
           color={
             disabled
