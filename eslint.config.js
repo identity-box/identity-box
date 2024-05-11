@@ -49,7 +49,6 @@ export default [
   },
   {
     files: ['**/*.js', '**/*.ts', '**/*.jsx', '**/*.tsx'],
-    // ...reactPlugin.configs.recommended,
     ...reactRecommended,
     languageOptions: {
       ...reactPlugin.configs.recommended.languageOptions,
