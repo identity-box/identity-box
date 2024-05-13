@@ -13915,9 +13915,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:51.0.3":
-  version: 51.0.3
-  resolution: "expo@npm:51.0.3"
+"expo@npm:51.0.4":
+  version: 51.0.4
+  resolution: "expo@npm:51.0.4"
   dependencies:
     "@babel/runtime": "npm:^7.20.0"
     "@expo/cli": "npm:0.18.11"
@@ -13936,7 +13936,7 @@ __metadata:
     whatwg-url-without-unicode: "npm:8.0.0-3"
   bin:
     expo: bin/cli
-  checksum: 10/69e5a0ab9b6d23e6fc5a69b3cdc6cff6bd43e8247315b521b7944a91ea538d152fc6391fe2ebd0c10f2433514d0ecd09d88f7b5ca40bf98f161c5945d147ff97
+  checksum: 10/57ef18feea4195d35e11e5f8db8bde49c7ce71bc2092f6d0c73356e66ee2d46a1e8fb87a2932da32d31c946b37ab9fd10042c5778af6d0a545b064e1de07e0ce
   languageName: node
   linkType: hard
 
@@ -16926,7 +16926,7 @@ __metadata:
     babel-preset-expo: "npm:~11.0.5"
     base64url: "npm:^3.0.1"
     buffer: "npm:^6.0.3"
-    expo: "npm:51.0.3"
+    expo: "npm:51.0.4"
     expo-application: "npm:~5.9.1"
     expo-camera: "npm:~15.0.6"
     expo-clipboard: "npm:~6.0.3"
