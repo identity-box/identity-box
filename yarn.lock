@@ -7230,21 +7230,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.3.0":
+"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.3.0, @types/react-dom@npm:~18.3.0":
   version: 18.3.0
   resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
     "@types/react": "npm:*"
   checksum: 10/6ff53f5a7b7fba952a68e114d3b542ebdc1e87a794234785ebab0bcd9bde7fb4885f21ebaf93d26dc0a1b5b93287f42cad68b78ae04dddf6b20da7aceff0beaf
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:~18.2.25":
-  version: 18.2.25
-  resolution: "@types/react-dom@npm:18.2.25"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 10/0e45856a2fdbf09e74632b132b3af773c6b18fc2ab0bd04595c9f2bcc0bb04d5e732ac8156d145b712dedab7484a8fe9dce5cf720a5437b5d26099c7060c7ba4
   languageName: node
   linkType: hard
 
@@ -16922,7 +16913,7 @@ __metadata:
     "@react-navigation/native": "npm:^6.1.17"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:~18.2.79"
-    "@types/react-dom": "npm:~18.2.25"
+    "@types/react-dom": "npm:~18.3.0"
     babel-preset-expo: "npm:~11.0.5"
     base64url: "npm:^3.0.1"
     buffer: "npm:^6.0.3"
@@ -16945,7 +16936,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jest-expo: "npm:~51.0.1"
     react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
+    react-dom: "npm:18.3.1"
     react-error-boundary: "npm:^4.0.13"
     react-native: "npm:0.74.1"
     react-native-gesture-handler: "npm:~2.16.2"
@@ -25260,19 +25251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.2.0":
-  version: 18.2.0
-  resolution: "react-dom@npm:18.2.0"
-  dependencies:
-    loose-envify: "npm:^1.1.0"
-    scheduler: "npm:^0.23.0"
-  peerDependencies:
-    react: ^18.2.0
-  checksum: 10/ca5e7762ec8c17a472a3605b6f111895c9f87ac7d43a610ab7024f68cd833d08eda0625ce02ec7178cc1f3c957cf0b9273cdc17aa2cd02da87544331c43b1d21
-  languageName: node
-  linkType: hard
-
-"react-dom@npm:^18.3.1":
+"react-dom@npm:18.3.1, react-dom@npm:^18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
   dependencies:
