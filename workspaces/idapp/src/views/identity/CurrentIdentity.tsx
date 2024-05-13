@@ -116,7 +116,7 @@ const CurrentIdentity = () => {
     async ({ type, data }: { type: string; data: string }) => {
       console.log(`Code scanned. Type: ${type}, data: ${data}`)
       setScanning(false)
-      if (data.match(/^did:ipid:.{46}$/)) {
+      if (data.match(/^did:ipid:(.{46}|.{56})$/)) {
         console.log(`Detected DID: ${data}`)
         addNewIdentity({ did: data })
       } else {
