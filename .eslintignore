@@ -1,9 +1,0 @@
-dist
-public
-.cache
-.next
-workspaces/cli-tools/test-ipfs-http-client.js
-workspaces/idapp/__mocks__
-workspaces/idapp/index.js
-workspaces/idapp/metro.config.js
-workspaces/idapp/babel.config.js

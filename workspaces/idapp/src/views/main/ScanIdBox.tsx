@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { router } from 'expo-router'
 import { Button, View, StyleSheet } from 'react-native'
 import { useTheme } from '@emotion/react'
-import { BarCodeScanner } from 'expo-barcode-scanner'
+import { CameraView, Camera } from 'expo-camera'
 
 import { MultiRendezvousConfiguration } from '~/rendezvous'
 import { DiagnosticsSensor } from '~/views/diagnostics'
@@ -15,7 +15,7 @@ const ScanIdBox = () => {
   const { theme } = useTheme()
 
   const enableCamera = async () => {
-    const { status } = await BarCodeScanner.requestPermissionsAsync()
+    const { status } = await Camera.requestCameraPermissionsAsync()
     setCameraEnabled(status === 'granted')
   }
 
@@ -69,8 +69,11 @@ const ScanIdBox = () => {
               height: 200
             }}
           >
-            <BarCodeScanner
-              onBarCodeScanned={handleBarCodeScanned}
+            <CameraView
+              onBarcodeScanned={handleBarCodeScanned}
+              barcodeScannerSettings={{
+                barcodeTypes: ['qr']
+              }}
               style={StyleSheet.absoluteFillObject}
             />
           </View>

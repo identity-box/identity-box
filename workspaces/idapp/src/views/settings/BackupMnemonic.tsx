@@ -30,7 +30,11 @@ const BackupMnemonic = () => {
   const { colorScheme: theme } = useTheme()
 
   const onDismiss = useCallback(() => {
-    router.push('/settings')
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      router.replace('/settings')
+    }
   }, [])
 
   const backupIdFromMnemonic = (mnemonic: string) => {

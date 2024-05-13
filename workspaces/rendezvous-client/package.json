@@ -36,13 +36,13 @@
   "dependencies": {
     "@react-frontend-developer/buffers": "^2.0.1",
     "base64url": "^3.0.1",
-    "socket.io-client": "^4.7.2",
+    "socket.io-client": "^4.7.5",
     "tweetnacl": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   }
 }

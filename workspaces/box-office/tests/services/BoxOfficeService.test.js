@@ -13,12 +13,14 @@ describe('BoxOfficeService', () => {
   const externalServicePath = 'some-other.service-path'
   const registrationRequest = {
     method: 'register',
-    params: [
-      { servicePath: externalServicePath }
-    ]
+    params: [{ servicePath: externalServicePath }]
   }
 
-  const serializerFileDir = path.resolve(process.cwd(), '.fixtures', 'box-office')
+  const serializerFileDir = path.resolve(
+    process.cwd(),
+    '.fixtures',
+    'box-office'
+  )
 
   let servicePath
   let serializerFilePath
@@ -74,9 +76,7 @@ describe('BoxOfficeService', () => {
 
     expect(response.response).toEqual({
       method: 'register-error',
-      params: [
-        { message: 'Service with given path already exists!' }
-      ]
+      params: [{ message: 'Service with given path already exists!' }]
     })
   })
 
@@ -89,9 +89,7 @@ describe('BoxOfficeService', () => {
 
     expect(response.response).toEqual({
       method: 'adhoc-error',
-      params: [
-        { message: 'Service undefined is not registered!' }
-      ]
+      params: [{ message: 'Service undefined is not registered!' }]
     })
   })
 
@@ -101,9 +99,7 @@ describe('BoxOfficeService', () => {
 
     expect(response.response).toEqual({
       method: 'rpc-error',
-      params: [
-        { message: 'Service undefined is not registered!' }
-      ]
+      params: [{ message: 'Service undefined is not registered!' }]
     })
   })
 })
