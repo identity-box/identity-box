@@ -3318,7 +3318,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/box-office@workspace:workspaces/box-office"
   dependencies:
-    "@identity-box/utils": "npm:^0.1.41"
+    "@identity-box/utils": "npm:^0.1.42"
     "@react-frontend-developer/buffers": "npm:^2.0.1"
     base64url: "npm:^3.0.1"
     commander: "npm:^12.0.0"
@@ -3344,7 +3344,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/idbox-react-ui@npm:^0.1.41, @identity-box/idbox-react-ui@workspace:workspaces/idbox-react-ui":
+"@identity-box/idbox-react-ui@npm:^0.1.42, @identity-box/idbox-react-ui@workspace:workspaces/idbox-react-ui":
   version: 0.0.0-use.local
   resolution: "@identity-box/idbox-react-ui@workspace:workspaces/idbox-react-ui"
   dependencies:
@@ -3363,7 +3363,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/identity-service@workspace:workspaces/identity-service"
   dependencies:
-    "@identity-box/utils": "npm:^0.1.41"
+    "@identity-box/utils": "npm:^0.1.42"
     base32-encode: "npm:^2.0.0"
     base64url: "npm:^3.0.1"
     commander: "npm:^12.0.0"
@@ -3384,7 +3384,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/nameservice@workspace:workspaces/nameservice"
   dependencies:
-    "@identity-box/utils": "npm:^0.1.41"
+    "@identity-box/utils": "npm:^0.1.42"
     "@react-frontend-developer/buffers": "npm:^2.0.1"
     base64url: "npm:^3.0.1"
     commander: "npm:^12.0.0"
@@ -3398,7 +3398,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/rendezvous-client@npm:^0.1.41, @identity-box/rendezvous-client@workspace:workspaces/rendezvous-client":
+"@identity-box/rendezvous-client@npm:^0.1.42, @identity-box/rendezvous-client@workspace:workspaces/rendezvous-client":
   version: 0.0.0-use.local
   resolution: "@identity-box/rendezvous-client@workspace:workspaces/rendezvous-client"
   dependencies:
@@ -3414,7 +3414,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@identity-box/rendezvous@workspace:workspaces/rendezvous"
   dependencies:
-    "@identity-box/utils": "npm:^0.1.41"
+    "@identity-box/utils": "npm:^0.1.42"
     "@react-frontend-developer/buffers": "npm:^2.0.1"
     base64url: "npm:^3.0.1"
     commander: "npm:^12.0.0"
@@ -3429,7 +3429,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@identity-box/utils@npm:^0.1.41, @identity-box/utils@workspace:workspaces/utils":
+"@identity-box/utils@npm:^0.1.42, @identity-box/utils@workspace:workspaces/utils":
   version: 0.0.0-use.local
   resolution: "@identity-box/utils@workspace:workspaces/utils"
   dependencies:
@@ -16837,8 +16837,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "hush-hush@workspace:workspaces/hush-hush"
   dependencies:
-    "@identity-box/idbox-react-ui": "npm:^0.1.41"
-    "@identity-box/rendezvous-client": "npm:^0.1.41"
+    "@identity-box/idbox-react-ui": "npm:^0.1.42"
+    "@identity-box/rendezvous-client": "npm:^0.1.42"
     "@react-frontend-developer/buffers": "npm:^2.0.1"
     "@types/react": "npm:^18.3.2"
     "@types/react-dom": "npm:^18.3.0"
@@ -16915,7 +16915,7 @@ __metadata:
     "@babel/plugin-transform-nullish-coalescing-operator": "npm:^7.24.1"
     "@emotion/native": "npm:^11.11.0"
     "@emotion/react": "npm:^11.11.4"
-    "@identity-box/rendezvous-client": "npm:^0.1.41"
+    "@identity-box/rendezvous-client": "npm:^0.1.42"
     "@react-frontend-developer/buffers": "npm:^2.0.1"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-community/masked-view": "npm:0.1.11"
@@ -26222,7 +26222,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "rendezvous-tester@workspace:workspaces/rendezvous-tester"
   dependencies:
-    "@identity-box/rendezvous-client": "npm:^0.1.41"
+    "@identity-box/rendezvous-client": "npm:^0.1.42"
     "@react-frontend-developer/buffers": "npm:^2.0.1"
     "@vitejs/plugin-react": "npm:^4.2.1"
     autoprefixer: "npm:^10.4.19"
