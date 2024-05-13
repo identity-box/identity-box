@@ -1,3 +1,47 @@
+## v0.1.42 (2024-05-13)
+
+#### :heart_eyes_cat: Enhancement
+* [#216](https://github.com/identity-box/identity-box/pull/216) Update-deps ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#214](https://github.com/identity-box/identity-box/pull/214) Bump actions/setup-node from 4.0.0 to 4.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+- [@dependabot[bot]](https://github.com/apps/dependabot)
+
+
+## homepage-13 (2023-12-04)
+
+#### :book: Documentation
+* [#195](https://github.com/identity-box/identity-box/pull/195) Adds documentation on how to setup PostgreSQL DBMS on Identity Box ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#196](https://github.com/identity-box/identity-box/pull/196) Bump sharp from 0.32.4 to 0.32.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+- [@dependabot[bot]](https://github.com/apps/dependabot)
+
+
+## homepage-11 (2023-11-16)
+
+#### :bug: Bug Fix
+* [#178](https://github.com/identity-box/identity-box/pull/178) Fix-preliminary-tunnel-disconnection ([@marcinczenko](https://github.com/marcinczenko))
+
+#### :building_construction: Project Dependencies
+* [#179](https://github.com/identity-box/identity-box/pull/179) Bump get-func-name from 2.0.0 to 2.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#185](https://github.com/identity-box/identity-box/pull/185) Bump undici from 5.23.0 to 5.26.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#193](https://github.com/identity-box/identity-box/pull/193) Bump zod from 3.21.4 to 3.22.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#194](https://github.com/identity-box/identity-box/pull/194) Bump @babel/traverse from 7.22.8 to 7.23.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#187](https://github.com/identity-box/identity-box/pull/187) Bump react-devtools-core from 4.28.0 to 4.28.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#189](https://github.com/identity-box/identity-box/pull/189) Bump actions/setup-node from 3.8.1 to 4.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#192](https://github.com/identity-box/identity-box/pull/192) Updates project dependencies ([@marcinczenko](https://github.com/marcinczenko))
+
+#### Committers: 2
+- Marcin Czenko ([@marcinczenko](https://github.com/marcinczenko))
+- [@dependabot[bot]](https://github.com/apps/dependabot)
+
 ## v0.1.41 (2023-09-26)
 
 #### :heart_eyes_cat: Enhancement
