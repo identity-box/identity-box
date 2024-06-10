@@ -3218,12 +3218,12 @@ __metadata:
   linkType: hard
 
 "@grpc/grpc-js@npm:~1.10.3":
-  version: 1.10.7
-  resolution: "@grpc/grpc-js@npm:1.10.7"
+  version: 1.10.9
+  resolution: "@grpc/grpc-js@npm:1.10.9"
   dependencies:
     "@grpc/proto-loader": "npm:^0.7.13"
     "@js-sdsl/ordered-map": "npm:^4.4.2"
-  checksum: 10/36eff98bb301eca78cbee149bda5e975c7f50a6c57087a2db9bebfb17f36d555caff4a8722ac24720ccb8e33a80a72dd2052e1ce3f8ec29f8a0be1e6223e2a97
+  checksum: 10/8991a997798f19ae849d0f274280f5fdba981048f77211744a301e22207620bb24661d0dfaea51ee6259c5c8e6c159b62fe2499c879d9f14decf20957c219124
   languageName: node
   linkType: hard
 
