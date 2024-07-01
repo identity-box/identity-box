@@ -13641,13 +13641,13 @@ __metadata:
   linkType: hard
 
 "expo-camera@npm:~15.0.6":
-  version: 15.0.6
-  resolution: "expo-camera@npm:15.0.6"
+  version: 15.0.12
+  resolution: "expo-camera@npm:15.0.12"
   dependencies:
     invariant: "npm:^2.2.4"
   peerDependencies:
     expo: "*"
-  checksum: 10/ce0dde09f035520e0e0e99a02cd7b9b37068ecc892d8db3e0c6834f75f03a8a17418a71655452fc50621c6e69085108889be2899c2ef05340d5e16659536cd8b
+  checksum: 10/3c107ab4e28f1e14176707206e461769a36d3871804196cbb66c5b87fd9015bdbded39177ed338638582aa6c6b6786ad772fe8e821d8d1ea4e613c030aba3952
   languageName: node
   linkType: hard
 
