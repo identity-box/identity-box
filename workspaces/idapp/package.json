@@ -22,7 +22,7 @@
     "@react-navigation/native": "^6.1.17",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
-    "expo": "51.0.3",
+    "expo": "51.0.21",
     "expo-application": "~5.9.1",
     "expo-camera": "~15.0.6",
     "expo-clipboard": "~6.0.3",
