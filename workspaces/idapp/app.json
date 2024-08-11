@@ -30,10 +30,10 @@
     ],
     "android": {
       "package": "online.idbox.idapp",
-      "versionCode": 33
+      "versionCode": 34
     },
     "ios": {
-      "buildNumber": "33",
+      "buildNumber": "34",
       "bundleIdentifier": "online.idbox.idapp",
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",
